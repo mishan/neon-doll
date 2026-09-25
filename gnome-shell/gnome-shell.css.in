@@ -1,0 +1,1084 @@
+@import url("resource:///org/gnome/shell/theme/gnome-shell-@variant@.css");
+
+/* The stock stylesheet above does the layout; everything here is color, type
+   and shape laid over it. Importing it rather than copying it keeps the theme
+   working when GNOME changes the layout underneath. Rules below repeat the
+   stock selector when they only need to tie with it: at equal specificity the
+   later rule wins, and these come after the import. */
+
+/* === No boxes, no shadows, no motion ======================================
+   !important because the stock rules are more specific than any universal
+   rule could be. The few things that need an edge or a round shape put one
+   back with a more specific !important of their own. */
+
+* {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  transition-duration: 0ms !important;
+  text-shadow: none !important;
+  icon-shadow: none !important;
+  font-weight: normal !important;
+}
+
+/* Round where round is the meaning: a face, a shutter, a drag handle. */
+.user-icon,
+.login-dialog .user-widget .user-icon, .unlock-dialog .user-widget .user-icon,
+.login-dialog-user-list-view .login-dialog-user-list .login-dialog-user-list-item .user-icon,
+.screenshot-ui-capture-button,
+.screenshot-ui-capture-button .screenshot-ui-capture-button-circle,
+.screenshot-ui-area-selector-handle {
+  border-radius: 999px !important;
+}
+
+stage { color: @ink@; }
+
+/* === Type =================================================================
+   Mono is the chrome: the bar, the clock, menus, toggles, labels, headings,
+   every field you type into. Sans, the interface font, is left on what you
+   read: notification bodies, dialog descriptions, search result
+   descriptions. None of their ancestors is set in mono, so they inherit it. */
+
+#panel, .popup-menu-item, .popup-inactive-menu-item, .popup-sub-menu,
+.quick-toggle, .quick-toggle-menu .header, .quick-toggle-menu .header .title,
+.calendar, .datemenu-today-button, .events-button, .world-clocks-button,
+.weather-button, .message-list-controls, .message-list-placeholder,
+.message .message-header, .message-notification-group .message-group-header,
+.osd-window, .osd-monitor-label, .switcher-list, .workspace-switcher,
+.resize-popup, .dash-label, .window-caption, .button, .icon-button,
+.modal-dialog-button, .notification-button, StEntry, .search-entry,
+.search-statustext, .list-search-result-title, .list-search-provider-details,
+.overview-tile, .grid-search-result, .app-folder-dialog .folder-name-container,
+.message-dialog-title, .dialog-list-title, .dialog-list-item-title,
+.run-dialog-entry, .unlock-dialog-clock, .login-dialog-message,
+.user-widget-label, .login-dialog-auth-list-title-label,
+.login-dialog-not-listed-label, .caps-lock-warning-label,
+.screenshot-ui-panel, .screenshot-ui-tooltip {
+  font-family: monospace;
+}
+
+/* Mono runs wide; this evens it with the sans it replaces, as in GTK. */
+#panel, .popup-menu-item, .quick-toggle .quick-toggle-title, .osd-window,
+.switcher-list, .dash-label, .window-caption {
+  font-size: 0.92em;
+}
+
+/* === Top bar ==============================================================
+   The page, with a hairline under it. It stays the page in the overview. */
+
+#panel, #panel:overview {
+  background-color: @bg@;
+  box-shadow: inset 0 -1px 0 0 @line@ !important;
+}
+#panel.unlock-screen, #panel.login-screen { background-color: transparent; box-shadow: none !important; }
+
+#panel .panel-button, #panel:overview .panel-button,
+#panel.unlock-screen .panel-button, #panel.login-screen .panel-button {
+  color: @ink@;
+  background-color: transparent;
+  border-width: 0;
+}
+#panel .panel-button:hover, #panel .panel-button:focus,
+#panel:overview .panel-button:hover, #panel:overview .panel-button:focus,
+#panel.unlock-screen .panel-button:hover, #panel.unlock-screen .panel-button:focus,
+#panel.login-screen .panel-button:hover, #panel.login-screen .panel-button:focus {
+  color: @pink@;
+  background-color: @wash@;
+}
+/* An open menu is where you are: its button keeps the pink, with a rail
+   along the bottom edge pointing down at the menu. */
+#panel .panel-button:active, #panel .panel-button:checked,
+#panel:overview .panel-button:active, #panel:overview .panel-button:checked,
+#panel.unlock-screen .panel-button:active, #panel.unlock-screen .panel-button:checked,
+#panel.login-screen .panel-button:active, #panel.login-screen .panel-button:checked {
+  color: @pink@;
+  background-color: @wash_pink@;
+  box-shadow: inset 0 -2px 0 0 @pink@ !important;
+}
+
+/* The clock draws its state on the inner label, not the button. */
+#panel .panel-button.clock-display .clock,
+#panel:overview .panel-button.clock-display .clock,
+#panel.unlock-screen .panel-button.clock-display .clock,
+#panel.login-screen .panel-button.clock-display .clock {
+  border-width: 0;
+  background-color: transparent;
+}
+#panel .panel-button.clock-display:hover .clock, #panel .panel-button.clock-display:focus .clock,
+#panel:overview .panel-button.clock-display:hover .clock, #panel:overview .panel-button.clock-display:focus .clock {
+  background-color: @wash@;
+}
+#panel .panel-button.clock-display:active .clock, #panel .panel-button.clock-display:checked .clock,
+#panel:overview .panel-button.clock-display:active .clock, #panel:overview .panel-button.clock-display:checked .clock {
+  background-color: @wash_pink@;
+  box-shadow: inset 0 -2px 0 0 @pink@ !important;
+}
+#panel .panel-button.clock-display:active, #panel .panel-button.clock-display:checked,
+#panel:overview .panel-button.clock-display:active, #panel:overview .panel-button.clock-display:checked {
+  box-shadow: none !important;
+}
+
+/* The workspace dots: the current one is the wide one, at full opacity. */
+#panel .panel-button#panelActivities .workspace-dot,
+#panel:overview .panel-button#panelActivities .workspace-dot {
+  background-color: @pink@;
+}
+
+#panel .panel-button.screen-recording-indicator,
+#panel:overview .panel-button.screen-recording-indicator {
+  color: @on_fill@;
+  background-color: @del@;
+  box-shadow: none !important;
+}
+#panel .panel-button.screen-sharing-indicator,
+#panel:overview .panel-button.screen-sharing-indicator {
+  color: @on_fill@;
+  background-color: @string@;
+  box-shadow: none !important;
+}
+#panel .privacy-indicator { color: @string@; }
+
+/* === Buttons ==============================================================
+   A wash with a hairline edge at rest. Hover and keyboard focus are one
+   state and both go pink, as a link does on the site.
+
+   A family name and a list of states between at-signs expands to every
+   selector in the family with each state appended; the families are in
+   tools/build-shell.py. The stock theme styles every combination of states
+   separately, so each one has to be matched here. */
+
+@button|@ {
+  color: @ink@;
+  background-color: @wash@;
+  box-shadow: inset 0 0 0 1px @line@ !important;
+}
+@button|:hover :focus :focus:hover@ {
+  color: @pink@;
+  background-color: @wash@;
+  box-shadow: inset 0 0 0 1px @pink@ !important;
+}
+@button|:active :active:hover :active:focus :selected :selected:hover :selected:focus@ {
+  color: @pink@;
+  background-color: @press@;
+  box-shadow: inset 0 0 0 1px @pink@ !important;
+}
+@button|:checked :checked:hover :checked:active :checked:focus@ {
+  color: @pink@;
+  background-color: @wash_pink@;
+  box-shadow: inset 0 0 0 1px @pink@ !important;
+}
+@button|:insensitive@ {
+  color: @dimmest@;
+  background-color: transparent;
+  box-shadow: inset 0 0 0 1px @line@ !important;
+}
+
+/* The default action is the site's .act: purple at rest, because it is the
+   thing to do next, and pink on hover like everything else. Never filled. */
+@default|@ {
+  color: @purple@;
+  background-color: @wash@;
+  box-shadow: inset 0 0 0 1px @tint_purple@ !important;
+}
+@default|:hover :focus :focus:hover@ {
+  color: @pink@;
+  background-color: @wash_pink@;
+  box-shadow: inset 0 0 0 1px @pink@ !important;
+}
+@default|:active :active:hover :active:focus@ {
+  color: @pink@;
+  background-color: @press@;
+  box-shadow: inset 0 0 0 1px @pink@ !important;
+}
+@default|:insensitive@ {
+  color: @dimmest@;
+  background-color: transparent;
+  box-shadow: inset 0 0 0 1px @line@ !important;
+}
+
+/* Flat buttons have no box until they are hovered. */
+@flat|@ {
+  color: @muted@;
+  background-color: transparent;
+  box-shadow: none !important;
+}
+@flat|:hover :focus :focus:hover@ {
+  color: @pink@;
+  background-color: @wash@;
+  box-shadow: none !important;
+}
+@flat|:active :active:hover :active:focus :selected :selected:hover :selected:focus@ {
+  color: @pink@;
+  background-color: @press@;
+  box-shadow: none !important;
+}
+@flat|:checked :checked:hover :checked:active@ {
+  color: @pink@;
+  background-color: @wash_pink@;
+  box-shadow: none !important;
+}
+@flat|:insensitive@ {
+  color: @dimmest@;
+  background-color: transparent;
+}
+.unlock-dialog-notifications-container .message StButton:insensitive,
+.unlock-dialog-notifications-container .unlock-dialog-notification-source StButton:insensitive {
+  opacity: 1;
+}
+/* The unlock dialog's own button tone is set with more specific selectors. */
+.unlock-dialog .button, .unlock-dialog .icon-button,
+.unlock-dialog .login-button, .unlock-dialog .web-login-prompt-button {
+  background-color: @osd_bg@;
+}
+
+/* Links: purple, pink on hover. */
+.shell-link { color: @purple@; }
+.shell-link:hover, .shell-link:focus { color: @pink@; }
+.url-highlighter { link-color: @purple@; }
+
+/* === Fields ===============================================================
+   A panel with a hairline edge. The pink ring is the whole focus state; the
+   edge does not also change. */
+
+StEntry, .search-entry,
+.app-folder-dialog .folder-name-container .folder-name-entry,
+.login-dialog .login-dialog-prompt-entry, .unlock-dialog .login-dialog-prompt-entry,
+StEntry:hover, .search-entry:hover,
+.app-folder-dialog .folder-name-container .folder-name-entry:hover,
+.login-dialog .login-dialog-prompt-entry:hover, .unlock-dialog .login-dialog-prompt-entry:hover {
+  color: @ink@;
+  background-color: @panel@;
+  box-shadow: inset 0 0 0 1px @line@ !important;
+  caret-color: @pink@;
+  selection-background-color: @select_pink@;
+  selected-color: @ink@;
+}
+StEntry:focus, .search-entry:focus,
+.app-folder-dialog .folder-name-container .folder-name-entry:focus,
+.login-dialog .login-dialog-prompt-entry:focus, .unlock-dialog .login-dialog-prompt-entry:focus {
+  color: @ink@;
+  background-color: @panel@;
+  box-shadow: inset 0 0 0 2px @pink@ !important;
+}
+StEntry:insensitive, .search-entry:insensitive,
+.login-dialog .login-dialog-prompt-entry:insensitive,
+.unlock-dialog .login-dialog-prompt-entry:insensitive {
+  color: @dimmest@;
+  background-color: @bg@;
+}
+StEntry StLabel.hint-text, .search-entry StLabel.hint-text,
+.app-folder-dialog .folder-name-container .folder-name-entry StLabel.hint-text,
+.login-dialog .login-dialog-prompt-entry StLabel.hint-text,
+.unlock-dialog .login-dialog-prompt-entry StLabel.hint-text {
+  color: @dimmest@;
+}
+.search-entry .search-entry-icon { color: @muted@; }
+StEntry StIcon.capslock-warning { warning-color: @string@; }
+
+/* === Toggles ==============================================================
+   The switch is GTK's: a slot, like a text field, with a block cursor in it.
+   On, the cursor is pink and a bar sits in the open half; off, it is dim and
+   a small square ring does, so on still reads without color. St can't draw
+   gradients, so the marks and the cursor's grip ribs are SVGs that
+   tools/build-shell.py writes beside this file in each variant's colors.
+   Each SVG is drawn at its box's exact size, since St positions a
+   background by length only. */
+
+.toggle-switch {
+  width: 42px;
+  background-color: @panel@;
+  background-image: url("switch-track-off.svg");
+  background-repeat: no-repeat;
+  box-shadow: inset 0 0 0 1px @line@ !important;
+}
+.toggle-switch .handle {
+  width: 18px;
+  height: 18px;
+  margin: 3px;
+  background-color: @dimmest@;
+  background-image: url("switch-grip-off.svg");
+  background-repeat: no-repeat;
+}
+/* The shell's own on/off glyphs duplicate the marks; hide them. */
+.toggle-switch StIcon { color: transparent; }
+
+/* On is already outlined in pink, so hover can't just turn the edge pink:
+   it thickens it, and the cursor lightens. */
+.toggle-switch:hover, .popup-menu-item:focus .toggle-switch {
+  background-color: @panel@;
+  box-shadow: inset 0 0 0 2px @pink@ !important;
+}
+.toggle-switch:hover .handle, .popup-menu-item:focus .toggle-switch .handle {
+  background-color: @muted@;
+}
+
+.toggle-switch:checked, .toggle-switch:checked:hover {
+  background-color: @panel@;
+  background-image: url("switch-track-on.svg");
+  box-shadow: inset 0 0 0 1px @pink@ !important;
+}
+.toggle-switch:checked:hover, .popup-menu-item:focus .toggle-switch:checked {
+  box-shadow: inset 0 0 0 2px @pink@ !important;
+}
+.toggle-switch:checked .handle {
+  background-color: @pink@;
+  background-image: url("switch-grip-on.svg");
+}
+.toggle-switch:checked:hover .handle, .popup-menu-item:focus .toggle-switch:checked .handle {
+  background-color: @pink_hover@;
+}
+
+/* GTK leaves a disabled slot transparent. St skips an inset shadow over a
+   transparent background, so the slot keeps the panel color to keep its
+   edge; switches only sit on panels, so it looks the same. */
+.toggle-switch:insensitive, .popup-menu-item:insensitive .toggle-switch {
+  background-color: @panel@;
+  background-image: url("switch-track-off-disabled.svg");
+  box-shadow: inset 0 0 0 1px @line@ !important;
+}
+.toggle-switch:insensitive:checked, .popup-menu-item:insensitive .toggle-switch:checked {
+  background-image: url("switch-track-on-disabled.svg");
+}
+.toggle-switch:insensitive .handle, .popup-menu-item:insensitive .toggle-switch .handle {
+  background-color: @line@;
+  background-image: url("switch-grip-on.svg");
+}
+
+.check-box StIcon { border: 1px solid @muted@; color: transparent; }
+.check-box:hover StIcon { border-color: @pink@; }
+.check-box:active StIcon { border-color: @pink@; }
+.check-box:focus StBin { background-color: transparent; box-shadow: inset 0 0 0 2px @pink@ !important; }
+.check-box:checked StIcon, .check-box:checked:hover StIcon, .check-box:checked:active StIcon {
+  background-color: @pink@;
+  border-color: @pink@;
+  color: @on_fill@;
+}
+
+.slider {
+  color: @ink@;
+  -barlevel-height: 4px;
+  -barlevel-background-color: @line@;
+  -barlevel-active-background-color: @pink@;
+  -barlevel-overdrive-color: @del@;
+}
+.slider:hover { color: @pink@; }
+
+StScrollBar > .vhandle, StScrollBar > .hhandle { background-color: @dimmest@; }
+StScrollBar > .vhandle:hover, StScrollBar > .hhandle:hover { background-color: @muted@; }
+StScrollBar > .vhandle:active, StScrollBar > .hhandle:active { background-color: @pink@; }
+
+/* === Popup menus ==========================================================
+   A panel with a hairline edge. A hovered item goes pink; the open submenu
+   and the checked ornament are where you are. */
+
+.popup-menu { color: @ink@; }
+.popup-menu-content, .candidate-popup-content {
+  background-color: @panel@;
+  border: 1px solid @line@;
+}
+.popup-menu-item { color: @ink@; }
+.popup-menu-item:hover, .popup-menu-item:focus, .popup-menu-item:selected,
+.popup-sub-menu .popup-menu-item:hover, .popup-sub-menu .popup-menu-item:focus,
+.popup-sub-menu .popup-menu-item:selected {
+  color: @pink@;
+  background-color: @wash@;
+}
+.popup-menu-item:active, .popup-menu-item:active:hover, .popup-menu-item:active:focus,
+.popup-sub-menu .popup-menu-item:active, .popup-sub-menu .popup-menu-item:active:hover,
+.popup-sub-menu .popup-menu-item:active:focus {
+  color: @pink@;
+  background-color: @press@;
+}
+.popup-menu-item:checked, .popup-sub-menu .popup-menu-item:checked {
+  color: @pink@;
+  background-color: @wash_pink@;
+  border-radius: 0 !important;
+}
+.popup-menu-item:insensitive, .popup-sub-menu .popup-menu-item:insensitive { color: @dimmest@; }
+.popup-inactive-menu-item { color: @ink@; }
+.popup-inactive-menu-item:insensitive { color: @muted@; }
+.popup-menu-item .popup-menu-ornament { color: @pink@; }
+.popup-sub-menu {
+  background-color: @bg@;
+  border: 1px solid @line@;
+}
+.popup-separator-menu-item .popup-separator-menu-item-separator,
+.popup-sub-menu .popup-separator-menu-item .popup-separator-menu-item-separator {
+  background-color: @line@;
+}
+.app-menu .popup-inactive-menu-item:first-child > StLabel { color: @muted@; }
+
+.candidate-index { color: @muted@; }
+.candidate-box:hover { color: @pink@; background-color: @wash@; }
+.candidate-box:selected { color: @pink@; background-color: @wash_pink@; }
+
+/* === Quick settings ======================================================= */
+
+.quick-toggle, .quick-toggle-has-menu .quick-toggle-menu-button {
+  color: @ink@;
+  background-color: @wash@;
+  box-shadow: inset 0 0 0 1px @line@ !important;
+}
+.quick-toggle:hover, .quick-toggle:focus,
+.quick-toggle-has-menu .quick-toggle-menu-button:hover,
+.quick-toggle-has-menu .quick-toggle-menu-button:focus {
+  color: @pink@;
+  background-color: @wash@;
+  box-shadow: inset 0 0 0 1px @pink@ !important;
+}
+.quick-toggle:focus:hover, .quick-toggle-has-menu .quick-toggle-menu-button:focus:hover {
+  color: @pink@;
+  background-color: @wash@;
+  box-shadow: inset 0 0 0 1px @pink@ !important;
+}
+.quick-toggle:active, .quick-toggle-has-menu .quick-toggle-menu-button:active,
+.quick-toggle:active:hover, .quick-toggle:active:focus,
+.quick-toggle-has-menu .quick-toggle-menu-button:active:hover,
+.quick-toggle-has-menu .quick-toggle-menu-button:active:focus {
+  color: @pink@;
+  background-color: @press@;
+}
+/* A checked toggle carries the site's rail on its left, as a selected
+   sidebar row does in GTK. */
+.quick-toggle:checked, .quick-toggle:hover:checked, .quick-toggle:active:checked,
+.quick-toggle:focus:checked, .quick-toggle:focus:hover:checked,
+.quick-toggle:active:hover:checked, .quick-toggle:active:focus:checked {
+  color: @pink@;
+  background-color: @wash_pink@;
+  box-shadow: inset 3px 0 0 0 @pink@ !important;
+}
+.quick-toggle-has-menu .quick-toggle-menu-button:checked,
+.quick-toggle-has-menu .quick-toggle-menu-button:checked:hover,
+.quick-toggle-has-menu .quick-toggle-menu-button:checked:focus,
+.quick-toggle-has-menu .quick-toggle-menu-button:checked:focus:hover,
+.quick-toggle-has-menu .quick-toggle-menu-button:checked:active,
+.quick-toggle-has-menu .quick-toggle-menu-button:checked:active:hover,
+.quick-toggle-has-menu .quick-toggle-menu-button:checked:active:focus {
+  color: @pink@;
+  background-color: @wash_pink@;
+  box-shadow: none !important;
+}
+.quick-toggle:insensitive:checked, .quick-toggle:insensitive {
+  color: @dimmest@;
+  background-color: transparent;
+}
+.quick-toggle-has-menu .quick-toggle-separator { background-color: @line@; }
+.quick-toggle-has-menu:checked .quick-toggle-separator { background-color: @pink@; }
+.quick-toggle .quick-toggle-subtitle { color: @muted@; }
+.quick-toggle:checked .quick-toggle-subtitle { color: @pink@; }
+
+.keyboard-brightness-level .button:checked,
+.keyboard-brightness-level .button:hover:checked,
+.keyboard-brightness-level .button:focus:checked,
+.keyboard-brightness-level .button:focus:hover:checked,
+.keyboard-brightness-level .button:active:checked,
+.keyboard-brightness-level .button:active:hover:checked,
+.keyboard-brightness-level .button:active:focus:checked {
+  color: @pink@;
+  background-color: @wash_pink@;
+  box-shadow: inset 0 0 0 1px @pink@ !important;
+}
+
+.quick-slider .slider-bin:focus, .quick-slider .slider-bin:focus:hover {
+  background-color: transparent;
+  box-shadow: inset 0 0 0 2px @pink@ !important;
+}
+
+/* The expanded menu under a toggle: the page again, inside the panel. */
+.quick-toggle-menu, .quick-toggle-menu:insensitive {
+  color: @ink@;
+  background-color: @bg@;
+  border: 1px solid @line@;
+}
+.quick-toggle-menu:hover, .quick-toggle-menu:active, .quick-toggle-menu:active:hover,
+.quick-toggle-menu:focus, .quick-toggle-menu:focus:hover, .quick-toggle-menu:active:focus {
+  color: @ink@;
+  background-color: @bg@;
+  box-shadow: none !important;
+}
+.quick-toggle-menu .header .icon { color: @ink@; background-color: @wash_strong@; }
+.quick-toggle-menu .header .icon.active { color: @pink@; background-color: @wash_pink@; }
+.quick-toggle-menu .header .subtitle { color: @muted@; }
+.quick-settings-system-item .power-item:insensitive { color: @dimmest@; background-color: transparent; }
+.device-subtitle { color: @muted@; }
+.background-app-item.popup-inactive-menu-item { color: @ink@; }
+
+/* === Calendar and notifications =========================================== */
+
+.calendar, .datemenu-today-button, .events-button, .world-clocks-button,
+.weather-button, .message {
+  color: @ink@;
+  background-color: @panel@;
+  border: 1px solid @line@ !important;
+}
+.calendar:hover, .calendar:active, .calendar:active:hover,
+.calendar:focus, .calendar:focus:hover, .calendar:active:focus {
+  color: @ink@;
+  background-color: @panel@;
+  box-shadow: none !important;
+}
+.datemenu-today-button:hover, .events-button:hover, .world-clocks-button:hover,
+.weather-button:hover, .message:hover,
+.datemenu-today-button:focus, .events-button:focus, .world-clocks-button:focus,
+.weather-button:focus, .message:focus,
+.datemenu-today-button:focus:hover, .events-button:focus:hover,
+.world-clocks-button:focus:hover, .weather-button:focus:hover, .message:focus:hover {
+  color: @ink@;
+  background-color: @wash@;
+  border-color: @pink@ !important;
+  box-shadow: none !important;
+}
+.datemenu-today-button:active, .events-button:active, .world-clocks-button:active,
+.weather-button:active, .message:active,
+.datemenu-today-button:active:hover, .events-button:active:hover,
+.world-clocks-button:active:hover, .weather-button:active:hover, .message:active:hover,
+.datemenu-today-button:active:focus, .events-button:active:focus,
+.world-clocks-button:active:focus, .weather-button:active:focus, .message:active:focus {
+  background-color: @press@;
+}
+.calendar:insensitive, .datemenu-today-button:insensitive {
+  color: @dimmest@;
+  background-color: transparent !important;
+}
+
+.datemenu-today-button .day-label { color: @muted@; }
+.datemenu-today-button .date-label { color: @ink@; }
+
+.calendar .calendar-month-header .calendar-month-label { color: @ink@ !important; background-color: transparent; }
+.calendar .calendar-month-header .calendar-month-label:hover,
+.calendar .calendar-month-header .calendar-month-label:focus,
+.calendar .calendar-month-header .calendar-month-label:focus:hover,
+.calendar .calendar-month-header .calendar-month-label:active,
+.calendar .calendar-month-header .calendar-month-label:active:focus,
+.calendar .calendar-month-header .calendar-month-label:selected:focus {
+  color: @pink@ !important;
+  background-color: @wash@;
+}
+.calendar .calendar-day-heading, .calendar .calendar-day-heading:hover,
+.calendar .calendar-day-heading:focus, .calendar .calendar-day-heading:focus:hover,
+.calendar .calendar-day-heading:active, .calendar .calendar-day-heading:active:focus,
+.calendar .calendar-day-heading:selected, .calendar .calendar-day-heading:selected:focus {
+  color: @muted@;
+  background-color: transparent;
+  box-shadow: none !important;
+}
+.calendar .calendar-day { color: @ink@; background-color: transparent; }
+.calendar .calendar-day.calendar-weekend { color: @muted@; }
+.calendar .calendar-day.calendar-other-month,
+.calendar .calendar-day.calendar-other-month.calendar-weekend { color: @dimmest@; }
+.calendar .calendar-day:hover, .calendar .calendar-day:focus, .calendar .calendar-day:focus:hover {
+  color: @pink@;
+  background-color: @wash@;
+  box-shadow: none !important;
+}
+.calendar .calendar-day:active, .calendar .calendar-day:active:hover, .calendar .calendar-day:active:focus {
+  color: @pink@;
+  background-color: @press@;
+}
+/* The selected day is where you are; today is marked in pink text, so the
+   two read apart when they differ and together when they don't. */
+.calendar .calendar-day:selected, .calendar .calendar-day:selected:hover,
+.calendar .calendar-day:selected:focus {
+  color: @pink@;
+  background-color: @wash_pink@;
+  box-shadow: inset 0 0 0 1px @pink@ !important;
+}
+.calendar .calendar-day.calendar-today, .calendar .calendar-day.calendar-today:hover,
+.calendar .calendar-day.calendar-today:focus, .calendar .calendar-day.calendar-today:focus:hover,
+.calendar .calendar-day.calendar-today:active, .calendar .calendar-day.calendar-today:active:hover,
+.calendar .calendar-day.calendar-today:active:focus {
+  color: @pink@ !important;
+  background-color: @wash_pink@;
+}
+.calendar .calendar-day.calendar-today:selected {
+  box-shadow: inset 0 0 0 1px @pink@ !important;
+}
+.calendar .calendar-day.calendar-today:insensitive { color: @dimmest@ !important; background-color: transparent; }
+.calendar .calendar-week-number { color: @dimmest@; background-color: transparent; }
+
+.events-button .events-box .events-title, .world-clocks-button .world-clocks-header,
+.weather-button .weather-box .weather-header-box .weather-header {
+  color: @muted@;
+}
+.world-clocks-button .world-clocks-header.no-world-clocks,
+.weather-button .weather-box .weather-header-box .weather-header.no-location {
+  color: @ink@;
+}
+.events-button .events-box .events-list .event-box .event-time,
+.events-button .events-box .events-list .event-placeholder,
+.world-clocks-button .world-clocks-grid .world-clocks-timezone {
+  color: @muted@;
+}
+
+.message-list { border-color: @line@; }
+.message-list .message-list-placeholder { color: @dimmest@; }
+
+.message:second-in-stack { background-color: @panel@; }
+.message:lower-in-stack { background-color: @bg@; }
+.message .message-header { color: @muted@; }
+.message .message-header .message-header-content .message-source-title { color: @ink@; }
+.message .message-header .message-header-content .event-time { color: @dimmest@; }
+.message .message-box .message-content .message-title { color: @ink@; }
+.message .message-box .message-content .message-body { color: @ink@; }
+.message .message-box .message-icon.message-themed-icon { color: @ink@; background-color: @wash_strong@; }
+.media-message .message-icon { border-radius: 0 !important; }
+.message-media-control { color: @ink@; }
+.message-media-control:hover { color: @pink@; background-color: @wash@; }
+.message-media-control:active { color: @pink@; background-color: @press@; }
+.message-media-control:insensitive { color: @dimmest@; }
+.message-notification-group .message-group-header { color: @muted@; }
+
+.notification-banner {
+  background-color: @panel@;
+  border: 1px solid @line@ !important;
+}
+
+/* === OSDs and switchers =================================================== */
+
+.workspace-switcher, .switcher-list, .resize-popup, .osd-window {
+  color: @ink@;
+  background-color: @osd_bg@;
+  border: 1px solid @line@;
+}
+.osd-window .level {
+  -barlevel-background-color: @line@;
+  -barlevel-active-background-color: @pink@;
+  -barlevel-overdrive-color: @del@;
+}
+.osd-monitor-label, .osd-break-countdown-label {
+  color: @pink@;
+  background-color: @osd_bg@;
+  border: 1px solid @pink@;
+}
+.ws-switcher-indicator { background-color: @dimmest@; }
+.ws-switcher-indicator:active { background-color: @pink@; }
+
+.switcher-list .item-box { color: @ink@; background-color: transparent; }
+.switcher-list .item-box:hover {
+  color: @pink@;
+  background-color: @wash@;
+}
+.switcher-list .item-box:focus, .switcher-list .item-box:focus:hover {
+  color: @pink@;
+  background-color: @wash@;
+  box-shadow: inset 0 0 0 1px @pink@ !important;
+}
+.switcher-list .item-box:active, .switcher-list .item-box:active:hover,
+.switcher-list .item-box:active:focus {
+  color: @pink@;
+  background-color: @press@;
+}
+/* The app the switcher will land on is where you are. */
+.switcher-list .item-box:selected, .switcher-list .item-box:selected:hover,
+.switcher-list .item-box:highlighted, .switcher-list .item-box:checked {
+  color: @pink@;
+  background-color: @wash_pink@;
+  box-shadow: inset 0 0 0 1px @pink@ !important;
+}
+.switcher-list .item-box:drop {
+  background-color: @wash_pink@;
+  box-shadow: inset 0 0 0 1px @pink@ !important;
+}
+.switcher-list .separator { background-color: @line@; }
+.switcher-arrow { border-color: @muted@; color: @muted@; }
+.switcher-arrow:highlighted { border-color: @pink@; color: @pink@; }
+.cycler-highlight { border: 3px solid @pink@; }
+
+/* === Overview ============================================================= */
+
+#overviewGroup { background-color: @bg@; }
+
+.dash-label, .window-caption {
+  color: @ink@;
+  background-color: @panel@;
+  border: 1px solid @line@;
+}
+.window-close {
+  color: @ink@;
+  background-color: @panel@;
+  border: 1px solid @line@;
+}
+.window-close:hover { color: @pink@; border-color: @pink@; background-color: @panel@; }
+.window-close:active { color: @pink@; background-color: @wash_pink@; }
+
+#dash .dash-background {
+  background-color: @panel@;
+  border: 1px solid @line@;
+}
+#dash .dash-separator { background-color: @line@; }
+#dash .dash-item-container .show-apps .overview-icon,
+#dash .dash-item-container .overview-tile .overview-icon,
+#dash .dash-item-container .grid-search-result .overview-icon {
+  color: @ink@;
+  background-color: transparent;
+}
+#dash .dash-item-container .show-apps:hover .overview-icon,
+#dash .dash-item-container .overview-tile:hover .overview-icon,
+#dash .dash-item-container .grid-search-result:hover .overview-icon {
+  color: @pink@;
+  background-color: @wash@;
+}
+#dash .dash-item-container .show-apps:focus .overview-icon,
+#dash .dash-item-container .overview-tile:focus .overview-icon,
+#dash .dash-item-container .grid-search-result:focus .overview-icon,
+#dash .dash-item-container .show-apps:focus .overview-icon:hover,
+#dash .dash-item-container .overview-tile:focus .overview-icon:hover,
+#dash .dash-item-container .grid-search-result:focus .overview-icon:hover {
+  color: @pink@;
+  background-color: @wash@;
+  box-shadow: inset 0 0 0 1px @pink@ !important;
+}
+#dash .dash-item-container .show-apps:active .overview-icon,
+#dash .dash-item-container .overview-tile:active .overview-icon,
+#dash .dash-item-container .show-apps:active .overview-icon:hover,
+#dash .dash-item-container .overview-tile:active .overview-icon:hover,
+#dash .dash-item-container .show-apps:active .overview-icon:focus,
+#dash .dash-item-container .overview-tile:active .overview-icon:focus,
+#dash .dash-item-container .grid-search-result:active .overview-icon,
+#dash .dash-item-container .grid-search-result:active .overview-icon:focus {
+  color: @pink@;
+  background-color: @press@;
+}
+/* Show Apps checked means the app grid is open: that is where you are. */
+#dash .dash-item-container .show-apps:checked .overview-icon,
+#dash .dash-item-container .show-apps:checked .overview-icon:hover,
+#dash .dash-item-container .show-apps:checked .overview-icon:active {
+  color: @pink@;
+  background-color: @wash_pink@;
+}
+/* The running-app dot doubles as the current-app mark, so it is pink. */
+.app-grid-running-dot, #dash .dash-item-container .app-grid-running-dot {
+  background-color: @pink@;
+}
+
+.overview-tile, .grid-search-result,
+.app-folder-dialog .overview-tile, .app-folder-dialog .grid-search-result {
+  color: @ink@;
+  background-color: transparent;
+}
+.overview-tile:hover, .grid-search-result:hover,
+.app-folder-dialog .overview-tile:hover, .app-folder-dialog .grid-search-result:hover {
+  color: @pink@;
+  background-color: @wash@;
+}
+.overview-tile:focus, .grid-search-result:focus,
+.overview-tile:focus:hover, .grid-search-result:focus:hover,
+.app-folder-dialog .overview-tile:focus, .app-folder-dialog .grid-search-result:focus,
+.app-folder-dialog .overview-tile:focus:hover, .app-folder-dialog .grid-search-result:focus:hover {
+  color: @pink@;
+  background-color: @wash@;
+  box-shadow: inset 0 0 0 1px @pink@ !important;
+}
+.overview-tile:active, .grid-search-result:active,
+.overview-tile:active:hover, .grid-search-result:active:hover,
+.overview-tile:active:focus, .grid-search-result:active:focus,
+.app-folder-dialog .overview-tile:active, .app-folder-dialog .grid-search-result:active,
+.app-folder-dialog .overview-tile:active:focus, .app-folder-dialog .grid-search-result:active:focus {
+  color: @pink@;
+  background-color: @press@;
+}
+.overview-tile:selected, .grid-search-result:selected,
+.overview-tile:highlighted, .grid-search-result:highlighted,
+.overview-tile:checked, .grid-search-result:checked,
+.overview-tile:selected:hover, .grid-search-result:selected:hover,
+.app-folder-dialog .overview-tile:selected, .app-folder-dialog .grid-search-result:selected,
+.app-folder-dialog .overview-tile:highlighted, .app-folder-dialog .grid-search-result:highlighted {
+  color: @pink@;
+  background-color: @wash_pink@;
+  box-shadow: inset 0 0 0 1px @pink@ !important;
+}
+.overview-tile:drop, .grid-search-result:drop, .app-folder:drop,
+.app-folder-dialog .overview-tile:drop, .app-folder-dialog .grid-search-result:drop {
+  background-color: @wash_pink@;
+  box-shadow: inset 0 0 0 1px @pink@ !important;
+}
+.overview-tile:insensitive, .grid-search-result:insensitive { color: @dimmest@; background-color: transparent; }
+
+.app-folder {
+  color: @ink@;
+  background-color: @panel@;
+  box-shadow: inset 0 0 0 1px @line@ !important;
+}
+.app-folder:hover {
+  color: @pink@;
+  background-color: @panel@;
+  box-shadow: inset 0 0 0 1px @pink@ !important;
+}
+.app-folder:focus, .app-folder:focus:hover {
+  color: @pink@;
+  background-color: @panel@;
+  box-shadow: inset 0 0 0 1px @pink@ !important;
+}
+.app-folder:active, .app-folder:active:hover, .app-folder:active:focus {
+  color: @pink@;
+  background-color: @press@;
+}
+.app-folder:selected, .app-folder:highlighted, .app-folder:checked {
+  color: @pink@;
+  background-color: @wash_pink@;
+  box-shadow: inset 0 0 0 1px @pink@ !important;
+}
+
+.app-folder-dialog {
+  color: @ink@;
+  background-color: @panel@;
+  box-shadow: inset 0 0 0 1px @line@ !important;
+}
+.app-folder-dialog .page-navigation-arrow, .page-navigation-arrow {
+  color: @ink@;
+  background-color: @panel@;
+  box-shadow: inset 0 0 0 1px @line@ !important;
+}
+.page-navigation-arrow > StIcon { color: @ink@; }
+.app-folder-dialog .page-navigation-arrow:hover, .page-navigation-arrow:hover,
+.page-navigation-arrow:hover > StIcon {
+  color: @pink@;
+  background-color: @wash@;
+  box-shadow: inset 0 0 0 1px @pink@ !important;
+}
+.app-folder-dialog .page-navigation-arrow:active, .page-navigation-arrow:active,
+.app-folder-dialog .page-navigation-arrow:active:focus, .page-navigation-arrow:active:focus {
+  color: @pink@;
+  background-color: @press@;
+}
+/* Only the current page is fully opaque; the shell fades the rest. */
+.page-indicator .page-indicator-icon { background-color: @pink@; }
+.page-navigation-hint.dnd { background: @wash@; }
+.page-navigation-hint.next:ltr, .page-navigation-hint.previous:rtl,
+.page-navigation-hint.previous:ltr, .page-navigation-hint.next:rtl {
+  background-gradient-start: transparent;
+  background-gradient-end: transparent;
+}
+.system-action-icon { color: @ink@; background-color: @wash_strong@; }
+
+.workspace-thumbnails .workspace-thumbnail {
+  color: @ink@;
+  background-color: @panel@;
+  border: 1px solid @line@;
+}
+.workspace-thumbnail-indicator { border: 2px solid @pink@; }
+.workspace-animation { background-color: @bg@; }
+
+/* === Search =============================================================== */
+
+.search-section-content {
+  color: @ink@;
+  background-color: @panel@;
+  border: 1px solid @line@;
+}
+.search-statustext { color: @muted@; }
+.list-search-result, .search-provider-icon { color: @ink@; background-color: transparent; }
+.list-search-result:hover, .search-provider-icon:hover {
+  color: @pink@;
+  background-color: @wash@;
+}
+.list-search-result:focus, .search-provider-icon:focus,
+.list-search-result:focus:hover, .search-provider-icon:focus:hover {
+  color: @pink@;
+  background-color: @wash@;
+  box-shadow: inset 0 0 0 1px @pink@ !important;
+}
+.list-search-result:active, .search-provider-icon:active,
+.list-search-result:active:hover, .search-provider-icon:active:hover,
+.list-search-result:active:focus, .search-provider-icon:active:focus {
+  color: @pink@;
+  background-color: @press@;
+}
+/* The result Enter will open carries the rail. */
+.list-search-result:selected, .search-provider-icon:selected,
+.list-search-result:highlighted, .search-provider-icon:highlighted,
+.list-search-result:checked, .search-provider-icon:checked,
+.list-search-result:selected:hover, .search-provider-icon:selected:hover {
+  color: @pink@;
+  background-color: @wash_pink@;
+  box-shadow: inset 3px 0 0 0 @pink@ !important;
+}
+.list-search-result:drop, .search-provider-icon:drop {
+  background-color: @wash_pink@;
+  box-shadow: inset 0 0 0 1px @pink@ !important;
+}
+.list-search-result:insensitive, .search-provider-icon:insensitive { color: @dimmest@; background-color: transparent; }
+.list-search-result .list-search-result-description { color: @muted@; }
+.search-provider-icon .list-search-provider-content .list-search-provider-details { color: @muted@; }
+
+/* === Modal dialogs ======================================================== */
+
+.modal-dialog {
+  color: @ink@;
+  background-color: @bg@;
+  border: 1px solid @line@;
+}
+.message-dialog-content .message-dialog-title { color: @ink@; }
+.message-dialog-content .message-dialog-description,
+.dialog-list .dialog-list-box .dialog-list-item .dialog-list-item-description,
+.run-dialog .run-dialog-description {
+  color: @muted@;
+}
+.end-session-dialog .end-session-dialog-battery-warning,
+.end-session-dialog .dialog-list-title,
+.prompt-dialog .prompt-dialog-error-label,
+.conflicting-session-dialog-content .conflicting-session-dialog-desc-warning {
+  color: @string@;
+  background-color: @string_bg@;
+}
+.prompt-dialog .prompt-dialog-info-label { color: @ink@; background-color: @wash_strong@; }
+.polkit-dialog-user-layout .polkit-dialog-user-root-label, .caps-lock-warning-label { color: @string@; }
+
+.audio-device-selection-dialog .audio-selection-box .audio-selection-device {
+  color: @ink@;
+  background-color: transparent;
+  box-shadow: inset 0 0 0 1px @line@ !important;
+}
+.audio-device-selection-dialog .audio-selection-box .audio-selection-device:hover,
+.audio-device-selection-dialog .audio-selection-box .audio-selection-device:focus,
+.audio-device-selection-dialog .audio-selection-box .audio-selection-device:focus:hover {
+  color: @pink@;
+  background-color: @wash@;
+  box-shadow: inset 0 0 0 1px @pink@ !important;
+}
+.audio-device-selection-dialog .audio-selection-box .audio-selection-device:active,
+.audio-device-selection-dialog .audio-selection-box .audio-selection-device:active:hover,
+.audio-device-selection-dialog .audio-selection-box .audio-selection-device:active:focus {
+  color: @pink@;
+  background-color: @press@;
+}
+.audio-device-selection-dialog .audio-selection-box .audio-selection-device:selected,
+.audio-device-selection-dialog .audio-selection-box .audio-selection-device:checked,
+.audio-device-selection-dialog .audio-selection-box .audio-selection-device:highlighted,
+.audio-device-selection-dialog .audio-selection-box .audio-selection-device:drop {
+  color: @pink@;
+  background-color: @wash_pink@;
+  box-shadow: inset 0 0 0 1px @pink@ !important;
+}
+
+/* === Lock screen ==========================================================
+   The unlock dialog belongs to the user session, so it follows this theme.
+   The login screen runs as GDM, with the stock theme, and doesn't.
+
+   Text here sits straight on the dimmed wallpaper, which is dark in both
+   variants, so it takes the wall-* colors rather than ink and muted. */
+
+.login-dialog, .unlock-dialog { color: @wall_ink@; }
+.unlock-dialog-clock { color: @wall_ink@; }
+.unlock-dialog-clock .unlock-dialog-clock-hint { color: @wall_muted@; }
+.login-dialog .user-widget .user-widget-label, .unlock-dialog .user-widget .user-widget-label { color: @wall_ink@; }
+.login-dialog .user-widget .user-icon, .unlock-dialog .user-widget .user-icon {
+  color: @ink@;
+  background-color: @osd_bg@;
+}
+.login-dialog-message-hint, .login-dialog-message,
+.login-dialog-banner-view .login-dialog-banner { color: @wall_muted@; }
+.login-dialog .caps-lock-warning-label, .login-dialog .login-dialog-message-warning,
+.unlock-dialog .caps-lock-warning-label, .unlock-dialog .login-dialog-message-warning {
+  color: @wall_warning@;
+}
+/* On the wallpaper, the fields and buttons sit on the translucent OSD panel
+   so they stay legible whatever the picture is. */
+.unlock-dialog .login-dialog-prompt-entry, .unlock-dialog .login-dialog-prompt-entry:hover {
+  background-color: @osd_bg@;
+}
+.login-dialog .login-dialog-auth-list-title, .unlock-dialog .login-dialog-auth-list-title,
+.login-dialog .login-dialog-auth-list-title:selected, .login-dialog .login-dialog-auth-list-title:focus,
+.login-dialog .login-dialog-auth-list-title:selected:hover, .login-dialog .login-dialog-auth-list-title:focus:hover,
+.login-dialog .login-dialog-auth-list-title:active:focus,
+.unlock-dialog .login-dialog-auth-list-title:focus, .unlock-dialog .login-dialog-auth-list-title:focus:hover,
+.unlock-dialog .login-dialog-auth-list-title:active:focus {
+  color: @wall_muted@ !important;
+  background-color: transparent !important;
+}
+.login-dialog .login-dialog-auth-list-item, .unlock-dialog .login-dialog-auth-list-item,
+.login-dialog-user-list-view .login-dialog-user-list .login-dialog-user-list-item {
+  color: @ink@;
+  background-color: @osd_bg@;
+  box-shadow: inset 0 0 0 1px @line@ !important;
+}
+.login-dialog .login-dialog-auth-list-item:hover, .unlock-dialog .login-dialog-auth-list-item:hover,
+.login-dialog-user-list-view .login-dialog-user-list .login-dialog-user-list-item:hover {
+  color: @pink@;
+  background-color: @osd_bg@;
+  box-shadow: inset 0 0 0 1px @pink@ !important;
+}
+.login-dialog .login-dialog-auth-list-item:selected, .login-dialog .login-dialog-auth-list-item:focus,
+.unlock-dialog .login-dialog-auth-list-item:selected, .unlock-dialog .login-dialog-auth-list-item:focus,
+.login-dialog-user-list-view .login-dialog-user-list .login-dialog-user-list-item:selected,
+.login-dialog-user-list-view .login-dialog-user-list .login-dialog-user-list-item:focus,
+.login-dialog .login-dialog-auth-list-item:selected:hover, .login-dialog .login-dialog-auth-list-item:focus:hover,
+.login-dialog-user-list-view .login-dialog-user-list .login-dialog-user-list-item:selected:hover,
+.login-dialog-user-list-view .login-dialog-user-list .login-dialog-user-list-item:focus:hover {
+  color: @pink@;
+  background-color: @osd_bg@;
+  box-shadow: inset 3px 0 0 0 @pink@ !important;
+}
+.login-dialog .login-dialog-auth-list-item:active:focus,
+.unlock-dialog .login-dialog-auth-list-item:active:focus,
+.unlock-dialog .login-dialog-auth-list-item:focus:hover,
+.login-dialog-user-list-view .login-dialog-user-list .login-dialog-user-list-item:active:focus {
+  color: @pink@;
+  background-color: @press@;
+}
+.login-dialog-auth-list-item-title { color: @ink@; }
+.login-dialog-auth-list-item-subtitle { color: @muted@; }
+.login-dialog-user-list-view .login-dialog-user-list .login-dialog-user-list-item .login-dialog-timed-login-indicator { background-color: @pink@; }
+.login-dialog-user-list-view .login-dialog-user-list .login-dialog-user-list-item:logged-in .user-icon { border-color: @pink@; }
+.login-dialog-user-list-view .login-dialog-user-list .login-dialog-user-list-item:logged-in .user-icon StIcon { background-color: @wash_pink@; }
+.login-dialog-not-listed-button { color: @muted@; background-color: transparent; }
+.login-dialog-not-listed-button:hover, .login-dialog-not-listed-button:focus,
+.login-dialog-not-listed-button:focus:hover { color: @pink@; background-color: @wash@; }
+.login-dialog-not-listed-button:active, .login-dialog-not-listed-button:active:hover,
+.login-dialog-not-listed-button:active:focus { color: @pink@; background-color: @press@; }
+
+.unlock-dialog-notifications-container .message,
+.unlock-dialog-notifications-container .unlock-dialog-notification-source {
+  color: @ink@;
+  background-color: @osd_bg@;
+  border: 1px solid @line@ !important;
+}
+.unlock-dialog-notifications-container .message.critical,
+.unlock-dialog-notifications-container .unlock-dialog-notification-source.critical {
+  border-color: @string@ !important;
+}
+.unlock-dialog-notifications-container .message .message-header { color: @muted@; }
+.unlock-dialog-notification-count-text { color: @ink@; background-color: @wash_strong@; }
+#unlockDialogNotifications > .vhandle, #unlockDialogNotifications > .hhandle { background-color: @dimmest@; }
+#unlockDialogNotifications > .vhandle:hover, #unlockDialogNotifications > .hhandle:hover { background-color: @muted@; }
+#unlockDialogNotifications > .vhandle:active, #unlockDialogNotifications > .hhandle:active { background-color: @pink@; }
+
+/* === Pointer, selection and tiling ======================================== */
+
+.ripple-box { background-color: @wash_pink@; }
+.ripple-pointer-location { background-color: @wash_pink@; border: 2px solid @pink@; }
+.pie-timer { -pie-border-color: @pink@; -pie-background-color: @wash_pink@; }
+.magnifier-zoom-region { border-color: @pink@; }
+.select-area-rubberband { background-color: @wash_pink@; border: 1px solid @pink@; }
+.tile-preview { background-color: @wash_pink@; border: 1px solid @pink@; }
+
+/* === Screenshot UI ======================================================== */
+
+.screenshot-ui-panel {
+  color: @ink@;
+  background-color: @panel@;
+  border: 1px solid @line@;
+}
+.screenshot-ui-close-button { color: @ink@; background-color: @panel@; border: 1px solid @line@; }
+.screenshot-ui-close-button:hover { color: @pink@; border-color: @pink@; }
+.screenshot-ui-shot-cast-container { background-color: @wash@; }
+.screenshot-ui-shot-cast-button:hover, .screenshot-ui-shot-cast-button:focus { color: @pink@; background-color: @wash@; }
+.screenshot-ui-shot-cast-button:checked { color: @pink@; background-color: @wash_pink@; }
+.screenshot-ui-window-selector { background-color: @bg@; }
+.screenshot-ui-window-selector-window:hover .screenshot-ui-window-selector-window-border { border-color: @tint_pink@; }
+.screenshot-ui-window-selector-window:checked .screenshot-ui-window-selector-window-border {
+  border-color: @pink@;
+  background-color: @wash_pink@;
+}
+.screenshot-ui-window-selector-window:checked .screenshot-ui-window-selector-check {
+  color: @on_fill@;
+  background-color: @pink@;
+}
+
+/* === On-screen keyboard =================================================== */
+
+.keyboard-key:focus, .keyboard-key:focus:hover,
+.keyboard-key:active:focus, .keyboard-key.default-key:active:focus {
+  color: @pink@;
+  box-shadow: inset 0 0 0 1px @pink@ !important;
+}
+.keyboard-key.default-key:latched, .keyboard-key:latched, .emoji-panel .keyboard-key:latched { color: @on_fill@; background-color: @pink@; }

@@ -1,0 +1,739 @@
+/* ============================================================================
+   NEON DOLL — GTK 3
+   Shared by both variants, which import Adwaita and their own colors first.
+   The palette and its rules come from a website design system: a man page in
+   a terminal that never existed. Mono is the chrome, sans is what you read.
+   No radii, no shadows, no transitions.
+
+   Adwaita's GTK 3 stylesheet is compiled, with colors inlined and states
+   chained up to four deep (button:backdrop:disabled:checked). Rather than
+   restate every chain, each rule here carries :not(#_). GTK counts it as an
+   ID, and one ID outranks any number of classes and states, so these rules
+   beat Adwaita's and still rank among themselves the usual way.
+   ========================================================================== */
+
+/* === GTK's named colors ===================================================
+   Read by apps that paint with the theme's colors themselves (browsers,
+   mail, editors). Selection is position, so it is pink. */
+
+@define-color theme_fg_color @ink;
+@define-color theme_text_color @ink;
+@define-color theme_bg_color @bg;
+@define-color theme_base_color @bg;
+@define-color theme_selected_bg_color @pink;
+@define-color theme_selected_fg_color @bg;
+@define-color insensitive_bg_color @bg;
+@define-color insensitive_fg_color @dimmest;
+@define-color insensitive_base_color @bg;
+@define-color theme_unfocused_fg_color @ink;
+@define-color theme_unfocused_text_color @ink;
+@define-color theme_unfocused_bg_color @bg;
+@define-color theme_unfocused_base_color @bg;
+@define-color theme_unfocused_selected_bg_color @pink;
+@define-color theme_unfocused_selected_fg_color @bg;
+@define-color unfocused_insensitive_color @dimmest;
+@define-color borders @line;
+@define-color unfocused_borders @line;
+@define-color warning_color @code-string;
+@define-color error_color @diff-del;
+@define-color success_color @diff-add;
+@define-color content_view_bg @bg;
+@define-color text_view_bg @bg;
+@define-color wm_title @ink;
+@define-color wm_unfocused_title @muted;
+@define-color wm_bg_a @panel;
+@define-color wm_bg_b @panel;
+
+/* === No boxes, no shadows, no motion ======================================
+   Set on everything, then the few things that need an edge get a hairline
+   back. Radios keep their circle: round-versus-square is how you tell a radio
+   from a check. */
+
+*:not(#_) {
+  border-radius: 0;
+  -gtk-outline-radius: 0;
+  box-shadow: none;
+  transition: none;
+  text-shadow: none;
+  -gtk-icon-shadow: none;
+  outline-color: @pink;
+  outline-style: solid;
+  caret-color: @pink;
+  -gtk-secondary-caret-color: @purple;
+}
+radio:not(#_), treeview.view radio:not(#_) { border-radius: 9999px; }
+
+/* Transparent, not unset: GTK sizes a CSD window's resize border from the
+   shadow's extent. */
+decoration:not(#_) { box-shadow: 0 0 0 1px @line, 0 0 0 10px transparent; }
+.maximized decoration:not(#_), .fullscreen decoration:not(#_) { box-shadow: none; }
+.tiled decoration:not(#_), .tiled-top decoration:not(#_), .tiled-right decoration:not(#_),
+.tiled-bottom decoration:not(#_), .tiled-left decoration:not(#_) {
+  box-shadow: 0 0 0 1px @line, 0 0 0 20px transparent;
+}
+.popup decoration:not(#_), tooltip decoration:not(#_) { box-shadow: none; }
+.csd.popup decoration:not(#_) { box-shadow: 0 0 0 1px @line; }
+.ssd decoration:not(#_) { box-shadow: 0 0 0 1px @line; }
+/* Without a compositor there is no shadow to draw, only the grab border. */
+.solid-csd decoration:not(#_) {
+  background-color: @line;
+  border-color: @line;
+  box-shadow: none;
+}
+
+/* === The page ============================================================= */
+
+.background:not(#_) { color: @ink; background-color: @bg; }
+
+/* The graph paper, where the window itself shows through. */
+window.background:not(#_), notebook > stack:not(:only-child):not(#_) {
+  background-color: @bg;
+  background-image:
+    linear-gradient(@grid 1px, transparent 1px),
+    linear-gradient(to right, @grid 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+.background.popup:not(#_) { background-color: transparent; background-image: none; }
+
+.view:not(#_), iconview:not(#_), .view text:not(#_), iconview text:not(#_),
+textview text:not(#_), list:not(#_), .content-view:not(#_) {
+  color: @ink;
+  background-color: @bg;
+}
+textview border:not(#_) { background-color: @panel; }
+
+/* === Type =================================================================
+   Mono is the chrome: bars, buttons, tabs, sidebars, menus, headings, every
+   field you type into. Sans is left on what you read. Weight 400 throughout. */
+
+headerbar:not(#_), .titlebar:not(#_), notebook > header:not(#_), .sidebar:not(#_),
+stackswitcher:not(#_), menubar:not(#_), menu:not(#_), .menu:not(#_), .context-menu:not(#_),
+popover.background:not(#_), tooltip:not(#_), infobar:not(#_), .app-notification:not(#_),
+entry:not(#_), spinbutton:not(#_), toolbar:not(#_), actionbar:not(#_), .path-bar:not(#_),
+button:not(#_), modelbutton:not(#_), .keycap:not(#_),
+.heading:not(#_), .caption-heading:not(#_), .large-title:not(#_),
+.title-1:not(#_), .title-2:not(#_), .title-3:not(#_), .title-4:not(#_) {
+  font-family: monospace;
+  font-weight: 400;
+}
+headerbar:not(#_), notebook > header:not(#_), .sidebar:not(#_), menubar:not(#_),
+menu:not(#_), .menu:not(#_), popover.background:not(#_), tooltip:not(#_),
+infobar:not(#_), .app-notification:not(#_), actionbar:not(#_), toolbar:not(#_) {
+  font-size: 92%;   /* mono runs wide; this evens it with sans */
+}
+/* Already inside a 92% bar; don't shrink twice. */
+headerbar entry:not(#_), headerbar spinbutton:not(#_), toolbar entry:not(#_),
+actionbar entry:not(#_), popover.background entry:not(#_) { font-size: 100%; }
+entry:not(#_), spinbutton:not(#_) { font-size: 92%; }
+
+headerbar .title:not(#_), .titlebar .title:not(#_), label.title:not(#_),
+button.font > box > box > label:not(#_), treeview.view header button:not(#_) {
+  font-weight: 400;
+}
+
+/* Column headings read as the site's section h2: small, spaced, muted. */
+treeview.view header button:not(#_) {
+  font-size: 82%;
+  letter-spacing: 0.12em;
+  color: @muted;
+}
+treeview.view header button label:not(#_) { color: @muted; }
+
+.dim-label:not(#_), headerbar .subtitle:not(#_), .titlebar .subtitle:not(#_),
+label.separator:not(#_), .caption:not(#_), menuitem accelerator:not(#_),
+modelbutton accelerator:not(#_), scale value:not(#_), scale marks:not(#_),
+calendar.button:not(#_) {
+  color: @muted;
+  opacity: 1;
+}
+label:disabled:not(#_), .dim-label:disabled:not(#_), button:disabled label:not(#_),
+menu menuitem:disabled:not(#_), treeview.view:disabled:not(#_),
+calendar.highlight:not(#_) {
+  color: @dimmest;
+  opacity: 1;
+}
+label.error:not(#_) { color: @diff-del; }
+
+/* === Position =============================================================
+   Everything pink below is "you are here": the caret, the selection, the
+   focused widget, the current row, the checked toggle, the current tab. */
+
+selection:not(#_), label selection:not(#_), entry selection:not(#_),
+spinbutton selection:not(#_), .view text selection:not(#_),
+textview text selection:not(#_), iconview text selection:not(#_),
+.view text:selected:not(#_), textview text:selected:not(#_) {
+  background-color: @select-pink;
+  color: @ink;
+}
+label:selected:not(#_) { color: @ink; }
+
+/* The site's rail. A selected row gets it on its left, as the page does. */
+row:selected:not(#_), .view:selected:not(#_), iconview:selected:not(#_),
+treeview.view:selected:not(#_), flowbox flowboxchild:selected:not(#_),
+calendar:selected:not(#_) {
+  background-color: @wash-pink;
+  background-image: none;
+  color: @ink;
+}
+row:selected:not(#_), flowbox flowboxchild:selected:not(#_) { box-shadow: inset 2px 0 @pink; }
+/* A tree paints its selection once per column, so a rail would repeat; pink
+   text marks the row instead. It also paints nothing beneath the row, so the
+   wash goes over a solid page. */
+treeview.view:selected:not(#_) {
+  color: @pink;
+  background-color: @bg;
+  background-image: image(@wash-pink);
+}
+calendar:selected:not(#_) { color: @pink; }
+
+.sidebar row:selected:not(#_), stacksidebar row:selected:not(#_),
+placessidebar row:selected:not(#_), .sidebar row:selected:hover:not(#_) {
+  background-color: @wash-pink;
+  box-shadow: inset 3px 0 @pink;
+  color: @pink;
+}
+.sidebar row:selected image:not(#_), .sidebar row:selected label:not(#_) { color: @pink; }
+
+/* The current tab: the rail across its outer edge, the page's color below,
+   so tab and page read as one sheet. */
+notebook > header:not(#_) {
+  background-color: @panel;
+  border-color: @line;
+}
+notebook > header tab:not(#_) {
+  color: @muted;
+  background-color: transparent;
+  border-color: transparent;
+}
+notebook > header tab:hover:not(#_) { color: @pink; background-color: @wash; }
+notebook > header tab:checked:not(#_), notebook > header tab:checked:hover:not(#_) {
+  color: @ink;
+  background-color: @bg;
+  border-color: @line;
+}
+notebook > header.top tab:checked:not(#_) { box-shadow: inset 0 2px @pink; }
+notebook > header.bottom tab:checked:not(#_) { box-shadow: inset 0 -2px @pink; }
+notebook > header.left tab:checked:not(#_) { box-shadow: inset 2px 0 @pink; }
+notebook > header.right tab:checked:not(#_) { box-shadow: inset -2px 0 @pink; }
+notebook > header.top tabs tab:not(#_), notebook > header.bottom tabs tab:not(#_) {
+  border-style: none solid;
+}
+notebook > header.left tabs tab:not(#_), notebook > header.right tabs tab:not(#_) {
+  border-style: solid none;
+}
+
+/* === Buttons ==============================================================
+   A wash with a --line edge at rest. Hover and focus are one state: a
+   pointer resting on something is a position too, so it goes pink, exactly
+   as a link does on the site. */
+
+button:not(#_) {
+  color: @ink;
+  background-color: @wash;
+  background-image: none;
+  border-color: @line;
+  outline-offset: -1px;   /* the keyboard focus ring lands on the edge */
+}
+
+/* Flat by default in bars, tabs, lists and menus. */
+button.flat:not(#_), headerbar button:not(#_), .titlebar button:not(#_),
+toolbar button:not(#_), actionbar button:not(#_), notebook tab button:not(#_),
+button.titlebutton:not(#_), button.sidebar-button:not(#_), list row button.flat:not(#_),
+popover.background button.flat:not(#_), scrollbar button:not(#_),
+spinbutton button:not(#_), infobar button.close:not(#_), .app-notification button.flat:not(#_) {
+  background-color: transparent;
+  border-color: transparent;
+}
+spinbutton:not(.vertical) button:not(#_) { border-color: @line; border-style: none none none solid; }
+spinbutton:not(.vertical) button:dir(rtl):not(#_) { border-style: none solid none none; }
+
+button:hover:not(#_), button:hover:backdrop:not(#_) {
+  color: @pink;
+  background-color: @wash;
+  border-color: @pink;
+}
+button.flat:hover:not(#_), headerbar button:hover:not(#_), .titlebar button:hover:not(#_),
+toolbar button:hover:not(#_), actionbar button:hover:not(#_), notebook tab button:hover:not(#_),
+button.titlebutton:hover:not(#_), button.sidebar-button:hover:not(#_),
+popover.background button.flat:hover:not(#_), infobar button.close:hover:not(#_) {
+  border-color: transparent;
+}
+spinbutton:not(.vertical) button:hover:not(#_) { border-color: @line; }
+scrollbar button:hover:not(#_) { background-color: transparent; }
+button.titlebutton.close:hover:not(#_) { background-color: @wash-pink; }
+
+button:active:not(#_), button.keyboard-activating:not(#_) {
+  background-color: @press;
+  background-image: none;
+}
+button:checked:not(#_), button:checked:backdrop:not(#_),
+headerbar button.toggle:checked:not(#_), .linked > button:checked:not(#_),
+stackswitcher button:checked:not(#_), .stack-switcher > button:checked:not(#_) {
+  color: @pink;
+  background-color: @wash-pink;
+  background-image: none;
+}
+
+button:disabled:not(#_), button:disabled:backdrop:not(#_) {
+  color: @dimmest;
+  background-color: transparent;
+  background-image: none;
+}
+button:disabled:not(.flat):not(#_) { border-color: @line; }
+
+/* The suggested action is a link, so it is purple at rest and fuchsia on
+   hover like every other link: an outline and a faint wash, never a fill. */
+button.suggested-action:not(#_), button.suggested-action:checked:not(#_),
+button.suggested-action:backdrop:not(#_) {
+  color: @purple;
+  background-color: @wash;
+  background-image: none;
+  border-color: @tint-purple;
+}
+button.suggested-action:hover:not(#_), button.suggested-action:focus:hover:not(#_) {
+  color: @pink;
+  background-color: @wash-pink;
+  border-color: @pink;
+}
+button.suggested-action:active:not(#_) { background-color: @press; }
+button.suggested-action.flat:not(#_) { border-color: transparent; background-color: transparent; }
+
+button.destructive-action:not(#_), button.destructive-action:checked:not(#_),
+button.destructive-action:backdrop:not(#_) {
+  color: @diff-del;
+  background-color: @diff-del-bg;
+  background-image: none;
+  border-color: @edge-del;
+}
+button.destructive-action:hover:not(#_), button.destructive-action:active:not(#_) {
+  color: @diff-del;
+  background-color: @diff-del-bg;
+  border-color: @diff-del;
+}
+button.destructive-action.flat:not(#_) { border-color: transparent; background-color: transparent; }
+button.suggested-action:disabled:not(#_), button.destructive-action:disabled:not(#_) {
+  color: @dimmest;
+  background-color: transparent;
+  border-color: @line;
+}
+
+/* Links: purple, a hairline underline in their own color, pink on hover. */
+*:link:not(#_), button:link:not(#_), button:visited:not(#_),
+button:link > label:not(#_), button:visited > label:not(#_), *:link:visited:not(#_) {
+  color: @purple;
+  text-decoration-color: @ul-purple;
+}
+*:link:hover:not(#_), button:link:hover:not(#_), button:visited:hover:not(#_),
+button:link:hover > label:not(#_), button:visited:hover > label:not(#_),
+*:selected *:link:not(#_) {
+  color: @pink;
+  text-decoration-color: @pink;
+}
+button:link:not(#_), button:visited:not(#_) {
+  background-color: transparent;
+  border-color: transparent;
+}
+
+/* === Surfaces =============================================================
+   A panel on the page, with a --line edge. That is the only box there is. */
+
+headerbar:not(#_), .titlebar:not(headerbar):not(#_) {
+  color: @ink;
+  background: @panel;
+  border-color: @line;
+}
+headerbar:backdrop:not(#_), .titlebar:backdrop:not(#_) { color: @muted; background: @bg; }
+headerbar .subtitle:not(#_) { color: @muted; }
+headerbar.titlebar headerbar:not(.titlebar):not(#_), window.csd > .titlebar:not(headerbar):not(#_) {
+  background: none;
+  border-style: none;
+}
+/* Selection mode is a position, so the bar takes the pink wash. */
+headerbar.selection-mode:not(#_), .selection-mode headerbar:not(#_),
+.titlebar.selection-mode:not(#_), .selection-mode .titlebar:not(#_) {
+  color: @pink;
+  background: @panel image(@wash-pink);
+  border-color: @pink;
+}
+.selection-mode headerbar button:not(#_), headerbar.selection-mode button:not(#_) { color: @pink; }
+window.devel headerbar.titlebar:not(.selection-mode):not(#_) { background: @panel; }
+headerbar separator.titlebutton:not(#_) { opacity: 0; }
+
+.sidebar:not(#_), stacksidebar.sidebar list:not(#_), placessidebar:not(#_),
+.sidebar list:not(#_), assistant .sidebar:not(#_) {
+  color: @ink;
+  background-color: @panel;
+  border-color: @line;
+}
+.sidebar list:not(#_) { background-color: transparent; }
+
+separator:not(#_), separator.sidebar:not(#_) { background-color: @line; }
+paned > separator:not(#_) { background-color: transparent; background-image: image(@line); }
+paned > separator.wide:not(#_) { background-color: @panel; background-image: image(@line), image(@line); }
+paned > separator:selected:not(#_) { background-image: image(@pink); }
+
+frame > border:not(#_), .frame:not(#_), calendar:not(#_) { border-color: @line; }
+list.frame:not(#_), frame > list:not(#_), .frame > list:not(#_) { background-color: @panel; }
+list.frame > row:not(:last-child):not(#_) { border-bottom: 1px solid @line; }
+
+toolbar:not(#_), searchbar > revealer > box:not(#_), .location-bar:not(#_),
+.inline-toolbar:not(#_), actionbar > revealer > box:not(#_) {
+  color: @ink;
+  background-color: @panel;
+  border-color: @line;
+}
+toolbar.osd:not(#_) { background-color: @osd-bg; box-shadow: inset 0 0 0 1px @line; }
+
+/* Menus: a panel, mono, hover pink. The menu bar's open item carries the rail
+   along its foot, as a tab carries it along its head. */
+menubar:not(#_), .menubar:not(#_) {
+  color: @ink;
+  background-color: @panel;
+  box-shadow: inset 0 -1px @line;
+}
+menubar > menuitem:hover:not(#_), .menubar > menuitem:hover:not(#_) {
+  color: @pink;
+  background-color: @wash;
+  box-shadow: inset 0 -2px @pink;
+}
+menu:not(#_), .menu:not(#_), .context-menu:not(#_) {
+  color: @ink;
+  background-color: @panel;
+  border: 1px solid @line;
+}
+.csd menu:not(#_), .csd .menu:not(#_), .csd .context-menu:not(#_) { border: none; }
+menu menuitem:hover:not(#_), .menu menuitem:hover:not(#_), .context-menu menuitem:hover:not(#_),
+modelbutton.flat:hover:not(#_), .menuitem.button.flat:hover:not(#_),
+modelbutton.flat:selected:not(#_), .menuitem.button.flat:selected:not(#_) {
+  color: @pink;
+  background-color: @wash;
+}
+modelbutton.flat:active:not(#_), menu menuitem:active:not(#_) { background-color: @press; }
+menu > arrow:not(#_) { background-color: @panel; border-color: @line; }
+menu > arrow:hover:not(#_) { background-color: @wash; color: @pink; }
+/* In a menu the mark alone says "on"; a filled box would shout. */
+menu menuitem check:not(#_), menu menuitem radio:not(#_),
+menu menuitem check:checked:not(#_), menu menuitem radio:checked:not(#_),
+menu menuitem check:indeterminate:not(#_), menu menuitem radio:indeterminate:not(#_),
+modelbutton check:not(#_), modelbutton radio:not(#_),
+modelbutton check:checked:not(#_), modelbutton radio:checked:not(#_) {
+  border-color: transparent;
+  background-color: transparent;
+  color: @pink;
+}
+menu separator:not(#_), popover.background separator:not(#_) { background-color: @line; }
+
+popover.background:not(#_), .csd popover.background:not(#_) {
+  color: @ink;
+  background-color: @panel;
+  border: 1px solid @line;
+}
+popover.background > list:not(#_), popover.background > .view:not(#_),
+popover.background > toolbar:not(#_) { background-color: transparent; }
+
+tooltip:not(#_), tooltip.background:not(#_), .csd tooltip.background:not(#_) {
+  color: @ink;
+  background-color: @panel;
+  border: 1px solid @line;
+}
+tooltip *:not(#_) { color: @ink; background-color: transparent; }
+
+.app-notification:not(#_), .app-notification.frame:not(#_), .osd:not(#_),
+popover.background.osd:not(#_), popover.background.touch-selection:not(#_),
+popover.background.magnifier:not(#_) {
+  color: @ink;
+  background-color: @osd-bg;
+  border: 1px solid @line;
+}
+.osd button:not(#_), .app-notification button:not(#_), button.osd:not(#_) {
+  color: @ink;
+  background-color: transparent;
+  background-image: none;
+  border-color: @line;
+}
+.osd button:hover:not(#_), .app-notification button:hover:not(#_), button.osd:hover:not(#_) {
+  color: @pink;
+  background-color: @wash;
+  border-color: @pink;
+}
+
+/* An info bar is the GTK 4 banner: the page's own color, tinted by kind.
+   The kind colors are the site's code colors. */
+infobar > revealer > box:not(#_), infobar.info > revealer > box:not(#_),
+infobar.question > revealer > box:not(#_), infobar.warning > revealer > box:not(#_),
+infobar.error > revealer > box:not(#_), infobar.other > revealer > box:not(#_) {
+  color: @ink;
+  background-color: @wash-strong;
+  border-bottom: 1px solid @line;
+}
+infobar.warning > revealer > box:not(#_) { background-color: @string-bg; box-shadow: inset 2px 0 @code-string; }
+infobar.error > revealer > box:not(#_) { background-color: @diff-del-bg; box-shadow: inset 2px 0 @diff-del; }
+infobar > revealer > box label:not(#_) { color: @ink; }
+infobar.action:hover > revealer > box:not(#_) { background-color: @wash-pink; }
+
+/* A message dialog's heading is a bare label whose bold comes from Pango
+   attributes, which CSS can't override; the family, at least, can match. */
+messagedialog .dialog-vbox > box > box > label:first-child:not(#_) { font-family: monospace; }
+messagedialog .titlebar:not(#_), messagedialog.csd .titlebar:not(#_) {
+  background: @bg;
+  border-style: none;
+}
+messagedialog .dialog-action-area button:not(#_) { border-color: @line; }
+filechooser .dialog-action-box:not(#_) { border-color: @line; }
+filechooser #pathbarbox:not(#_) { border-color: @line; background-color: @panel; }
+
+.keycap:not(#_) { color: @ink; background-color: @panel; border-color: @line; }
+.rubberband:not(#_), rubberband:not(#_), treeview.view rubberband:not(#_),
+flowbox rubberband:not(#_), .content-view rubberband:not(#_) {
+  border: 1px solid @pink;
+  background-color: @wash-pink;
+}
+
+/* === Fields ===============================================================
+   The site's inputs: a panel with a --line edge, mono, and a pink ring on
+   focus. The ring is the whole state. */
+
+entry:not(#_), spinbutton:not(.vertical):not(#_), spinbutton.vertical entry:not(#_),
+combobox > box > button.combo:not(#_), .linked > combobox > box > button.combo:not(#_) {
+  color: @ink;
+  background-color: @panel;
+  background-image: none;
+  border-color: @line;
+}
+entry:focus:not(#_), spinbutton:focus:not(.vertical):not(#_), spinbutton.vertical entry:focus:not(#_) {
+  border-color: @pink;
+  box-shadow: inset 0 0 0 1px @pink;
+}
+.linked:not(.vertical) > entry:focus + button:not(#_),
+.linked:not(.vertical) > entry:focus + entry:not(#_),
+.linked:not(.vertical) > spinbutton:focus + button:not(#_),
+.linked:not(.vertical) > entry:focus + combobox > box > button.combo:not(#_) {
+  border-left-color: @pink;
+}
+entry:disabled:not(#_), spinbutton:disabled:not(#_) {
+  color: @dimmest;
+  background-color: @bg;
+  border-color: @line;
+}
+entry.flat:not(#_), spinbutton.flat:not(#_) { background-color: transparent; border-color: transparent; }
+entry placeholder:not(#_) { color: @dimmest; }
+entry image:not(#_) { color: @muted; }
+entry image:hover:not(#_) { color: @pink; }
+entry.error:not(#_), spinbutton.error:not(#_) { color: @diff-del; }
+entry.warning:not(#_), spinbutton.warning:not(#_) { color: @code-string; }
+entry.error:focus:not(#_) { border-color: @diff-del; box-shadow: inset 0 0 0 1px @diff-del; }
+entry.warning:focus:not(#_) { border-color: @code-string; box-shadow: inset 0 0 0 1px @code-string; }
+entry progress:not(#_) { border-color: @pink; background-color: transparent; }
+treeview entry:not(#_), treeview entry.flat:not(#_) { background-color: @bg; border-color: @pink; }
+.entry-tag:not(#_) { color: @ink; background-color: @wash-strong; }
+
+/* === Toggles ==============================================================
+   The switch is a slot, like a text field, with the block cursor in it. On:
+   the cursor is fuchsia and a | sits in the open half. Off: the cursor is
+   grey and a square does. The marks mean "on" still reads without color.
+   Everything drawn inside is a hard-stop gradient in currentColor, the same
+   line-drawing the graph paper uses, so it follows the palette. */
+
+switch:not(#_) {
+  padding: 3px;
+  border: none;
+  color: @dimmest;
+  background-color: @panel;
+  box-shadow: inset 0 0 0 1px @line;
+  /* the off mark: an 8px square with a 4px hole punched in the panel color */
+  background-image:
+    linear-gradient(@panel, @panel),
+    linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-size: 4px 4px, 8px 8px;
+  background-position: 28px center, 26px center;
+  /* keyboard focus, drawn as the same 2px edge hover gives */
+  outline-width: 2px;
+  outline-offset: -2px;
+}
+switch image:not(#_) { color: transparent; }
+switch slider:not(#_) {
+  min-width: 18px;
+  min-height: 18px;
+  margin: 0;
+  border: none;
+  color: @panel;
+  background-color: @dimmest;
+  /* the grip: three 1px ribs */
+  background-image: linear-gradient(to right,
+    currentColor 1px, transparent 1px, transparent 3px,
+    currentColor 3px, currentColor 4px, transparent 4px, transparent 6px,
+    currentColor 6px, currentColor 7px, transparent 7px);
+  background-repeat: no-repeat;
+  background-size: 8px 8px;
+  background-position: center;
+}
+/* On is already outlined in pink, so hover can't just turn the edge pink:
+   it thickens it, and the cursor lightens. */
+switch:hover:not(#_) { box-shadow: inset 0 0 0 2px @pink; }
+switch:hover slider:not(#_) { background-color: @muted; }
+
+switch:checked:not(#_) {
+  color: @pink;
+  box-shadow: inset 0 0 0 1px @pink;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 2px 10px;
+  background-position: 11px center;
+}
+switch:checked:hover:not(#_) { box-shadow: inset 0 0 0 2px @pink; }
+switch:checked slider:not(#_) { color: @bg; background-color: @pink; }
+switch:checked:hover slider:not(#_) { background-color: mix(@pink, @ink, 0.25); }
+
+switch:disabled:not(#_), switch:checked:disabled:not(#_) {
+  color: @line;
+  background-color: transparent;
+  box-shadow: inset 0 0 0 1px @line;
+}
+switch:disabled slider:not(#_), switch:checked:disabled slider:not(#_) {
+  color: @bg;
+  background-color: @line;
+}
+
+check:not(#_), radio:not(#_) {
+  color: @bg;
+  background-color: transparent;
+  background-image: none;
+  border-color: @muted;
+}
+check:hover:not(#_), radio:hover:not(#_) { border-color: @pink; }
+check:checked:not(#_), check:indeterminate:not(#_),
+radio:checked:not(#_), radio:indeterminate:not(#_) {
+  color: @bg;
+  background-color: @pink;
+  border-color: @pink;
+}
+check:disabled:not(#_), radio:disabled:not(#_) { border-color: @line; }
+check:checked:disabled:not(#_), radio:checked:disabled:not(#_),
+check:indeterminate:disabled:not(#_), radio:indeterminate:disabled:not(#_) {
+  background-color: @line;
+  border-color: @line;
+  color: @dimmest;
+}
+.view.content-view.check:not(list):not(#_), .content-view:not(list) check:not(#_) {
+  color: transparent;
+  background-color: @wash-strong;
+  background-image: none;
+}
+.view.content-view.check:checked:not(list):not(#_), .content-view:not(list) check:checked:not(#_) {
+  color: @bg;
+  background-color: @pink;
+}
+
+scale trough:not(#_), scale fill:not(#_), progressbar trough:not(#_) {
+  background-color: @line;
+  border-color: @line;
+}
+scale highlight:not(#_), progressbar progress:not(#_) {
+  background-color: @pink;
+  background-image: none;
+  border-color: @pink;
+}
+scale fill:not(#_) { background-color: @dimmest; border-color: @dimmest; }
+scale slider:not(#_),
+scale.marks-before:not(.marks-after) slider:not(#_), scale.marks-after:not(.marks-before) slider:not(#_) {
+  background-color: @ink;
+  background-image: none;
+  border: none;
+}
+scale.horizontal slider:not(#_),
+scale.horizontal.marks-before:not(.marks-after) slider:not(#_),
+scale.horizontal.marks-after:not(.marks-before) slider:not(#_) {
+  min-width: 10px;
+  min-height: 18px;
+  margin: -8px -5px;
+}
+scale.vertical slider:not(#_),
+scale.vertical.marks-before:not(.marks-after) slider:not(#_),
+scale.vertical.marks-after:not(.marks-before) slider:not(#_) {
+  min-width: 18px;
+  min-height: 10px;
+  margin: -5px -8px;
+}
+scale slider:hover:not(#_), scale slider:active:not(#_) { background-color: @pink; }
+scale slider:disabled:not(#_), scale highlight:disabled:not(#_) { background-color: @dimmest; border-color: @dimmest; }
+progressbar.horizontal trough:not(#_), progressbar.horizontal progress:not(#_) { min-height: 6px; }
+progressbar.vertical trough:not(#_), progressbar.vertical progress:not(#_) { min-width: 6px; }
+progressbar:not(#_) { color: @muted; }
+treeview.view.progressbar:not(#_) { background-color: @pink; background-image: none; }
+treeview.view.trough:not(#_) { background-color: @line; }
+
+levelbar trough:not(#_) { background-color: @panel; border-color: @line; }
+levelbar block:not(#_) { border-color: transparent; }
+levelbar block.filled:not(#_), levelbar block.high:not(#_), levelbar block:not(.empty):not(#_) {
+  background-color: @pink;
+  border-color: @pink;
+}
+levelbar block.low:not(#_) { background-color: @diff-del; border-color: @diff-del; }
+levelbar block.full:not(#_) { background-color: @pink; border-color: @pink; }
+levelbar block.empty:not(#_) { background-color: @line; border-color: @line; }
+
+expander title > arrow:hover:not(#_), treeview.view.expander:hover:not(#_) { color: @pink; }
+treeview.view.expander:not(#_) { color: @muted; }
+treeview.view.expander:selected:not(#_) { color: @pink; }
+
+/* === Trees ================================================================ */
+
+treeview.view header button:not(#_) {
+  background-color: @panel;
+  background-image: none;
+  border-color: @line;
+}
+treeview.view header button:hover:not(#_),
+treeview.view header button:hover label:not(#_) { color: @pink; }
+treeview.view:not(#_) { border-left-color: @line; border-top-color: @line; }
+treeview.view.separator:not(#_) { color: @line; }
+treeview.view acceleditor > label:not(#_) { background-color: @wash-pink; }
+
+/* === Scrollbars =========================================================== */
+
+scrollbar:not(#_) { background-color: transparent; border-color: transparent; }
+scrollbar slider:not(#_) { background-color: @dimmest; }
+scrollbar slider:hover:not(#_) { background-color: @muted; }
+scrollbar slider:hover:active:not(#_), scrollbar slider:active:not(#_) { background-color: @pink; }
+scrollbar.overlay-indicator:not(.dragging):not(.hovering) slider:not(#_) {
+  background-color: @muted;
+  border-color: transparent;
+}
+scrollbar.overlay-indicator:not(.dragging):not(.hovering) button:not(#_) {
+  background-color: @muted;
+  border-color: transparent;
+}
+scrolledwindow junction:not(#_) { background-color: transparent; border-image: none; }
+scrolledwindow overshoot.top:not(#_), scrolledwindow overshoot.bottom:not(#_),
+scrolledwindow overshoot.left:not(#_), scrolledwindow overshoot.right:not(#_),
+scrolledwindow undershoot.top:not(#_), scrolledwindow undershoot.bottom:not(#_),
+scrolledwindow undershoot.left:not(#_), scrolledwindow undershoot.right:not(#_) {
+  background: none;
+}
+
+/* === Odds and ends ======================================================== */
+
+row.activatable:hover:not(#_), row.activatable.has-open-popup:not(#_) {
+  color: @pink;
+  background-color: @wash;
+}
+row.activatable:hover label:not(#_), row.activatable:hover image:not(#_) { color: @pink; }
+row.activatable:hover .dim-label:not(#_) { color: @muted; }
+row.activatable:active:not(#_) { background-color: @press; }
+row.activatable:selected:hover:not(#_) { background-color: @wash-pink; }
+placessidebar row.sidebar-new-bookmark-row:not(#_) { color: @purple; }
+
+calendar.header:not(#_) { border-color: @line; }
+calendar.button:hover:not(#_) { color: @pink; }
+
+colorswatch overlay:not(#_) { border-color: @line; }
+colorswatch overlay:hover:not(#_) { border-color: @pink; }
+
+button.emoji-section:checked:not(#_) { border-color: @pink; }
+button.emoji-section:hover:not(#_) { border-color: @wash-strong; }
+popover.emoji-picker .emoji :hover:not(#_), popover.emoji-completion .emoji:hover:not(#_) {
+  background-color: @wash;
+}
+
+spinner:not(#_) { color: @pink; }
+.needs-attention > label:not(#_), .needs-attention > image:not(#_) { background-image: none; }

@@ -1,0 +1,4 @@
+/* Neon Doll, dark: what GTK loads when an app asks for the dark variant. */
+@import url("resource:///org/gtk/libgtk/theme/Adwaita/gtk-contained-dark.css");
+@import url("_colors-dark.css");
+@import url("_common.css");

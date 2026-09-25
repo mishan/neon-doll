@@ -1,0 +1,33 @@
+/* Neon Doll, dark. The palette of the website design system this theme
+   comes from, under its site names and with its site values. The only
+   additions are marked desktop-only; each is a tint of a palette color, never
+   a new hue. Fuchsia is position; purple is interactive at rest. */
+
+@define-color bg      #0f0d14;
+@define-color panel   #16131d;
+@define-color line    #2a2438;
+@define-color ink     #ebe6f0;
+@define-color muted   #9c93ab;
+@define-color dimmest #6f6880;
+@define-color pink    #ff2d95;
+@define-color purple  #b48cff;
+
+@define-color grid        rgba(180, 140, 255, 0.09);
+@define-color wash        rgba(180, 140, 255, 0.06);
+@define-color wash-strong rgba(180, 140, 255, 0.10);
+@define-color tint-purple rgba(180, 140, 255, 0.35);
+@define-color wash-pink   rgba(255, 45, 149, 0.08);
+@define-color ul-purple   rgba(180, 140, 255, 0.35);
+
+@define-color code-string #e5c07b;
+@define-color diff-add    #7ee787;
+@define-color diff-del    #ff7b72;
+@define-color diff-add-bg rgba(63, 185, 80, 0.10);
+@define-color diff-del-bg rgba(248, 81, 73, 0.10);
+
+/* desktop-only */
+@define-color select-pink rgba(255, 45, 149, 0.30);   /* text selection */
+@define-color press       rgba(180, 140, 255, 0.16);  /* :active, one step past wash-strong */
+@define-color edge-del    rgba(255, 123, 114, 0.35);  /* destructive outline, as tint-purple is to purple */
+@define-color string-bg   rgba(229, 192, 123, 0.10);  /* warning row, as diff-del-bg is to error */
+@define-color osd-bg      rgba(22, 19, 29, 0.90);     /* panel, over photos and video */

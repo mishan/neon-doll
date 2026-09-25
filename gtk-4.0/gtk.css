@@ -1,0 +1,623 @@
+/* ============================================================================
+   Neon Doll — GTK 4 / libadwaita
+   Loaded as ~/.config/gtk-4.0/gtk.css, which GTK applies at user priority:
+   above Adwaita and above the app's own CSS, so a rule here wins on priority
+   before specificity is ever compared.
+
+   The palette comes from a website designed as a man page in a terminal
+   that never existed. Mono is the chrome, sans is what you read. No radii,
+   no shadows, no transitions.
+   ========================================================================== */
+
+/* --- core palette ----------------------------------------------------------
+   Dark is the original. Fuchsia is position; purple is interactive at rest;
+   the roles never swap. */
+:root {
+  --bg:      #0f0d14;
+  --panel:   #16131d;
+  --line:    #2a2438;
+  --ink:     #ebe6f0;
+  --muted:   #9c93ab;
+  --dimmest: #6f6880;
+  --pink:    #ff2d95;
+  --purple:  #b48cff;
+
+  --grid:        rgba(180, 140, 255, 0.09);
+  --wash:        rgba(180, 140, 255, 0.06);
+  --wash-strong: rgba(180, 140, 255, 0.10);
+  --edge-purple: rgba(180, 140, 255, 0.30);
+  --tint-purple: rgba(180, 140, 255, 0.35);
+  --rule:        rgba(156, 147, 171, 0.25);
+  --edge-muted:  rgba(156, 147, 171, 0.40);
+  --wash-pink:   rgba(255, 45, 149, 0.08);
+
+  --ul-purple: rgba(180, 140, 255, 0.35);
+  --ul-pink:   rgba(255, 45, 149, 0.35);
+
+  --code-string: #e5c07b;
+  --diff-add:    #7ee787;
+  --diff-del:    #ff7b72;
+  --diff-add-bg: rgba(63, 185, 80, 0.10);
+  --diff-del-bg: rgba(248, 81, 73, 0.10);
+
+  --cell: 24px;
+}
+
+/* --- desktop-only derived tokens -------------------------------------------
+   The web original never selects text in bulk or shows a pressed state; a desktop
+   does both. Each is a tint of a palette color, never a new hue. */
+:root {
+  --select-pink: rgba(255, 45, 149, 0.30);   /* text selection */
+  --press:       rgba(180, 140, 255, 0.16);  /* :active, one step past --wash-strong */
+  --chrome-size: 92%;                        /* mono runs wide; this evens it with sans */
+  --scrim:       rgba(15, 13, 20, 0.70);     /* behind a modal dialog */
+  --osd-bg:      rgba(22, 19, 29, 0.90);     /* --panel, over photos and video */
+}
+
+/* --- light -----------------------------------------------------------------
+   Follows GNOME's Style setting. The page becomes paper, still plum-tinted.
+   Fuchsia and purple keep their roles but not their values: the dark #ff2d95
+   is 3.2:1 on paper and #b48cff is 2.4:1, so both come down until they clear
+   4.5:1 on --panel. Everything translucent is re-derived from the new pair.
+   Only tokens change here; every rule below reads them. */
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg:      #f7f4fa;   /* ink 16.4:1 */
+    --panel:   #ede7f3;
+    --line:    #d6cce2;
+    --ink:     #1a1522;
+    --muted:   #5f5670;   /* 5.7:1 on panel */
+    --dimmest: #8d84a0;   /* inert only, never text you need */
+    --pink:    #c8006a;   /* 4.7:1 on panel */
+    --purple:  #6a3fd0;   /* 5.4:1 on panel */
+
+    --grid:        rgba(106, 63, 208, 0.07);
+    --wash:        rgba(106, 63, 208, 0.05);
+    --wash-strong: rgba(106, 63, 208, 0.09);
+    --edge-purple: rgba(106, 63, 208, 0.30);
+    --tint-purple: rgba(106, 63, 208, 0.40);
+    --rule:        rgba(95, 86, 112, 0.25);
+    --edge-muted:  rgba(95, 86, 112, 0.40);
+    --wash-pink:   rgba(200, 0, 106, 0.08);
+    --ul-purple:   rgba(106, 63, 208, 0.40);
+    --ul-pink:     rgba(200, 0, 106, 0.35);
+
+    --code-string: #8a6100;
+    --diff-add:    #1f7a33;
+    --diff-del:    #c4312a;
+    --diff-add-bg: rgba(31, 122, 51, 0.07);   /* 0.10 leaves the text at 4.3:1 */
+    --diff-del-bg: rgba(196, 49, 42, 0.07);
+
+    --select-pink: rgba(200, 0, 106, 0.18);
+    --press:       rgba(106, 63, 208, 0.14);
+    --scrim:       rgba(26, 21, 34, 0.35);
+    --osd-bg:      rgba(237, 231, 243, 0.92);
+  }
+}
+
+/* === Adwaita's variables ==================================================
+   Libadwaita has a single accent, and most of what it paints with it —
+   selection, checked state, focus ring, the switch, the progress bar — is
+   "where you are", so the accent is fuchsia. Purple, which Adwaita has no
+   slot for, is put back by hand below: links and the suggested action. */
+
+:root {
+  --accent-bg-color: var(--pink);
+  --accent-fg-color: var(--bg);
+  --accent-color:    var(--pink);
+
+  --destructive-bg-color: var(--diff-del);
+  --destructive-fg-color: var(--bg);
+  --destructive-color:    var(--diff-del);
+  --success-bg-color:     var(--diff-add);
+  --success-fg-color:     var(--bg);
+  --success-color:        var(--diff-add);
+  --warning-bg-color:     var(--code-string);
+  --warning-fg-color:     var(--bg);
+  --warning-color:        var(--code-string);
+  --error-bg-color:       var(--diff-del);
+  --error-fg-color:       var(--bg);
+  --error-color:          var(--diff-del);
+
+  /* The window is the page; anything that sits on it is a panel. */
+  --window-bg-color: var(--bg);
+  --window-fg-color: var(--ink);
+  --view-bg-color:   var(--bg);
+  --view-fg-color:   var(--ink);
+
+  --headerbar-bg-color:           var(--panel);
+  --headerbar-fg-color:           var(--ink);
+  --headerbar-border-color:       var(--ink);
+  --headerbar-backdrop-color:     var(--bg);    /* an unfocused window sinks to the page */
+  --headerbar-shade-color:        var(--line);
+  --headerbar-darker-shade-color: var(--line);
+
+  --sidebar-bg-color:       var(--panel);
+  --sidebar-fg-color:       var(--ink);
+  --sidebar-backdrop-color: var(--panel);
+  --sidebar-border-color:   var(--line);
+  --sidebar-shade-color:    var(--line);
+
+  --secondary-sidebar-bg-color:       var(--bg);
+  --secondary-sidebar-fg-color:       var(--ink);
+  --secondary-sidebar-backdrop-color: var(--bg);
+  --secondary-sidebar-border-color:   var(--line);
+  --secondary-sidebar-shade-color:    var(--line);
+
+  --card-bg-color:      var(--panel);
+  --card-fg-color:      var(--ink);
+  --card-shade-color:   var(--line);
+  --dialog-bg-color:    var(--bg);
+  --dialog-fg-color:    var(--ink);
+  --popover-bg-color:   var(--panel);
+  --popover-fg-color:   var(--ink);
+  --popover-shade-color: var(--line);
+  --thumbnail-bg-color: var(--panel);
+  --thumbnail-fg-color: var(--ink);
+
+  --shade-color:             var(--line);
+  --scrollbar-outline-color: var(--bg);
+  --active-toggle-bg-color:  var(--wash-strong);
+  --active-toggle-fg-color:  var(--pink);
+  --overview-bg-color:       var(--bg);
+  --overview-fg-color:       var(--ink);
+
+  --border-color:  var(--line);
+  --window-radius: 0;
+}
+
+/* Plain GTK 4 apps (no libadwaita) still read the old named colors. */
+@define-color accent_bg_color #ff2d95;
+@define-color accent_fg_color #0f0d14;
+@define-color accent_color #ff2d95;
+@define-color destructive_bg_color #ff7b72;
+@define-color destructive_fg_color #0f0d14;
+@define-color destructive_color #ff7b72;
+@define-color success_color #7ee787;
+@define-color warning_color #e5c07b;
+@define-color error_color #ff7b72;
+@define-color window_bg_color #0f0d14;
+@define-color window_fg_color #ebe6f0;
+@define-color view_bg_color #0f0d14;
+@define-color view_fg_color #ebe6f0;
+@define-color headerbar_bg_color #16131d;
+@define-color headerbar_fg_color #ebe6f0;
+@define-color headerbar_backdrop_color #0f0d14;
+@define-color sidebar_bg_color #16131d;
+@define-color sidebar_fg_color #ebe6f0;
+@define-color card_bg_color #16131d;
+@define-color card_fg_color #ebe6f0;
+@define-color popover_bg_color #16131d;
+@define-color popover_fg_color #ebe6f0;
+@define-color dialog_bg_color #0f0d14;
+@define-color dialog_fg_color #ebe6f0;
+@media (prefers-color-scheme: light) {
+  @define-color accent_bg_color #c8006a;
+  @define-color accent_fg_color #f7f4fa;
+  @define-color accent_color #c8006a;
+  @define-color destructive_bg_color #c4312a;
+  @define-color destructive_fg_color #f7f4fa;
+  @define-color destructive_color #c4312a;
+  @define-color success_color #1f7a33;
+  @define-color warning_color #8a6100;
+  @define-color error_color #c4312a;
+  @define-color window_bg_color #f7f4fa;
+  @define-color window_fg_color #1a1522;
+  @define-color view_bg_color #f7f4fa;
+  @define-color view_fg_color #1a1522;
+  @define-color headerbar_bg_color #ede7f3;
+  @define-color headerbar_fg_color #1a1522;
+  @define-color headerbar_backdrop_color #f7f4fa;
+  @define-color sidebar_bg_color #ede7f3;
+  @define-color sidebar_fg_color #1a1522;
+  @define-color card_bg_color #ede7f3;
+  @define-color card_fg_color #1a1522;
+  @define-color popover_bg_color #ede7f3;
+  @define-color popover_fg_color #1a1522;
+  @define-color dialog_bg_color #f7f4fa;
+  @define-color dialog_fg_color #1a1522;
+}
+
+/* === No boxes, no shadows, no motion ======================================
+   Set on everything, then the few things that need an edge get a hairline
+   back. Radios and avatars keep their circle: round-versus-square is how you
+   tell a radio from a check, and a face is not chrome. */
+
+* {
+  border-radius: 0;
+  box-shadow: none;
+  transition: none;
+  -gtk-icon-shadow: none;
+  text-shadow: none;
+}
+radio, avatar { border-radius: 9999px; }
+
+/* The graph paper, where the window itself shows through. */
+window.background {
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: var(--cell) var(--cell);
+}
+
+/* A hairline instead of a drop shadow. The transparent spread is not
+   decoration: GTK sizes the resize handles from the shadow's extent. */
+window.csd {
+  outline: 1px solid var(--line);
+  outline-offset: -1px;
+  box-shadow: 0 0 0 12px transparent;
+}
+window.csd.maximized, window.csd.fullscreen, window.csd.tiled,
+window.csd.tiled-top, window.csd.tiled-bottom,
+window.csd.tiled-left, window.csd.tiled-right {
+  outline: none;
+  box-shadow: none;
+}
+
+/* === Type =================================================================
+   Mono is the chrome: bars, buttons, sidebars, menus, tabs, headings, every
+   field you type into. Sans is left on what you read — row titles, dialog
+   bodies, documents. Weight 400 throughout. */
+
+headerbar, windowtitle, tabbar, .navigation-sidebar, stackswitcher,
+viewswitcher, viewswitcherbar, popover.menu, tooltip, toast, banner,
+entry, spinbutton, .toolbar, actionbar, pathbar, statuspage .title,
+.heading, .caption-heading, .title-1, .title-2, .title-3, .title-4 {
+  font-family: var(--monospace-font-family);
+}
+headerbar, tabbar, .navigation-sidebar, stackswitcher, viewswitcherbar,
+popover.menu, tooltip, toast, banner, entry, spinbutton, actionbar {
+  font-size: var(--chrome-size);
+}
+button, buttoncontent > box > label, button > label {
+  font-family: var(--monospace-font-family);
+  font-weight: 400;
+}
+
+headerbar .title, windowtitle .title, .heading, .caption-heading,
+.title-1, .title-2, .title-3, .title-4, popover.menu label.title,
+row.button .title, listview > header, check + label, .osd {
+  font-weight: 400;
+}
+
+headerbar .subtitle, windowtitle .subtitle { color: var(--muted); }
+
+/* Group headings read as a man page's section names: small, spaced, muted. */
+preferencesgroup > box > box.header .heading,
+preferencesgroup > box > box.header .title,
+listview > header, .navigation-sidebar > header {
+  font-family: var(--monospace-font-family);
+  font-size: 82%;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
+
+.dim-label, .dimmed, .caption, headerbar .subtitle,
+row .subtitle, statuspage .description, popover.menu accelerator {
+  color: var(--muted);
+  opacity: 1;
+}
+label:disabled, button:disabled, row:disabled, entry:disabled,
+.dim-label:disabled {
+  color: var(--dimmest);
+  opacity: 1;
+  filter: none;
+}
+
+/* === Position =============================================================
+   Everything pink below is "you are here": the caret, the selection, the
+   focused widget, the current row, the checked toggle, the current tab. */
+
+* { caret-color: var(--pink); -gtk-secondary-caret-color: var(--purple); }
+
+selection, selection:focus-within { background-color: var(--select-pink); }
+
+*:focus:focus-visible, *:focus-within:focus-visible {
+  outline-color: var(--pink);
+}
+
+/* The rail. A selected row carries a fuchsia bar on its left. */
+row:selected, listview > row:selected, columnview > listview > row:selected,
+gridview > child:selected, flowboxchild:selected {
+  background-color: var(--wash-pink);
+  background-image: none;
+  box-shadow: inset 2px 0 var(--pink);
+  color: var(--ink);
+}
+.navigation-sidebar row:selected,
+.navigation-sidebar row.activatable:selected:hover,
+.navigation-sidebar row.activatable:selected:active,
+.navigation-sidebar child:selected {
+  background-color: var(--wash-pink);
+  box-shadow: inset 3px 0 var(--pink);
+  color: var(--pink);
+}
+.navigation-sidebar row:selected image { color: var(--pink); }
+
+tabbar tab:selected, tabbar tab:selected:hover, tabbar tab:selected:active {
+  background-color: var(--bg);
+  box-shadow: inset 0 2px var(--pink), 1px 0 var(--line), -1px 0 var(--line);
+  color: var(--ink);
+}
+tabbar tab { color: var(--muted); }
+tabbar tab indicator, tabbar tabbox > revealer > indicator { background: var(--pink); }
+
+viewswitcher button:checked, stackswitcher button:checked,
+togglegroup > toggle:checked, .linked > button:checked {
+  background-color: var(--wash-pink);
+  color: var(--pink);
+}
+
+/* === Hover and focus are one state ========================================
+   A pointer resting on something is a position too, so hover goes pink,
+   exactly as a link does. */
+
+button, menubutton > button, splitbutton > button, dropdown > button {
+  background-color: var(--wash);
+  background-image: none;
+  box-shadow: inset 0 0 0 1px var(--line);
+  color: var(--ink);
+}
+button.flat, headerbar button:not(.suggested-action):not(.destructive-action),
+.toolbar button, actionbar button, popover button.model, windowcontrols > button,
+tabbar tab button, button.sidebar-button, entry > image, row button.flat,
+.navigation-sidebar button, stackswitcher button, viewswitcher button {
+  background-color: transparent;
+  box-shadow: none;
+}
+
+button:hover, button:focus:focus-visible,
+menubutton > button:hover, splitbutton > button:hover,
+headerbar button:hover, windowcontrols > button:hover,
+list.boxed-list > row.activatable:hover, list.content > row.activatable:hover,
+row.activatable:hover, .navigation-sidebar row:hover,
+popover.menu modelbutton:hover, popover.menu modelbutton:selected,
+popover.menu list > row:hover, tabbar tab:hover {
+  background-color: var(--wash);
+  background-image: none;
+  color: var(--pink);
+}
+button:hover:not(.flat):not(.image-button), button:focus:focus-visible:not(.flat) {
+  box-shadow: inset 0 0 0 1px var(--pink);
+}
+button:active, button.keyboard-activating, row.activatable:active,
+popover.menu modelbutton:active {
+  background-color: var(--press);
+  background-image: none;
+}
+button:checked, menubutton > button:checked, button.has-open-popup {
+  background-color: var(--wash-pink);
+  color: var(--pink);
+}
+
+windowcontrols > button > image {
+  background-color: transparent;
+  border-radius: 0;
+}
+windowcontrols > button:hover > image { background-color: var(--wash-strong); }
+windowcontrols > button.close:hover > image { background-color: var(--wash-pink); color: var(--pink); }
+
+/* The suggested action is an outlined link, not a filled pill: purple at
+   rest, fuchsia on hover like every other link. */
+button.suggested-action, button.suggested-action:checked {
+  background-color: var(--wash);
+  box-shadow: inset 0 0 0 1px var(--tint-purple);
+  color: var(--purple);
+}
+button.suggested-action:hover, button.suggested-action:focus:focus-visible {
+  background-color: var(--wash-pink);
+  box-shadow: inset 0 0 0 1px var(--pink);
+  color: var(--pink);
+}
+button.destructive-action {
+  background-color: var(--diff-del-bg);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--diff-del) 35%, transparent);
+  color: var(--diff-del);
+}
+button.destructive-action:hover, button.destructive-action:focus:focus-visible {
+  background-color: color-mix(in srgb, var(--diff-del) 18%, transparent);
+  box-shadow: inset 0 0 0 1px var(--diff-del);
+  color: var(--diff-del);
+}
+
+/* Links: purple, a hairline underline in their own color, pink on hover. */
+link, button.link, button.link > label {
+  color: var(--purple);
+  text-decoration-color: var(--ul-purple);
+}
+link:visited, button.link:visited { color: var(--purple); }
+link:hover, button.link:hover, button.link:hover > label,
+link:focus:focus-visible {
+  color: var(--pink);
+  text-decoration-color: var(--pink);
+}
+button.link, button.link:hover { background-color: transparent; box-shadow: none; }
+
+/* === Surfaces =============================================================
+   A panel on the page, with a --line edge. That is the only box there is. */
+
+/* Adwaita lets the page run up under a flat header bar. Here the bar is a
+   panel and always is, whether or not anything has scrolled beneath it. */
+toolbarview > .top-bar, toolbarview > .bottom-bar { background-color: var(--panel); }
+headerbar, toolbarview > .top-bar { box-shadow: inset 0 -1px var(--line); }
+toolbarview > .bottom-bar, actionbar > revealer > box { box-shadow: inset 0 1px var(--line); }
+toolbarview > .top-bar headerbar { box-shadow: none; }
+headerbar:backdrop > windowhandle { filter: none; }
+headerbar:backdrop { color: var(--muted); }
+
+.navigation-sidebar, .sidebar-pane, sidebar {
+  background-color: var(--panel);
+}
+paned > separator, separator { background-color: var(--line); }
+.sidebar-pane:dir(ltr) { box-shadow: inset -1px 0 var(--line); }
+.sidebar-pane:dir(rtl) { box-shadow: inset 1px 0 var(--line); }
+
+.card, list.boxed-list, list.content, list.boxed-list-separate > row,
+button.card, .boxed-list {
+  background-color: var(--panel);
+  box-shadow: 0 0 0 1px var(--line);
+}
+list.boxed-list > row, list.content > row { border-bottom-color: var(--line); }
+
+popover > contents {
+  padding: 6px;
+  background-color: var(--panel);
+  box-shadow: 0 0 0 1px var(--line);
+}
+popover.menu modelbutton, popover.menu list > row { border-radius: 0; }
+popover.menu separator { background-color: var(--line); }
+
+tooltip, tooltip.background {
+  background-color: var(--panel);
+  border: 1px solid var(--line);
+  color: var(--ink);
+}
+
+dialog-host > dialog > sheet, dialog.alert > sheet, floating-sheet > sheet,
+bottom-sheet > sheet, window.dialog.csd {
+  background-color: var(--bg);
+  box-shadow: 0 0 0 1px var(--line);
+  outline: none;
+}
+dialog-host > dimming, bottom-sheet > dimming, floating-sheet > dimming {
+  background-color: var(--scrim);
+}
+
+toast {
+  background-color: var(--panel);
+  box-shadow: 0 0 0 1px var(--line);
+  color: var(--ink);
+}
+banner > revealer > widget { background-color: var(--wash-strong); color: var(--ink); }
+
+.osd, .app-notification {
+  background-color: var(--osd-bg);
+  color: var(--ink);
+  box-shadow: 0 0 0 1px var(--line);
+}
+
+/* === Fields ===============================================================
+   Inputs: a panel with a --line edge, mono, and a pink ring on
+   focus. The ring is the whole state; the edge does not also change. */
+
+entry, spinbutton, searchbar entry, dropdown > button, text.view {
+  background-color: var(--panel);
+  box-shadow: inset 0 0 0 1px var(--line);
+  color: var(--ink);
+}
+entry:focus-within, spinbutton:focus-within {
+  outline: 2px solid var(--pink);
+  outline-offset: -1px;
+}
+entry placeholder, text placeholder { color: var(--dimmest); }
+entry.error, entry.warning, entry.success { background-color: var(--panel); }
+entry.error { color: var(--diff-del); }
+entry.warning { color: var(--code-string); }
+entry.success { color: var(--diff-add); }
+
+/* === Toggles ==============================================================
+   The switch is a slot, like a text field, with the block cursor in it. On:
+   the cursor is fuchsia and a | sits in the open half. Off: the cursor is
+   grey and a square does. The marks mean "on" still reads without color.
+   Everything drawn inside is a hard-stop gradient in currentColor — the
+   same line-drawing the graph paper uses — so it follows the palette. */
+
+switch {
+  padding: 3px;
+  color: var(--dimmest);
+  background-color: var(--panel);
+  box-shadow: inset 0 0 0 1px var(--line);
+  /* the off mark: an 8px square with a 5px hole punched in the panel color */
+  background-image:
+    linear-gradient(var(--panel), var(--panel)),
+    linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-size: 4px 4px, 8px 8px;
+  background-position: 28px center, 26px center;
+}
+switch > slider {
+  min-width: 18px;
+  min-height: 18px;
+  color: var(--panel);
+  background-color: var(--dimmest);
+  /* the grip: three 1px ribs */
+  background-image: linear-gradient(90deg,
+    currentColor 1px, transparent 1px, transparent 3px,
+    currentColor 3px, currentColor 4px, transparent 4px, transparent 6px,
+    currentColor 6px, currentColor 7px, transparent 7px);
+  background-repeat: no-repeat;
+  background-size: 8px 8px;
+  background-position: center;
+}
+/* On is already outlined in pink, so hover can't just turn the edge pink:
+   it thickens it, and the cursor lightens. */
+switch:hover, switch:focus:focus-visible { box-shadow: inset 0 0 0 2px var(--pink); }
+switch:hover > slider { background-color: var(--muted); }
+
+switch:checked {
+  color: var(--pink);
+  box-shadow: inset 0 0 0 1px var(--pink);
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 2px 10px;
+  background-position: 11px center;
+}
+switch:checked > slider {
+  color: var(--bg);
+  background-color: var(--pink);
+}
+switch:checked:hover > slider { background-color: color-mix(in srgb, var(--pink) 75%, var(--ink)); }
+
+switch:checked:hover, switch:checked:focus:focus-visible { box-shadow: inset 0 0 0 2px var(--pink); }
+
+switch:disabled {
+  color: var(--line);
+  background-color: transparent;
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+switch:disabled > slider { color: var(--bg); background-color: var(--line); }
+
+check, radio {
+  background-color: transparent;
+  box-shadow: inset 0 0 0 1px var(--muted);
+}
+check:hover, radio:hover { box-shadow: inset 0 0 0 1px var(--pink); }
+check:checked, check:indeterminate, radio:checked, radio:indeterminate {
+  background-color: var(--pink);
+  color: var(--bg);
+  box-shadow: none;
+}
+
+scale > trough, progressbar > trough, levelbar > trough > block.empty {
+  background-color: var(--line);
+}
+scale > trough > highlight, progressbar > trough > progress,
+levelbar > trough > block.filled {
+  background-color: var(--pink);
+}
+scale > trough > slider {
+  background-color: var(--ink);
+  box-shadow: none;
+  min-width: 10px;
+  min-height: 18px;
+  margin: -8px 0;
+}
+scale.vertical > trough > slider { min-width: 18px; min-height: 10px; margin: 0 -8px; }
+levelbar > trough > block.low { background-color: var(--diff-del); }
+levelbar > trough > block.high, levelbar > trough > block.full { background-color: var(--pink); }
+
+/* === Scrollbars =========================================================== */
+
+scrollbar > range > trough > slider {
+  background-color: var(--dimmest);
+  outline: none;
+}
+scrollbar > range > trough > slider:hover { background-color: var(--muted); }
+scrollbar > range > trough > slider:active { background-color: var(--pink); }
+scrollbar.hovering > range > trough, scrollbar:not(.overlay-indicator) > range > trough {
+  background-color: transparent;
+}
+
+/* === Status pages ========================================================= */
+
+statuspage > scrolledwindow > viewport > box > clamp > box > .icon,
+statuspage .icon { color: var(--dimmest); }
