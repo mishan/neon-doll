@@ -136,6 +136,16 @@ async function run() {
         Main.notify('Build finished', 'neon-doll: 3 files changed, 42 insertions(+), 7 deletions(-). The body of a notification is prose, so it stays sans.');
         await wait(1500);
         await shot('02-notification-banner');
+        // Hovered, pinned: it floats over windows, so its fill must stay opaque.
+        const banner = Main.messageTray._banner;
+        if (banner) {
+            banner.add_style_pseudo_class('hover');
+            await wait(300);
+            await shot('02b-notification-banner-hover');
+            banner.remove_style_pseudo_class('hover');
+        } else {
+            probes.push('notification hover: no banner actor found');
+        }
         Main.messageTray.bannerBlocked = true;
     });
 

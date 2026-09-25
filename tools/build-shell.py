@@ -121,6 +121,15 @@ def mix(a, b, weight):
 for _t in (DARK, LIGHT):
     _t["pink_hover"] = mix(_t["pink"], _t["ink"], 0.75)
 
+# Hover and pressed fills for panels that float over windows, like a
+# notification banner: the wash and press tints composited onto the panel
+# ahead of time, so the fill stays opaque. The translucent tints on their own
+# let the windows behind show through.
+DARK["panel_hover"] = mix(DARK["purple"], DARK["panel"], 0.06)
+DARK["panel_press"] = mix(DARK["purple"], DARK["panel"], 0.16)
+LIGHT["panel_hover"] = mix(LIGHT["purple"], LIGHT["panel"], 0.05)
+LIGHT["panel_press"] = mix(LIGHT["purple"], LIGHT["panel"], 0.14)
+
 
 def switch_assets(t):
     """The switch's marks and grip, which GTK draws with gradients.

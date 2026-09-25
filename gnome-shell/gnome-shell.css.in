@@ -527,7 +527,9 @@ StScrollBar > .vhandle:active, StScrollBar > .hhandle:active { background-color:
 .datemenu-today-button:focus:hover, .events-button:focus:hover,
 .world-clocks-button:focus:hover, .weather-button:focus:hover, .message:focus:hover {
   color: @ink@;
-  background-color: @wash@;
+  /* Opaque: a notification banner floats over windows, and a translucent
+     wash let them show through it on hover. */
+  background-color: @panel_hover@;
   border-color: @pink@ !important;
   box-shadow: none !important;
 }
@@ -537,7 +539,7 @@ StScrollBar > .vhandle:active, StScrollBar > .hhandle:active { background-color:
 .world-clocks-button:active:hover, .weather-button:active:hover, .message:active:hover,
 .datemenu-today-button:active:focus, .events-button:active:focus,
 .world-clocks-button:active:focus, .weather-button:active:focus, .message:active:focus {
-  background-color: @press@;
+  background-color: @panel_press@;
 }
 .calendar:insensitive, .datemenu-today-button:insensitive {
   color: @dimmest@;
