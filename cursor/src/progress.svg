@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     xmlns:nd="https://github.com/mishan/neon-doll"
+     width="24" height="24" viewBox="0 0 24 24" nd:hotspot="3 2">
+  <!-- progress: The arrow with a small hourglass: busy, but still usable. Static. -->
+  <!-- Every shape is drawn three times: a light outer edge, a dark
+       inner edge, then the fuchsia body. See tools/build-cursor.py. -->
+  <defs>
+    <g id="s0">
+      <polygon points="3,2 3,18 7,14 10,20 12.5,19 9.5,13 14,13"/>
+    </g>
+    <g id="s1">
+      <rect x="15" y="13" width="7" height="2"/>
+      <rect x="15" y="20" width="7" height="2"/>
+      <polygon points="16,15 21,15 19,17.5 21,20 16,20 18,17.5"/>
+    </g>
+  </defs>
+  <g stroke-linejoin="miter" stroke-miterlimit="1.5">
+    <use xlink:href="#s0" fill="none" stroke="#f7f4fa" stroke-width="4"/>
+    <use xlink:href="#s0" fill="none" stroke="#0f0d14" stroke-width="2"/>
+    <use xlink:href="#s0" fill="#ff2d95"/>
+    <use xlink:href="#s1" fill="none" stroke="#f7f4fa" stroke-width="4"/>
+    <use xlink:href="#s1" fill="none" stroke="#0f0d14" stroke-width="2"/>
+    <use xlink:href="#s1" fill="#ff2d95"/>
+  </g>
+  <g fill="#0f0d14">
+    <polygon points="17,20 20,20 18.5,18.5"/>
+  </g>
+</svg>

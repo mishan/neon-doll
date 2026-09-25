@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     xmlns:nd="https://github.com/mishan/neon-doll"
+     width="24" height="24" viewBox="0 0 24 24" nd:hotspot="11 12">
+  <!-- grabbing: A closed fist. -->
+  <!-- Every shape is drawn three times: a light outer edge, a dark
+       inner edge, then the fuchsia body. See tools/build-cursor.py. -->
+  <defs>
+    <g id="s0">
+      <rect x="6" y="8" width="2" height="4"/>
+      <rect x="9" y="7" width="2" height="5"/>
+      <rect x="12" y="7" width="2" height="5"/>
+      <rect x="15" y="8" width="2" height="4"/>
+      <rect x="6" y="10" width="11" height="10"/>
+      <rect x="3" y="11" width="4" height="5"/>
+    </g>
+  </defs>
+  <g stroke-linejoin="miter" stroke-miterlimit="1.5">
+    <use xlink:href="#s0" fill="none" stroke="#f7f4fa" stroke-width="4"/>
+    <use xlink:href="#s0" fill="none" stroke="#0f0d14" stroke-width="2"/>
+    <use xlink:href="#s0" fill="#ff2d95"/>
+  </g>
+  <g fill="#0f0d14">
+    <rect x="7" y="13" width="9" height="1"/>
+  </g>
+</svg>

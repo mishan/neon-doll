@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     xmlns:nd="https://github.com/mishan/neon-doll"
+     width="24" height="24" viewBox="0 0 24 24" nd:hotspot="12 12">
+  <!-- row-resize: A row edge with arrows above and below. -->
+  <!-- Every shape is drawn three times: a light outer edge, a dark
+       inner edge, then the fuchsia body. See tools/build-cursor.py. -->
+  <defs>
+    <g id="s0" transform="rotate(90 12 12)">
+      <rect x="11" y="3" width="2" height="18"/>
+      <polygon points="3,12 7,8 7,11 10,11 10,13 7,13 7,16"/>
+      <polygon points="21,12 17,16 17,13 14,13 14,11 17,11 17,8"/>
+    </g>
+  </defs>
+  <g stroke-linejoin="miter" stroke-miterlimit="1.5">
+    <use xlink:href="#s0" fill="none" stroke="#f7f4fa" stroke-width="4"/>
+    <use xlink:href="#s0" fill="none" stroke="#0f0d14" stroke-width="2"/>
+    <use xlink:href="#s0" fill="#ff2d95"/>
+  </g>
+</svg>
