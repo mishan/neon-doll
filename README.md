@@ -23,7 +23,7 @@ Text Editor, Tilix and Emacs, each in dark and light.
 ## Install
 
 ```
-git clone <this repository> neon-doll && cd neon-doll
+git clone https://github.com/mishan/neon-doll.git && cd neon-doll
 ./install.sh                  # everything
 ./install.sh gtk4 shell       # or pick: gtk4 gtk3 shell gtksourceview tilix emacs
 ./install.sh --remove         # take it out again
@@ -98,6 +98,7 @@ tools/build-shell.py [--check|--coverage]         # regenerate the Shell theme
 tools/shoot-shell.sh OUTDIR [dark|light]          # screenshot a headless, fully themed GNOME Shell
 tools/scheme-colors.py [--write|--elisp]          # derive and check the text schemes
 tools/scheme-shoot.sh out.png gsv|emacs [variant] # screenshot them
+tools/dist.sh [VERSION]                           # release archives into dist/
 ```
 
 `tools/check-tokens.py` and `tools/check-tokens3.py` compare the palette
