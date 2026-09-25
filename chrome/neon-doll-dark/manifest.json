@@ -1,0 +1,122 @@
+{
+  "manifest_version": 3,
+  "name": "Neon Doll Dark",
+  "version": "0.1.0",
+  "description": "A man page in a terminal that never existed: plum, fuchsia for where you are, purple for links.",
+  "theme": {
+    "colors": {
+      "frame": [
+        15,
+        13,
+        20
+      ],
+      "frame_inactive": [
+        15,
+        13,
+        20
+      ],
+      "frame_incognito": [
+        15,
+        13,
+        20
+      ],
+      "frame_incognito_inactive": [
+        15,
+        13,
+        20
+      ],
+      "background_tab": [
+        15,
+        13,
+        20
+      ],
+      "background_tab_inactive": [
+        15,
+        13,
+        20
+      ],
+      "toolbar": [
+        22,
+        19,
+        29
+      ],
+      "toolbar_text": [
+        235,
+        230,
+        240
+      ],
+      "toolbar_button_icon": [
+        235,
+        230,
+        240
+      ],
+      "tab_text": [
+        255,
+        45,
+        149
+      ],
+      "tab_background_text": [
+        156,
+        147,
+        171
+      ],
+      "tab_background_text_inactive": [
+        111,
+        104,
+        128
+      ],
+      "tab_background_text_incognito": [
+        156,
+        147,
+        171
+      ],
+      "tab_background_text_incognito_inactive": [
+        111,
+        104,
+        128
+      ],
+      "bookmark_text": [
+        235,
+        230,
+        240
+      ],
+      "omnibox_background": [
+        15,
+        13,
+        20
+      ],
+      "omnibox_text": [
+        235,
+        230,
+        240
+      ],
+      "ntp_background": [
+        15,
+        13,
+        20
+      ],
+      "ntp_text": [
+        235,
+        230,
+        240
+      ],
+      "ntp_link": [
+        180,
+        140,
+        255
+      ],
+      "ntp_header": [
+        42,
+        36,
+        56
+      ]
+    },
+    "images": {
+      "theme_ntp_background": "images/paper.png"
+    },
+    "properties": {
+      "ntp_background_alignment": "top left",
+      "ntp_background_repeat": "repeat"
+    }
+  }
+}

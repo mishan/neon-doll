@@ -5,8 +5,8 @@ existed. Near-black plum or plum-tinted paper, a fuchsia that means "you are
 here", mono for the chrome and sans for what you read. No rounded corners, no
 drop shadows, no transitions.
 
-It covers GTK 4 / libadwaita, GTK 3, GNOME Shell, and color schemes for GNOME
-Text Editor, Tilix and Emacs, each in dark and light.
+It covers GTK 4 / libadwaita, GTK 3, GNOME Shell and Chrome, color schemes for
+GNOME Text Editor, Tilix and Emacs, and `ls` colors, each in dark and light.
 
 ![The overview, dark](screenshots/shell-overview-dark.png)
 
@@ -19,6 +19,7 @@ Text Editor, Tilix and Emacs, each in dark and light.
 | GTK 3 | ![](screenshots/gtk3-dark.png) | ![](screenshots/gtk3-light.png) |
 | Text Editor | ![](screenshots/text-editor-dark.png) | ![](screenshots/text-editor-light.png) |
 | Emacs | ![](screenshots/emacs-dark.png) | ![](screenshots/emacs-light.png) |
+| Chrome | ![](screenshots/chrome-dark.png) | ![](screenshots/chrome-light.png) |
 
 ## Install
 
@@ -43,7 +44,15 @@ edits in the checkout show up on the next app launch.
 | Emacs 29+ | `~/.emacs.d/themes/` (or `$EMACS_THEMES_DIR`) | `(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")` `(load-theme 'neon-doll-dark t)` |
 | `ls` colors | `~/.config/neon-doll/dircolors` | `eval "$(dircolors -b ~/.config/neon-doll/dircolors)"` in `~/.bashrc`. Uses only the 16 terminal colors, so it follows either Neon Doll terminal scheme; odd permissions are underlined rather than filled. |
 
-Tested on GNOME 51 with GTK 4.24, libadwaita 1.10 and GTK 3.24.
+**Chrome** can't be installed from a script. Open `chrome://extensions`, turn
+on Developer mode, choose *Load unpacked* and pick `chrome/neon-doll-dark` or
+`chrome/neon-doll-light`. Chrome themes are colors only, and one theme can't
+follow the system's light or dark mode, so pick the one that matches it. The
+current tab is the lifted panel, titled in fuchsia; the dark New Tab page gets
+the graph paper, while the light one stays plain, since Chrome treats any New
+Tab image as a photo and whitens the logo over it.
+
+Tested on GNOME 51 with GTK 4.24, libadwaita 1.10 and GTK 3.24, and Chrome 154.
 
 ### Light and dark
 
@@ -76,8 +85,10 @@ both above 4.5:1 on its panels.
   slide. The login screen uses the stock theme.
 - **GTK 3** has no `:focus-visible`, so its focus ring appears only once the
   keyboard is in use. Message-dialog headings stay bold.
-- **Apps that paint their own colors** — browsers, Electron apps, terminals
+- **Apps that paint their own colors** — Firefox, Electron apps, terminals
   other than Tilix — pick up little or nothing.
+- **Chrome** themes set colors only: tabs keep Chrome's rounded shapes, and
+  focus rings and hover states stay Chrome's own.
 - **Line numbers** in the editor schemes use the dimmest color on purpose and
   sit below 4.5:1.
 - **Emacs** faces for magit, vertico and similar packages are set but untested;
@@ -100,6 +111,8 @@ tools/shoot-shell.sh OUTDIR [dark|light]          # screenshot a headless, fully
 tools/scheme-colors.py [--write|--elisp]          # derive and check the text schemes
 tools/scheme-shoot.sh out.png gsv|emacs [variant] # screenshot them
 tools/term-shoot.sh out.png                       # ls colors in both terminal schemes, GNU defaults vs Neon Doll
+tools/build-chrome.py [--check]                   # regenerate the Chrome themes
+tools/chrome-shoot.py dark|light out.png          # screenshot one in a scratch Chrome profile (under xvfb-run)
 tools/dist.sh [VERSION]                           # release archives into dist/
 ```
 

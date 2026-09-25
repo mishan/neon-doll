@@ -9,6 +9,9 @@
 #                                  Shell only)
 # neon-doll-VERSION.tar.xz         the whole tree at that commit, with
 #                                  install.sh: every part, GTK 4 included
+# neon-doll-{dark,light}-chrome-VERSION.zip
+#                                  a Chrome theme each, as the Chrome Web
+#                                  Store takes them
 #
 # The GTK 4 stylesheet is kept out of the theme dirs on purpose: a gtk-4.0/
 # inside a theme dir is loaded as a complete theme by GTK 4 apps that don't
@@ -38,5 +41,11 @@ for t in "$tmp"/themes/*/; do
 done
 tar -C "$tmp/out" --owner=0 --group=0 --numeric-owner --sort=name \
   -cJf "dist/neon-doll-themes-$version.tar.xz" .
+
+# Chrome Web Store uploads are a zip of the theme folder.
+for t in chrome/*/; do
+  name=$(basename "$t")
+  git archive --format=zip HEAD:"chrome/$name" > "dist/$name-chrome-$version.zip"
+done
 
 ls -l dist/*"$version"*

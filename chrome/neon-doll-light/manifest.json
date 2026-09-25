@@ -1,0 +1,115 @@
+{
+  "manifest_version": 3,
+  "name": "Neon Doll Light",
+  "version": "0.1.0",
+  "description": "A man page in a terminal that never existed: plum, fuchsia for where you are, purple for links.",
+  "theme": {
+    "colors": {
+      "frame": [
+        247,
+        244,
+        250
+      ],
+      "frame_inactive": [
+        247,
+        244,
+        250
+      ],
+      "frame_incognito": [
+        247,
+        244,
+        250
+      ],
+      "frame_incognito_inactive": [
+        247,
+        244,
+        250
+      ],
+      "background_tab": [
+        247,
+        244,
+        250
+      ],
+      "background_tab_inactive": [
+        247,
+        244,
+        250
+      ],
+      "toolbar": [
+        237,
+        231,
+        243
+      ],
+      "toolbar_text": [
+        26,
+        21,
+        34
+      ],
+      "toolbar_button_icon": [
+        26,
+        21,
+        34
+      ],
+      "tab_text": [
+        200,
+        0,
+        106
+      ],
+      "tab_background_text": [
+        95,
+        86,
+        112
+      ],
+      "tab_background_text_inactive": [
+        141,
+        132,
+        160
+      ],
+      "tab_background_text_incognito": [
+        95,
+        86,
+        112
+      ],
+      "tab_background_text_incognito_inactive": [
+        141,
+        132,
+        160
+      ],
+      "bookmark_text": [
+        26,
+        21,
+        34
+      ],
+      "omnibox_background": [
+        247,
+        244,
+        250
+      ],
+      "omnibox_text": [
+        26,
+        21,
+        34
+      ],
+      "ntp_background": [
+        247,
+        244,
+        250
+      ],
+      "ntp_text": [
+        26,
+        21,
+        34
+      ],
+      "ntp_link": [
+        106,
+        63,
+        208
+      ],
+      "ntp_header": [
+        214,
+        204,
+        226
+      ]
+    }
+  }
+}
