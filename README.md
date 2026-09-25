@@ -6,7 +6,7 @@ are here", mono for the chrome and sans for what you read. No rounded corners,
 no drop shadows, no transitions.
 
 It themes the GNOME desktop (GTK 4 / libadwaita, GTK 3 and GNOME Shell) and
-the tools around it: Chrome, GNOME Text Editor, Tilix, Emacs, `ls` and `git`.
+the tools around it: Chrome, GNOME Text Editor, Tilix, Emacs, `ls`, `git` and man pages.
 Every part comes in dark and light.
 
 ![The overview, dark](screenshots/shell-overview-dark.png)
@@ -22,13 +22,14 @@ Every part comes in dark and light.
 | Emacs | ![](screenshots/emacs-dark.png) | ![](screenshots/emacs-light.png) |
 | Chrome | ![](screenshots/chrome-dark.png) | ![](screenshots/chrome-light.png) |
 | git in Tilix | ![](screenshots/git-dark.png) | ![](screenshots/git-light.png) |
+| man pages | ![](screenshots/man-dark.png) | ![](screenshots/man-light.png) |
 
 ## Install
 
 ```
 git clone https://github.com/mishan/neon-doll.git && cd neon-doll
 ./install.sh                  # everything
-./install.sh gtk4 shell       # or pick: gtk4 gtk3 shell gtksourceview tilix emacs dircolors git
+./install.sh gtk4 shell       # or pick: gtk4 gtk3 shell gtksourceview tilix emacs dircolors git man
 ./install.sh --remove         # take it out again
 ```
 
@@ -45,6 +46,7 @@ edits in the checkout show up on the next app launch.
 | Tilix | `~/.config/tilix/schemes/` | Restart Tilix; Preferences → Profile → Color. |
 | Emacs 29+ | `~/.emacs.d/themes/` (or `$EMACS_THEMES_DIR`) | `(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")` `(load-theme 'neon-doll-dark t)` |
 | `ls` colors | `~/.config/neon-doll/dircolors` | `eval "$(dircolors -b ~/.config/neon-doll/dircolors)"` in `~/.bashrc`. Uses only the 16 terminal colors, so it follows either Neon Doll terminal scheme; odd permissions are underlined rather than filled. |
+| man pages | `~/.config/neon-doll/man.sh` | `. ~/.config/neon-doll/man.sh` in `~/.bashrc`. Headings and literal options purple, arguments cyan and underlined, nothing bold; only `man`'s pager changes, not `less` in general. |
 | `git` colors | `~/.config/neon-doll/gitconfig` | `git config --global include.path ~/.config/neon-doll/gitconfig`, placed after any `[color]` sections of your own. Diff, log, status, branch, grep and `add -p`, in the 16 terminal colors; nothing bold. |
 
 **Chrome** can't be installed from a script. Open `chrome://extensions`, turn
