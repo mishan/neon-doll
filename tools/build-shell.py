@@ -143,7 +143,15 @@ def switch_assets(t):
         return svg(18, 18, "".join(f'<rect x="{x}" y="5" width="1" height="8" fill="{c}"/>'
                                    for x in (5, 8, 11)))
 
+    # Locate Pointer's ripple, as a heart. 50x50 to match the ripple's box;
+    # the shell scales the box as the ripple grows, outline and all.
+    heart = svg(50, 50, f'<path d="M25 43C9 31 4 22 8.5 14.5C12.5 8 21 8.5 25 15'
+                        f'C29 8.5 37.5 8 41.5 14.5C46 22 41 31 25 43Z" '
+                        f'fill="{t["pink"]}" fill-opacity="0.12" '
+                        f'stroke="{t["pink"]}" stroke-width="2" stroke-linejoin="round"/>')
+
     return {
+        "locate-pointer-heart.svg": heart,
         "switch-track-off.svg": ring(t["dimmest"]),
         "switch-track-on.svg": bar(t["pink"]),
         "switch-track-off-disabled.svg": ring(t["line"]),

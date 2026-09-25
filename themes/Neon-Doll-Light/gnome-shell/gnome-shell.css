@@ -1679,7 +1679,15 @@ StScrollBar > .vhandle:active, StScrollBar > .hhandle:active { background-color:
 /* === Pointer, selection and tiling ======================================== */
 
 .ripple-box { background-color: rgba(200, 0, 106, 0.08); }
-.ripple-pointer-location { background-color: rgba(200, 0, 106, 0.08); border: 2px solid #c8006a; }
+/* Locate Pointer: a heart instead of a ring. St can't draw one, so it's an
+   image, generated per variant by tools/build-shell.py; the shell still grows
+   it outward from the pointer. The box behind it stays empty. */
+.ripple-pointer-location {
+  background-color: transparent;
+  border: none;
+  background-image: url("locate-pointer-heart.svg");
+  background-size: contain;
+}
 .pie-timer { -pie-border-color: #c8006a; -pie-background-color: rgba(200, 0, 106, 0.08); }
 .magnifier-zoom-region { border-color: #c8006a; }
 .select-area-rubberband { background-color: rgba(200, 0, 106, 0.08); border: 1px solid #c8006a; }
