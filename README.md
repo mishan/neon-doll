@@ -39,7 +39,7 @@ edits in the checkout show up on the next app launch.
 |---|---|---|
 | GTK 4 / libadwaita | `~/.config/gtk-4.0/gtk.css` | Restart apps. Light or dark follows Settings → Appearance. |
 | GTK 3 | `~/.local/share/themes/Neon-Doll-{Dark,Light}/` | `gsettings set org.gnome.desktop.interface gtk-theme Neon-Doll-Dark` |
-| GNOME Shell | the same two theme dirs | `gsettings set org.gnome.shell.extensions.user-theme name Neon-Doll-Dark` (needs the [User Themes](https://extensions.gnome.org/extension/19/user-themes/) extension) |
+| GNOME Shell | the same two theme dirs, plus `Neon-Doll-{Dark,Light}-Hearts` | `gsettings set org.gnome.shell.extensions.user-theme name Neon-Doll-Dark` (needs the [User Themes](https://extensions.gnome.org/extension/19/user-themes/) extension). The `-Hearts` themes are the same, except that Locate Pointer (press Ctrl) ripples out as a heart instead of a ring. |
 | Text Editor | `~/.local/share/gtksourceview-5/styles/` (and `-4`) | Pick Neon Doll in the style menu. |
 | Tilix | `~/.config/tilix/schemes/` | Restart Tilix; Preferences → Profile → Color. |
 | Emacs 29+ | `~/.emacs.d/themes/` (or `$EMACS_THEMES_DIR`) | `(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")` `(load-theme 'neon-doll-dark t)` |

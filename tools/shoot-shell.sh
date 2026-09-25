@@ -2,7 +2,10 @@
 # Screenshot the GNOME Shell theme in a throwaway headless shell, so it can be
 # checked without installing it or touching the running session.
 #
-#   tools/shoot-shell.sh OUTDIR [dark|light]
+#   tools/shoot-shell.sh OUTDIR [dark|light] [hearts]
+#
+# "hearts" runs the Shell on the -Hearts theme (Locate Pointer as a heart);
+# the apps keep the regular one.
 #
 # Everything runs under a scratch HOME, a private session bus and a stand-in
 # system bus, so nothing reaches the real dconf, GDM or logind. A small
@@ -20,6 +23,8 @@ case $variant in
   light) scheme=prefer-light; name=Neon-Doll-Light ;;
   *) echo "variant must be dark or light" >&2; exit 2 ;;
 esac
+shell_name=$name
+[ "${3:-}" = hearts ] && shell_name=$name-Hearts
 
 mkdir -p "$out"
 tmp=$(mktemp -d /tmp/shoot-shell.XXXXXX)
@@ -30,7 +35,8 @@ chmod 700 "$tmp/run"
 # Theme the apps in the scenes too, so the shots show the whole desktop: the
 # theme dir (Shell and GTK 3, whole, so url()s find their assets), the GTK 4
 # stylesheet, and the Text Editor scheme.
-ln -s "$repo/themes/$name" "$tmp/home/.themes/$name"
+# All of them: a -Hearts theme imports its sibling by relative path.
+for t in "$repo"/themes/*/; do t=${t%/}; ln -s "$t" "$tmp/home/.themes/${t##*/}"; done
 mkdir -p "$tmp/home/.config/gtk-4.0" "$tmp/home/.local/share/gtksourceview-5/styles"
 ln -s "$repo/gtk-4.0/gtk.css" "$tmp/home/.config/gtk-4.0/gtk.css"
 ln -s "$repo"/gtksourceview/neon-doll-*.xml "$tmp/home/.local/share/gtksourceview-5/styles/"
@@ -350,7 +356,7 @@ env -i PATH=/usr/bin:/bin LANG=C.UTF-8 \
   dbus-run-session -- sh -c "
     gsettings set org.gnome.shell enabled-extensions \"['user-theme@gnome-shell-extensions.gcampax.github.com', 'shoot@neon-doll']\"
     gsettings set org.gnome.shell welcome-dialog-last-shown-version '999'
-    gsettings set org.gnome.shell.extensions.user-theme name '$name'
+    gsettings set org.gnome.shell.extensions.user-theme name '$shell_name'
     gsettings set org.gnome.desktop.interface color-scheme '$scheme'
     gsettings set org.gnome.desktop.interface gtk-theme '$name'
     gsettings set org.gnome.desktop.background picture-uri 'file://$tmp/home/paper.png'

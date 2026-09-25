@@ -82,7 +82,7 @@ for part in $parts; do
       if [ "$part" = gtk3 ]; then
         hint "GTK 3: gsettings set org.gnome.desktop.interface gtk-theme Neon-Doll-Dark   # or Neon-Doll-Light"
       else
-        hint "Shell: gsettings set org.gnome.shell.extensions.user-theme name Neon-Doll-Dark   # or Neon-Doll-Light; needs the User Themes extension"
+        hint "Shell: gsettings set org.gnome.shell.extensions.user-theme name Neon-Doll-Dark   # or Neon-Doll-Light; add -Hearts for a heart-shaped Locate Pointer; needs the User Themes extension"
       fi
       ;;
     gtksourceview)
