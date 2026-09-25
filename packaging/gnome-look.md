@@ -8,10 +8,13 @@ Screenshots: `screenshots/`, the Shell overview first.
 
 ## GTK3/4 Themes — "Neon Doll"
 
-A desktop theme that treats your screen as a man page in a terminal that never
-existed: near-black plum or plum-tinted paper, a fuchsia that means "you are
-here", mono for the chrome and sans for what you read. No rounded corners, no
-drop shadows, no transitions. Dark and light.
+Hot pink neon on midnight plum.
+
+A desktop theme for GNOME and the tools around it. One fuchsia light marks
+exactly where you are: the cursor, the current tab, the selected line. Violet
+marks everything you can touch; the rest stays in the dark. Terminal type on
+the chrome, soft sans for the words. Hard corners, no drop shadows, nothing
+fades in. Cyberpunk, with a manicure. Dark and light.
 
 Two themes: Neon-Doll-Dark and Neon-Doll-Light. Each covers GTK 3 and GNOME
 Shell.
@@ -33,9 +36,11 @@ Source, issues and the full install guide: https://github.com/mishan/neon-doll
 
 ## GNOME Shell Themes — "Neon Doll"
 
-The GNOME Shell half of Neon Doll: top bar, overview, quick settings, calendar
-and notifications, OSDs, the app switcher, dialogs and the lock screen, in the
-same plum, fuchsia and mono as the GTK theme. Dark and light.
+Hot pink neon on midnight plum, for the Shell: top bar, overview, quick
+settings, calendar and notifications, OSDs, the app switcher, dialogs and the
+lock screen. The same rules as the GTK theme: one fuchsia light for where you
+are, violet for what you can touch, terminal type, hard corners, no shadows.
+Dark and light.
 
 Needs the User Themes extension. Unpack into ~/.themes or
 ~/.local/share/themes, then pick Neon-Doll-Dark or Neon-Doll-Light in User
@@ -57,10 +62,11 @@ Source and the full install guide: https://github.com/mishan/neon-doll
 
 ## Cursors — "Neon Doll Cursors"
 
-The Neon Doll pointer: fuchsia, which in Neon Doll means "you are here",
-inside a thin dark edge inside a light one, so it stays easy to find on dark
-and light desktops, grey, and busy photos alike. One theme for both light and
-dark. Square and flat, with no animation: wait is a still hourglass.
+A black pointer with a hot pink neon edge. The arrow, the hand and the text
+cursor glow faintly, since in Neon Doll fuchsia marks where you are; every
+other cursor is black inside a thin light edge, easy to find on dark desktops,
+light ones, and busy photos alike. One theme for both light and dark. Square
+and flat, with no animation: wait is a still hourglass.
 
 The full standard set that GNOME and GTK ask for, with the legacy X11 names
 linked, at 24, 32, 48, 64 and 96 px.

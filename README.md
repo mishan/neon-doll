@@ -1,15 +1,18 @@
 # Neon Doll
 
-A desktop theme that treats your screen as a man page in a terminal that
-never existed. Near-black plum or plum-tinted paper, a fuchsia that means "you
-are here", mono for the chrome and sans for what you read. No rounded corners,
-no drop shadows, no transitions.
+**Hot pink neon on midnight plum.**
 
-It themes the GNOME desktop (GTK 4 / libadwaita, GTK 3, GNOME Shell and the
-mouse cursor) and
-the tools around it: Chrome, Firefox, GNOME Text Editor, Tilix, Emacs, `ls`, `git`, man pages and glow.
-Every part comes in dark and light, except the cursor: GNOME has one cursor
-setting, so there is one cursor theme, drawn to stand out on both.
+A desktop theme for GNOME and the tools around it. One fuchsia light marks
+exactly where you are: the cursor, the current tab, the selected line. Violet
+marks everything you can touch; the rest stays in the dark. Terminal type on
+the chrome, soft sans for the words. Hard corners, no drop shadows, nothing
+fades in. Cyberpunk, with a manicure.
+
+It dresses the GNOME desktop (GTK 4 / libadwaita, GTK 3, GNOME Shell and the
+mouse cursor) and the tools around it: Chrome, Firefox, GNOME Text Editor,
+Tilix, Emacs, `ls`, `git`, man pages and glow. Every part comes in dark and
+light, except the cursor: GNOME has one cursor setting, so there is one cursor
+theme, drawn to stand out on both.
 
 ![The overview, dark](screenshots/shell-overview-dark.png)
 
