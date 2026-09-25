@@ -1,12 +1,13 @@
 # Neon Doll
 
-A GNOME theme that treats the desktop as a man page in a terminal that never
-existed. Near-black plum or plum-tinted paper, a fuchsia that means "you are
-here", mono for the chrome and sans for what you read. No rounded corners, no
-drop shadows, no transitions.
+A desktop theme that treats your screen as a man page in a terminal that
+never existed. Near-black plum or plum-tinted paper, a fuchsia that means "you
+are here", mono for the chrome and sans for what you read. No rounded corners,
+no drop shadows, no transitions.
 
-It covers GTK 4 / libadwaita, GTK 3, GNOME Shell and Chrome, color schemes for
-GNOME Text Editor, Tilix and Emacs, and `ls` colors, each in dark and light.
+It themes the GNOME desktop (GTK 4 / libadwaita, GTK 3 and GNOME Shell) and
+the tools around it: Chrome, GNOME Text Editor, Tilix, Emacs and `ls`. Every
+part comes in dark and light.
 
 ![The overview, dark](screenshots/shell-overview-dark.png)
 
