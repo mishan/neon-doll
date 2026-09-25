@@ -3,7 +3,7 @@
 #
 #   ./install.sh [--link] [--remove] [PART...]
 #
-# PART is any of: gtk4 gtk3 shell gtksourceview tilix emacs dircolors git man glow
+# PART is any of: gtk4 gtk3 shell cursor gtksourceview tilix emacs dircolors git man glow
 # (default: all).
 # Files are copied; --link symlinks them into this checkout instead, so edits
 # here show up on the next app launch. --remove takes out only what install
@@ -25,11 +25,11 @@ for arg in "$@"; do
     --link) mode=link ;;
     --remove) mode=remove ;;
     -h|--help) sed -n '2,13s/^# \{0,1\}//p' "$0"; exit 0 ;;
-    gtk4|gtk3|shell|gtksourceview|tilix|emacs|dircolors|git|man|glow) parts="$parts $arg" ;;
+    gtk4|gtk3|shell|cursor|gtksourceview|tilix|emacs|dircolors|git|man|glow) parts="$parts $arg" ;;
     *) echo "unknown argument: $arg" >&2; exit 2 ;;
   esac
 done
-[ -n "$parts" ] || parts="gtk4 gtk3 shell gtksourceview tilix emacs dircolors git man glow"
+[ -n "$parts" ] || parts="gtk4 gtk3 shell cursor gtksourceview tilix emacs dircolors git man glow"
 
 same() { diff -rq "$1" "$2" >/dev/null 2>&1; }
 
@@ -84,6 +84,11 @@ for part in $parts; do
       else
         hint "Shell: gsettings set org.gnome.shell.extensions.user-theme name Neon-Doll-Dark   # or Neon-Doll-Light; add -Hearts for a heart-shaped Locate Pointer; needs the User Themes extension"
       fi
+      ;;
+    cursor)
+      # A cursor theme is an icon theme, not a GTK one: it goes under icons/.
+      place "$here/icons/Neon-Doll-Cursors" "$data/icons/Neon-Doll-Cursors"
+      hint "Cursor: gsettings set org.gnome.desktop.interface cursor-theme Neon-Doll-Cursors   # one theme for light and dark"
       ;;
     gtksourceview)
       for f in "$here"/gtksourceview/*.xml; do

@@ -1,8 +1,9 @@
 # gnome-look.org listings
 
-Two products, one per category, both uploading the same
+Three products, one per category. The two theme listings upload the same
 `neon-doll-themes-VERSION.tar.xz` from `tools/dist.sh`, with the full
-`neon-doll-VERSION.tar.xz` alongside it. License: GPL-3.0-or-later.
+`neon-doll-VERSION.tar.xz` alongside it; the cursor listing uploads
+`neon-doll-cursors-VERSION.tar.xz`. License: GPL-3.0-or-later.
 Screenshots: `screenshots/`, the Shell overview first.
 
 ## GTK3/4 Themes — "Neon Doll"
@@ -46,5 +47,23 @@ Pair it with the GTK theme of the same name for a matching desktop.
 Known limits: the overview's workspace corners stay rounded and the slider
 knob stays round, because the shell draws both in code; the login screen uses
 the stock theme.
+
+Source and the full install guide: https://github.com/mishan/neon-doll
+
+## Cursors — "Neon Doll Cursors"
+
+The Neon Doll pointer: fuchsia, which in Neon Doll means "you are here",
+inside a thin dark edge inside a light one, so it stays easy to find on dark
+and light desktops, grey, and busy photos alike. One theme for both light and
+dark. Square and flat, with no animation: wait is a still hourglass.
+
+The full standard set that GNOME and GTK ask for, with the legacy X11 names
+linked, at 24, 32, 48, 64 and 96 px.
+
+Unpack into ~/.icons or ~/.local/share/icons, then:
+
+    gsettings set org.gnome.desktop.interface cursor-theme Neon-Doll-Cursors
+
+Screenshot: `screenshots/cursors.png`.
 
 Source and the full install guide: https://github.com/mishan/neon-doll

@@ -7,6 +7,9 @@
 #                                  resolved: what a theme site's one-click
 #                                  install unpacks into ~/.themes (GTK 3 and
 #                                  Shell only)
+# neon-doll-cursors-VERSION.tar.xz the cursor theme dir, links kept: what a
+#                                  cursor site's one-click install unpacks
+#                                  into ~/.icons
 # neon-doll-VERSION.tar.xz         the whole tree at that commit, with
 #                                  install.sh: every part, GTK 4 included
 # neon-doll-{dark,light}-chrome-VERSION.zip
@@ -43,6 +46,12 @@ for t in "$tmp"/themes/*/; do
 done
 tar -C "$tmp/out" --owner=0 --group=0 --numeric-owner --sort=name \
   -cJf "dist/neon-doll-themes-$version.tar.xz" .
+
+mkdir "$tmp/cursors"
+git archive --format=tar HEAD icons/Neon-Doll-Cursors | tar -x -C "$tmp/cursors"
+cp "$tmp/COPYING" "$tmp/cursors/icons/Neon-Doll-Cursors/"
+tar -C "$tmp/cursors/icons" --owner=0 --group=0 --numeric-owner --sort=name \
+  -cJf "dist/neon-doll-cursors-$version.tar.xz" Neon-Doll-Cursors
 
 # Chrome Web Store uploads are a zip of the theme folder.
 for t in chrome/*/; do

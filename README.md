@@ -5,9 +5,11 @@ never existed. Near-black plum or plum-tinted paper, a fuchsia that means "you
 are here", mono for the chrome and sans for what you read. No rounded corners,
 no drop shadows, no transitions.
 
-It themes the GNOME desktop (GTK 4 / libadwaita, GTK 3 and GNOME Shell) and
+It themes the GNOME desktop (GTK 4 / libadwaita, GTK 3, GNOME Shell and the
+mouse cursor) and
 the tools around it: Chrome, Firefox, GNOME Text Editor, Tilix, Emacs, `ls`, `git`, man pages and glow.
-Every part comes in dark and light.
+Every part comes in dark and light, except the cursor: GNOME has one cursor
+setting, so there is one cursor theme, drawn to stand out on both.
 
 ![The overview, dark](screenshots/shell-overview-dark.png)
 
@@ -26,12 +28,14 @@ Every part comes in dark and light.
 | man pages | ![](screenshots/man-dark.png) | ![](screenshots/man-light.png) |
 | glow | ![](screenshots/glow-dark.png) | ![](screenshots/glow-light.png) |
 
+![Every cursor at 64 and 32 px on dark, light, grey and a busy photo-like background](screenshots/cursors.png)
+
 ## Install
 
 ```
 git clone https://github.com/mishan/neon-doll.git && cd neon-doll
 ./install.sh                  # everything
-./install.sh gtk4 shell       # or pick: gtk4 gtk3 shell gtksourceview tilix emacs dircolors git man glow
+./install.sh gtk4 shell       # or pick: gtk4 gtk3 shell cursor gtksourceview tilix emacs dircolors git man glow
 ./install.sh --remove         # take it out again
 ```
 
@@ -44,6 +48,7 @@ edits in the checkout show up on the next app launch.
 | GTK 4 / libadwaita | `~/.config/gtk-4.0/gtk.css` | Restart apps. Light or dark follows Settings → Appearance. |
 | GTK 3 | `~/.local/share/themes/Neon-Doll-{Dark,Light}/` | `gsettings set org.gnome.desktop.interface gtk-theme Neon-Doll-Dark` |
 | GNOME Shell | the same two theme dirs, plus `Neon-Doll-{Dark,Light}-Hearts` | `gsettings set org.gnome.shell.extensions.user-theme name Neon-Doll-Dark` (needs the [User Themes](https://extensions.gnome.org/extension/19/user-themes/) extension). The `-Hearts` themes are the same, except that Locate Pointer (press Ctrl) ripples out as a heart instead of a ring. |
+| Cursor | `~/.local/share/icons/Neon-Doll-Cursors/` | `gsettings set org.gnome.desktop.interface cursor-theme Neon-Doll-Cursors`. One theme for light and dark: a fuchsia body inside a dark edge inside a light one, so one of the edges stands out on any background, photos included. The size is Settings → Accessibility → Seeing → Cursor Size; every size from 24 to 96 is drawn. |
 | Text Editor | `~/.local/share/gtksourceview-5/styles/` (and `-4`) | Pick Neon Doll in the style menu. |
 | Tilix | `~/.config/tilix/schemes/` | Restart Tilix; Preferences → Profile → Color. |
 | Emacs 29+ | `~/.emacs.d/themes/` (or `$EMACS_THEMES_DIR`) | `(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")` `(load-theme 'neon-doll-dark t)` |
@@ -122,6 +127,9 @@ both above 4.5:1 on its panels.
   banner in the main menu and the New Tab page's own buttons keep Firefox's
   colors. `userChrome.css` leans on Firefox's internal design tokens, which
   can change in any release.
+- **The cursor** doesn't move: wait is a still hourglass, and progress the
+  arrow with a small one. Names it doesn't have, such as the hashed ones a
+  few older Qt and X apps ask for, fall back to Adwaita's.
 - **Line numbers** in the editor schemes use the dimmest color on purpose and
   sit below 4.5:1.
 - **Emacs** faces for magit, vertico and similar packages are set but untested;
@@ -150,6 +158,7 @@ tools/build-firefox.py [--check]                  # regenerate the Firefox theme
 tools/firefox-shoot.py dark|light out.png [--menu] [--userchrome]
                                                   # screenshot it in a scratch Firefox profile (under xvfb-run)
 tools/build-glow.py [--check]                     # regenerate the glow styles
+tools/build-cursor.py [--check|--sheet out.png]   # regenerate the cursor theme from cursor/src/*.svg
 tools/dist.sh [VERSION]                           # release archives into dist/
 ```
 
