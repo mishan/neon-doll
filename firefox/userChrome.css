@@ -1,0 +1,57 @@
+/* Neon Doll for Firefox: the part a theme can't do. Optional.
+
+   The theme (manifest.json) sets every color. This adds the shapes: square
+   corners, no shadows, mono chrome, and the current tab's fuchsia rail
+   across its top in place of the outline around it.
+
+   Install: in about:config set
+   toolkit.legacyUserProfileCustomizations.stylesheets to true, then copy
+   this file into a folder named chrome/ inside your profile folder (see
+   about:support, "Profile Folder") and restart Firefox. Delete the file to
+   undo it.
+
+   It only overrides Firefox's own design tokens rather than styling
+   elements, so it survives most Firefox updates; when one does break, the
+   worst case is a rounded corner coming back. Written against Firefox 156.
+
+   A user stylesheet's !important wins over the browser's own rules and
+   reaches inside its shadow trees, which is why this sets the tokens on
+   every element. */
+
+* {
+  /* No radii. Round things that are round on purpose, like the
+     circle token, stay. */
+  --border-radius-xsmall: 0 !important;
+  --border-radius-small: 0 !important;
+  --border-radius-medium: 0 !important;
+  --border-radius-large: 0 !important;
+  --border-radius-xlarge: 0 !important;
+  --tab-border-radius: 0 !important;
+  --toolbarbutton-border-radius: 0 !important;
+  --button-border-radius: 0 !important;
+  --urlbar-border-radius: 0 !important;
+  --urlbarview-border-radius: 0 !important;
+  --popup-border-radius: 0 !important;
+  --panel-border-radius: 0 !important;
+  --menuitem-border-radius: 0 !important;
+  --panel-menuitem-border-radius: 0 !important;
+
+  /* No shadows. */
+  --box-shadow-level-1: none !important;
+  --box-shadow-level-2: none !important;
+  --box-shadow-level-3: none !important;
+  --box-shadow-level-4: none !important;
+  --panel-box-shadow: none !important;
+  --tab-box-shadow-selected: none !important;
+  --urlbar-background-box-shadow-breakout: none !important;
+
+  /* Mono chrome: tabs, the address bar, menus, buttons. */
+  font-family: monospace !important;
+}
+
+/* The rail: the current tab keeps its fuchsia (the theme's tab_line) as a
+   bar across the top instead of a box around it. */
+.tab-background:is([selected], [multiselected]) {
+  outline-color: transparent !important;
+  box-shadow: inset 0 2px var(--lwt-tab-line-color, currentColor) !important;
+}

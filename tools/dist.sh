@@ -12,6 +12,8 @@
 # neon-doll-{dark,light}-chrome-VERSION.zip
 #                                  a Chrome theme each, as the Chrome Web
 #                                  Store takes them
+# neon-doll-firefox-VERSION.zip    the Firefox theme, light and dark in one,
+#                                  unsigned, for addons.mozilla.org to sign
 #
 # The GTK 4 stylesheet is kept out of the theme dirs on purpose: a gtk-4.0/
 # inside a theme dir is loaded as a complete theme by GTK 4 apps that don't
@@ -47,5 +49,9 @@ for t in chrome/*/; do
   name=$(basename "$t")
   git archive --format=zip HEAD:"chrome/$name" > "dist/$name-chrome-$version.zip"
 done
+
+# An AMO upload is a zip with manifest.json at the top. userChrome.css stays
+# out: it isn't part of the add-on, and goes in by hand.
+git archive --format=zip HEAD:firefox manifest.json images > "dist/neon-doll-firefox-$version.zip"
 
 ls -l dist/*"$version"*

@@ -6,7 +6,7 @@ are here", mono for the chrome and sans for what you read. No rounded corners,
 no drop shadows, no transitions.
 
 It themes the GNOME desktop (GTK 4 / libadwaita, GTK 3 and GNOME Shell) and
-the tools around it: Chrome, GNOME Text Editor, Tilix, Emacs, `ls`, `git`, man pages and glow.
+the tools around it: Chrome, Firefox, GNOME Text Editor, Tilix, Emacs, `ls`, `git`, man pages and glow.
 Every part comes in dark and light.
 
 ![The overview, dark](screenshots/shell-overview-dark.png)
@@ -21,6 +21,7 @@ Every part comes in dark and light.
 | Text Editor | ![](screenshots/text-editor-dark.png) | ![](screenshots/text-editor-light.png) |
 | Emacs | ![](screenshots/emacs-dark.png) | ![](screenshots/emacs-light.png) |
 | Chrome | ![](screenshots/chrome-dark.png) | ![](screenshots/chrome-light.png) |
+| Firefox | ![](screenshots/firefox-dark.png) | ![](screenshots/firefox-light.png) |
 | git in Tilix | ![](screenshots/git-dark.png) | ![](screenshots/git-light.png) |
 | man pages | ![](screenshots/man-dark.png) | ![](screenshots/man-light.png) |
 | glow | ![](screenshots/glow-dark.png) | ![](screenshots/glow-light.png) |
@@ -59,14 +60,32 @@ current tab is the lifted panel, titled in fuchsia; the dark New Tab page gets
 the graph paper, while the light one stays plain, since Chrome treats any New
 Tab image as a photo and whitens the logo over it.
 
-Tested on GNOME 51 with GTK 4.24, libadwaita 1.10 and GTK 3.24, and Chrome 154.
+**Firefox** is one theme that carries both variants and follows the system's
+light or dark mode. Until it's on addons.mozilla.org, load it for the session
+from `about:debugging` → *This Firefox* → *Load Temporary Add-on*, picking
+`firefox/manifest.json`; release Firefox only keeps signed add-ons across
+restarts. The current tab is the lifted panel, titled and outlined in fuchsia;
+the address bar is a slot that takes a fuchsia edge when focused; menus and the
+address bar's results are panels, the highlighted result washed in fuchsia; and
+the graph paper shows in the tab strip.
+
+A theme sets colors only. For the shapes, `firefox/userChrome.css` squares the
+corners, drops the shadows, sets the chrome in mono and turns the current tab's
+outline into a rail across its top. It is optional and goes in by hand: set
+`toolkit.legacyUserProfileCustomizations.stylesheets` to `true` in
+`about:config`, copy the file into a `chrome/` folder inside your profile
+folder (`about:support` → *Profile Folder*) and restart Firefox.
+
+Tested on GNOME 51 with GTK 4.24, libadwaita 1.10 and GTK 3.24, Chrome 154 and
+Firefox 156.
 
 ### Light and dark
 
-GTK 4 and Text Editor switch with the system style on their own. GTK 3 and the
-Shell can't: a GTK 3 theme name and a Shell user theme are each one choice, so
-there are two, `Neon-Doll-Dark` and `Neon-Doll-Light`. GTK 3 apps that ask for
-a dark style get it from either. Tilix and Emacs have a scheme per variant.
+GTK 4, Text Editor and Firefox switch with the system style on their own.
+GTK 3 and the Shell can't: a GTK 3 theme name and a Shell user theme are each
+one choice, so there are two, `Neon-Doll-Dark` and `Neon-Doll-Light`. GTK 3
+apps that ask for a dark style get it from either. Tilix and Emacs have a
+scheme per variant.
 
 ## The rules
 
@@ -92,10 +111,17 @@ both above 4.5:1 on its panels.
   slide. The login screen uses the stock theme.
 - **GTK 3** has no `:focus-visible`, so its focus ring appears only once the
   keyboard is in use. Message-dialog headings stay bold.
-- **Apps that paint their own colors** — Firefox, Electron apps, terminals
-  other than Tilix — pick up little or nothing.
+- **Apps that paint their own colors** — Electron apps, terminals other than
+  Tilix — pick up little or nothing.
 - **Chrome** themes set colors only: tabs keep Chrome's rounded shapes, and
   focus rings and hover states stay Chrome's own.
+- **Firefox** themes set colors only, and the current tab's indicator is an
+  outline all round, so without `userChrome.css` tabs and fields stay rounded,
+  the chrome stays sans, and the tab gets a fuchsia box rather than a rail.
+  Hover can tint a toolbar button but not turn its icon fuchsia. The account
+  banner in the main menu and the New Tab page's own buttons keep Firefox's
+  colors. `userChrome.css` leans on Firefox's internal design tokens, which
+  can change in any release.
 - **Line numbers** in the editor schemes use the dimmest color on purpose and
   sit below 4.5:1.
 - **Emacs** faces for magit, vertico and similar packages are set but untested;
@@ -120,6 +146,9 @@ tools/scheme-shoot.sh out.png gsv|emacs [variant] # screenshot them
 tools/term-shoot.sh out.png                       # ls colors in both terminal schemes, GNU defaults vs Neon Doll
 tools/build-chrome.py [--check]                   # regenerate the Chrome themes
 tools/chrome-shoot.py dark|light out.png          # screenshot one in a scratch Chrome profile (under xvfb-run)
+tools/build-firefox.py [--check]                  # regenerate the Firefox theme
+tools/firefox-shoot.py dark|light out.png [--menu] [--userchrome]
+                                                  # screenshot it in a scratch Firefox profile (under xvfb-run)
 tools/build-glow.py [--check]                     # regenerate the glow styles
 tools/dist.sh [VERSION]                           # release archives into dist/
 ```
