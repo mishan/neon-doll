@@ -8,7 +8,7 @@ Screenshots: `screenshots/`, the Shell overview first.
 
 ## GTK3/4 Themes — "Neon Doll"
 
-A GNOME theme that treats the desktop as a man page in a terminal that never
+A desktop theme that treats your screen as a man page in a terminal that never
 existed: near-black plum or plum-tinted paper, a fuchsia that means "you are
 here", mono for the chrome and sans for what you read. No rounded corners, no
 drop shadows, no transitions. Dark and light.
@@ -17,14 +17,15 @@ Two themes: Neon-Doll-Dark and Neon-Doll-Light. Each covers GTK 3 and GNOME
 Shell.
 
 GTK 4 / libadwaita apps don't read GTK themes, so their part is a separate
-stylesheet, ~/.config/gtk-4.0/gtk.css. It is in the full archive, or install
-everything with:
+stylesheet, ~/.config/gtk-4.0/gtk.css, which follows the system's light or
+dark style on its own. It is in the full archive, or install everything with:
 
     git clone https://github.com/mishan/neon-doll.git
     cd neon-doll && ./install.sh
 
-That also installs matching color schemes for GNOME Text Editor, Tilix and
-Emacs.
+That also installs the rest of the set: color schemes for GNOME Text Editor,
+Tilix and Emacs, and colors for ls, git, man pages and glow. Chrome and
+Firefox themes are in the repository too, with instructions for loading them.
 
 Tested on GNOME 51 (GTK 4.24, libadwaita 1.10, GTK 3.24).
 
@@ -43,6 +44,10 @@ Themes, or:
     gsettings set org.gnome.shell.extensions.user-theme name Neon-Doll-Dark
 
 Pair it with the GTK theme of the same name for a matching desktop.
+
+Also included: Neon-Doll-Dark-Hearts and Neon-Doll-Light-Hearts, the same
+themes with one difference: Locate Pointer (press Ctrl) ripples out from the
+pointer as a heart instead of a ring.
 
 Known limits: the overview's workspace corners stay rounded and the slider
 knob stays round, because the shell draws both in code; the login screen uses
