@@ -1,0 +1,111 @@
+# Neon Doll colors for ls, as read by dircolors(1).
+#
+#   eval "$(dircolors -b path/to/neon-doll)"
+#
+# Only the 16 terminal colors, so the same file follows the Neon Doll Dark or
+# Light terminal scheme, whichever is active. With the Neon Doll palette:
+# 31 red, 32 green, 33 yellow (the string color), 34 blue, 35 purple,
+# 36 cyan, 90 muted.
+#
+# No background fills. GNU's defaults flag odd permissions with a fill
+# (blue on green for a world-writable directory), which is loud on any palette
+# and illegible on this one. Here the cue is an underline on the usual color
+# instead, so it still reads without color, the way the diff markers do.
+# Fuchsia is not in the terminal palette at all; nothing here is decoration.
+
+TERM *
+COLORTERM ?*
+
+NORMAL 00
+FILE 00
+RESET 0
+
+DIR 35                  # purple: somewhere you can go
+LINK 36                 # cyan
+ORPHAN 31               # a link to nothing: red
+MISSING 31
+MULTIHARDLINK 00
+FIFO 33
+SOCK 36
+DOOR 36
+BLK 33
+CHR 33
+EXEC 32                 # green
+
+# Permissions worth a second look: underlined, never filled.
+OTHER_WRITABLE 4;35     # a directory anyone can write to
+STICKY_OTHER_WRITABLE 4;35
+STICKY 35               # sticky alone is harmless
+SETUID 4;31
+SETGID 4;33
+CAPABILITY 00
+
+# Archives and packages: yellow, the color of packed-up data.
+.tar 33
+.tgz 33
+.tbz 33
+.txz 33
+.tzst 33
+.gz 33
+.bz2 33
+.xz 33
+.zst 33
+.lz 33
+.lzma 33
+.zip 33
+.7z 33
+.rar 33
+.deb 33
+.rpm 33
+.jar 33
+.iso 33
+.img 33
+.cpio 33
+.apk 33
+.AppImage 32
+.flatpak 33
+
+# Images and video: blue.
+.png 34
+.jpg 34
+.jpeg 34
+.gif 34
+.webp 34
+.avif 34
+.heic 34
+.bmp 34
+.tif 34
+.tiff 34
+.svg 34
+.xcf 34
+.raw 34
+.cr2 34
+.nef 34
+.dng 34
+.mp4 34
+.mkv 34
+.webm 34
+.mov 34
+.avi 34
+.m4v 34
+
+# Audio: cyan.
+.flac 36
+.mp3 36
+.ogg 36
+.opus 36
+.wav 36
+.m4a 36
+.aac 36
+.aiff 36
+.mid 36
+.dsf 36
+
+# Leftovers: muted.
+.bak 90
+.old 90
+.orig 90
+.rej 90
+.swp 90
+.tmp 90
+*~ 90

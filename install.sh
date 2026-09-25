@@ -3,7 +3,8 @@
 #
 #   ./install.sh [--link] [--remove] [PART...]
 #
-# PART is any of: gtk4 gtk3 shell gtksourceview tilix emacs (default: all).
+# PART is any of: gtk4 gtk3 shell gtksourceview tilix emacs dircolors
+# (default: all).
 # Files are copied; --link symlinks them into this checkout instead, so edits
 # here show up on the next app launch. --remove takes out only what install
 # put in: links, and copies that still match this checkout.
@@ -23,12 +24,12 @@ for arg in "$@"; do
   case $arg in
     --link) mode=link ;;
     --remove) mode=remove ;;
-    -h|--help) sed -n '2,12s/^# \{0,1\}//p' "$0"; exit 0 ;;
-    gtk4|gtk3|shell|gtksourceview|tilix|emacs) parts="$parts $arg" ;;
+    -h|--help) sed -n '2,13s/^# \{0,1\}//p' "$0"; exit 0 ;;
+    gtk4|gtk3|shell|gtksourceview|tilix|emacs|dircolors) parts="$parts $arg" ;;
     *) echo "unknown argument: $arg" >&2; exit 2 ;;
   esac
 done
-[ -n "$parts" ] || parts="gtk4 gtk3 shell gtksourceview tilix emacs"
+[ -n "$parts" ] || parts="gtk4 gtk3 shell gtksourceview tilix emacs dircolors"
 
 same() { diff -rq "$1" "$2" >/dev/null 2>&1; }
 
@@ -104,6 +105,10 @@ for part in $parts; do
         place "$f" "$emacs_dir/$(basename "$f")"
       done
       hint "Emacs: (add-to-list 'custom-theme-load-path \"$emacs_dir\") (load-theme 'neon-doll-dark t)"
+      ;;
+    dircolors)
+      place "$here/dircolors/neon-doll" "$config/neon-doll/dircolors"
+      hint "ls: add to ~/.bashrc:  eval \"\$(dircolors -b $config/neon-doll/dircolors)\""
       ;;
   esac
 done

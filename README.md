@@ -25,7 +25,7 @@ Text Editor, Tilix and Emacs, each in dark and light.
 ```
 git clone https://github.com/mishan/neon-doll.git && cd neon-doll
 ./install.sh                  # everything
-./install.sh gtk4 shell       # or pick: gtk4 gtk3 shell gtksourceview tilix emacs
+./install.sh gtk4 shell       # or pick: gtk4 gtk3 shell gtksourceview tilix emacs dircolors
 ./install.sh --remove         # take it out again
 ```
 
@@ -41,6 +41,7 @@ edits in the checkout show up on the next app launch.
 | Text Editor | `~/.local/share/gtksourceview-5/styles/` (and `-4`) | Pick Neon Doll in the style menu. |
 | Tilix | `~/.config/tilix/schemes/` | Restart Tilix; Preferences → Profile → Color. |
 | Emacs 29+ | `~/.emacs.d/themes/` (or `$EMACS_THEMES_DIR`) | `(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")` `(load-theme 'neon-doll-dark t)` |
+| `ls` colors | `~/.config/neon-doll/dircolors` | `eval "$(dircolors -b ~/.config/neon-doll/dircolors)"` in `~/.bashrc`. Uses only the 16 terminal colors, so it follows either Neon Doll terminal scheme; odd permissions are underlined rather than filled. |
 
 Tested on GNOME 51 with GTK 4.24, libadwaita 1.10 and GTK 3.24.
 
@@ -98,6 +99,7 @@ tools/build-shell.py [--check|--coverage]         # regenerate the Shell theme
 tools/shoot-shell.sh OUTDIR [dark|light]          # screenshot a headless, fully themed GNOME Shell
 tools/scheme-colors.py [--write|--elisp]          # derive and check the text schemes
 tools/scheme-shoot.sh out.png gsv|emacs [variant] # screenshot them
+tools/term-shoot.sh out.png                       # ls colors in both terminal schemes, GNU defaults vs Neon Doll
 tools/dist.sh [VERSION]                           # release archives into dist/
 ```
 
