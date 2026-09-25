@@ -1683,6 +1683,8 @@ StScrollBar > .vhandle:active, StScrollBar > .hhandle:active { background-color:
    image, generated per variant by tools/build-shell.py; the shell still grows
    it outward from the pointer. The box behind it stays empty. */
 .ripple-pointer-location {
+  width: 64px;    /* stock is 50px; a heart has less area than a disc */
+  height: 64px;
   background-color: transparent;
   border: none;
   background-image: url("locate-pointer-heart.svg");
