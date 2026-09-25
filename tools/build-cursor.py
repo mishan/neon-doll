@@ -17,29 +17,34 @@ needed: the Xcursor files are written here, so a renderer is the only tool.
 --check allows a few levels of antialiasing difference per channel, so a
 different librsvg version doesn't make the output look stale.
 
-Design. Fuchsia means position, and the pointer is the most literal "you are
-here" on a desktop, so the whole cursor is fuchsia. One cursor theme serves
-both variants (GNOME has one cursor setting, not a light and a dark one), and
-it has to stay findable on a large screen over anything: dark, light, mid
-grey, a photo, even a fuchsia selection. No single color does that, so every
-shape is drawn three times from the same outline:
+Design. One cursor theme serves both variants (GNOME has one cursor
+setting, not a light and a dark one), and it has to stay findable on a large
+screen over anything: dark, light, mid grey, a photo. A solid fuchsia cursor
+did that but was too loud, so the body is black, #0f0d14, the dark variant's
+page, and fuchsia is kept for what it means in Neon Doll: position.
 
-  - a light outer edge, #f7f4fa, the light variant's page: it carries the
-    cursor on dark and mid-dark backgrounds;
-  - a dark inner edge, #0f0d14, the dark variant's page: it carries it on
-    light backgrounds and separates the body from anything fuchsia;
-  - the fuchsia body, #ff2d95, the dark variant's pink, the brighter of the
-    two, since the dark edge already gives it contrast on paper.
+  - The everyday pointers, default, pointer and text (and the names linked
+    to them), are where you are, so they get the fuchsia: a crisp 1-unit
+    #ff2d95 edge on the outline and a faint, short halo past it, the outline
+    stroked 3 units wide, blurred by 0.75 and drawn at 60%. It fades out
+    about 1.5 px past the edge at 24 px: light around the edge rather than a
+    band, so the pointer stays slim and precise. On light and mid backgrounds
+    the black body carries it; on dark ones the edge and halo do.
+  - Every other cursor is drawn plainly: the black body with a crisp 1-unit
+    light edge, #f7f4fa, the light variant's page. On light backgrounds the
+    body carries it; on dark ones the edge does. No halo, so resize arrows,
+    hands and the rest stay quiet next to the pointer.
 
-At 24 px each edge is 1 px; they scale with the cursor. Whatever the
-background, one of the two edges contrasts with it, and the other contrasts
-with the first. The edges are strokes centered on the outline, 4 and 2 units
-wide, under a fill of the same shape, so only their outer halves show and
-overlapping parts merge into one silhouette. Corners are mitered, keeping them
-square, but the miter limit of 1.5 bevels any tip sharper than about 83
-degrees; otherwise the arrow's edge would run 5 px past its tip at 24 px, and
-the eye would aim with a point that isn't the hotspot. Details inside a body
-(sand, the plus on the magnifier) are drawn in the dark edge color.
+Everything scales with the cursor: at 24 px each edge is 1 px. The edges are
+strokes centered on the outline, 2 units wide, under a fill of the same
+shape, so only their outer half shows and overlapping parts merge into one
+silhouette. Corners are mitered, keeping them square, but the miter limit of
+1.5 bevels any tip sharper than about 83 degrees; otherwise the arrow's edge
+would run past its tip, and the eye would aim with a point that isn't the
+hotspot. Details inside a body (sand, the plus on the magnifier) are
+fuchsia. The halo is the one soft thing in a theme without shadows: it is
+there to find the pointer by, and it fits inside the 24-unit canvas, so the
+images stay at their nominal size.
 
 No motion: the theme has none, so wait is a still hourglass with its sand
 half run through, and progress is the arrow with a small one. Both read as
@@ -89,7 +94,7 @@ ND = "{https://github.com/mishan/neon-doll}"
 INDEX_THEME = """\
 [Icon Theme]
 Name=Neon Doll Cursors
-Comment=Fuchsia cursors with a dark and a light edge, for any background
+Comment=Black cursors; the everyday pointers edged in fuchsia, with a faint halo
 Inherits=Adwaita
 """
 
@@ -343,13 +348,46 @@ def check():
     return 0
 
 
-# --- contact sheet -----------------------------------------------------------
+# --- contact sheets ----------------------------------------------------------
+
+def photo(w, h):
+    """A busy, photo-like field: smooth color, hard-edged patches of black,
+    white and fuchsia, and grain. Seeded, so the sheet is reproducible."""
+    import random
+    from PIL import Image, ImageDraw, ImageFilter
+    rnd = random.Random(7)
+    img = Image.new("RGB", (16, 6))
+    img.putdata([tuple(rnd.randrange(256) for _ in range(3)) for _ in range(96)])
+    img = img.resize((w, h), Image.BICUBIC)
+    d = ImageDraw.Draw(img)
+    for _ in range(60 * w * h // (1272 * 342)):
+        x, y = rnd.randrange(w), rnd.randrange(h)
+        c = rnd.choice([(255, 255, 255), (0, 0, 0), (255, 45, 149),
+                        (200, 0, 106), (247, 244, 250), (15, 13, 20)])
+        d.rectangle((x, y, x + rnd.randrange(8, 90), y + rnd.randrange(4, 40)), fill=c)
+    img = img.filter(ImageFilter.GaussianBlur(1.2))
+    noise = Image.frombytes("L", (w, h), rnd.randbytes(w * h)).convert("RGB")
+    return Image.blend(img, noise, 0.25)
+
+
+def image(theme, name, n):
+    """One size of a built cursor as a PIL image, and its hotspot."""
+    from PIL import Image
+    for nominal, w, h, _, _, _, argb in read_xcursor((theme / "cursors" / name).read_bytes()):
+        if nominal == n:
+            data = bytearray()
+            for p in argb:
+                a = p >> 24
+                un = lambda c: min(255, (c * 255 + a // 2) // a) if a else 0  # noqa: E731
+                data += bytes((un(p >> 16 & 255), un(p >> 8 & 255), un(p & 255), a))
+            return Image.frombytes("RGBA", (w, h), bytes(data))
+    raise KeyError(f"{name} has no {n}px image")
+
 
 def sheet(path):
     """Every cursor at 64 and 32 px on dark, light, mid grey and a busy,
     photo-like field with fuchsia in it, drawn from the built files."""
-    import random
-    from PIL import Image, ImageDraw, ImageFilter, ImageFont
+    from PIL import Image, ImageDraw, ImageFont
 
     names = sorted(p.stem for p in SRC.glob("*.svg"))
     cols, cell_w, cell_h, label_h, pad = 12, 104, 92, 14, 12
@@ -362,21 +400,6 @@ def sheet(path):
     except OSError:
         font = hfont = ImageFont.load_default()
 
-    def photo(w, h):
-        rnd = random.Random(7)
-        img = Image.new("RGB", (16, 6))
-        img.putdata([tuple(rnd.randrange(256) for _ in range(3)) for _ in range(96)])
-        img = img.resize((w, h), Image.BICUBIC)
-        d = ImageDraw.Draw(img)
-        for _ in range(60):
-            x, y = rnd.randrange(w), rnd.randrange(h)
-            c = rnd.choice([(255, 255, 255), (0, 0, 0), (255, 45, 149),
-                            (200, 0, 106), (247, 244, 250), (15, 13, 20)])
-            d.rectangle((x, y, x + rnd.randrange(8, 90), y + rnd.randrange(4, 40)), fill=c)
-        img = img.filter(ImageFilter.GaussianBlur(1.2))
-        noise = Image.frombytes("L", (w, h), rnd.randbytes(w * h)).convert("RGB")
-        return Image.blend(img, noise, 0.25)
-
     bands = [("dark #0f0d14", Image.new("RGB", (band_w, band_h), "#0f0d14")),
              ("light #f7f4fa", Image.new("RGB", (band_w, band_h), "#f7f4fa")),
              ("mid grey #808080", Image.new("RGB", (band_w, band_h), "#808080")),
@@ -384,18 +407,7 @@ def sheet(path):
     out = Image.new("RGB", (band_w, len(bands) * (band_h + head)), "#16131d")
     draw = ImageDraw.Draw(out)
 
-    def image(name, n):
-        for nominal, w, h, _, _, _, argb in read_xcursor((OUT / "cursors" / name).read_bytes()):
-            if nominal == n:
-                data = bytearray()
-                for p in argb:
-                    a = p >> 24
-                    un = lambda c: min(255, (c * 255 + a // 2) // a) if a else 0  # noqa: E731
-                    data += bytes((un(p >> 16 & 255), un(p >> 8 & 255), un(p & 255), a))
-                return Image.frombytes("RGBA", (w, h), bytes(data))
-        raise KeyError(f"{name} has no {n}px image")
-
-    tiles = {(name, n): image(name, n) for name in names for n in (64, 32)}
+    tiles = {(name, n): image(OUT, name, n) for name in names for n in (64, 32)}
     for b, (title, bg) in enumerate(bands):
         top = b * (band_h + head)
         draw.text((pad, top + 6), title, fill="#ebe6f0", font=hfont)

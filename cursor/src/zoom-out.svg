@@ -2,8 +2,7 @@
      xmlns:nd="https://github.com/mishan/neon-doll"
      width="24" height="24" viewBox="0 0 24 24" nd:hotspot="10 10">
   <!-- zoom-out: A magnifier with a minus. Hotspot: the lens center. -->
-  <!-- Every shape is drawn three times: a light outer edge, a dark
-       inner edge, then the fuchsia body. See tools/build-cursor.py. -->
+  <!-- A black body with a 1-unit light edge. See tools/build-cursor.py. -->
   <defs>
     <g id="s0">
       <circle cx="10" cy="10" r="6"/>
@@ -11,11 +10,10 @@
     </g>
   </defs>
   <g stroke-linejoin="miter" stroke-miterlimit="1.5">
-    <use xlink:href="#s0" fill="none" stroke="#f7f4fa" stroke-width="4"/>
-    <use xlink:href="#s0" fill="none" stroke="#0f0d14" stroke-width="2"/>
-    <use xlink:href="#s0" fill="#ff2d95"/>
+    <use xlink:href="#s0" fill="none" stroke="#f7f4fa" stroke-width="2"/>
+    <use xlink:href="#s0" fill="#0f0d14"/>
   </g>
-  <g fill="#0f0d14">
+  <g fill="#ff2d95">
     <rect x="7" y="9" width="6" height="2"/>
   </g>
 </svg>

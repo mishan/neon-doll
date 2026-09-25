@@ -2,16 +2,22 @@
      xmlns:nd="https://github.com/mishan/neon-doll"
      width="24" height="24" viewBox="0 0 24 24" nd:hotspot="3 2">
   <!-- default: The arrow. Hotspot: the tip. -->
-  <!-- Every shape is drawn three times: a light outer edge, a dark
-       inner edge, then the fuchsia body. See tools/build-cursor.py. -->
+  <!-- An everyday pointer: a black body with a 1-unit fuchsia edge and a
+       faint fuchsia halo past it. See tools/build-cursor.py. -->
   <defs>
+    <filter id="halo" filterUnits="userSpaceOnUse" x="0" y="0"
+            width="24" height="24" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="0.75"/>
+    </filter>
     <g id="s0">
       <polygon points="3,2 3,18 7,14 10,20 12.5,19 9.5,13 14,13"/>
     </g>
   </defs>
   <g stroke-linejoin="miter" stroke-miterlimit="1.5">
-    <use xlink:href="#s0" fill="none" stroke="#f7f4fa" stroke-width="4"/>
-    <use xlink:href="#s0" fill="none" stroke="#0f0d14" stroke-width="2"/>
-    <use xlink:href="#s0" fill="#ff2d95"/>
+    <g filter="url(#halo)" opacity="0.6">
+      <use xlink:href="#s0" fill="#ff2d95" stroke="#ff2d95" stroke-width="3"/>
+    </g>
+    <use xlink:href="#s0" fill="none" stroke="#ff2d95" stroke-width="2"/>
+    <use xlink:href="#s0" fill="#0f0d14"/>
   </g>
 </svg>

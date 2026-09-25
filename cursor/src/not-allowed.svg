@@ -3,8 +3,7 @@
      width="24" height="24" viewBox="0 0 24 24" nd:hotspot="12 12">
   <!-- not-allowed: The no-entry sign. Round on purpose: it is the one shape
        everyone reads as "not here". -->
-  <!-- Every shape is drawn three times: a light outer edge, a dark
-       inner edge, then the fuchsia body. See tools/build-cursor.py. -->
+  <!-- A black body with a 1-unit light edge. See tools/build-cursor.py. -->
   <defs>
     <g id="s0">
       <path fill-rule="evenodd" d="M12,3.5 A8.5,8.5 0 1 0 12,20.5 A8.5,8.5 0 1 0 12,3.5 Z M12,6.5 A5.5,5.5 0 1 1 12,17.5 A5.5,5.5 0 1 1 12,6.5 Z"/>
@@ -12,8 +11,7 @@
     </g>
   </defs>
   <g stroke-linejoin="miter" stroke-miterlimit="1.5">
-    <use xlink:href="#s0" fill="none" stroke="#f7f4fa" stroke-width="4"/>
-    <use xlink:href="#s0" fill="none" stroke="#0f0d14" stroke-width="2"/>
-    <use xlink:href="#s0" fill="#ff2d95"/>
+    <use xlink:href="#s0" fill="none" stroke="#f7f4fa" stroke-width="2"/>
+    <use xlink:href="#s0" fill="#0f0d14"/>
   </g>
 </svg>
