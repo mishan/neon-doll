@@ -20,7 +20,11 @@
   font-weight: normal !important;
 }
 
-/* Round where round is the meaning: a face, a shutter, a drag handle. */
+/* Round where round is the meaning: a face, a shutter, a drag handle, and
+   the Locate Pointer ripple, which is an accessibility aid: a circle grows
+   evenly from the pointer, where a square's corners read as a shape
+   rather than as "here". */
+.ripple-pointer-location,
 .user-icon,
 .login-dialog .user-widget .user-icon, .unlock-dialog .user-widget .user-icon,
 .login-dialog-user-list-view .login-dialog-user-list .login-dialog-user-list-item .user-icon,

@@ -66,6 +66,7 @@ import * as ModalDialog from 'resource:///org/gnome/shell/ui/modalDialog.js';
 import * as Dialog from 'resource:///org/gnome/shell/ui/dialog.js';
 import * as AltTab from 'resource:///org/gnome/shell/ui/altTab.js';
 import * as RunDialog from 'resource:///org/gnome/shell/ui/runDialog.js';
+import * as Ripples from 'resource:///org/gnome/shell/ui/ripples.js';
 import {UnlockDialog} from 'resource:///org/gnome/shell/ui/unlockDialog.js';
 
 Gio._promisify(Shell.Screenshot.prototype, 'screenshot');
@@ -220,6 +221,17 @@ async function run() {
         menu.close();
         await wait(300);
         menu.destroy();
+    });
+
+    // Locate Pointer's ripple, caught while it grows. The headless pointer
+    // sits nowhere useful, so play the same ripples at the screen's center.
+    await scene('locate-pointer', async () => {
+        const ripples = new Ripples.Ripples(0.5, 0.5, 'ripple-pointer-location');
+        ripples.addTo(Main.uiGroup);
+        ripples.playAnimation(global.screen_width / 2, global.screen_height / 2);
+        await wait(250);
+        await shot('07b-locate-pointer');
+        await wait(1200);
     });
 
     await scene('osd', async () => {
