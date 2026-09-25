@@ -3,7 +3,7 @@
 #
 #   ./install.sh [--link] [--remove] [PART...]
 #
-# PART is any of: gtk4 gtk3 shell gtksourceview tilix emacs dircolors
+# PART is any of: gtk4 gtk3 shell gtksourceview tilix emacs dircolors git
 # (default: all).
 # Files are copied; --link symlinks them into this checkout instead, so edits
 # here show up on the next app launch. --remove takes out only what install
@@ -25,11 +25,11 @@ for arg in "$@"; do
     --link) mode=link ;;
     --remove) mode=remove ;;
     -h|--help) sed -n '2,13s/^# \{0,1\}//p' "$0"; exit 0 ;;
-    gtk4|gtk3|shell|gtksourceview|tilix|emacs|dircolors) parts="$parts $arg" ;;
+    gtk4|gtk3|shell|gtksourceview|tilix|emacs|dircolors|git) parts="$parts $arg" ;;
     *) echo "unknown argument: $arg" >&2; exit 2 ;;
   esac
 done
-[ -n "$parts" ] || parts="gtk4 gtk3 shell gtksourceview tilix emacs dircolors"
+[ -n "$parts" ] || parts="gtk4 gtk3 shell gtksourceview tilix emacs dircolors git"
 
 same() { diff -rq "$1" "$2" >/dev/null 2>&1; }
 
@@ -105,6 +105,10 @@ for part in $parts; do
         place "$f" "$emacs_dir/$(basename "$f")"
       done
       hint "Emacs: (add-to-list 'custom-theme-load-path \"$emacs_dir\") (load-theme 'neon-doll-dark t)"
+      ;;
+    git)
+      place "$here/git/neon-doll.gitconfig" "$config/neon-doll/gitconfig"
+      hint "git: git config --global include.path $config/neon-doll/gitconfig   # after any [color] sections of your own, or they win"
       ;;
     dircolors)
       place "$here/dircolors/neon-doll" "$config/neon-doll/dircolors"

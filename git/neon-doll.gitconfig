@@ -1,0 +1,88 @@
+# Neon Doll colors for git.
+#
+#   git config --global include.path ~/.config/neon-doll/gitconfig
+#
+# Like the ls colors, only the 16 terminal colors are named, so this follows
+# whichever Neon Doll terminal scheme is active, dark or light. With that
+# palette: red and green are the diff colors, yellow is the string color,
+# magenta is purple, cyan is cyan, brightblack is muted.
+#
+# The roles are the site's diff and listing styles: file headers muted, hunk
+# headers purple, removed red, added green, and the +/- markers left on, so a
+# patch still reads without color. Nothing is bold. Fuchsia isn't in the
+# terminal palette, so "you are here" (the current branch, HEAD) is purple
+# plus git's own marker: the * in `git branch`, the arrow in `HEAD ->`.
+
+[color]
+	ui = auto
+
+[color "diff"]
+	meta = brightblack
+	frag = magenta
+	func = brightblack italic
+	context = normal
+	old = red
+	new = green
+	oldMoved = red dim
+	newMoved = green dim
+	oldMovedAlternative = red dim ul
+	newMovedAlternative = green dim ul
+	whitespace = red reverse
+	commit = yellow
+
+[color "status"]
+	header = brightblack
+	branch = magenta
+	localBranch = magenta
+	remoteBranch = cyan
+	added = green
+	updated = green
+	changed = yellow
+	untracked = brightblack
+	unmerged = red
+	nobranch = red
+
+[color "branch"]
+	current = magenta
+	local = normal
+	remote = cyan
+	upstream = cyan
+	plain = normal
+
+[color "decorate"]
+	HEAD = magenta
+	branch = magenta
+	remoteBranch = cyan
+	tag = yellow
+	stash = brightblack
+	grafted = brightblack
+
+[color "grep"]
+	filename = magenta
+	lineNumber = brightblack
+	column = brightblack
+	separator = brightblack
+	match = magenta ul
+	matchSelected = magenta ul
+	function = brightblack italic
+
+[color "interactive"]
+	prompt = magenta
+	header = brightblack
+	help = brightblack
+	error = red
+
+[color "remote"]
+	hint = brightblack
+	warning = yellow
+	success = green
+	error = red
+
+[color "advice"]
+	hint = brightblack
+
+[color "push"]
+	error = red
+
+[color "transport"]
+	rejected = red
