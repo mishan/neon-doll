@@ -202,7 +202,7 @@ def on_activate(app):
     GLib.timeout_add(300, later)
 
 
-app = Adw.Application(application_id="org.nasledov.MishaGtkPreview",
+app = Adw.Application(application_id="io.github.mishan.NeonDoll.Preview",
                       flags=Gio.ApplicationFlags.NON_UNIQUE)
 Adw.StyleManager.get_default().set_color_scheme(
     Adw.ColorScheme.FORCE_LIGHT if "--light" in sys.argv else Adw.ColorScheme.FORCE_DARK)
