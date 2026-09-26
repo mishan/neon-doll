@@ -1,0 +1,50 @@
+{
+  "schemes": [
+    {
+      "name": "Neon Doll Dark",
+      "background": "#0f0d14",
+      "foreground": "#ebe6f0",
+      "cursorColor": "#ff2d95",
+      "selectionBackground": "#57173b",
+      "black": "#2a2438",
+      "red": "#ff7b72",
+      "green": "#7ee787",
+      "yellow": "#e5c07b",
+      "blue": "#8ca3ff",
+      "purple": "#b48cff",
+      "cyan": "#7ed9e7",
+      "white": "#c4bcce",
+      "brightBlack": "#9c93ab",
+      "brightRed": "#f7a6a4",
+      "brightGreen": "#aae7b1",
+      "brightYellow": "#e7cfaa",
+      "brightBlue": "#b2bef9",
+      "brightPurple": "#cab0f9",
+      "brightCyan": "#aadeeb",
+      "brightWhite": "#ebe6f0"
+    },
+    {
+      "name": "Neon Doll Light",
+      "background": "#f7f4fa",
+      "foreground": "#1a1522",
+      "cursorColor": "#c8006a",
+      "selectionBackground": "#efc8e0",
+      "black": "#d6cce2",
+      "red": "#c4312a",
+      "green": "#1f7a33",
+      "yellow": "#8a6100",
+      "blue": "#3f5cd0",
+      "purple": "#6a3fd0",
+      "cyan": "#1f6e7a",
+      "white": "#3c3649",
+      "brightBlack": "#5f5670",
+      "brightRed": "#802627",
+      "brightGreen": "#1d522c",
+      "brightYellow": "#5d430e",
+      "brightBlue": "#30408a",
+      "brightPurple": "#4a2e8a",
+      "brightCyan": "#1d4a57",
+      "brightWhite": "#1a1522"
+    }
+  ]
+}

@@ -63,4 +63,8 @@ done
 # out: it isn't part of the add-on, and goes in by hand.
 git archive --format=zip HEAD:firefox manifest.json images > "dist/neon-doll-firefox-$version.zip"
 
+# Windows Terminal and PowerShell, with their installer.
+git archive --format=zip --prefix="neon-doll-windows-$version/" HEAD windows COPYING \
+  > "dist/neon-doll-windows-$version.zip"
+
 ls -l dist/*"$version"*

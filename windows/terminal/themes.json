@@ -1,0 +1,34 @@
+{
+  "themes": [
+    {
+      "name": "Neon Doll Dark",
+      "window": {
+        "applicationTheme": "dark"
+      },
+      "tabRow": {
+        "background": "#0f0d14ff",
+        "unfocusedBackground": "#0f0d14ff"
+      },
+      "tab": {
+        "background": "#16131dff",
+        "unfocusedBackground": "#0f0d14ff",
+        "showCloseButton": "hover"
+      }
+    },
+    {
+      "name": "Neon Doll Light",
+      "window": {
+        "applicationTheme": "light"
+      },
+      "tabRow": {
+        "background": "#f7f4faff",
+        "unfocusedBackground": "#f7f4faff"
+      },
+      "tab": {
+        "background": "#ede7f3ff",
+        "unfocusedBackground": "#f7f4faff",
+        "showCloseButton": "hover"
+      }
+    }
+  ]
+}

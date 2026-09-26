@@ -10,7 +10,8 @@ fades in. Cyberpunk, with a manicure.
 
 It dresses the GNOME desktop (GTK 4 / libadwaita, GTK 3, GNOME Shell and the
 mouse cursor) and the tools around it: Chrome, Firefox, GNOME Text Editor,
-Tilix, Emacs, `ls`, `git`, man pages and glow. Every part comes in dark and
+Tilix, Emacs, `ls`, `git`, man pages and glow, plus Windows Terminal and
+PowerShell for the times you're on Windows. Every part comes in dark and
 light, except the cursor: GNOME has one cursor setting, so there is one cursor
 theme, drawn to stand out on both.
 
@@ -30,6 +31,7 @@ theme, drawn to stand out on both.
 | git in Tilix | ![](screenshots/git-dark.png) | ![](screenshots/git-light.png) |
 | man pages | ![](screenshots/man-dark.png) | ![](screenshots/man-light.png) |
 | glow | ![](screenshots/glow-dark.png) | ![](screenshots/glow-light.png) |
+| PowerShell | ![](screenshots/powershell-dark.png) | ![](screenshots/powershell-light.png) |
 
 ![Every cursor at 64 and 32 px on dark, light, grey and a busy photo-like background](screenshots/cursors.png)
 
@@ -83,6 +85,19 @@ outline into a rail across its top. It is optional and goes in by hand: set
 `toolkit.legacyUserProfileCustomizations.stylesheets` to `true` in
 `about:config`, copy the file into a `chrome/` folder inside your profile
 folder (`about:support` → *Profile Folder*) and restart Firefox.
+
+**Windows Terminal and PowerShell.** From a clone on Windows, run
+`.\windows\install.ps1` (`-Remove` to take it out) in the shell you want
+colored. It copies the color schemes into Windows Terminal's Fragments folder,
+where Terminal finds them on its own, and the PowerShell colors next to your
+profile, then prints the two lines to add: pick *Neon Doll Dark* or *Light* as
+the profile's color scheme, and dot-source `neon-doll.ps1` from `$PROFILE`.
+The schemes are the Tilix ones entry for entry. The PowerShell colors cover
+typing (commands and parameters purple, values cyan, strings yellow, comments
+muted) and, on PowerShell 7.2+, `Get-ChildItem`, tables, errors and progress,
+matching the `ls` colors. `Enable-NeonDollPrompt` adds the bash prompt's
+look. The tab row's colors are a Terminal *theme*, which fragments can't carry:
+paste the entries from `windows/terminal/themes.json` into `settings.json`.
 
 Tested on GNOME 51 with GTK 4.24, libadwaita 1.10 and GTK 3.24, Chrome 154 and
 Firefox 156.
@@ -162,6 +177,7 @@ tools/firefox-shoot.py dark|light out.png [--menu] [--userchrome]
                                                   # screenshot it in a scratch Firefox profile (under xvfb-run)
 tools/build-glow.py [--check]                     # regenerate the glow styles
 tools/build-cursor.py [--check|--sheet out.png]   # regenerate the cursor theme from cursor/src/*.svg
+tools/build-windows.py [--check]                  # regenerate the Windows Terminal files from the Tilix schemes
 tools/dist.sh [VERSION]                           # release archives into dist/
 ```
 
