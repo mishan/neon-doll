@@ -1,162 +1,24 @@
 #!/usr/bin/env python3
 """Derive the Neon Doll text-scheme colors and report their contrast.
 
-The GtkSourceView, Tilix and Emacs schemes all take solid colors, because none
-of them composites alpha the way a browser does. So every tint here is one of
-the site's (or gtk.css's) rgba tokens flattened onto --bg, and every ANSI color
-the palette has no token for is derived by a stated rule. The dark and light
-variants go through the same rules; only the eight core colors and the three
-code colors differ.
+The colors come from tokens.toml, flattened onto the page by tools/tokens.py
+(see flat() there for the rules); this reports their contrast and writes the
+schemes that take them.
 
     tools/scheme-colors.py            # report both variants
     tools/scheme-colors.py dark       # report one variant
     tools/scheme-colors.py --write    # regenerate gtksourceview/ and tilix/
-    tools/scheme-colors.py --elisp    # print the Emacs palettes to paste into
-                                      # emacs/neon-doll-*-theme.el
+    tools/scheme-colors.py --check    # fail if they are stale
 
-The GtkSourceView and Tilix files are generated from here; the Emacs palettes
-are pasted by hand, because the theme files have to stand alone.
+The Emacs palettes, flattened the same way, are written into the theme files
+by tools/build-palettes.py, since those files have to stand alone.
 """
-import colorsys
 import json
 import os
 import sys
 
-# Dark: the source website's design-system tokens (see gtk-4.0/gtk.css).
-# Light: the prefers-color-scheme: light block in gtk-4.0/gtk.css. One
-# deliberate departure: gtk.css tints light diff rows at 10%, but in an editor
-# the row's text is --diff-add / --diff-del itself, and on paper 10% leaves it
-# at 4.3:1. 7% is the most tint that keeps it at 4.5:1. For the same reason
-# the light bracket-match field is --wash-pink's own 8%, not the dark 16%.
-PALETTES = {
-    "dark": {
-        "bg": "#0f0d14", "panel": "#16131d", "line": "#2a2438",
-        "ink": "#ebe6f0", "muted": "#9c93ab", "dimmest": "#6f6880",
-        "pink": "#ff2d95", "purple": "#b48cff",
-        "string": "#e5c07b", "add": "#7ee787", "del": "#ff7b72",
-        # rgba tokens as (source color, alpha); the diff tints are the site's
-        # own, which are not quite --diff-add / --diff-del.
-        "_a": {
-            "wash": ("purple", 0.06), "wash-strong": ("purple", 0.10),
-            "grid": ("purple", 0.09), "press": ("purple", 0.16),
-            "edge-purple": ("purple", 0.30),
-            "ul-purple": ("purple", 0.35), "select": ("pink", 0.30),
-            "wash-pink": ("pink", 0.16),
-            "add-bg": ("#3fb950", 0.10), "del-bg": ("#f85149", 0.10),
-            "add-refine": ("#3fb950", 0.25), "del-refine": ("#f85149", 0.25),
-            "change-bg": ("string", 0.10),
-        },
-    },
-    "light": {
-        "bg": "#f7f4fa", "panel": "#ede7f3", "line": "#d6cce2",
-        "ink": "#1a1522", "muted": "#5f5670", "dimmest": "#8d84a0",
-        "pink": "#c8006a", "purple": "#6a3fd0",
-        "string": "#8a6100", "add": "#1f7a33", "del": "#c4312a",
-        "_a": {
-            "wash": ("purple", 0.05), "wash-strong": ("purple", 0.09),
-            "grid": ("purple", 0.07), "press": ("purple", 0.14),
-            "edge-purple": ("purple", 0.30),
-            "ul-purple": ("purple", 0.40), "select": ("pink", 0.18),
-            "wash-pink": ("pink", 0.08),
-            "add-bg": ("add", 0.07), "del-bg": ("del", 0.07),
-            "add-refine": ("add", 0.20), "del-refine": ("del", 0.20),
-            "change-bg": ("string", 0.07),
-        },
-    },
-}
-
-
-def rgb(h):
-    h = h.lstrip("#")
-    return tuple(int(h[i:i + 2], 16) for i in (0, 2, 4))
-
-
-def hexs(c):
-    return "#%02x%02x%02x" % tuple(max(0, min(255, round(v))) for v in c)
-
-
-def over(base, color, alpha):
-    """`color` at `alpha` composited over `base`, as a browser would."""
-    b, c = rgb(base), rgb(color)
-    return hexs([b[i] + (c[i] - b[i]) * alpha for i in range(3)])
-
-
-def hsl(h, s, l):
-    r, g, b = colorsys.hls_to_rgb(h / 360, l, s)
-    return hexs((r * 255, g * 255, b * 255))
-
-
-def hsl_of(c):
-    h, l, s = colorsys.rgb_to_hls(*[v / 255 for v in rgb(c)])
-    return h * 360, s, l
-
-
-def luminance(c):
-    def ch(v):
-        v /= 255
-        return v / 12.92 if v <= 0.04045 else ((v + 0.055) / 1.055) ** 2.4
-    r, g, b = map(ch, rgb(c))
-    return 0.2126 * r + 0.7152 * g + 0.0722 * b
-
-
-def contrast(a, b):
-    hi, lo = sorted((luminance(a), luminance(b)), reverse=True)
-    return (hi + 0.05) / (lo + 0.05)
-
-
-def derive(name):
-    p = dict(PALETTES[name])
-    alphas = p.pop("_a")
-    for key, (src, a) in alphas.items():
-        p[key] = over(p["bg"], p.get(src, src), a)
-    # Diff rows under the current-line tint (magit's highlighted hunk): 1.6x
-    # the row tint over the wash. Text on these rows takes the bright ANSI
-    # variant of its color, which is what keeps it above 4.5:1. Word-level
-    # refine tints carry --ink.
-    p["add-bg-hl"] = over(p["wash"], p.get(alphas["add-bg"][0], alphas["add-bg"][0]), alphas["add-bg"][1] * 1.6)
-    p["del-bg-hl"] = over(p["wash"], p.get(alphas["del-bg"][0], alphas["del-bg"][0]), alphas["del-bg"][1] * 1.6)
-
-    # ANSI. Normal colors reuse palette tokens where one exists. The two hues
-    # the site has no token for keep a sibling's saturation and lightness and
-    # rotate only the hue, so they sit at the same weight as the rest:
-    #   blue = --purple's S and L at hue 228 (a violet-leaning periwinkle)
-    #   cyan = --diff-add's S and L at hue 188 (a mint-cyan)
-    # Bright variants are the normal color mixed 40% toward --ink: lighter on
-    # dark, deeper on light, and plum-tinted either way. Black and white are
-    # assigned by role, not by lightness: 0 is --line and 15 is --ink in both
-    # variants, so "white" text is always the foreground and never vanishes.
-    # Fuchsia is kept out of the sixteen so no program can use it as
-    # decoration; it is the cursor.
-    _, ps, pl = hsl_of(p["purple"])
-    _, as_, al = hsl_of(p["add"])
-    blue = hsl(228, ps, pl)
-    cyan = hsl(188, as_, al)
-    gray = over(p["muted"], p["ink"], 0.5)
-
-    def bright(c):
-        return over(c, p["ink"], 0.4)
-
-    p["ansi"] = [
-        ("0 black", p["line"], "--line"),
-        ("1 red", p["del"], "--diff-del"),
-        ("2 green", p["add"], "--diff-add"),
-        ("3 yellow", p["string"], "--code-string"),
-        ("4 blue", blue, "hsl(228, S and L of --purple)"),
-        ("5 magenta", p["purple"], "--purple"),
-        ("6 cyan", cyan, "hsl(188, S and L of --diff-add)"),
-        ("7 white", gray, "--muted + 50% --ink"),
-        ("8 bright black", p["muted"], "--muted"),
-        ("9 bright red", bright(p["del"]), "red + 40% --ink"),
-        ("10 bright green", bright(p["add"]), "green + 40% --ink"),
-        ("11 bright yellow", bright(p["string"]), "yellow + 40% --ink"),
-        ("12 bright blue", bright(blue), "blue + 40% --ink"),
-        ("13 bright magenta", bright(p["purple"]), "magenta + 40% --ink"),
-        ("14 bright cyan", bright(cyan), "cyan + 40% --ink"),
-        ("15 bright white", p["ink"], "--ink"),
-    ]
-    p["bright-red"] = bright(p["del"])
-    p["bright-green"] = bright(p["add"])
-    return p
+from tokens import contrast, over
+from tokens import flat as derive
 
 
 def report(name):
@@ -391,23 +253,6 @@ def tilix(variant):
     }, indent=4) + "\n"
 
 
-ELISP_KEYS = ("bg", "panel", "line", "ink", "muted", "dimmest", "pink", "purple",
-              "string", "add", "del", "wash", "wash-strong", "grid", "press",
-              "select", "wash-pink", "edge-purple", "ul-purple", "add-bg",
-              "del-bg", "add-bg-hl", "del-bg-hl", "add-refine", "del-refine",
-              "change-bg", "bright-red", "bright-green")
-ANSI_NAMES = ("black", "red", "green", "yellow", "blue", "magenta", "cyan", "white")
-
-
-def elisp(variant):
-    p = derive(variant)
-    rows = ["(%s . \"%s\")" % (k, p[k]) for k in ELISP_KEYS]
-    for i, (_, c, _) in enumerate(p["ansi"]):
-        name = ("ansi-" if i < 8 else "ansi-bright-") + ANSI_NAMES[i % 8]
-        rows.append("(%s . \"%s\")" % (name, c))
-    return "  '(" + "\n    ".join(rows) + ")"
-
-
 def write(path, text):
     full = os.path.join(ROOT, path)
     os.makedirs(os.path.dirname(full), exist_ok=True)
@@ -416,16 +261,26 @@ def write(path, text):
     print("wrote", path)
 
 
+def outputs():
+    for v in ("dark", "light"):
+        yield "gtksourceview/neon-doll-%s.xml" % v, gsv(v)
+        yield "gtksourceview/gtksourceview-4/neon-doll-%s.xml" % v, gsv4(v)
+        yield "tilix/neon-doll-%s.json" % v, tilix(v)
+
+
 if __name__ == "__main__":
     args = sys.argv[1:]
     if args == ["--write"]:
-        for v in ("dark", "light"):
-            write("gtksourceview/neon-doll-%s.xml" % v, gsv(v))
-            write("gtksourceview/gtksourceview-4/neon-doll-%s.xml" % v, gsv4(v))
-            write("tilix/neon-doll-%s.json" % v, tilix(v))
-    elif args == ["--elisp"]:
-        for v in ("dark", "light"):
-            print(";; %s\n%s\n" % (v, elisp(v)))
+        for path, text in outputs():
+            write(path, text)
+    elif args == ["--check"]:
+        stale = []
+        for path, text in outputs():
+            with open(os.path.join(ROOT, path)) as f:
+                if f.read() != text:
+                    stale.append(path)
+        if stale:
+            sys.exit("stale: " + ", ".join(stale) + " (run tools/scheme-colors.py --write)")
     else:
         for n in args or ("dark", "light"):
             report(n)

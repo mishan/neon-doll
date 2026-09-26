@@ -23,10 +23,12 @@ import json
 import sys
 from pathlib import Path
 
+import tokens
+
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "ghostty" / "themes"
 
-PURPLE = {"dark": "#b48cff", "light": "#6a3fd0"}
+PURPLE = {v: tokens.palette(v)["purple"] for v in tokens.VARIANTS}
 
 
 def theme(variant):

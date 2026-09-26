@@ -35,24 +35,17 @@ import sys
 import zlib
 from pathlib import Path
 
+import tokens
+
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "firefox"
 VERSION = "0.1.0"
 ADDON_ID = "neon-doll@mishan.github.io"
 
+CORE = ("bg", "panel", "line", "ink", "muted", "dimmest", "pink", "purple")
 PALETTES = {
-    "dark": {
-        "bg": "#0f0d14", "panel": "#16131d", "line": "#2a2438",
-        "ink": "#ebe6f0", "muted": "#9c93ab", "dimmest": "#6f6880",
-        "pink": "#ff2d95", "purple": "#b48cff",
-        "grid": ("#b48cff", 0.09),
-    },
-    "light": {
-        "bg": "#f7f4fa", "panel": "#ede7f3", "line": "#d6cce2",
-        "ink": "#1a1522", "muted": "#5f5670", "dimmest": "#8d84a0",
-        "pink": "#c8006a", "purple": "#6a3fd0",
-        "grid": ("#6a3fd0", 0.07),
-    },
+    v: {**{k: tokens.palette(v)[k] for k in CORE}, "grid": tokens.tint(v, "grid")}
+    for v in tokens.VARIANTS
 }
 
 

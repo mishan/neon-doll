@@ -28,8 +28,9 @@
 ;; Plum-tinted paper: fuchsia for position, purple for the rest.
 ;; The faces are in neon-doll-theme-common.el; this file is the palette.
 ;; Tints are the translucent tokens of the design flattened onto the
-;; background, and ansi-* is the Tilix palette.  See tools/scheme-colors.py
-;; in the source repository for how each value is derived.
+;; background, and ansi-* is the Tilix palette.  The palette is written
+;; from tokens.toml by tools/build-palettes.py in the source repository;
+;; tools/tokens.py there shows how each value is derived.
 
 ;;; Code:
 

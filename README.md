@@ -189,19 +189,25 @@ both above 4.5:1 on its panels.
 
 ## Working on it
 
-The palette lives in a few places because each target reads colors
-differently: CSS custom properties in `gtk-4.0/gtk.css`, `@define-color` in
-`gtk-3.0/_colors-*.css`, and Python dicts in `tools/build-shell.py` and
-`tools/scheme-colors.py`, which generate the Shell theme and the text schemes.
-Generated files are committed, so installing needs nothing but `sh`.
+Every color is in [`tokens.toml`](tokens.toml), dark and light: the core
+palette under the design system's names, and each tint as a color at an
+alpha. `tools/tokens.py` reads it for the builders, and flattens the tints
+onto the page for the themes that only take solid colors (the editor and
+terminal schemes). Change a color there, then run `tools/build.sh`: it
+rewrites every generated theme, and the palette copies inside the
+hand-written ones (the GTK stylesheets and the Emacs themes, between
+markers). `tools/build.sh --check` fails if anything is stale. Generated files
+are committed, so installing needs nothing but `sh`.
 
 ```
+tools/build.sh [--check]                          # rebuild everything from tokens.toml
+tools/build-palettes.py [--check]                 # just the palette copies in the GTK and Emacs themes
 tools/preview.py [--light] [--menu] [--dialog]    # GTK 4 widget sampler
 tools/shoot.sh out.png [flags]                    # the same, screenshotted on Xvfb
 tools/preview3.py / tools/shoot3.sh               # GTK 3
 tools/build-shell.py [--check|--coverage]         # regenerate the Shell theme
 tools/shoot-shell.sh OUTDIR [dark|light]          # screenshot a headless, fully themed GNOME Shell
-tools/scheme-colors.py [--write|--elisp]          # derive and check the text schemes
+tools/scheme-colors.py [--write|--check]          # contrast report; write the GtkSourceView and Tilix schemes
 tools/scheme-shoot.sh out.png gsv|emacs [variant] # screenshot them
 tools/term-shoot.sh out.png                       # ls colors in both terminal schemes, GNU defaults vs Neon Doll
 tools/build-chrome.py [--check]                   # regenerate the Chrome themes

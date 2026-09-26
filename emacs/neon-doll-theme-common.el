@@ -44,8 +44,8 @@
 ;; - Diff lines carry both a text color and a full-width tint, and the +/-
 ;;   marker stays.
 ;; - Every tint is a solid color: the site's translucent tokens flattened
-;;   onto the background.  tools/scheme-colors.py in the source repository
-;;   derives them and reports their contrast.
+;;   onto the background.  tools/tokens.py in the source repository
+;;   derives them, and tools/scheme-colors.py reports their contrast.
 
 ;;; Code:
 

@@ -1,34 +1,38 @@
 /* Neon Doll, light. The site has no light mode, so this is derived: the page
    becomes paper, still plum-tinted, and fuchsia and purple keep their roles
-   but are taken down until they clear 4.5:1 on panel (the site's own values
-   are 3.2:1 and 2.4:1 on paper). Every tint is re-derived from the new
-   purple and pink; the names match _colors-dark.css one for one. */
+   but are taken down until they clear 4.5:1 on panel. Written from
+   tokens.toml by tools/build-palettes.py; edit that, not this. The names
+   match _colors-dark.css one for one. */
 
-@define-color bg      #f7f4fa;
-@define-color panel   #ede7f3;
-@define-color line    #d6cce2;
-@define-color ink     #1a1522;
-@define-color muted   #5f5670;
-@define-color dimmest #8d84a0;   /* inert only, never text you need */
-@define-color pink    #c8006a;
-@define-color purple  #6a3fd0;
-
-@define-color grid        rgba(106, 63, 208, 0.07);
-@define-color wash        rgba(106, 63, 208, 0.05);
-@define-color wash-strong rgba(106, 63, 208, 0.09);
-@define-color tint-purple rgba(106, 63, 208, 0.40);
-@define-color wash-pink   rgba(200, 0, 106, 0.08);
-@define-color ul-purple   rgba(106, 63, 208, 0.40);
-
-@define-color code-string #8a6100;
-@define-color diff-add    #1f7a33;
-@define-color diff-del    #c4312a;
-@define-color diff-add-bg rgba(31, 122, 51, 0.07);
-@define-color diff-del-bg rgba(196, 49, 42, 0.07);
-
-/* desktop-only */
-@define-color select-pink rgba(200, 0, 106, 0.18);
-@define-color press       rgba(106, 63, 208, 0.14);
-@define-color edge-del    rgba(196, 49, 42, 0.40);
-@define-color string-bg   rgba(138, 97, 0, 0.10);
-@define-color osd-bg      rgba(237, 231, 243, 0.92);
+@define-color bg              #f7f4fa;
+@define-color panel           #ede7f3;
+@define-color line            #d6cce2;
+@define-color ink             #1a1522;
+@define-color muted           #5f5670;
+@define-color dimmest         #8d84a0;
+@define-color pink            #c8006a;
+@define-color purple          #6a3fd0;
+@define-color code-string     #8a6100;
+@define-color diff-add        #1f7a33;
+@define-color diff-del        #c4312a;
+@define-color grid            rgba(106, 63, 208, 0.07);
+@define-color wash            rgba(106, 63, 208, 0.05);
+@define-color wash-strong     rgba(106, 63, 208, 0.09);
+@define-color edge-purple     rgba(106, 63, 208, 0.30);
+@define-color tint-purple     rgba(106, 63, 208, 0.40);
+@define-color ul-purple       rgba(106, 63, 208, 0.40);
+@define-color rule            rgba(95, 86, 112, 0.25);
+@define-color edge-muted      rgba(95, 86, 112, 0.40);
+@define-color wash-pink       rgba(200, 0, 106, 0.08);
+@define-color ul-pink         rgba(200, 0, 106, 0.35);
+@define-color diff-add-bg     rgba(31, 122, 51, 0.07);
+@define-color diff-del-bg     rgba(196, 49, 42, 0.07);
+@define-color select-pink     rgba(200, 0, 106, 0.18);
+@define-color press           rgba(106, 63, 208, 0.14);
+@define-color scrim           rgba(26, 21, 34, 0.35);
+@define-color osd-bg          rgba(237, 231, 243, 0.92);
+@define-color edge-del        rgba(196, 49, 42, 0.40);
+@define-color string-bg       rgba(138, 97, 0, 0.10);
+@define-color change-bg       rgba(138, 97, 0, 0.07);
+@define-color diff-add-refine rgba(31, 122, 51, 0.20);
+@define-color diff-del-refine rgba(196, 49, 42, 0.20);

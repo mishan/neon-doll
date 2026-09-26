@@ -42,33 +42,28 @@ import zlib
 from pathlib import Path
 from xml.sax.saxutils import escape
 
+import tokens
+
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "vscode"
 
-PALETTES = {
-    "dark": {
-        "bg": "#0f0d14", "panel": "#16131d", "line": "#2a2438",
-        "ink": "#ebe6f0", "muted": "#9c93ab", "dimmest": "#6f6880",
-        "pink": "#ff2d95", "purple": "#b48cff",
-        "string": "#e5c07b", "add": "#7ee787", "del": "#ff7b72",
-        # Row tints in the diff editor: gtk.css's --diff-*-bg, which are not
-        # quite the text colors.
-        "add-tint": "#3fb950", "del-tint": "#f85149",
-        # Alphas, from gtk.css.
-        "wash": 0.06, "wash-strong": 0.10, "press": 0.16, "edge": 0.30,
-        "select": 0.30, "wash-pink": 0.16, "diff": 0.10, "refine": 0.25,
-    },
-    "light": {
-        "bg": "#f7f4fa", "panel": "#ede7f3", "line": "#d6cce2",
-        "ink": "#1a1522", "muted": "#5f5670", "dimmest": "#8d84a0",
-        "pink": "#c8006a", "purple": "#6a3fd0",
-        "string": "#8a6100", "add": "#1f7a33", "del": "#c4312a",
-        "add-tint": "#1f7a33", "del-tint": "#c4312a",
-        # Light diff rows are 7%: at 10% the row's own text drops below 4.5:1.
-        "wash": 0.05, "wash-strong": 0.09, "press": 0.14, "edge": 0.30,
-        "select": 0.18, "wash-pink": 0.08, "diff": 0.07, "refine": 0.20,
-    },
-}
+def vscode_palette(variant):
+    p = {k: c for k, c in tokens.palette(variant).items()}
+    # Row tints in the diff editor: the diff-*-bg tints' own colors, which on
+    # dark are not quite the text colors.
+    p["add-tint"] = tokens.tint(variant, "diff-add-bg")[0]
+    p["del-tint"] = tokens.tint(variant, "diff-del-bg")[0]
+    # Alphas. wash-pink is the editors' stronger bracket-match field.
+    for name, token in (("wash", "wash"), ("wash-strong", "wash-strong"),
+                        ("press", "press"), ("edge", "edge-purple"),
+                        ("select", "select-pink"), ("diff", "diff-add-bg"),
+                        ("refine", "diff-add-refine")):
+        p[name] = tokens.tint(variant, token)[1]
+    p["wash-pink"] = tokens.tint(variant, "wash-pink", flat=True)[1]
+    return p
+
+
+PALETTES = {v: vscode_palette(v) for v in tokens.VARIANTS}
 
 ANSI = ["black", "red", "green", "yellow", "blue", "magenta", "cyan", "white"]
 

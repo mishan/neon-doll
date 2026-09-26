@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Build the irssi themes from the editor schemes' colors.
+"""Build the irssi themes from tokens.toml.
 
     tools/build-irssi.py            write irssi/neon-doll{,-light}.theme
     tools/build-irssi.py --check    fail if the output is stale
 
-Two themes, neon-doll (dark) and neon-doll-light, in the exact colors, read
-from gtksourceview/neon-doll-{dark,light}.xml. Irssi sends them as 24-bit
+Two themes, neon-doll (dark) and neon-doll-light, in the exact colors of
+tokens.toml, flattened as for the editor schemes. Irssi sends them as 24-bit
 color with `/set colors_ansi_24bit on`; without it, it picks the nearest of
 the 256 colors, which is close but not exact.
 
@@ -23,6 +23,8 @@ import re
 import sys
 from pathlib import Path
 
+import tokens
+
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "irssi"
 
@@ -30,8 +32,7 @@ VARIANTS = {"dark": "neon-doll.theme", "light": "neon-doll-light.theme"}
 
 
 def palette(variant):
-    xml = (ROOT / "gtksourceview" / f"neon-doll-{variant}.xml").read_text()
-    return dict(re.findall(r'<color name="([a-z-]+)"\s+value="#([0-9a-f]{6})"', xml))
+    return {k: c[1:] for k, c in tokens.flat(variant).items() if isinstance(c, str)}
 
 
 # {name} is a foreground color and {bg:name} a background, by palette name.

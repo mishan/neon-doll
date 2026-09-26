@@ -9,91 +9,89 @@
    no shadows, no transitions.
    ========================================================================== */
 
-/* --- core palette ----------------------------------------------------------
-   Dark is the original. Fuchsia is position; purple is interactive at rest;
-   the roles never swap. */
+/* --- sizes -------------------------------------------------------------- */
 :root {
-  --bg:      #0f0d14;
-  --panel:   #16131d;
-  --line:    #2a2438;
-  --ink:     #ebe6f0;
-  --muted:   #9c93ab;
-  --dimmest: #6f6880;
-  --pink:    #ff2d95;
-  --purple:  #b48cff;
-
-  --grid:        rgba(180, 140, 255, 0.09);
-  --wash:        rgba(180, 140, 255, 0.06);
-  --wash-strong: rgba(180, 140, 255, 0.10);
-  --edge-purple: rgba(180, 140, 255, 0.30);
-  --tint-purple: rgba(180, 140, 255, 0.35);
-  --rule:        rgba(156, 147, 171, 0.25);
-  --edge-muted:  rgba(156, 147, 171, 0.40);
-  --wash-pink:   rgba(255, 45, 149, 0.08);
-
-  --ul-purple: rgba(180, 140, 255, 0.35);
-  --ul-pink:   rgba(255, 45, 149, 0.35);
-
-  --code-string: #e5c07b;
-  --diff-add:    #7ee787;
-  --diff-del:    #ff7b72;
-  --diff-add-bg: rgba(63, 185, 80, 0.10);
-  --diff-del-bg: rgba(248, 81, 73, 0.10);
-
   --cell: 24px;
+  --chrome-size: 92%;   /* mono runs wide; this evens it with sans */
 }
 
-/* --- desktop-only derived tokens -------------------------------------------
-   The web original never selects text in bulk or shows a pressed state; a desktop
-   does both. Each is a tint of a palette color, never a new hue. */
+/* --- palette ---------------------------------------------------------------
+   Every color token: dark, then light, which follows GNOME's Style setting.
+   Written from tokens.toml by tools/build-palettes.py; edit that, not this.
+   Fuchsia is position; purple is interactive at rest; the roles never swap.
+   Only tokens change between the variants; every rule below reads them. */
+/* palette:begin */
 :root {
-  --select-pink: rgba(255, 45, 149, 0.30);   /* text selection */
-  --press:       rgba(180, 140, 255, 0.16);  /* :active, one step past --wash-strong */
-  --chrome-size: 92%;                        /* mono runs wide; this evens it with sans */
-  --scrim:       rgba(15, 13, 20, 0.70);     /* behind a modal dialog */
-  --osd-bg:      rgba(22, 19, 29, 0.90);     /* --panel, over photos and video */
+  --bg:              #0f0d14;
+  --panel:           #16131d;
+  --line:            #2a2438;
+  --ink:             #ebe6f0;
+  --muted:           #9c93ab;
+  --dimmest:         #6f6880;
+  --pink:            #ff2d95;
+  --purple:          #b48cff;
+  --code-string:     #e5c07b;
+  --diff-add:        #7ee787;
+  --diff-del:        #ff7b72;
+  --grid:            rgba(180, 140, 255, 0.09);
+  --wash:            rgba(180, 140, 255, 0.06);
+  --wash-strong:     rgba(180, 140, 255, 0.10);
+  --edge-purple:     rgba(180, 140, 255, 0.30);
+  --tint-purple:     rgba(180, 140, 255, 0.35);
+  --ul-purple:       rgba(180, 140, 255, 0.35);
+  --rule:            rgba(156, 147, 171, 0.25);
+  --edge-muted:      rgba(156, 147, 171, 0.40);
+  --wash-pink:       rgba(255, 45, 149, 0.08);
+  --ul-pink:         rgba(255, 45, 149, 0.35);
+  --diff-add-bg:     rgba(63, 185, 80, 0.10);
+  --diff-del-bg:     rgba(248, 81, 73, 0.10);
+  --select-pink:     rgba(255, 45, 149, 0.30);
+  --press:           rgba(180, 140, 255, 0.16);
+  --scrim:           rgba(15, 13, 20, 0.70);
+  --osd-bg:          rgba(22, 19, 29, 0.90);
+  --edge-del:        rgba(255, 123, 114, 0.35);
+  --string-bg:       rgba(229, 192, 123, 0.10);
+  --change-bg:       rgba(229, 192, 123, 0.10);
+  --diff-add-refine: rgba(63, 185, 80, 0.25);
+  --diff-del-refine: rgba(248, 81, 73, 0.25);
 }
-
-/* --- light -----------------------------------------------------------------
-   Follows GNOME's Style setting. The page becomes paper, still plum-tinted.
-   Fuchsia and purple keep their roles but not their values: the dark #ff2d95
-   is 3.2:1 on paper and #b48cff is 2.4:1, so both come down until they clear
-   4.5:1 on --panel. Everything translucent is re-derived from the new pair.
-   Only tokens change here; every rule below reads them. */
 @media (prefers-color-scheme: light) {
   :root {
-    --bg:      #f7f4fa;   /* ink 16.4:1 */
-    --panel:   #ede7f3;
-    --line:    #d6cce2;
-    --ink:     #1a1522;
-    --muted:   #5f5670;   /* 5.7:1 on panel */
-    --dimmest: #8d84a0;   /* inert only, never text you need */
-    --pink:    #c8006a;   /* 4.7:1 on panel */
-    --purple:  #6a3fd0;   /* 5.4:1 on panel */
-
-    --grid:        rgba(106, 63, 208, 0.07);
-    --wash:        rgba(106, 63, 208, 0.05);
-    --wash-strong: rgba(106, 63, 208, 0.09);
-    --edge-purple: rgba(106, 63, 208, 0.30);
-    --tint-purple: rgba(106, 63, 208, 0.40);
-    --rule:        rgba(95, 86, 112, 0.25);
-    --edge-muted:  rgba(95, 86, 112, 0.40);
-    --wash-pink:   rgba(200, 0, 106, 0.08);
-    --ul-purple:   rgba(106, 63, 208, 0.40);
-    --ul-pink:     rgba(200, 0, 106, 0.35);
-
-    --code-string: #8a6100;
-    --diff-add:    #1f7a33;
-    --diff-del:    #c4312a;
-    --diff-add-bg: rgba(31, 122, 51, 0.07);   /* 0.10 leaves the text at 4.3:1 */
-    --diff-del-bg: rgba(196, 49, 42, 0.07);
-
-    --select-pink: rgba(200, 0, 106, 0.18);
-    --press:       rgba(106, 63, 208, 0.14);
-    --scrim:       rgba(26, 21, 34, 0.35);
-    --osd-bg:      rgba(237, 231, 243, 0.92);
+    --bg:              #f7f4fa;
+    --panel:           #ede7f3;
+    --line:            #d6cce2;
+    --ink:             #1a1522;
+    --muted:           #5f5670;
+    --dimmest:         #8d84a0;
+    --pink:            #c8006a;
+    --purple:          #6a3fd0;
+    --code-string:     #8a6100;
+    --diff-add:        #1f7a33;
+    --diff-del:        #c4312a;
+    --grid:            rgba(106, 63, 208, 0.07);
+    --wash:            rgba(106, 63, 208, 0.05);
+    --wash-strong:     rgba(106, 63, 208, 0.09);
+    --edge-purple:     rgba(106, 63, 208, 0.30);
+    --tint-purple:     rgba(106, 63, 208, 0.40);
+    --ul-purple:       rgba(106, 63, 208, 0.40);
+    --rule:            rgba(95, 86, 112, 0.25);
+    --edge-muted:      rgba(95, 86, 112, 0.40);
+    --wash-pink:       rgba(200, 0, 106, 0.08);
+    --ul-pink:         rgba(200, 0, 106, 0.35);
+    --diff-add-bg:     rgba(31, 122, 51, 0.07);
+    --diff-del-bg:     rgba(196, 49, 42, 0.07);
+    --select-pink:     rgba(200, 0, 106, 0.18);
+    --press:           rgba(106, 63, 208, 0.14);
+    --scrim:           rgba(26, 21, 34, 0.35);
+    --osd-bg:          rgba(237, 231, 243, 0.92);
+    --edge-del:        rgba(196, 49, 42, 0.40);
+    --string-bg:       rgba(138, 97, 0, 0.10);
+    --change-bg:       rgba(138, 97, 0, 0.07);
+    --diff-add-refine: rgba(31, 122, 51, 0.20);
+    --diff-del-refine: rgba(196, 49, 42, 0.20);
   }
 }
+/* palette:end */
 
 /* === Adwaita's variables ==================================================
    Libadwaita has a single accent, and most of what it paints with it —
@@ -167,6 +165,7 @@
 }
 
 /* Plain GTK 4 apps (no libadwaita) still read the old named colors. */
+/* named-colors:begin */
 @define-color accent_bg_color #ff2d95;
 @define-color accent_fg_color #0f0d14;
 @define-color accent_color #ff2d95;
@@ -217,6 +216,7 @@
   @define-color dialog_bg_color #f7f4fa;
   @define-color dialog_fg_color #1a1522;
 }
+/* named-colors:end */
 
 /* === No boxes, no shadows, no motion ======================================
    Set on everything, then the few things that need an edge get a hairline

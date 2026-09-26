@@ -18,51 +18,39 @@ import subprocess
 import sys
 from pathlib import Path
 
+import tokens
+
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "gnome-shell" / "gnome-shell.css.in"
 
-# Names follow the GTK stylesheet's tokens, with _ for -. The core palette and
-# its tints are the website's; on_fill, string_bg, tint_pink, osd_bg and the
-# wall_* colors are the desktop's own, each taken from a palette color.
-DARK = {
-    "variant": "dark",
-    "bg": "#0f0d14", "panel": "#16131d", "line": "#2a2438",
-    "ink": "#ebe6f0", "muted": "#9c93ab", "dimmest": "#6f6880",
-    "pink": "#ff2d95", "purple": "#b48cff",
-    "string": "#e5c07b", "add": "#7ee787", "del": "#ff7b72",
-    "wash": "rgba(180, 140, 255, 0.06)",
-    "wash_strong": "rgba(180, 140, 255, 0.10)",
-    "press": "rgba(180, 140, 255, 0.16)",
-    "tint_purple": "rgba(180, 140, 255, 0.35)",
-    "wash_pink": "rgba(255, 45, 149, 0.08)",
-    "tint_pink": "rgba(255, 45, 149, 0.35)",
-    "select_pink": "rgba(255, 45, 149, 0.30)",
-    "string_bg": "rgba(229, 192, 123, 0.10)",
-    "osd_bg": "rgba(22, 19, 29, 0.90)",
-    "on_fill": "#0f0d14",
-    "wall_ink": "#ebe6f0", "wall_muted": "#9c93ab", "wall_warning": "#e5c07b",
-}
+# Names follow the GTK stylesheet's tokens, with _ for -, from tokens.toml.
+# tint_pink is ul-pink; on_fill is the page, for text on a fuchsia or purple
+# fill; the wall_* colors are for the lock screen.
 
-LIGHT = {
-    "variant": "light",
-    "bg": "#f7f4fa", "panel": "#ede7f3", "line": "#d6cce2",
-    "ink": "#1a1522", "muted": "#5f5670", "dimmest": "#8d84a0",
-    "pink": "#c8006a", "purple": "#6a3fd0",
-    "string": "#8a6100", "add": "#1f7a33", "del": "#c4312a",
-    "wash": "rgba(106, 63, 208, 0.05)",
-    "wash_strong": "rgba(106, 63, 208, 0.09)",
-    "press": "rgba(106, 63, 208, 0.14)",
-    "tint_purple": "rgba(106, 63, 208, 0.40)",
-    "wash_pink": "rgba(200, 0, 106, 0.08)",
-    "tint_pink": "rgba(200, 0, 106, 0.35)",
-    "select_pink": "rgba(200, 0, 106, 0.18)",
-    "string_bg": "rgba(138, 97, 0, 0.10)",
-    "osd_bg": "rgba(237, 231, 243, 0.92)",
-    "on_fill": "#f7f4fa",
+
+def shell_palette(variant):
+    p = tokens.palette(variant)
+    d = {"variant": variant}
+    d.update({k: p[k] for k in ("bg", "panel", "line", "ink", "muted", "dimmest",
+                                "pink", "purple", "string", "add", "del")})
+    for name, token in (("wash", "wash"), ("wash_strong", "wash-strong"),
+                        ("press", "press"), ("tint_purple", "tint-purple"),
+                        ("wash_pink", "wash-pink"), ("tint_pink", "ul-pink"),
+                        ("select_pink", "select-pink"), ("string_bg", "string-bg"),
+                        ("osd_bg", "osd-bg")):
+        d[name] = tokens.css(variant, token)
+    d["on_fill"] = p["bg"]
     # The lock screen's wallpaper is dimmed dark in both variants, so text
-    # on it keeps light values: paper, and the dark palette's muted and string.
-    "wall_ink": "#f7f4fa", "wall_muted": "#9c93ab", "wall_warning": "#e5c07b",
-}
+    # on it keeps light values: the page's lightest color, and the dark
+    # palette's muted and string.
+    dark = tokens.palette("dark")
+    d["wall_ink"] = p["bg"] if variant == "light" else p["ink"]
+    d["wall_muted"], d["wall_warning"] = dark["muted"], dark["string"]
+    return d
+
+
+DARK = shell_palette("dark")
+LIGHT = shell_palette("light")
 
 # Selector families for @family|:state :state@ in the template. Each state is
 # appended to every selector; an empty state list gives the bare selectors.

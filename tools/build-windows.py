@@ -19,6 +19,8 @@ import json
 import sys
 from pathlib import Path
 
+import tokens
+
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "windows" / "terminal"
 
@@ -26,7 +28,7 @@ ANSI = ["black", "red", "green", "yellow", "blue", "purple", "cyan", "white",
         "brightBlack", "brightRed", "brightGreen", "brightYellow",
         "brightBlue", "brightPurple", "brightCyan", "brightWhite"]
 
-PANEL = {"dark": "#16131d", "light": "#ede7f3"}
+PANEL = {v: tokens.palette(v)["panel"] for v in tokens.VARIANTS}
 
 
 def scheme(variant):

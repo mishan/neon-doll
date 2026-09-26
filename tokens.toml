@@ -1,0 +1,101 @@
+# Neon Doll's colors, all of them, in both variants. Every theme in this
+# repo is built from this file by tools/; change a color here, run the
+# builders (see README), and it lands everywhere.
+#
+# Names are the website design system's, so tools/check-tokens.py can
+# compare them with it. The site is dark only; light is derived: the page
+# becomes paper, still plum-tinted, and fuchsia and purple keep their roles
+# but come down until they clear 4.5:1 on panel (the dark #ff2d95 is 3.2:1
+# on paper and #b48cff is 2.4:1).
+#
+# Roles, which every builder keeps: fuchsia (pink) is position, where you
+# are; purple is interactive at rest; the roles never swap.
+
+[dark]
+bg      = "#0f0d14"
+panel   = "#16131d"
+line    = "#2a2438"
+ink     = "#ebe6f0"
+muted   = "#9c93ab"
+dimmest = "#6f6880"
+pink    = "#ff2d95"
+purple  = "#b48cff"
+
+code-string = "#e5c07b"
+diff-add    = "#7ee787"
+diff-del    = "#ff7b72"
+
+# A color at an alpha: a token name or a hex, then the alpha. GTK and GNOME
+# Shell blend these live; themes that only take solid colors get them
+# flattened onto bg.
+[dark.tints]
+grid        = ["purple", 0.09]
+wash        = ["purple", 0.06]
+wash-strong = ["purple", 0.10]
+edge-purple = ["purple", 0.30]
+tint-purple = ["purple", 0.35]
+ul-purple   = ["purple", 0.35]
+rule        = ["muted", 0.25]
+edge-muted  = ["muted", 0.40]
+wash-pink   = ["pink", 0.08]
+ul-pink     = ["pink", 0.35]
+# The site's diff tints, which are not quite diff-add and diff-del.
+diff-add-bg = ["#3fb950", 0.10]
+diff-del-bg = ["#f85149", 0.10]
+# Desktop only: the site never selects text in bulk, shows a pressed state
+# or puts up a dialog. Each is a tint of a palette color, never a new hue.
+select-pink = ["pink", 0.30]         # text selection
+press       = ["purple", 0.16]       # :active, one step past wash-strong
+scrim       = ["bg", 0.70]           # behind a modal dialog
+osd-bg      = ["panel", 0.90]        # panel, over photos and video
+edge-del    = ["diff-del", 0.35]     # destructive outline, as tint-purple is to purple
+string-bg   = ["code-string", 0.10]  # warning row, as diff-del-bg is to error
+# Editors only: changed lines, and the changed words inside a diff row.
+change-bg       = ["code-string", 0.10]
+diff-add-refine = ["#3fb950", 0.25]
+diff-del-refine = ["#f85149", 0.25]
+
+# Tints that a flat editor scheme wants at a different strength. The bracket
+# match is a small field, and 8% doesn't find it on the dark page.
+[dark.flat]
+wash-pink = ["pink", 0.16]
+
+[light]
+bg      = "#f7f4fa"   # ink 16.4:1
+panel   = "#ede7f3"
+line    = "#d6cce2"
+ink     = "#1a1522"
+muted   = "#5f5670"   # 5.7:1 on panel
+dimmest = "#8d84a0"   # inert only, never text you need
+pink    = "#c8006a"   # 4.7:1 on panel
+purple  = "#6a3fd0"   # 5.4:1 on panel
+
+code-string = "#8a6100"
+diff-add    = "#1f7a33"
+diff-del    = "#c4312a"
+
+[light.tints]
+grid        = ["purple", 0.07]
+wash        = ["purple", 0.05]
+wash-strong = ["purple", 0.09]
+edge-purple = ["purple", 0.30]
+tint-purple = ["purple", 0.40]
+ul-purple   = ["purple", 0.40]
+rule        = ["muted", 0.25]
+edge-muted  = ["muted", 0.40]
+wash-pink   = ["pink", 0.08]
+ul-pink     = ["pink", 0.35]
+# 7%, not 10%: at 10% the row's own text drops to 4.3:1.
+diff-add-bg = ["diff-add", 0.07]
+diff-del-bg = ["diff-del", 0.07]
+select-pink = ["pink", 0.18]
+press       = ["purple", 0.14]
+scrim       = ["ink", 0.35]
+osd-bg      = ["panel", 0.92]
+edge-del    = ["diff-del", 0.40]
+string-bg   = ["code-string", 0.10]
+change-bg       = ["code-string", 0.07]
+diff-add-refine = ["diff-add", 0.20]
+diff-del-refine = ["diff-del", 0.20]
+
+[light.flat]

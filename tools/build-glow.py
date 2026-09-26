@@ -20,14 +20,14 @@ import json
 import sys
 from pathlib import Path
 
+import tokens
+
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "glow"
 
 PALETTES = {
-    "dark": {"ink": "#ebe6f0", "muted": "#9c93ab", "pink": "#ff2d95", "purple": "#b48cff",
-             "string": "#e5c07b", "add": "#7ee787", "del": "#ff7b72"},
-    "light": {"ink": "#1a1522", "muted": "#5f5670", "pink": "#c8006a", "purple": "#6a3fd0",
-              "string": "#8a6100", "add": "#1f7a33", "del": "#c4312a"},
+    v: {k: tokens.palette(v)[k] for k in ("ink", "muted", "pink", "purple", "string", "add", "del")}
+    for v in tokens.VARIANTS
 }
 
 # ANSI indices, as in the Tilix schemes: 0 the border color, 1 red, 2 green,

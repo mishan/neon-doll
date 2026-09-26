@@ -12,16 +12,17 @@ terminal's Neon Doll scheme, like the ls and git colors. The one thing the
 keywords and the cursor's line number fall back to the lighter purple. (Not
 reverse video: with 'termguicolors' Vim applies the cterm attributes too.)
 
-The colors are read from gtksourceview/neon-doll-{dark,light}.xml, so vim
-matches Text Editor and the other editors: fuchsia keywords, purple numbers,
+The colors are tokens.toml's, flattened as for the GtkSourceView schemes
+(tools/tokens.py), so vim matches Text Editor and the other editors: fuchsia keywords, purple numbers,
 constants and types, yellow strings, muted italic comments; fuchsia for
 position (the cursor's line number, the matching bracket, the current search
 match, the selected menu item, the current tab).
 """
 
-import re
 import sys
 from pathlib import Path
+
+import tokens
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "vim" / "colors" / "neon-doll.vim"
@@ -30,8 +31,7 @@ NONE = None
 
 
 def palette(variant):
-    xml = (ROOT / "gtksourceview" / f"neon-doll-{variant}.xml").read_text()
-    return dict(re.findall(r'<color name="([a-z-]+)"\s+value="(#[0-9a-f]{6})"', xml))
+    return tokens.flat(variant)
 
 
 # group: (gui fg, gui bg, cterm fg, cterm bg, attrs), colors by palette name.
