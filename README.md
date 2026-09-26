@@ -10,7 +10,7 @@ fades in. Cyberpunk, with a manicure.
 
 It dresses the GNOME desktop (GTK 4 / libadwaita, GTK 3, GNOME Shell and the
 mouse cursor) and the tools around it: Chrome, Firefox, GNOME Text Editor,
-Tilix, Emacs, `ls`, `git`, man pages, glow and `whiptail`, plus Windows Terminal and
+Tilix, Ghostty, Emacs, `ls`, `git`, man pages, glow and `whiptail`, plus Windows Terminal and
 PowerShell for the times you're on Windows. Every part comes in dark and
 light, except the cursor: GNOME has one cursor setting, so there is one cursor
 theme, drawn to stand out on both.
@@ -28,6 +28,7 @@ theme, drawn to stand out on both.
 | Emacs | ![](screenshots/emacs-dark.png) | ![](screenshots/emacs-light.png) |
 | Chrome | ![](screenshots/chrome-dark.png) | ![](screenshots/chrome-light.png) |
 | Firefox | ![](screenshots/firefox-dark.png) | ![](screenshots/firefox-light.png) |
+| Ghostty | ![](screenshots/ghostty-dark.png) | ![](screenshots/ghostty-light.png) |
 | git in Tilix | ![](screenshots/git-dark.png) | ![](screenshots/git-light.png) |
 | man pages | ![](screenshots/man-dark.png) | ![](screenshots/man-light.png) |
 | glow | ![](screenshots/glow-dark.png) | ![](screenshots/glow-light.png) |
@@ -41,7 +42,7 @@ theme, drawn to stand out on both.
 ```
 git clone https://github.com/mishan/neon-doll.git && cd neon-doll
 ./install.sh                  # everything
-./install.sh gtk4 shell       # or pick: gtk4 gtk3 shell cursor gtksourceview tilix emacs dircolors git man glow newt
+./install.sh gtk4 shell       # or pick: gtk4 gtk3 shell cursor gtksourceview tilix emacs dircolors git man glow newt ghostty
 ./install.sh --remove         # take it out again
 ```
 
@@ -57,6 +58,7 @@ edits in the checkout show up on the next app launch.
 | Cursor | `~/.local/share/icons/Neon-Doll-Cursors/` | `gsettings set org.gnome.desktop.interface cursor-theme Neon-Doll-Cursors`. One theme for light and dark: black, with a 1 px light edge that finds it on dark backgrounds. The everyday pointers, the arrow, the hand and the text beam, are edged in fuchsia instead, with a faint halo, since they are where you are. The size is Settings → Accessibility → Seeing → Cursor Size; every size from 24 to 96 is drawn. |
 | Text Editor | `~/.local/share/gtksourceview-5/styles/` (and `-4`) | Pick Neon Doll in the style menu. |
 | Tilix | `~/.config/tilix/schemes/` | Restart Tilix; Preferences → Profile → Color. |
+| Ghostty | `~/.config/ghostty/themes/` | `theme = light:Neon Doll Light,dark:Neon Doll Dark` in `~/.config/ghostty/config.ghostty`, which follows the system style. The Tilix colors, plus a border-colored split divider, unfocused splits fading toward the page, and search matches in purple with the current one in fuchsia. Its tabs and header bar are libadwaita, so they take the GTK 4 stylesheet. |
 | Emacs 29+ | `~/.emacs.d/themes/` (or `$EMACS_THEMES_DIR`) | `(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")` `(load-theme 'neon-doll-dark t)` |
 | `ls` colors | `~/.config/neon-doll/dircolors` | `eval "$(dircolors -b ~/.config/neon-doll/dircolors)"` in `~/.bashrc`. Uses only the 16 terminal colors, so it follows either Neon Doll terminal scheme; odd permissions are underlined rather than filled. |
 | man pages | `~/.config/neon-doll/man.sh` | `. ~/.config/neon-doll/man.sh` in `~/.bashrc`. Headings and literal options purple, arguments cyan and underlined, nothing bold; only `man`'s pager changes, not `less` in general. |
@@ -179,6 +181,7 @@ tools/firefox-shoot.py dark|light out.png [--menu] [--userchrome]
                                                   # screenshot it in a scratch Firefox profile (under xvfb-run)
 tools/build-glow.py [--check]                     # regenerate the glow styles
 tools/build-cursor.py [--check|--sheet out.png]   # regenerate the cursor theme from cursor/src/*.svg
+tools/build-ghostty.py [--check]                  # regenerate the Ghostty themes from the Tilix schemes
 tools/build-windows.py [--check]                  # regenerate the Windows Terminal files from the Tilix schemes
 tools/dist.sh [VERSION]                           # release archives into dist/
 ```

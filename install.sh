@@ -3,7 +3,7 @@
 #
 #   ./install.sh [--link] [--remove] [PART...]
 #
-# PART is any of: gtk4 gtk3 shell cursor gtksourceview tilix emacs dircolors git man glow newt
+# PART is any of: gtk4 gtk3 shell cursor gtksourceview tilix emacs dircolors git man glow newt ghostty
 # (default: all).
 # Files are copied; --link symlinks them into this checkout instead, so edits
 # here show up on the next app launch. --remove takes out only what install
@@ -25,11 +25,11 @@ for arg in "$@"; do
     --link) mode=link ;;
     --remove) mode=remove ;;
     -h|--help) sed -n '2,13s/^# \{0,1\}//p' "$0"; exit 0 ;;
-    gtk4|gtk3|shell|cursor|gtksourceview|tilix|emacs|dircolors|git|man|glow|newt) parts="$parts $arg" ;;
+    gtk4|gtk3|shell|cursor|gtksourceview|tilix|emacs|dircolors|git|man|glow|newt|ghostty) parts="$parts $arg" ;;
     *) echo "unknown argument: $arg" >&2; exit 2 ;;
   esac
 done
-[ -n "$parts" ] || parts="gtk4 gtk3 shell cursor gtksourceview tilix emacs dircolors git man glow newt"
+[ -n "$parts" ] || parts="gtk4 gtk3 shell cursor gtksourceview tilix emacs dircolors git man glow newt ghostty"
 
 same() { diff -rq "$1" "$2" >/dev/null 2>&1; }
 
@@ -120,6 +120,12 @@ for part in $parts; do
         place "$f" "$config/neon-doll/glow/$(basename "$f")"
       done
       hint "glow: set  style: \"$config/neon-doll/glow/neon-doll-dark.json\"  in ~/.config/glow/glow.yml (or -light)"
+      ;;
+    ghostty)
+      for f in "$here"/ghostty/themes/*; do
+        place "$f" "$config/ghostty/themes/$(basename "$f")"
+      done
+      hint "Ghostty: add to ~/.config/ghostty/config.ghostty:  theme = light:Neon Doll Light,dark:Neon Doll Dark"
       ;;
     newt)
       place "$here/newt/neon-doll.sh" "$config/neon-doll/newt.sh"
