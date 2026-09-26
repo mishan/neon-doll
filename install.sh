@@ -3,7 +3,7 @@
 #
 #   ./install.sh [--link] [--remove] [PART...]
 #
-# PART is any of: gtk4 gtk3 shell cursor gtksourceview tilix emacs dircolors git man glow newt ghostty vim irssi
+# PART is any of: gtk4 gtk3 shell cursor gtksourceview tilix emacs dircolors git man glow newt ag ghostty vim irssi
 # (default: all).
 # Files are copied; --link symlinks them into this checkout instead, so edits
 # here show up on the next app launch. --remove takes out only what install
@@ -25,11 +25,11 @@ for arg in "$@"; do
     --link) mode=link ;;
     --remove) mode=remove ;;
     -h|--help) sed -n '2,13s/^# \{0,1\}//p' "$0"; exit 0 ;;
-    gtk4|gtk3|shell|cursor|gtksourceview|tilix|emacs|dircolors|git|man|glow|newt|ghostty|vim|irssi) parts="$parts $arg" ;;
+    gtk4|gtk3|shell|cursor|gtksourceview|tilix|emacs|dircolors|git|man|glow|newt|ag|ghostty|vim|irssi) parts="$parts $arg" ;;
     *) echo "unknown argument: $arg" >&2; exit 2 ;;
   esac
 done
-[ -n "$parts" ] || parts="gtk4 gtk3 shell cursor gtksourceview tilix emacs dircolors git man glow newt ghostty vim irssi"
+[ -n "$parts" ] || parts="gtk4 gtk3 shell cursor gtksourceview tilix emacs dircolors git man glow newt ag ghostty vim irssi"
 
 same() { diff -rq "$1" "$2" >/dev/null 2>&1; }
 
@@ -140,6 +140,10 @@ for part in $parts; do
     newt)
       place "$here/newt/neon-doll.sh" "$config/neon-doll/newt.sh"
       hint "whiptail/debconf: add to ~/.bashrc:  . $config/neon-doll/newt.sh"
+      ;;
+    ag)
+      place "$here/ag/neon-doll.sh" "$config/neon-doll/ag.sh"
+      hint "ag: add to ~/.bashrc:  . $config/neon-doll/ag.sh"
       ;;
     man)
       place "$here/man/neon-doll.sh" "$config/neon-doll/man.sh"

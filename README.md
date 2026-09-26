@@ -10,8 +10,8 @@ fades in. Cyberpunk, with a manicure.
 
 It dresses the GNOME desktop (GTK 4 / libadwaita, GTK 3, GNOME Shell and the
 mouse cursor) and the tools around it: Chrome, Firefox, GNOME Text Editor,
-VS Code, Tilix, Ghostty, Emacs, vim, irssi, `ls`, `git`, man pages, glow and
-`whiptail`, plus Windows Terminal and PowerShell for the times you're on Windows. Every part comes in dark and
+VS Code, Tilix, Ghostty, Emacs, vim, irssi, `ls`, `git`, `ag`, man pages,
+glow and `whiptail`, plus Windows Terminal and PowerShell for the times you're on Windows. Every part comes in dark and
 light, except the cursor: GNOME has one cursor setting, so there is one cursor
 theme, drawn to stand out on both.
 
@@ -33,6 +33,7 @@ theme, drawn to stand out on both.
 | irssi | ![](screenshots/irssi-dark.png) | ![](screenshots/irssi-light.png) |
 | Ghostty | ![](screenshots/ghostty-dark.png) | ![](screenshots/ghostty-light.png) |
 | git in Tilix | ![](screenshots/git-dark.png) | ![](screenshots/git-light.png) |
+| ag | ![](screenshots/ag-dark.png) | ![](screenshots/ag-light.png) |
 | man pages | ![](screenshots/man-dark.png) | ![](screenshots/man-light.png) |
 | glow | ![](screenshots/glow-dark.png) | ![](screenshots/glow-light.png) |
 | PowerShell | ![](screenshots/powershell-dark.png) | ![](screenshots/powershell-light.png) |
@@ -45,7 +46,7 @@ theme, drawn to stand out on both.
 ```
 git clone https://github.com/mishan/neon-doll.git && cd neon-doll
 ./install.sh                  # everything
-./install.sh gtk4 shell       # or pick: gtk4 gtk3 shell cursor gtksourceview tilix emacs dircolors git man glow newt ghostty vim irssi
+./install.sh gtk4 shell       # or pick: gtk4 gtk3 shell cursor gtksourceview tilix emacs dircolors git man glow newt ag ghostty vim irssi
 ./install.sh --remove         # take it out again
 ```
 
@@ -66,6 +67,7 @@ edits in the checkout show up on the next app launch.
 | irssi | `~/.irssi/neon-doll{,-light}.theme` | `/set theme neon-doll` (or `neon-doll-light`) and `/set colors_ansi_24bit on`, then `/save`. The prompt, which names the window you're typing into, is fuchsia; you and the channels are purple; lines that mention you, and the windows holding them, are yellow; timestamps, hostmasks, joins and parts step back into grey. Without 24-bit color irssi uses the nearest of the 256 colors. |
 | Emacs 29+ | `~/.emacs.d/themes/` (or `$EMACS_THEMES_DIR`) | `(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")` `(load-theme 'neon-doll-dark t)` |
 | `ls` colors | `~/.config/neon-doll/dircolors` | `eval "$(dircolors -b ~/.config/neon-doll/dircolors)"` in `~/.bashrc`. Uses only the 16 terminal colors, so it follows either Neon Doll terminal scheme; odd permissions are underlined rather than filled. |
+| `ag` | `~/.config/neon-doll/ag.sh` | `. ~/.config/neon-doll/ag.sh` in `~/.bashrc`. ag has no config file, so it's an alias with ag's three color flags: file names purple, line numbers muted, matches purple and underlined, as `git grep` has them under the Neon Doll git colors. Nothing bold, and only the 16 terminal colors. |
 | man pages | `~/.config/neon-doll/man.sh` | `. ~/.config/neon-doll/man.sh` in `~/.bashrc`. Headings and literal options purple, arguments cyan and underlined, nothing bold; only `man`'s pager changes, not `less` in general. |
 | glow | `~/.config/neon-doll/glow/` | `alias glow='glow -s ~/.config/neon-doll/glow/neon-doll-dark.json'` (or `-light`) in `~/.bashrc`, or the full path as `style:` in `~/.config/glow/glow.yml`; glow doesn't expand `~` there. Markdown as a man page: capitalized purple section headings, code in the editor schemes' colors. |
 | `whiptail` | `~/.config/neon-doll/newt.sh` | `. ~/.config/neon-doll/newt.sh` in `~/.bashrc`. For whiptail and everything built on newt, like debconf and `dpkg-reconfigure`: the box a panel with a purple edge, the focused item reverse purple, no drop shadow. newt's own colors assume a VGA console and wash out on this palette. |
@@ -221,14 +223,15 @@ tools/build-vim.py [--check]                      # regenerate the vim colorsche
 tools/build-ghostty.py [--check]                  # regenerate the Ghostty themes from the Tilix schemes
 tools/build-irssi.py [--check]                    # regenerate the irssi themes from the editor schemes
 tools/irssi-shoot.sh OUTDIR                       # screenshot them, against a pretend IRC server on localhost
+tools/ag-shoot.sh OUTDIR                          # screenshot ag through the alias
 tools/build-windows.py [--check]                  # regenerate the Windows Terminal files from the Tilix schemes
 tools/build-vscode.py [--check] [--vsix OUT]      # regenerate the VS Code themes and icon; --vsix packs the extension
 tools/vscode-shoot.py dark|light out.png          # screenshot it in a scratch VS Code (under xvfb-run, env stripped)
 tools/dist.sh [VERSION]                           # release archives into dist/
 ```
 
-`tools/term-shoot.sh` and `tools/irssi-shoot.sh` need shotbox on your
-`PATH`; the other screenshot scripts still carry their own Xvfb setup.
+`tools/term-shoot.sh`, `tools/irssi-shoot.sh` and `tools/ag-shoot.sh` need
+shotbox on your `PATH`; the other screenshot scripts still carry their own Xvfb setup.
 
 `tools/check-tokens.py` and `tools/check-tokens3.py` compare the palette
 against the design system it came from; they need that project's
