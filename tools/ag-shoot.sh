@@ -4,7 +4,7 @@
 #
 #   tools/ag-shoot.sh DIR      # writes DIR/ag-{dark,light}.png
 #
-# Needs shotbox on PATH.
+# Needs shotbox (https://github.com/mishan/shotbox) on PATH.
 set -eu
 command -v shotbox >/dev/null || { echo "needs shotbox on PATH" >&2; exit 1; }
 dir=$(realpath -m "$1")

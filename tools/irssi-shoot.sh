@@ -3,10 +3,10 @@
 #
 #   tools/irssi-shoot.sh DIR      # writes DIR/irssi-{dark,light}.png
 #
-# Needs shotbox on PATH. irssi runs in a sealed session with a scratch home,
-# connected to tools/irssi-server.py on localhost, which plays a scripted
-# channel; then a reply and an action are typed in, and a line is left unsent
-# in the input.
+# Needs shotbox (https://github.com/mishan/shotbox) on PATH. irssi runs in a
+# sealed session with a scratch home, connected to tools/irssi-server.py on
+# localhost, which plays a scripted channel; then a reply and an action are
+# typed in, and a line is left unsent in the input.
 set -eu
 command -v shotbox >/dev/null || { echo "needs shotbox on PATH" >&2; exit 1; }
 dir=$(realpath -m "$1")

@@ -6,7 +6,7 @@
 #
 # The listing is a scratch directory holding one of every kind of file
 # dircolors tells apart, odd permissions included. Needs shotbox
-# on PATH.
+# (https://github.com/mishan/shotbox) on PATH.
 set -eu
 command -v shotbox >/dev/null || { echo "needs shotbox on PATH" >&2; exit 1; }
 out=$(realpath -m "$1")

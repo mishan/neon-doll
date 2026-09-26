@@ -231,7 +231,7 @@ tools/dist.sh [VERSION]                           # release archives into dist/
 ```
 
 `tools/term-shoot.sh`, `tools/irssi-shoot.sh` and `tools/ag-shoot.sh` need
-shotbox on your `PATH`; the other screenshot scripts still carry their own Xvfb setup.
+[shotbox](https://github.com/mishan/shotbox) on your `PATH`; the other screenshot scripts still carry their own Xvfb setup.
 
 `tools/check-tokens.py` and `tools/check-tokens3.py` compare the palette
 against the design system it came from; they need that project's
