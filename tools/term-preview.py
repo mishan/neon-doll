@@ -8,9 +8,11 @@ keyboard: to show an interactive shell's highlighting as you type.
 
 Run under tools/term-shoot.sh to get a screenshot. The command runs in
 bash with the caller's environment, so set LS_COLORS and cwd before.
+PREVIEW_SIZE=COLSxROWS sets the terminal's size (72x24 by default).
 """
 
 import json
+import os
 import sys
 
 import gi
@@ -36,7 +38,7 @@ term.set_colors(rgba(scheme["foreground-color"]), rgba(scheme["background-color"
                 [rgba(c) for c in scheme["palette"]])
 term.set_color_cursor(rgba(scheme["cursor-background-color"]))
 term.set_color_bold(rgba(scheme["bold-color"]))
-term.set_size(72, 24)
+term.set_size(*map(int, os.environ.get("PREVIEW_SIZE", "72x24").split("x")))
 term.spawn_async(Vte.PtyFlags.DEFAULT, None, ["/bin/bash", "--norc", "-c", command + "; sleep 60"],
                  None, GLib.SpawnFlags.DEFAULT, None, None, -1, None, None)
 

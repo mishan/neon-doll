@@ -3,7 +3,7 @@
 #
 #   ./install.sh [--link] [--remove] [PART...]
 #
-# PART is any of: gtk4 gtk3 shell cursor gtksourceview tilix emacs dircolors git man glow newt ghostty vim
+# PART is any of: gtk4 gtk3 shell cursor gtksourceview tilix emacs dircolors git man glow newt ghostty vim irssi
 # (default: all).
 # Files are copied; --link symlinks them into this checkout instead, so edits
 # here show up on the next app launch. --remove takes out only what install
@@ -25,11 +25,11 @@ for arg in "$@"; do
     --link) mode=link ;;
     --remove) mode=remove ;;
     -h|--help) sed -n '2,13s/^# \{0,1\}//p' "$0"; exit 0 ;;
-    gtk4|gtk3|shell|cursor|gtksourceview|tilix|emacs|dircolors|git|man|glow|newt|ghostty|vim) parts="$parts $arg" ;;
+    gtk4|gtk3|shell|cursor|gtksourceview|tilix|emacs|dircolors|git|man|glow|newt|ghostty|vim|irssi) parts="$parts $arg" ;;
     *) echo "unknown argument: $arg" >&2; exit 2 ;;
   esac
 done
-[ -n "$parts" ] || parts="gtk4 gtk3 shell cursor gtksourceview tilix emacs dircolors git man glow newt ghostty vim"
+[ -n "$parts" ] || parts="gtk4 gtk3 shell cursor gtksourceview tilix emacs dircolors git man glow newt ghostty vim irssi"
 
 same() { diff -rq "$1" "$2" >/dev/null 2>&1; }
 
@@ -124,6 +124,12 @@ for part in $parts; do
     vim)
       place "$here/vim/colors/neon-doll.vim" "$HOME/.vim/colors/neon-doll.vim"
       hint "vim: add to ~/.vimrc:  colorscheme neon-doll   (set background=light for the light variant; set termguicolors for exact colors)"
+      ;;
+    irssi)
+      for f in "$here"/irssi/*.theme; do
+        place "$f" "$HOME/.irssi/$(basename "$f")"
+      done
+      hint "irssi: /set theme neon-doll  (or neon-doll-light), and  /set colors_ansi_24bit on  for the exact colors; then /save"
       ;;
     ghostty)
       for f in "$here"/ghostty/themes/*; do

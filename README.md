@@ -10,8 +10,8 @@ fades in. Cyberpunk, with a manicure.
 
 It dresses the GNOME desktop (GTK 4 / libadwaita, GTK 3, GNOME Shell and the
 mouse cursor) and the tools around it: Chrome, Firefox, GNOME Text Editor,
-VS Code, Tilix, Ghostty, Emacs, vim, `ls`, `git`, man pages, glow and `whiptail`, plus Windows Terminal and
-PowerShell for the times you're on Windows. Every part comes in dark and
+VS Code, Tilix, Ghostty, Emacs, vim, irssi, `ls`, `git`, man pages, glow and
+`whiptail`, plus Windows Terminal and PowerShell for the times you're on Windows. Every part comes in dark and
 light, except the cursor: GNOME has one cursor setting, so there is one cursor
 theme, drawn to stand out on both.
 
@@ -30,6 +30,7 @@ theme, drawn to stand out on both.
 | VS Code | ![](screenshots/vscode-dark.png) | ![](screenshots/vscode-light.png) |
 | Chrome | ![](screenshots/chrome-dark.png) | ![](screenshots/chrome-light.png) |
 | Firefox | ![](screenshots/firefox-dark.png) | ![](screenshots/firefox-light.png) |
+| irssi | ![](screenshots/irssi-dark.png) | ![](screenshots/irssi-light.png) |
 | Ghostty | ![](screenshots/ghostty-dark.png) | ![](screenshots/ghostty-light.png) |
 | git in Tilix | ![](screenshots/git-dark.png) | ![](screenshots/git-light.png) |
 | man pages | ![](screenshots/man-dark.png) | ![](screenshots/man-light.png) |
@@ -44,7 +45,7 @@ theme, drawn to stand out on both.
 ```
 git clone https://github.com/mishan/neon-doll.git && cd neon-doll
 ./install.sh                  # everything
-./install.sh gtk4 shell       # or pick: gtk4 gtk3 shell cursor gtksourceview tilix emacs dircolors git man glow newt ghostty vim
+./install.sh gtk4 shell       # or pick: gtk4 gtk3 shell cursor gtksourceview tilix emacs dircolors git man glow newt ghostty vim irssi
 ./install.sh --remove         # take it out again
 ```
 
@@ -62,6 +63,7 @@ edits in the checkout show up on the next app launch.
 | Tilix | `~/.config/tilix/schemes/` | Restart Tilix; Preferences → Profile → Color. |
 | Ghostty | `~/.config/ghostty/themes/` | `theme = light:Neon Doll Light,dark:Neon Doll Dark` in `~/.config/ghostty/config.ghostty`, which follows the system style. The Tilix colors, plus a border-colored split divider, unfocused splits fading toward the page, and search matches in purple with the current one in fuchsia. Its tabs and header bar are libadwaita, so they take the GTK 4 stylesheet. |
 | vim | `~/.vim/colors/neon-doll.vim` | `colorscheme neon-doll` in `~/.vimrc`. One scheme for both variants: it follows `background`. With `termguicolors` it uses the exact colors, matching the other editors; without, it uses the 16 terminal colors and follows the terminal's Neon Doll scheme. |
+| irssi | `~/.irssi/neon-doll{,-light}.theme` | `/set theme neon-doll` (or `neon-doll-light`) and `/set colors_ansi_24bit on`, then `/save`. The prompt, which names the window you're typing into, is fuchsia; you and the channels are purple; lines that mention you, and the windows holding them, are yellow; timestamps, hostmasks, joins and parts step back into grey. Without 24-bit color irssi uses the nearest of the 256 colors. |
 | Emacs 29+ | `~/.emacs.d/themes/` (or `$EMACS_THEMES_DIR`) | `(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")` `(load-theme 'neon-doll-dark t)` |
 | `ls` colors | `~/.config/neon-doll/dircolors` | `eval "$(dircolors -b ~/.config/neon-doll/dircolors)"` in `~/.bashrc`. Uses only the 16 terminal colors, so it follows either Neon Doll terminal scheme; odd permissions are underlined rather than filled. |
 | man pages | `~/.config/neon-doll/man.sh` | `. ~/.config/neon-doll/man.sh` in `~/.bashrc`. Headings and literal options purple, arguments cyan and underlined, nothing bold; only `man`'s pager changes, not `less` in general. |
@@ -211,6 +213,8 @@ tools/build-glow.py [--check]                     # regenerate the glow styles
 tools/build-cursor.py [--check|--sheet out.png]   # regenerate the cursor theme from cursor/src/*.svg
 tools/build-vim.py [--check]                      # regenerate the vim colorscheme from the editor schemes
 tools/build-ghostty.py [--check]                  # regenerate the Ghostty themes from the Tilix schemes
+tools/build-irssi.py [--check]                    # regenerate the irssi themes from the editor schemes
+tools/irssi-shoot.sh OUTDIR                       # screenshot them, against a pretend IRC server on localhost
 tools/build-windows.py [--check]                  # regenerate the Windows Terminal files from the Tilix schemes
 tools/build-vscode.py [--check] [--vsix OUT]      # regenerate the VS Code themes and icon; --vsix packs the extension
 tools/vscode-shoot.py dark|light out.png          # screenshot it in a scratch VS Code (under xvfb-run, env stripped)
