@@ -10,7 +10,7 @@ fades in. Cyberpunk, with a manicure.
 
 It dresses the GNOME desktop (GTK 4 / libadwaita, GTK 3, GNOME Shell and the
 mouse cursor) and the tools around it: Chrome, Firefox, GNOME Text Editor,
-Tilix, Ghostty, Emacs, vim, `ls`, `git`, man pages, glow and `whiptail`, plus Windows Terminal and
+VS Code, Tilix, Ghostty, Emacs, vim, `ls`, `git`, man pages, glow and `whiptail`, plus Windows Terminal and
 PowerShell for the times you're on Windows. Every part comes in dark and
 light, except the cursor: GNOME has one cursor setting, so there is one cursor
 theme, drawn to stand out on both.
@@ -27,6 +27,7 @@ theme, drawn to stand out on both.
 | Text Editor | ![](screenshots/text-editor-dark.png) | ![](screenshots/text-editor-light.png) |
 | Emacs | ![](screenshots/emacs-dark.png) | ![](screenshots/emacs-light.png) |
 | vim | ![](screenshots/vim-dark.png) | ![](screenshots/vim-light.png) |
+| VS Code | ![](screenshots/vscode-dark.png) | ![](screenshots/vscode-light.png) |
 | Chrome | ![](screenshots/chrome-dark.png) | ![](screenshots/chrome-light.png) |
 | Firefox | ![](screenshots/firefox-dark.png) | ![](screenshots/firefox-light.png) |
 | Ghostty | ![](screenshots/ghostty-dark.png) | ![](screenshots/ghostty-light.png) |
@@ -105,8 +106,19 @@ matching the `ls` colors. `Enable-NeonDollPrompt` adds the bash prompt's
 look. The tab row's colors are a Terminal *theme*, which fragments can't carry:
 paste the entries from `windows/terminal/themes.json` into `settings.json`.
 
-Tested on GNOME 51 with GTK 4.24, libadwaita 1.10 and GTK 3.24, Chrome 154 and
-Firefox 156.
+**VS Code** gets an extension with *Neon Doll Dark* and *Neon Doll Light*.
+Once it's on the Marketplace and Open VSX, it installs from the Extensions
+view; until then, build it with `tools/build-vscode.py --vsix neon-doll.vsix`
+(or take the `.vsix` from a release) and run
+`code --install-extension neon-doll.vsix`, then pick the theme with
+*Preferences: Color Theme*. The editor is the page and everything around it a
+panel; the syntax is the editor schemes', the terminal the Tilix colors. The
+current tab, the focused row, the active activity-bar item, the selection and
+the current find match are fuchsia; links, badges and the primary button,
+drawn as a purple wash with a purple edge, are purple.
+
+Tested on GNOME 51 with GTK 4.24, libadwaita 1.10 and GTK 3.24, Chrome 154,
+Firefox 156 and VS Code 1.139.
 
 ### Light and dark
 
@@ -114,7 +126,13 @@ GTK 4, Text Editor and Firefox switch with the system style on their own.
 GTK 3 and the Shell can't: a GTK 3 theme name and a Shell user theme are each
 one choice, so there are two, `Neon-Doll-Dark` and `Neon-Doll-Light`. GTK 3
 apps that ask for a dark style get it from either. Tilix and Emacs have a
-scheme per variant.
+scheme per variant. VS Code switches when told to, in its settings:
+
+```json
+"window.autoDetectColorScheme": true,
+"workbench.preferredDarkColorTheme": "Neon Doll Dark",
+"workbench.preferredLightColorTheme": "Neon Doll Light"
+```
 
 ## The rules
 
@@ -158,6 +176,14 @@ both above 4.5:1 on its panels.
   sit below 4.5:1.
 - **Emacs** faces for magit, vertico and similar packages are set but untested;
   there are no 256-color terminal specs.
+- **VS Code** themes set colors only, so corners and fonts stay VS Code's.
+  Buttons are fills, so the primary button is a purple wash with a purple
+  edge rather than a bare outline, and hover can change its fill but not its
+  text. List rows can't take a rail; the focused row is a fuchsia wash with
+  fuchsia text instead. Newer VS Code draws the side bar, editor and panel as
+  rounded cards and marks the active tab and activity-bar item with a pill
+  rather than a rail; the theme colors both layouts. The chat and agent views
+  keep VS Code's colors.
 
 ## Working on it
 
@@ -186,6 +212,8 @@ tools/build-cursor.py [--check|--sheet out.png]   # regenerate the cursor theme 
 tools/build-vim.py [--check]                      # regenerate the vim colorscheme from the editor schemes
 tools/build-ghostty.py [--check]                  # regenerate the Ghostty themes from the Tilix schemes
 tools/build-windows.py [--check]                  # regenerate the Windows Terminal files from the Tilix schemes
+tools/build-vscode.py [--check] [--vsix OUT]      # regenerate the VS Code themes and icon; --vsix packs the extension
+tools/vscode-shoot.py dark|light out.png          # screenshot it in a scratch VS Code (under xvfb-run, env stripped)
 tools/dist.sh [VERSION]                           # release archives into dist/
 ```
 
