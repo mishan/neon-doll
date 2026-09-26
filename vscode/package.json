@@ -1,0 +1,48 @@
+{
+  "name": "neon-doll",
+  "displayName": "Neon Doll",
+  "description": "Hot pink neon on midnight plum. Fuchsia marks where you are, purple what you can touch; dark and light.",
+  "version": "0.1.0",
+  "publisher": "mishan",
+  "license": "GPL-3.0-or-later",
+  "icon": "icon.png",
+  "galleryBanner": {
+    "color": "#0f0d14",
+    "theme": "dark"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mishan/neon-doll.git"
+  },
+  "homepage": "https://github.com/mishan/neon-doll#readme",
+  "bugs": {
+    "url": "https://github.com/mishan/neon-doll/issues"
+  },
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Themes"
+  ],
+  "keywords": [
+    "dark",
+    "light",
+    "pink",
+    "purple",
+    "plum"
+  ],
+  "contributes": {
+    "themes": [
+      {
+        "label": "Neon Doll Dark",
+        "uiTheme": "vs-dark",
+        "path": "./themes/neon-doll-dark-color-theme.json"
+      },
+      {
+        "label": "Neon Doll Light",
+        "uiTheme": "vs",
+        "path": "./themes/neon-doll-light-color-theme.json"
+      }
+    ]
+  }
+}
