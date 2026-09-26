@@ -101,6 +101,21 @@ for part in $parts; do
           t=${t%/}
           place "$t" "$data/themes/$(basename "$t")"
         done
+        # GTK 2 only looks in ~/.themes, not ~/.local/share/themes, so the
+        # themes with a gtk-2.0 get a link there too.
+        for t in "$here"/themes/*/gtk-2.0; do
+          name=$(basename "$(dirname "$t")")
+          link=$HOME/.themes/$name
+          if [ "$mode" = remove ]; then
+            [ -L "$link" ] && rm -f "$link" && echo "removed $link"
+          elif [ -e "$link" ] && [ ! -L "$link" ]; then
+            echo "left $link alone: it isn't ours"
+          else
+            mkdir -p "$HOME/.themes"
+            ln -sfn "$data/themes/$name" "$link"
+            echo "$link"
+          fi
+        done
       fi
       if [ "$part" = gtk3 ]; then
         hint "GTK 3: gsettings set org.gnome.desktop.interface gtk-theme Neon-Doll-Dark   # or Neon-Doll-Light"
