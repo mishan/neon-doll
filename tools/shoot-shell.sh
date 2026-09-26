@@ -61,6 +61,7 @@ cat > "$ext/metadata.json" <<'EOF'
 {"uuid": "shoot@neon-doll", "name": "shoot", "description": "screenshots", "shell-version": ["51"]}
 EOF
 cat > "$ext/extension.js" <<'EOF'
+import Clutter from 'gi://Clutter';
 import GLib from 'gi://GLib';
 import Gio from 'gi://Gio';
 import Shell from 'gi://Shell';
@@ -153,6 +154,55 @@ async function run() {
         Main.panel.statusArea.dateMenu.menu.open();
         await wait(800);
         await shot('03-calendar');
+        Main.panel.statusArea.dateMenu.menu.close();
+        await wait(400);
+    });
+
+    // A collapsed group: more notifications from one source stack behind
+    // the newest, offset a little, so a hover fill that isn't opaque shows
+    // them through it, doubled. Hovered with a virtual pointer, moved in
+    // steps: one jump doesn't register as hover.
+    await scene('calendar-group-hover', async () => {
+        Main.notify('Tests passed', 'neon-doll: 212 checks, no failures.');
+        Main.notify('Push rejected', 'origin/main has moved on; pull first.');
+        // The pointer first: a new input device drops the menu's grab.
+        const seat = global.stage.get_context().get_backend().get_default_seat();
+        const pointer = seat.create_virtual_device(Clutter.InputDeviceType.POINTER_DEVICE);
+        await wait(1500);
+        Main.panel.statusArea.dateMenu.menu.open();
+        await wait(1000);
+        const find = (actor, cls) => {
+            if (actor.has_style_class_name?.(cls))
+                return actor;
+            for (const c of actor.get_children()) {
+                const hit = find(c, cls);
+                if (hit)
+                    return hit;
+            }
+            return null;
+        };
+        const group = find(Main.panel.statusArea.dateMenu.menu.actor, 'message-notification-group');
+        if (!group) {
+            probes.push('calendar-group-hover: no notification group found');
+            return;
+        }
+        const top = group.get_first_child();
+        const [x, y] = top.get_transformed_position();
+        const [w, h] = top.get_transformed_size();
+        for (let i = 0; i <= 10; i++) {
+            pointer.notify_absolute_motion(GLib.get_monotonic_time(), x + w / 2 - 50 + i * 5, y + h / 2);
+            await wait(50);
+        }
+        await wait(800);
+        const [px, py] = global.get_pointer();
+        const under = global.stage.get_actor_at_pos(Clutter.PickMode.REACTIVE, px, py);
+        probes.push(`group hover: pointer ${px},${py} over ${under?.constructor.name}`);
+        for (const c of group.get_children())
+            if (c.child)
+                probe(`group message :${c.child.get_style_pseudo_class?.() ?? ''}`, c.child);
+        await shot('03b-calendar-group-hover');
+        pointer.notify_absolute_motion(GLib.get_monotonic_time(), 5, global.screen_height - 5);
+        await wait(300);
         Main.panel.statusArea.dateMenu.menu.close();
         // Clear the banners so they don't cover the scenes that follow.
         for (const source of Main.messageTray.getSources())
