@@ -1,13 +1,15 @@
 #!/bin/sh
 # Install Neon Doll.
 #
-#   ./install.sh [--link] [--remove] [PART...]
+#   ./install.sh [--link] [--remove] [--desktop-grid] [PART...]
 #
 # PART is any of: gtk4 gtk3 shell cursor gtksourceview tilix emacs dircolors git man glow newt ag ghostty vim irssi
 # (default: all).
 # Files are copied; --link symlinks them into this checkout instead, so edits
 # here show up on the next app launch. --remove takes out only what install
-# put in: links, and copies that still match this checkout.
+# put in: links, and copies that still match this checkout. --desktop-grid
+# keeps GTK 4's graph paper on the desktop too (over the wallpaper, under
+# Desktop Icons NG's icons); by default it stops at app windows.
 #
 # Nothing is switched on: gsettings and app preferences are left alone, and
 # the commands to turn each part on are printed at the end.
@@ -19,12 +21,14 @@ data=${XDG_DATA_HOME:-$HOME/.local/share}
 emacs_dir=${EMACS_THEMES_DIR:-$HOME/.emacs.d/themes}
 
 mode=copy
+desktop_grid=
 parts=
 for arg in "$@"; do
   case $arg in
     --link) mode=link ;;
     --remove) mode=remove ;;
-    -h|--help) sed -n '2,13s/^# \{0,1\}//p' "$0"; exit 0 ;;
+    --desktop-grid) desktop_grid=1 ;;
+    -h|--help) sed -n '2,15s/^# \{0,1\}//p' "$0"; exit 0 ;;
     gtk4|gtk3|shell|cursor|gtksourceview|tilix|emacs|dircolors|git|man|glow|newt|ag|ghostty|vim|irssi) parts="$parts $arg" ;;
     *) echo "unknown argument: $arg" >&2; exit 2 ;;
   esac
@@ -67,7 +71,26 @@ themes_done=
 for part in $parts; do
   case $part in
     gtk4)
-      place "$here/gtk-4.0/gtk.css" "$config/gtk-4.0/gtk.css"
+      css=$here/gtk-4.0/gtk.css
+      if [ -n "$desktop_grid" ]; then
+        if [ "$mode" = link ]; then
+          echo "--desktop-grid needs a copy, not --link: left gtk.css as it is" >&2
+        else
+          # The same stylesheet, minus the rule that keeps the paper off
+          # the desktop.
+          css=$(mktemp -d)/gtk.css
+          sed '/desktop-grid:begin/,/desktop-grid:end/d' "$here/gtk-4.0/gtk.css" > "$css"
+        fi
+      fi
+      # Either variant installed before is ours to replace, not a file of
+      # the user's own to move aside.
+      dst=$config/gtk-4.0/gtk.css
+      if [ "$mode" != remove ] && [ -f "$dst" ] && [ ! -L "$dst" ] &&
+         { same "$here/gtk-4.0/gtk.css" "$dst" ||
+           sed '/desktop-grid:begin/,/desktop-grid:end/d' "$here/gtk-4.0/gtk.css" | cmp -s - "$dst"; }; then
+        rm -f "$dst"
+      fi
+      place "$css" "$dst"
       hint "GTK 4 / libadwaita: restart apps. Light or dark follows Settings → Appearance."
       ;;
     gtk3|shell)

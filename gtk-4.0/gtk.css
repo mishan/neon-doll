@@ -240,6 +240,14 @@ window.background {
   background-size: var(--cell) var(--cell);
 }
 
+/* But not on the desktop. Desktop Icons NG (and its forks) draw the icons
+   in a transparent full-screen window over the wallpaper, so the paper
+   would land on the wallpaper too. `install.sh --desktop-grid` leaves this
+   rule out, for graph paper over the wallpaper on purpose. */
+/* desktop-grid:begin */
+window.background.desktopwindow { background-image: none; }
+/* desktop-grid:end */
+
 /* A hairline instead of a drop shadow. The transparent spread is not
    decoration: GTK sizes the resize handles from the shadow's extent. */
 window.csd {

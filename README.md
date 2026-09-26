@@ -48,6 +48,7 @@ git clone https://github.com/mishan/neon-doll.git && cd neon-doll
 ./install.sh                  # everything
 ./install.sh gtk4 shell       # or pick: gtk4 gtk3 shell cursor gtksourceview tilix emacs dircolors git man glow newt ag ghostty vim irssi
 ./install.sh --remove         # take it out again
+./install.sh --desktop-grid gtk4   # graph paper over the wallpaper too (with Desktop Icons NG)
 ```
 
 `install.sh` copies files into your home directory and changes no settings; it
@@ -56,7 +57,7 @@ edits in the checkout show up on the next app launch.
 
 | Part | Goes to | Turn it on |
 |---|---|---|
-| GTK 4 / libadwaita | `~/.config/gtk-4.0/gtk.css` | Restart apps. Light or dark follows Settings → Appearance. |
+| GTK 4 / libadwaita | `~/.config/gtk-4.0/gtk.css` | Restart apps. Light or dark follows Settings → Appearance. Window backgrounds are graph paper, but not the desktop: Desktop Icons NG draws its icons in a transparent GTK 4 window over the wallpaper, so the paper would land on the wallpaper too. Install with `--desktop-grid` to have it there as well. |
 | GTK 3 and 2 | `~/.local/share/themes/Neon-Doll-{Dark,Light}/` | `gsettings set org.gnome.desktop.interface gtk-theme Neon-Doll-Dark`. The same setting reaches GTK 2 apps like HexChat: they get Adwaita's GTK 2 widgets in Neon Doll's colors, so they need Adwaita's GTK 2 theme (`gnome-themes-extra`). |
 | GNOME Shell | the same two theme dirs, plus `Neon-Doll-{Dark,Light}-Hearts` | `gsettings set org.gnome.shell.extensions.user-theme name Neon-Doll-Dark` (needs the [User Themes](https://extensions.gnome.org/extension/19/user-themes/) extension). The `-Hearts` themes are the same, except that Locate Pointer (press Ctrl) ripples out as a heart instead of a ring. |
 | Cursor | `~/.local/share/icons/Neon-Doll-Cursors/` | `gsettings set org.gnome.desktop.interface cursor-theme Neon-Doll-Cursors`. One theme for light and dark: black, with a 1 px light edge that finds it on dark backgrounds. The everyday pointers, the arrow, the hand and the text beam, are edged in fuchsia instead, with a faint halo, since they are where you are. The size is Settings → Accessibility → Seeing → Cursor Size; every size from 24 to 96 is drawn. |
