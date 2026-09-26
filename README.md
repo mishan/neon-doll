@@ -227,6 +227,9 @@ tools/vscode-shoot.py dark|light out.png          # screenshot it in a scratch V
 tools/dist.sh [VERSION]                           # release archives into dist/
 ```
 
+`tools/term-shoot.sh` and `tools/irssi-shoot.sh` need shotbox on your
+`PATH`; the other screenshot scripts still carry their own Xvfb setup.
+
 `tools/check-tokens.py` and `tools/check-tokens3.py` compare the palette
 against the design system it came from; they need that project's
 `system.css` as an argument.

@@ -5,8 +5,10 @@
 #   tools/term-shoot.sh out.png
 #
 # The listing is a scratch directory holding one of every kind of file
-# dircolors tells apart, odd permissions included.
+# dircolors tells apart, odd permissions included. Needs shotbox
+# on PATH.
 set -eu
+command -v shotbox >/dev/null || { echo "needs shotbox on PATH" >&2; exit 1; }
 out=$(realpath -m "$1")
 here=$(cd "$(dirname "$0")" && pwd)
 root=$(dirname "$here")
@@ -30,19 +32,12 @@ mkfifo "$f/pipe"
 cmd="cd '$f' && ls -lgo --color=always --time-style=+ | sed 1d"
 dircolors -b "$root/dircolors/neon-doll" > "$tmp/nd.sh"
 
-shots=
 for v in dark light; do
   for mode in default neon-doll; do
-    png=$tmp/$v-$mode.png
     if [ $mode = neon-doll ]; then setup=". '$tmp/nd.sh'"; else setup="unset LS_COLORS"; fi
-    xvfb-run -a -s "-screen 0 700x330x24" sh -c "
-      $setup
-      GDK_BACKEND=x11 '$here/term-preview.py' '$root/tilix/neon-doll-$v.json' \"$cmd\" >/dev/null 2>&1 &
-      sleep 2
-      import -window root -crop 340x290+0+0 '$png'
-      kill %1
-    " 2>/dev/null || true
-    shots="$shots $png"
+    shotbox shoot "$tmp/$v-$mode.png" --window shotbox-term --wait ready --crop 340x290+0+0 -- \
+      shotbox term --scheme "$root/tilix/neon-doll-$v.json" --size 72x24 --when 'rwt.* tmp' -- \
+        bash --norc -c "$setup; $cmd; sleep 60" >/dev/null
   done
 done
 # dark: default | neon-doll, then light: default | neon-doll
