@@ -10,7 +10,7 @@ fades in. Cyberpunk, with a manicure.
 
 It dresses the GNOME desktop (GTK 4 / libadwaita, GTK 3, GNOME Shell and the
 mouse cursor) and the tools around it: Chrome, Firefox, GNOME Text Editor,
-Tilix, Emacs, `ls`, `git`, man pages and glow, plus Windows Terminal and
+Tilix, Emacs, `ls`, `git`, man pages, glow and `whiptail`, plus Windows Terminal and
 PowerShell for the times you're on Windows. Every part comes in dark and
 light, except the cursor: GNOME has one cursor setting, so there is one cursor
 theme, drawn to stand out on both.
@@ -32,6 +32,7 @@ theme, drawn to stand out on both.
 | man pages | ![](screenshots/man-dark.png) | ![](screenshots/man-light.png) |
 | glow | ![](screenshots/glow-dark.png) | ![](screenshots/glow-light.png) |
 | PowerShell | ![](screenshots/powershell-dark.png) | ![](screenshots/powershell-light.png) |
+| whiptail | ![](screenshots/whiptail-dark.png) | ![](screenshots/whiptail-light.png) |
 
 ![Every cursor at 64 and 32 px on dark, light, grey and a busy photo-like background](screenshots/cursors.png)
 
@@ -40,7 +41,7 @@ theme, drawn to stand out on both.
 ```
 git clone https://github.com/mishan/neon-doll.git && cd neon-doll
 ./install.sh                  # everything
-./install.sh gtk4 shell       # or pick: gtk4 gtk3 shell cursor gtksourceview tilix emacs dircolors git man glow
+./install.sh gtk4 shell       # or pick: gtk4 gtk3 shell cursor gtksourceview tilix emacs dircolors git man glow newt
 ./install.sh --remove         # take it out again
 ```
 
@@ -60,6 +61,7 @@ edits in the checkout show up on the next app launch.
 | `ls` colors | `~/.config/neon-doll/dircolors` | `eval "$(dircolors -b ~/.config/neon-doll/dircolors)"` in `~/.bashrc`. Uses only the 16 terminal colors, so it follows either Neon Doll terminal scheme; odd permissions are underlined rather than filled. |
 | man pages | `~/.config/neon-doll/man.sh` | `. ~/.config/neon-doll/man.sh` in `~/.bashrc`. Headings and literal options purple, arguments cyan and underlined, nothing bold; only `man`'s pager changes, not `less` in general. |
 | glow | `~/.config/neon-doll/glow/` | `style: "~/.config/neon-doll/glow/neon-doll-dark.json"` (or `-light`) in `~/.config/glow/glow.yml`. Markdown as a man page: capitalized purple section headings, code in the editor schemes' colors. |
+| `whiptail` | `~/.config/neon-doll/newt.sh` | `. ~/.config/neon-doll/newt.sh` in `~/.bashrc`. For whiptail and everything built on newt, like debconf and `dpkg-reconfigure`: the box a panel with a purple edge, the focused item reverse purple, no drop shadow. newt's own colors assume a VGA console and wash out on this palette. |
 | `git` colors | `~/.config/neon-doll/gitconfig` | `git config --global include.path ~/.config/neon-doll/gitconfig`, placed after any `[color]` sections of your own. Diff, log, status, branch, grep and `add -p`, in the 16 terminal colors; nothing bold. |
 
 **Chrome** can't be installed from a script. Open `chrome://extensions`, turn
