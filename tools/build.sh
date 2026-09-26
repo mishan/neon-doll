@@ -16,7 +16,7 @@ if [ -n "$check" ]; then
 else
   "$here/scheme-colors.py" --write
 fi
-for b in palettes shell chrome firefox glow ghostty windows vim vscode irssi cursor; do
+for b in palettes gtk2 shell chrome firefox glow ghostty windows vim vscode irssi cursor; do
   "$here/build-$b.py" $check
 done
 if [ -n "$check" ]; then echo "all up to date"; fi
