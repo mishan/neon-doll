@@ -119,7 +119,7 @@ for part in $parts; do
       for f in "$here"/glow/neon-doll-*.json; do
         place "$f" "$config/neon-doll/glow/$(basename "$f")"
       done
-      hint "glow: set  style: \"$config/neon-doll/glow/neon-doll-dark.json\"  in ~/.config/glow/glow.yml (or -light)"
+      hint "glow: set  style: \"$config/neon-doll/glow/neon-doll-dark.json\"  in ~/.config/glow/glow.yml (or -light); the full path, since glow doesn't expand ~"
       ;;
     ghostty)
       for f in "$here"/ghostty/themes/*; do
