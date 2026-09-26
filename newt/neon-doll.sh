@@ -17,6 +17,11 @@
 # focused item is reverse purple; entry fields are slots cut into the page. No
 # drop shadow: the shadow is drawn in the page color.
 #
+# whiptail's <Ok> and <Cancel> are newt "compact" buttons, and newt names
+# their states oddly: compactbutton is the button at rest, and "button" is the
+# one with focus, the one Enter presses. So button is the reverse purple.
+# (actbutton is for newt's big boxed buttons, which whiptail doesn't use.)
+#
 # Format: element=foreground,background, separated by spaces.
 
 export NEWT_COLORS='
@@ -24,8 +29,7 @@ export NEWT_COLORS='
   window=white,black         border=magenta,black       title=magenta,black
   shadow=default,default
   label=white,black          textbox=white,black        acttextbox=black,magenta
-  button=white,black         actbutton=black,magenta
-  compactbutton=white,black
+  compactbutton=white,black  button=black,magenta       actbutton=black,brightmagenta
   checkbox=white,black       actcheckbox=black,magenta
   listbox=white,black        actlistbox=black,magenta
   sellistbox=magenta,black   actsellistbox=black,magenta
