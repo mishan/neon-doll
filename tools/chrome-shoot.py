@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """Screenshot a Neon Doll Chrome theme in a throwaway Chrome profile.
 
-    xvfb-run -a -s "-screen 0 1200x760x24" tools/chrome-shoot.py dark out.png
+    tools/chrome-shoot.py dark|light out.png
 
 Branded Chrome ignores --load-extension, so the theme goes in over the
 DevTools protocol (Extensions.loadUnpacked), which Chrome allows only with
 --remote-debugging-pipe and --enable-unsafe-extension-debugging. Nothing
-touches the real profile.
+touches the real profile: it runs in a sealed shotbox session, which it
+starts itself.
 """
 
 import json
@@ -15,11 +16,23 @@ import shutil
 import subprocess
 import sys
 import tempfile
-import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+if len(sys.argv) != 3 or sys.argv[1] not in ("dark", "light"):
+    sys.exit(__doc__)
 variant, out = sys.argv[1], Path(sys.argv[2]).resolve()
+
+# In a sealed shotbox session (https://github.com/mishan/shotbox, on PATH),
+# started around this script if it isn't in one already.
+if not os.environ.get("SHOTBOX_SCRATCH"):
+    os.execvp("shotbox", ["shotbox", "run", "--screen", "1200x760", "--",
+                          sys.executable, os.path.abspath(__file__), *sys.argv[1:]])
+
+
+def shotbox(*args):
+    subprocess.run(["shotbox", *map(str, args)], check=True)
+
 profile = tempfile.mkdtemp()
 # Chrome writes "Cached Theme.pak" into an unpacked theme; keep it out of the repo.
 theme = Path(profile) / "theme"
@@ -56,13 +69,17 @@ def call(i, method, **params):
 
 
 try:
-    time.sleep(3)
+    shotbox("wait", "window", ".* - Google Chrome")
     call(1, "Extensions.loadUnpacked", path=str(theme))
+    # The theme goes in after the call returns, with a bar saying so on the
+    # tab in front: let that be about:blank, not the new tab in the picture.
+    shotbox("wait", "stable", "1")
     target = call(2, "Target.createTarget", url="chrome://newtab/")
     call(3, "Target.createTarget", url="data:text/html,<title>man neon-doll</title>")
     call(4, "Target.activateTarget", targetId=target["targetId"])
-    time.sleep(4)
-    subprocess.run(["import", "-window", "root", "-crop", "1200x760+0+0", "-strip", str(out)], check=True)
+    # The new tab page loads in pieces; a second without a change is done.
+    shotbox("wait", "stable", "1")
+    shotbox("capture", out)
 finally:
     chrome.terminate()
     chrome.wait(timeout=10)

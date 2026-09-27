@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 """Screenshot a Neon Doll VS Code theme in a throwaway VS Code.
 
-    env -u DISPLAY -u WAYLAND_DISPLAY -u DBUS_SESSION_BUS_ADDRESS \\
-      xvfb-run -a -s "-screen 0 1280x800x24" tools/vscode-shoot.py dark out.png
+    tools/vscode-shoot.py dark|light out.png
 
 Everything lives in a temporary directory, which is also $HOME for VS Code:
 the extension is packed with tools/build-vscode.py --vsix and installed into
@@ -11,10 +10,10 @@ set in a scratch --user-data-dir's settings.json. A separate user-data-dir is
 a separate instance, so a VS Code already running on the desktop is never
 asked to open the window. The sample project is a small git repository with
 uncommitted changes, and a folder-open task shows a colored `git diff` and
-`ls` in the integrated terminal.
+`ls` in the integrated terminal, and then says it's ready.
 
-It refuses to run with a Wayland display or a session bus in the
-environment, or without a DISPLAY, which xvfb-run sets.
+It runs in a sealed shotbox session, which it starts itself, so nothing
+reaches the desktop's display or session bus.
 """
 
 import json
@@ -30,12 +29,18 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 
 if len(sys.argv) != 3 or sys.argv[1] not in ("dark", "light"):
-    sys.exit("usage: tools/vscode-shoot.py dark|light out.png  (under xvfb-run)")
-for var in ("WAYLAND_DISPLAY", "DBUS_SESSION_BUS_ADDRESS"):
-    if os.environ.get(var):
-        sys.exit(f"refusing to run with {var} set; see the usage in this file")
-if not os.environ.get("DISPLAY"):
-    sys.exit("no DISPLAY: run this under xvfb-run")
+    sys.exit("usage: tools/vscode-shoot.py dark|light out.png")
+
+# In a sealed shotbox session (https://github.com/mishan/shotbox, on PATH),
+# started around this script if it isn't in one already.
+if not os.environ.get("SHOTBOX_SCRATCH"):
+    os.execvp("shotbox", ["shotbox", "run", "--screen", "1280x800", "--",
+                          sys.executable, os.path.abspath(__file__), *sys.argv[1:]])
+
+
+def shotbox(*args):
+    subprocess.run(["shotbox", *map(str, args)], check=True)
+
 
 variant, out = sys.argv[1], Path(sys.argv[2]).resolve()
 tmp = Path(tempfile.mkdtemp(prefix="neon-doll-vscode-"))
@@ -82,6 +87,9 @@ label = f"Neon Doll {variant.capitalize()}"
     "terminal.integrated.fontFamily": "'DejaVu Sans Mono', monospace",
     "terminal.integrated.defaultProfile.linux": "bash",
     "terminal.integrated.enablePersistentSessions": False,
+    # Cursors that don't blink: the picture waits for the window to hold still.
+    "editor.cursorBlinking": "solid",
+    "terminal.integrated.cursorBlinking": False,
 }, indent=2))
 
 # The sample project: committed, then changed, so the gutter and the explorer
@@ -193,7 +201,9 @@ git("commit", "-m", "palette")
     "tasks": [{
         "label": "status",
         "type": "shell",
-        "command": "exec bash --rcfile .vscode/demo.bashrc -i",
+        # A task that ends, printing a prompt as it goes, rather than a shell
+        # left running: a running task's tab has a spinner that never stops.
+        "command": "bash .vscode/demo.bashrc",
         "presentation": {"reveal": "always", "panel": "dedicated", "focus": False,
                          "showReuseMessage": False, "echo": False},
         "runOptions": {"runOn": "folderOpen"},
@@ -201,11 +211,12 @@ git("commit", "-m", "palette")
     }],
 }, indent=2))
 (proj / ".vscode" / "demo.bashrc").write_text(r"""
-PS1='\[\e[35m\]demo\[\e[0m\] \[\e[90m\]main\[\e[0m\] $ '
 git -c color.ui=always diff --stat
 git -c color.ui=always diff -U0 src/palette.py | sed -n 5,12p
 for i in 0 1 2 3 4 5 6 7; do printf '\e[4%sm   \e[0m' $i; done; echo
 for i in 0 1 2 3 4 5 6 7; do printf '\e[10%sm   \e[0m' $i; done; echo
+printf '\e[35mdemo\e[0m \e[90mmain\e[0m $ '
+touch "$SHOTBOX_SCRATCH/ready"
 """)
 (proj / ".git" / "info" / "exclude").write_text(".vscode/\n")
 
@@ -219,8 +230,11 @@ app = subprocess.Popen(
             str(proj), "--goto", f"{proj}/src/palette.py:21:36"],
     env=env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, start_new_session=True)
 try:
-    time.sleep(float(os.environ.get("SHOOT_WAIT", "14")))
-    subprocess.run(["import", "-window", "root", "-strip", str(out)], check=True)
+    # The terminal's task is the last thing to start; then give the rest a
+    # second without a change.
+    shotbox("wait", "ready", "--timeout", "60")
+    shotbox("wait", "stable", "1")
+    shotbox("capture", out)
     print(out)
 finally:
     os.killpg(app.pid, signal.SIGTERM)
