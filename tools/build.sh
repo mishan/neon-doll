@@ -4,8 +4,8 @@
 #   tools/build.sh           # write them all
 #   tools/build.sh --check   # fail if any would change
 #
-# The text schemes go first: the Ghostty, Windows Terminal, vim and VS Code
-# builders read the Tilix schemes they write.
+# The text schemes go first: the Ghostty, COSMIC, Windows Terminal, vim and
+# VS Code builders read the Tilix schemes they write.
 set -eu
 here=$(cd "$(dirname "$0")" && pwd)
 check=
@@ -16,7 +16,7 @@ if [ -n "$check" ]; then
 else
   "$here/scheme-colors.py" --write
 fi
-for b in palettes gtk2 shell chrome firefox glow ghostty windows vim vscode irssi roundcube cursor; do
+for b in palettes gtk2 shell chrome firefox glow ghostty cosmic windows vim vscode irssi roundcube cursor; do
   "$here/build-$b.py" $check
 done
 if [ -n "$check" ]; then echo "all up to date"; fi
