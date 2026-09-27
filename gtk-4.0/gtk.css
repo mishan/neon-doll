@@ -609,6 +609,11 @@ scale > trough > slider {
   min-height: 18px;
   margin: -8px 0;
 }
+/* Adwaita turns a slider 45 degrees when its scale has marks on one side,
+   making the round knob a pointer; the bar is upright either way. */
+scale.marks-before > trough > slider, scale.marks-after > trough > slider {
+  transform: none;
+}
 scale.vertical > trough > slider { min-width: 18px; min-height: 10px; margin: 0 -8px; }
 levelbar > trough > block.low { background-color: var(--diff-del); }
 levelbar > trough > block.high, levelbar > trough > block.full { background-color: var(--pink); }

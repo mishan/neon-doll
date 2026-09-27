@@ -92,6 +92,11 @@ def toggles():
 def ranges():
     box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
     box.append(Gtk.Scale(adjustment=Gtk.Adjustment(value=40, upper=100), hexpand=True))
+    # A mark on one side, as Settings' balance has: Adwaita turns this
+    # slider 45 degrees into a pointer.
+    balance = Gtk.Scale(adjustment=Gtk.Adjustment(value=0, lower=-1, upper=1), hexpand=True)
+    balance.add_mark(0, Gtk.PositionType.BOTTOM, None)
+    box.append(balance)
     pb = Gtk.ProgressBar(fraction=0.62)
     box.append(pb)
     row = Gtk.Box(spacing=8)
