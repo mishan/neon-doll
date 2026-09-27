@@ -31,9 +31,11 @@ cat > "$tmp/docs/README.md" <<'MD'
 Fuchsia (pink) is where you are; purple is what you can touch.
 MD
 
+# One worker, so the files come out in the same order every time, and the
+# last match is the last line.
 for v in dark light; do
-  shotbox shoot "$dir/ag-$v.png" --window shotbox-term --wait ready --crop 600x250+0+0 -- \
-    shotbox term --scheme "$root/tilix/neon-doll-$v.json" --size 72x24 --when 'return PINK' -- \
-      bash --norc -c "shopt -s expand_aliases; . '$root/ag/neon-doll.sh'
-        cd '$tmp' && ag -i pink; sleep 60"
+  shotbox term --shoot "$dir/ag-$v.png" --scheme "$root/tilix/neon-doll-$v.json" \
+      --size 72x24 --crop 66x14 --when 'return PINK' -- \
+    bash --norc -c "shopt -s expand_aliases; . '$root/ag/neon-doll.sh'
+      cd '$tmp' && ag --workers 1 -i pink"
 done

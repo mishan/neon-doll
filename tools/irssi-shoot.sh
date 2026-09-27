@@ -38,9 +38,8 @@ CONF
   # The server script joins doll to #neon-doll (window 2) and #cyberpunk,
   # and ends with a query; irssi doesn't switch to channels it was put in,
   # so go to window 2 first.
-  shotbox shoot "$dir/irssi-$v.png" --window shotbox-term --wait ready \
-      --seed "$home" --env COLORTERM=truecolor -- \
-    shotbox term --scheme "$root/tilix/neon-doll-$v.json" --size 88x24 \
+  shotbox term --shoot "$dir/irssi-$v.png" --seed "$home" --env COLORTERM=truecolor \
+      --scheme "$root/tilix/neon-doll-$v.json" --size 88x24 \
       --when 'End of MOTD' --type '/window 2\r' \
       --when 'Act: 3,4' --type "yes, it follows the terminal's scheme\r" \
       --when "doll> yes" --type '/me waves\r' \

@@ -35,9 +35,9 @@ dircolors -b "$root/dircolors/neon-doll" > "$tmp/nd.sh"
 for v in dark light; do
   for mode in default neon-doll; do
     if [ $mode = neon-doll ]; then setup=". '$tmp/nd.sh'"; else setup="unset LS_COLORS"; fi
-    shotbox shoot "$tmp/$v-$mode.png" --window shotbox-term --wait ready --crop 340x290+0+0 -- \
-      shotbox term --scheme "$root/tilix/neon-doll-$v.json" --size 72x24 --when 'rwt.* tmp' -- \
-        bash --norc -c "$setup; $cmd; sleep 60" >/dev/null
+    shotbox term --shoot "$tmp/$v-$mode.png" --scheme "$root/tilix/neon-doll-$v.json" \
+        --size 72x24 --crop 38x16 --when 'rwt.* tmp' -- \
+      bash --norc -c "$setup; $cmd" >/dev/null
   done
 done
 # dark: default | neon-doll, then light: default | neon-doll

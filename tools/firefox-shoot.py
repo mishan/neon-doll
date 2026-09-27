@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 """Screenshot the Neon Doll Firefox theme in a throwaway Firefox profile.
 
-    env -u DISPLAY -u WAYLAND_DISPLAY MOZ_ENABLE_WAYLAND=0 \\
-      xvfb-run -a -s "-screen 0 1200x760x24" tools/firefox-shoot.py dark out.png
+    tools/firefox-shoot.py dark|light out.png [--userchrome] [--menu]
 
     --userchrome    also load firefox/userChrome.css
     --menu          open the main menu instead of the address bar
@@ -12,8 +11,9 @@ line, so the theme goes in as a temporary add-on over Marionette
 (Addon:Install), which Firefox allows with --marionette; the tabs and the
 open address bar or menu are set up from browser chrome, which also needs
 -remote-allow-system-access. The system color scheme is forced with
-ui.systemUsesDarkTheme, which is what the theme's dark_theme follows. It
-refuses to run outside xvfb-run, and nothing touches the real profile.
+ui.systemUsesDarkTheme, which is what the theme's dark_theme follows.
+Nothing touches the real profile: it runs in a sealed shotbox session,
+which it starts itself.
 """
 
 import json
@@ -23,7 +23,6 @@ import socket
 import subprocess
 import sys
 import tempfile
-import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -34,10 +33,18 @@ variant, out = args[0], Path(args[1]).resolve()
 userchrome = "--userchrome" in sys.argv
 menu = "--menu" in sys.argv
 
-# xvfb-run points XAUTHORITY at its own temp file; a real session never does.
-if "xvfb-run" not in os.environ.get("XAUTHORITY", "") or not os.environ.get("DISPLAY"):
-    sys.exit("run this under xvfb-run (see the docstring)")
-env = {k: v for k, v in os.environ.items() if k != "WAYLAND_DISPLAY"}
+# In a sealed shotbox session (https://github.com/mishan/shotbox, on PATH),
+# started around this script if it isn't in one already.
+if not os.environ.get("SHOTBOX_SCRATCH"):
+    os.execvp("shotbox", ["shotbox", "run", "--screen", "1200x760", "--",
+                          sys.executable, os.path.abspath(__file__), *sys.argv[1:]])
+
+
+def shotbox(*args):
+    subprocess.run(["shotbox", *map(str, args)], check=True)
+
+
+env = dict(os.environ)
 env["MOZ_ENABLE_WAYLAND"] = "0"
 env["MOZ_CRASHREPORTER_DISABLE"] = "1"
 
@@ -84,6 +91,8 @@ prefs = {
     "app.update.auto": False,
     "sidebar.revamp": False,
     "browser.tabs.inTitlebar": 0,
+    # A caret that doesn't blink: the picture waits for the window to hold still.
+    "ui.caretBlinkTime": -1,
 }
 (profile / "user.js").write_text(
     "".join(f"user_pref({json.dumps(k)}, {json.dumps(v)});\n" for k, v in prefs.items()))
@@ -99,14 +108,8 @@ firefox = subprocess.Popen(
 
 class Marionette:
     def __init__(self):
-        for _ in range(60):
-            try:
-                self.sock = socket.create_connection(("127.0.0.1", port))
-                break
-            except OSError:
-                time.sleep(0.5)
-        else:
-            sys.exit("Marionette never came up")
+        shotbox("wait", "port", port)
+        self.sock = socket.create_connection(("127.0.0.1", port))
         self.buf = b""
         self.id = 0
         self.read()  # the server's hello
@@ -150,16 +153,15 @@ try:
           `<meta name=color-scheme content="light dark"><title>${title}</title>`),
           {index, triggeringPrincipal: p}));
     """)
-    time.sleep(6)
+    shotbox("wait", "stable", "1")
     # Marionette stripes the address bar red while it drives the browser.
     chrome_js(m, 'document.documentElement.removeAttribute("remotecontrol");')
     if menu:
         chrome_js(m, 'PanelUI.show();')
     else:
         chrome_js(m, 'gURLBar.focus(); gURLBar.search("neon doll");')
-    time.sleep(2)
-    subprocess.run(["import", "-window", "root", "-crop", "1200x760+0+0", "-strip", str(out)],
-                   check=True, env=env)
+    shotbox("wait", "stable", "1")
+    shotbox("capture", out)
 finally:
     firefox.terminate()
     try:
