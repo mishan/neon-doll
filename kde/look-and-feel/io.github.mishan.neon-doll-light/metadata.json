@@ -1,0 +1,17 @@
+{
+    "KPackageStructure": "Plasma/LookAndFeel",
+    "KPlugin": {
+        "Authors": [
+            {
+                "Name": "Misha Nasledov"
+            }
+        ],
+        "Category": "",
+        "Description": "Hot pink neon on midnight plum, light",
+        "Id": "io.github.mishan.neon-doll-light",
+        "License": "GPL-3.0-or-later",
+        "Name": "Neon Doll Light",
+        "Website": "https://github.com/mishan/neon-doll"
+    },
+    "X-Plasma-APIVersion": "2"
+}

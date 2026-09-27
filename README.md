@@ -11,7 +11,7 @@ fades in. Cyberpunk, with a manicure.
 It dresses the GNOME desktop (GTK 4 / libadwaita, GTK 3, GNOME Shell and the
 mouse cursor) and the tools around it: Chrome, Firefox, Roundcube, GNOME Text Editor,
 VS Code, Tilix, Ghostty, Emacs, vim, irssi, `ls`, `git`, `ag`, man pages,
-glow and `whiptail`, plus the COSMIC desktop and its terminal, and Windows Terminal and PowerShell for the times you're on Windows. Every part comes in dark and
+glow and `whiptail`, plus the COSMIC desktop and its terminal, KDE Plasma and the Qt apps on it, and Windows Terminal and PowerShell for the times you're on Windows. Every part comes in dark and
 light, except the cursor: GNOME has one cursor setting, so there is one cursor
 theme, drawn to stand out on both.
 
@@ -35,6 +35,10 @@ theme, drawn to stand out on both.
 | Ghostty | ![](screenshots/ghostty-dark.png) | ![](screenshots/ghostty-light.png) |
 | COSMIC, with Files and Terminal | ![](screenshots/cosmic-desktop-dark.png) | ![](screenshots/cosmic-desktop-light.png) |
 | COSMIC Settings | ![](screenshots/cosmic-settings-dark.png) | ![](screenshots/cosmic-settings-light.png) |
+| KDE Plasma, with Dolphin and Konsole | ![](screenshots/plasma-desktop-dark.png) | ![](screenshots/plasma-desktop-light.png) |
+| Kate | ![](screenshots/plasma-kate-dark.png) | ![](screenshots/plasma-kate-light.png) |
+| Qt widgets, in Kvantum | ![](screenshots/plasma-widgets-dark.png) | ![](screenshots/plasma-widgets-light.png) |
+| Plasma's global themes | ![](screenshots/plasma-settings-dark.png) | ![](screenshots/plasma-settings-light.png) |
 | git in Tilix | ![](screenshots/git-dark.png) | ![](screenshots/git-light.png) |
 | ag | ![](screenshots/ag-dark.png) | ![](screenshots/ag-light.png) |
 | man pages | ![](screenshots/man-dark.png) | ![](screenshots/man-light.png) |
@@ -49,7 +53,7 @@ theme, drawn to stand out on both.
 ```
 git clone https://github.com/mishan/neon-doll.git && cd neon-doll
 ./install.sh                  # everything
-./install.sh gtk4 shell       # or pick: gtk4 gtk3 shell cursor gtksourceview tilix emacs dircolors git man glow newt ag ghostty vim irssi cosmic
+./install.sh gtk4 shell       # or pick: gtk4 gtk3 shell cursor gtksourceview tilix emacs dircolors git man glow newt ag ghostty vim irssi cosmic kde kvantum konsole kate qtct
 ./install.sh --remove         # take it out again
 ./install.sh --desktop-grid gtk4   # graph paper over the wallpaper too (with Desktop Icons NG)
 ```
@@ -69,6 +73,11 @@ edits in the checkout show up on the next app launch.
 | Ghostty | `~/.config/ghostty/themes/` | `theme = light:Neon Doll Light,dark:Neon Doll Dark` in `~/.config/ghostty/config.ghostty`, which follows the system style. The Tilix colors, plus a border-colored split divider, unfocused splits fading toward the page, and search matches in purple with the current one in fuchsia. Its tabs and header bar are libadwaita, so they take the GTK 4 stylesheet. |
 | COSMIC | `~/.config/neon-doll/cosmic/` | `cosmic-settings appearance import ~/.config/neon-doll/cosmic/Neon-Doll-Dark.ron`, then the same with `-Light`; each lands in its own mode, and COSMIC switches between them as it does its own. Or Settings → Desktop → Appearance → Import. The page, the panel as containers, ink as the text tint, purple as the accent, fuchsia on the focused window's outline, square corners, nothing frosted; COSMIC derives the rest. Leave *Apply this theme to GNOME apps* off: it replaces `~/.config/gtk-4.0/gtk.css` with COSMIC's own. |
 | COSMIC Terminal | `~/.config/neon-doll/cosmic/terminal/` | View → Color schemes… → Import, and pick `Neon Doll Dark.ron`; the list is the current mode's, so switch to light and import `Neon Doll Light.ron` there. The Tilix colors. |
+| KDE Plasma | `~/.local/share/color-schemes/`, `~/.local/share/plasma/look-and-feel/` | `kvantummanager --set NeonDoll` (the kvantum part), then System Settings → Colors & Themes → Global Theme → Neon Doll Dark or Light. The global theme sets the color scheme, Kvantum, the cursor and the chrome fonts: toolbars, menus and window titles in your monospace font. To follow the time of day, turn on *Switch to Dark Mode at Night* on that page and pick the two there; Kvantum switches with them. Window decorations and the Plasma style stay Breeze's, in Neon Doll's colors. For the colors alone, on Breeze's shapes: `plasma-apply-colorscheme NeonDollDark`. |
+| Kvantum | `~/.config/Kvantum/NeonDoll/` | `kvantummanager --set NeonDoll`, then the widget style `kvantum-dark`, or `kvantum` for light: the theme is NeonDoll, and its dark variant NeonDollDark. The shapes for every Qt app, which Breeze and a color scheme can't change: square buttons and fields with a hairline edge, the rail on the selected row and across the current tab, graph paper in the windows, no shadows. Outside Plasma, set `QT_STYLE_OVERRIDE=kvantum-dark`, or pick it in qt6ct. |
+| Konsole | `~/.local/share/konsole/` | Settings → Manage Profiles → Neon Doll Dark (or Light) → Set as Default. The Tilix colors; the profile carries the fuchsia cursor, which a Konsole color scheme can't. |
+| Kate | `~/.local/share/org.kde.syntax-highlighting/themes/` | Settings → Configure Kate → Color Themes. KWrite, KDevelop and anything else on KTextEditor list it too. The editor schemes' four syntax colors. |
+| qt5ct, qt6ct | `~/.config/qt5ct/colors/`, `~/.config/qt6ct/colors/` | Appearance → Palette → Custom → NeonDollDark (or NeonDollLight), for Qt apps outside Plasma on the Fusion style. With Kvantum, apps take its colors instead. |
 | vim | `~/.vim/colors/neon-doll.vim` | `colorscheme neon-doll` in `~/.vimrc`. One scheme for both variants: it follows `background`. With `termguicolors` it uses the exact colors, matching the other editors; without, it uses the 16 terminal colors and follows the terminal's Neon Doll scheme. |
 | irssi | `~/.irssi/neon-doll{,-light}.theme` | `/set theme neon-doll` (or `neon-doll-light`) and `/set colors_ansi_24bit on`, then `/save`. The prompt, which names the window you're typing into, is fuchsia; you and the channels are purple; lines that mention you, and the windows holding them, are yellow; timestamps, hostmasks, joins and parts step back into grey. Without 24-bit color irssi uses the nearest of the 256 colors. |
 | Emacs 29+ | `~/.emacs.d/themes/` (or `$EMACS_THEMES_DIR`) | `(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")` `(load-theme 'neon-doll-dark t)` |
@@ -149,7 +158,7 @@ Debian 13's package).
 ### Light and dark
 
 GTK 4, Text Editor, Firefox, Roundcube and COSMIC switch with the system style on
-their own.
+their own, and Plasma does once it has the two global themes as its pair.
 GTK 3 and the Shell can't: a GTK 3 theme name and a Shell user theme are each
 one choice, so there are two, `Neon-Doll-Dark` and `Neon-Doll-Light`. GTK 3
 apps that ask for a dark style get it from either. Tilix and Emacs have a
@@ -194,6 +203,18 @@ both above 4.5:1 on its panels.
   unless you set one as the wallpaper. Tested only in a nested COSMIC 1.8
   (`tools/cosmic-shoot.sh`), where COSMIC Terminal started on its dark scheme
   in light mode unless its own View → Settings → Theme was set to Light.
+- **KDE Plasma** keeps Breeze for the window decorations and the Plasma style,
+  so title bars, the panel and its popups take Neon Doll's colors but keep
+  Breeze's rounded corners and shadows, and the focused window has no fuchsia
+  outline. Kvantum draws its focus frame whenever a widget has focus, so a
+  clicked item gets a fuchsia box, not only one reached from the keyboard. A
+  selected tree row carries its rail at the item's indent rather than the
+  row's edge. Kirigami apps, System Settings among them, reach Kvantum through
+  KDE's Qt Quick style and draw a few controls of their own, like the switch.
+  Breeze's folder icons take the selection color, so folders are plum in
+  dark and pink in light. QToolBox keeps Qt's slanted tab outline. Tested only
+  in a nested Plasma 6.7 with Kvantum 1.1.6 and KDE Gear 26.08
+  (`tools/kde-shoot.sh`).
 - **Chrome** themes set colors only: tabs keep Chrome's rounded shapes, and
   focus rings and hover states stay Chrome's own.
 - **Firefox** themes set colors only, and the current tab's indicator is an
@@ -259,6 +280,8 @@ tools/build-vim.py [--check]                      # regenerate the vim colorsche
 tools/build-ghostty.py [--check]                  # regenerate the Ghostty themes from the Tilix schemes
 tools/build-cosmic.py [--check]                   # regenerate the COSMIC themes and COSMIC Terminal schemes
 tools/cosmic-shoot.sh OUTDIR [dark|light ...]     # screenshot them in a nested COSMIC (docker, software rendering)
+tools/build-kde.py [--check]                      # regenerate the KDE and Qt parts: color schemes, Kvantum, global themes, Konsole, Kate, qt5ct/qt6ct
+tools/kde-shoot.sh OUTDIR [dark|light ...]        # screenshot them in a nested Plasma (docker, software rendering)
 tools/build-irssi.py [--check]                    # regenerate the irssi themes from the editor schemes
 tools/irssi-shoot.sh OUTDIR                       # screenshot them, against a pretend IRC server on localhost
 tools/ag-shoot.sh OUTDIR                          # screenshot ag through the alias
@@ -280,8 +303,10 @@ Shell, and `tools/roundcube-shoot.py` drives a headless Chrome.
 against Roundcube's Elastic sources, which it fetches once into
 `~/.cache/neon-doll`; without either, it leaves the committed CSS alone and
 says so. `tools/roundcube-shoot.py` needs docker and Chrome, and
-`tools/cosmic-shoot.sh` docker alone: it builds a Fedora image with COSMIC
-the first time.
+`tools/cosmic-shoot.sh` and `tools/kde-shoot.sh` docker alone: each builds a
+Fedora image with its desktop the first time. `KDE_SHOOT_PREVIEWS=1
+tools/kde-shoot.sh` also redraws the global themes' preview images from the
+desktop shot.
 
 `tools/check-tokens.py` and `tools/check-tokens3.py` compare the palette
 against the design system it came from; they need that project's

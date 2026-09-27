@@ -22,6 +22,9 @@
 # neon-doll-roundcube-VERSION.tar.xz
 #                                  the Roundcube skin dir at the top level:
 #                                  what unpacks into Roundcube's skins/
+# neon-doll-kde-VERSION.tar.xz    kde/: the Plasma color schemes and global
+#                                  themes, the Kvantum theme, and the Konsole,
+#                                  Kate and qt5ct/qt6ct colors
 #
 # The GTK 4 stylesheet is kept out of the theme dirs on purpose: a gtk-4.0/
 # inside a theme dir is loaded as a complete theme by GTK 4 apps that don't
@@ -71,6 +74,10 @@ git archive --format=zip HEAD:firefox manifest.json images > "dist/neon-doll-fir
 # Windows Terminal and PowerShell, with their installer.
 git archive --format=zip --prefix="neon-doll-windows-$version/" HEAD windows COPYING \
   > "dist/neon-doll-windows-$version.zip"
+
+# KDE and Qt: the kde/ tree, with COPYING.
+git archive --format=tar --prefix="neon-doll-kde-$version/" HEAD kde COPYING | xz -9 \
+  > "dist/neon-doll-kde-$version.tar.xz"
 
 # Roundcube: the skin dir, with COPYING beside its README and its CC license.
 mkdir "$tmp/roundcube"
