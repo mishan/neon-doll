@@ -16,7 +16,12 @@ Written from tokens.toml: styles/_palette.less (every color as a CSS custom
 property, light on :root and dark on html.dark-mode, which is the class
 Roundcube's own light/dark switch toggles) and watermark.html (the empty
 preview pane, as graph paper). Compiled: styles/{styles,embed,print}.css,
-from the hand-written styles/*.less.
+from the hand-written styles/*.less. Copied: templates/includes/layout.html,
+Elastic's own, unchanged. It is the template that links the stylesheet, and
+Roundcube 1.6 resolves the paths in an included template from the skin the
+include was found in first; left to Elastic's copy, the link finds
+Elastic's styles.css wherever that exists (Debian's package builds one) and
+never reaches ours.
 
 Compiling needs Elastic's LESS sources and lessc. Without --elastic, Elastic
 is fetched at the pinned release into ~/.cache/neon-doll; lessc is the
@@ -200,6 +205,10 @@ def compile_css(elastic_dir, less):
         return out
 
 
+def layout(elastic_dir):
+    return (elastic_dir / "templates" / "includes" / "layout.html").read_text()
+
+
 def main():
     args = sys.argv[1:]
     check = "--check" in args
@@ -218,6 +227,7 @@ def main():
     if edir and less:
         for name, css in compile_css(edir, less).items():
             outputs[SKIN / "styles" / f"{name}.css"] = css
+        outputs[SKIN / "templates" / "includes" / "layout.html"] = layout(edir)
     else:
         why = "no Elastic sources" if not edir else "no lessc or npx"
         print(f"warning: {why}; CSS not {'checked' if check else 'rebuilt'}", file=sys.stderr)
@@ -228,6 +238,7 @@ def main():
             if not path.exists() or path.read_text() != text:
                 stale.append(str(path.relative_to(ROOT)))
         else:
+            path.parent.mkdir(parents=True, exist_ok=True)
             path.write_text(text)
             print(path.relative_to(ROOT))
     if stale:

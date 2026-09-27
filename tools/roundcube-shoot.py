@@ -15,7 +15,8 @@ shrinks the dark mail scene into roundcube/neon-doll/thumbnail.png, the
 64px picture in Settings' skin chooser. --keep leaves the containers up (Roundcube on localhost:8089, user doll,
 password doll) for poking at by hand, and reuses them next time.
 
-Needs docker and google-chrome.
+Needs docker and google-chrome. ROUNDCUBE_IMAGE picks another Roundcube,
+e.g. roundcube/roundcubemail:1.6.18-apache.
 """
 
 import base64
@@ -30,7 +31,7 @@ import urllib.request
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-ROUNDCUBE = "roundcube/roundcubemail:1.7.4-apache"
+ROUNDCUBE = os.environ.get("ROUNDCUBE_IMAGE", "roundcube/roundcubemail:1.7.4-apache")
 GREENMAIL = "greenmail/standalone:2.1.3"
 NET, WEB, MAIL = "nd-roundcube", "nd-roundcube-web", "nd-roundcube-mail"
 URL = "http://localhost:8089/"

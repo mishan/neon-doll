@@ -139,7 +139,8 @@ Roundcube 1.7.4's Elastic; for another version, rebuild it against that
 version's with `tools/build-roundcube.py --elastic /path/to/roundcube/skins/elastic`.
 
 Tested on GNOME 51 with GTK 4.24, libadwaita 1.10 and GTK 3.24, Chrome 154,
-Firefox 156, VS Code 1.139 and Roundcube 1.7.4.
+Firefox 156, VS Code 1.139 and Roundcube 1.7.4 and 1.6.18 (upstream and
+Debian 13's package).
 
 ### Light and dark
 

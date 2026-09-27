@@ -7,7 +7,8 @@ Doll's colors and shapes. Light and dark are both in it, and it follows
 Roundcube's own switch (the Dark mode / Light mode button in the menu, which
 follows the system until you press it).
 
-Built against Roundcube 1.7.4. Part of Neon Doll:
+Built against Roundcube 1.7.4, and tested on 1.7.4 and 1.6.18 (upstream's
+release and Debian 13's package). Part of Neon Doll:
 https://github.com/mishan/neon-doll
 
 
@@ -48,6 +49,12 @@ Elastic, from this folder inside `skins/`:
 In the Neon Doll repository, `tools/build-roundcube.py` does the same, and
 writes `styles/_palette.less` and `watermark.html` from its `tokens.toml`.
 
+`templates/includes/layout.html` is Elastic's, copied unchanged. It is the
+template that links the stylesheet, and Roundcube looks for what an included
+template links in that template's own skin first; with Elastic's copy, an
+Elastic that has a `styles.css` of its own (Debian's does) would win over
+this skin's. Copy it again from the same Elastic when you rebuild.
+
 
 LICENSE
 -------
@@ -62,6 +69,9 @@ the thumbnail) are yours to use under either of two licenses, your choice:
 - the Creative Commons Attribution-ShareAlike 4.0 International License
   (LICENSE-CC-BY-SA-4.0.txt, or
   https://creativecommons.org/licenses/by-sa/4.0/).
+
+`templates/includes/layout.html` is Elastic's, under Elastic's license
+below.
 
 The compiled `styles/*.css` combine those files with Roundcube's Elastic
 skin, by Aleksander Machniak and the Roundcube Dev Team, which is under the
