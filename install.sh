@@ -3,7 +3,7 @@
 #
 #   ./install.sh [--link] [--remove] [--desktop-grid] [PART...]
 #
-# PART is any of: gtk4 gtk3 shell cursor gtksourceview tilix emacs dircolors git man glow newt ag ghostty vim irssi
+# PART is any of: gtk4 gtk3 shell cursor gtksourceview tilix emacs dircolors git man glow newt ag ghostty vim irssi cosmic
 # (default: all).
 # Files are copied; --link symlinks them into this checkout instead, so edits
 # here show up on the next app launch. --remove takes out only what install
@@ -29,11 +29,11 @@ for arg in "$@"; do
     --remove) mode=remove ;;
     --desktop-grid) desktop_grid=1 ;;
     -h|--help) sed -n '2,15s/^# \{0,1\}//p' "$0"; exit 0 ;;
-    gtk4|gtk3|shell|cursor|gtksourceview|tilix|emacs|dircolors|git|man|glow|newt|ag|ghostty|vim|irssi) parts="$parts $arg" ;;
+    gtk4|gtk3|shell|cursor|gtksourceview|tilix|emacs|dircolors|git|man|glow|newt|ag|ghostty|vim|irssi|cosmic) parts="$parts $arg" ;;
     *) echo "unknown argument: $arg" >&2; exit 2 ;;
   esac
 done
-[ -n "$parts" ] || parts="gtk4 gtk3 shell cursor gtksourceview tilix emacs dircolors git man glow newt ag ghostty vim irssi"
+[ -n "$parts" ] || parts="gtk4 gtk3 shell cursor gtksourceview tilix emacs dircolors git man glow newt ag ghostty vim irssi cosmic"
 
 same() { diff -rq "$1" "$2" >/dev/null 2>&1; }
 
@@ -174,6 +174,13 @@ for part in $parts; do
         place "$f" "$config/ghostty/themes/$(basename "$f")"
       done
       hint "Ghostty: add to ~/.config/ghostty/config.ghostty:  theme = light:Neon Doll Light,dark:Neon Doll Dark"
+      ;;
+    cosmic)
+      for f in "$here"/cosmic/*.ron "$here"/cosmic/terminal/*.ron; do
+        place "$f" "$config/neon-doll/${f#"$here"/}"
+      done
+      hint "COSMIC: cosmic-settings appearance import $config/neon-doll/cosmic/Neon-Doll-Dark.ron   (or -Light)"
+      hint "COSMIC Terminal: View → Color schemes… → Import, and pick $config/neon-doll/cosmic/terminal/Neon Doll Dark.ron; the list is the current mode's, so import Light from light mode"
       ;;
     newt)
       place "$here/newt/neon-doll.sh" "$config/neon-doll/newt.sh"

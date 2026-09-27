@@ -11,7 +11,7 @@ fades in. Cyberpunk, with a manicure.
 It dresses the GNOME desktop (GTK 4 / libadwaita, GTK 3, GNOME Shell and the
 mouse cursor) and the tools around it: Chrome, Firefox, Roundcube, GNOME Text Editor,
 VS Code, Tilix, Ghostty, Emacs, vim, irssi, `ls`, `git`, `ag`, man pages,
-glow and `whiptail`, plus Windows Terminal and PowerShell for the times you're on Windows. Every part comes in dark and
+glow and `whiptail`, plus the COSMIC desktop and its terminal, and Windows Terminal and PowerShell for the times you're on Windows. Every part comes in dark and
 light, except the cursor: GNOME has one cursor setting, so there is one cursor
 theme, drawn to stand out on both.
 
@@ -33,6 +33,8 @@ theme, drawn to stand out on both.
 | Roundcube | ![](screenshots/roundcube-mail-dark.png) | ![](screenshots/roundcube-mail-light.png) |
 | irssi | ![](screenshots/irssi-dark.png) | ![](screenshots/irssi-light.png) |
 | Ghostty | ![](screenshots/ghostty-dark.png) | ![](screenshots/ghostty-light.png) |
+| COSMIC, with Files and Terminal | ![](screenshots/cosmic-desktop-dark.png) | ![](screenshots/cosmic-desktop-light.png) |
+| COSMIC Settings | ![](screenshots/cosmic-settings-dark.png) | ![](screenshots/cosmic-settings-light.png) |
 | git in Tilix | ![](screenshots/git-dark.png) | ![](screenshots/git-light.png) |
 | ag | ![](screenshots/ag-dark.png) | ![](screenshots/ag-light.png) |
 | man pages | ![](screenshots/man-dark.png) | ![](screenshots/man-light.png) |
@@ -47,7 +49,7 @@ theme, drawn to stand out on both.
 ```
 git clone https://github.com/mishan/neon-doll.git && cd neon-doll
 ./install.sh                  # everything
-./install.sh gtk4 shell       # or pick: gtk4 gtk3 shell cursor gtksourceview tilix emacs dircolors git man glow newt ag ghostty vim irssi
+./install.sh gtk4 shell       # or pick: gtk4 gtk3 shell cursor gtksourceview tilix emacs dircolors git man glow newt ag ghostty vim irssi cosmic
 ./install.sh --remove         # take it out again
 ./install.sh --desktop-grid gtk4   # graph paper over the wallpaper too (with Desktop Icons NG)
 ```
@@ -65,6 +67,8 @@ edits in the checkout show up on the next app launch.
 | Text Editor | `~/.local/share/gtksourceview-5/styles/` (and `-4`) | Pick Neon Doll in the style menu. |
 | Tilix | `~/.config/tilix/schemes/` | Restart Tilix; Preferences → Profile → Color. |
 | Ghostty | `~/.config/ghostty/themes/` | `theme = light:Neon Doll Light,dark:Neon Doll Dark` in `~/.config/ghostty/config.ghostty`, which follows the system style. The Tilix colors, plus a border-colored split divider, unfocused splits fading toward the page, and search matches in purple with the current one in fuchsia. Its tabs and header bar are libadwaita, so they take the GTK 4 stylesheet. |
+| COSMIC | `~/.config/neon-doll/cosmic/` | `cosmic-settings appearance import ~/.config/neon-doll/cosmic/Neon-Doll-Dark.ron`, then the same with `-Light`; each lands in its own mode, and COSMIC switches between them as it does its own. Or Settings → Desktop → Appearance → Import. The page, the panel as containers, ink as the text tint, purple as the accent, fuchsia on the focused window's outline, square corners, nothing frosted; COSMIC derives the rest. Leave *Apply this theme to GNOME apps* off: it replaces `~/.config/gtk-4.0/gtk.css` with COSMIC's own. |
+| COSMIC Terminal | `~/.config/neon-doll/cosmic/terminal/` | View → Color schemes… → Import, and pick `Neon Doll Dark.ron`; the list is the current mode's, so switch to light and import `Neon Doll Light.ron` there. The Tilix colors. |
 | vim | `~/.vim/colors/neon-doll.vim` | `colorscheme neon-doll` in `~/.vimrc`. One scheme for both variants: it follows `background`. With `termguicolors` it uses the exact colors, matching the other editors; without, it uses the 16 terminal colors and follows the terminal's Neon Doll scheme. |
 | irssi | `~/.irssi/neon-doll{,-light}.theme` | `/set theme neon-doll` (or `neon-doll-light`) and `/set colors_ansi_24bit on`, then `/save`. The prompt, which names the window you're typing into, is fuchsia; you and the channels are purple; lines that mention you, and the windows holding them, are yellow; timestamps, hostmasks, joins and parts step back into grey. Without 24-bit color irssi uses the nearest of the 256 colors. |
 | Emacs 29+ | `~/.emacs.d/themes/` (or `$EMACS_THEMES_DIR`) | `(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")` `(load-theme 'neon-doll-dark t)` |
@@ -144,7 +148,7 @@ Debian 13's package).
 
 ### Light and dark
 
-GTK 4, Text Editor, Firefox and Roundcube switch with the system style on
+GTK 4, Text Editor, Firefox, Roundcube and COSMIC switch with the system style on
 their own.
 GTK 3 and the Shell can't: a GTK 3 theme name and a Shell user theme are each
 one choice, so there are two, `Neon-Doll-Dark` and `Neon-Doll-Light`. GTK 3
@@ -183,6 +187,13 @@ both above 4.5:1 on its panels.
   keyboard is in use. Message-dialog headings stay bold.
 - **Apps that paint their own colors** — Electron apps, terminals other than
   Tilix — pick up little or nothing.
+- **COSMIC** themes are a handful of seed colors that COSMIC derives every
+  surface and state from, so purple, the accent, is also the focus ring and
+  the selection, and fuchsia marks only the focused window. Fonts are
+  COSMIC's own setting, not the theme's, and the desktop has no graph paper
+  unless you set one as the wallpaper. Tested only in a nested COSMIC 1.8
+  (`tools/cosmic-shoot.sh`), where COSMIC Terminal started on its dark scheme
+  in light mode unless its own View → Settings → Theme was set to Light.
 - **Chrome** themes set colors only: tabs keep Chrome's rounded shapes, and
   focus rings and hover states stay Chrome's own.
 - **Firefox** themes set colors only, and the current tab's indicator is an
@@ -246,6 +257,8 @@ tools/build-glow.py [--check]                     # regenerate the glow styles
 tools/build-cursor.py [--check|--sheet out.png]   # regenerate the cursor theme from cursor/src/*.svg
 tools/build-vim.py [--check]                      # regenerate the vim colorscheme from the editor schemes
 tools/build-ghostty.py [--check]                  # regenerate the Ghostty themes from the Tilix schemes
+tools/build-cosmic.py [--check]                   # regenerate the COSMIC themes and COSMIC Terminal schemes
+tools/cosmic-shoot.sh OUTDIR [dark|light ...]     # screenshot them in a nested COSMIC (docker, software rendering)
 tools/build-irssi.py [--check]                    # regenerate the irssi themes from the editor schemes
 tools/irssi-shoot.sh OUTDIR                       # screenshot them, against a pretend IRC server on localhost
 tools/ag-shoot.sh OUTDIR                          # screenshot ag through the alias
@@ -263,7 +276,9 @@ tools/dist.sh [VERSION]                           # release archives into dist/
 `tools/build-roundcube.py` compiles with lessc, which it runs through `npx`,
 against Roundcube's Elastic sources, which it fetches once into
 `~/.cache/neon-doll`; without either, it leaves the committed CSS alone and
-says so. `tools/roundcube-shoot.py` needs docker and Chrome.
+says so. `tools/roundcube-shoot.py` needs docker and Chrome, and
+`tools/cosmic-shoot.sh` docker alone: it builds a Fedora image with COSMIC
+the first time.
 
 `tools/check-tokens.py` and `tools/check-tokens3.py` compare the palette
 against the design system it came from; they need that project's
