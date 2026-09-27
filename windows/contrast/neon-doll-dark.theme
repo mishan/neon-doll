@@ -1,0 +1,55 @@
+; Neon Doll Dark, a Windows contrast theme. Built by
+; tools/build-windows.py from tokens.toml; edit those, not this.
+
+[Theme]
+DisplayName=Neon Doll Dark
+SetLogonBackground=0
+
+[Control Panel\Colors]
+Window=15 13 20
+WindowText=235 230 240
+HotTrackingColor=180 140 255
+GrayText=156 147 171
+Hilight=255 45 149
+HilightText=15 13 20
+ButtonFace=15 13 20
+ButtonText=180 140 255
+ButtonHilight=180 140 255
+ButtonDkShadow=180 140 255
+ButtonLight=15 13 20
+ButtonShadow=15 13 20
+ButtonAlternateFace=22 19 29
+WindowFrame=156 147 171
+ActiveBorder=42 36 56
+InactiveBorder=42 36 56
+ActiveTitle=255 45 149
+GradientActiveTitle=255 45 149
+TitleText=15 13 20
+InactiveTitle=15 13 20
+GradientInactiveTitle=15 13 20
+InactiveTitleText=156 147 171
+Menu=22 19 29
+MenuBar=22 19 29
+MenuText=235 230 240
+MenuHilight=255 45 149
+InfoWindow=22 19 29
+InfoText=235 230 240
+Scrollbar=22 19 29
+AppWorkspace=15 13 20
+Background=15 13 20
+
+[Control Panel\Desktop]
+Wallpaper=
+TileWallpaper=0
+WallpaperStyle=10
+Pattern=
+
+[VisualStyles]
+Path=%SystemRoot%\Resources\Themes\Aero\AeroLite.msstyles
+ColorStyle=NormalColor
+Size=NormalSize
+HighContrast=3
+Transparency=0
+
+[MasterThemeSelector]
+MTSM=RJSPBS
