@@ -1,0 +1,21 @@
+{
+	"name": "Neon Doll",
+	"author": "Misha Nasledov",
+	"license": "CC BY-SA 4.0 (sources also GPL-3.0-or-later)",
+	"license-url": "https://creativecommons.org/licenses/by-sa/4.0/",
+	"extends": "elastic",
+	"config": {
+		"supported_layouts": ["widescreen"],
+		"jquery_ui_colors_theme": "bootstrap",
+		"embed_css_location": "/styles/embed.css",
+		"editor_css_location": "/styles/embed.css",
+		"dark_mode_support": true,
+		"media_browser_css_location": "none",
+		"additional_logo_types": ["dark", "small", "small-dark"]
+	},
+	"meta": {
+		"viewport": "width=device-width, initial-scale=1.0, shrink-to-fit=no, maximum-scale=1.0",
+		"theme-color": "#16131d",
+		"msapplication-navbutton-color": "#16131d"
+	}
+}

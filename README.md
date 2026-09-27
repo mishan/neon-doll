@@ -9,7 +9,7 @@ the chrome, soft sans for the words. Hard corners, no drop shadows, nothing
 fades in. Cyberpunk, with a manicure.
 
 It dresses the GNOME desktop (GTK 4 / libadwaita, GTK 3, GNOME Shell and the
-mouse cursor) and the tools around it: Chrome, Firefox, GNOME Text Editor,
+mouse cursor) and the tools around it: Chrome, Firefox, Roundcube, GNOME Text Editor,
 VS Code, Tilix, Ghostty, Emacs, vim, irssi, `ls`, `git`, `ag`, man pages,
 glow and `whiptail`, plus Windows Terminal and PowerShell for the times you're on Windows. Every part comes in dark and
 light, except the cursor: GNOME has one cursor setting, so there is one cursor
@@ -30,6 +30,7 @@ theme, drawn to stand out on both.
 | VS Code | ![](screenshots/vscode-dark.png) | ![](screenshots/vscode-light.png) |
 | Chrome | ![](screenshots/chrome-dark.png) | ![](screenshots/chrome-light.png) |
 | Firefox | ![](screenshots/firefox-dark.png) | ![](screenshots/firefox-light.png) |
+| Roundcube | ![](screenshots/roundcube-mail-dark.png) | ![](screenshots/roundcube-mail-light.png) |
 | irssi | ![](screenshots/irssi-dark.png) | ![](screenshots/irssi-light.png) |
 | Ghostty | ![](screenshots/ghostty-dark.png) | ![](screenshots/ghostty-light.png) |
 | git in Tilix | ![](screenshots/git-dark.png) | ![](screenshots/git-light.png) |
@@ -122,12 +123,28 @@ current tab, the focused row, the active activity-bar item, the selection and
 the current find match are fuchsia; links, badges and the primary button,
 drawn as a purple wash with a purple edge, are purple.
 
+**Roundcube** gets a skin, a child of Elastic, the default one, which it
+needs installed beside it. Copy `roundcube/neon-doll` into Roundcube's
+`skins/` folder (or unpack the `neon-doll-roundcube` archive from a release
+there), then pick *Neon Doll* in Settings → Preferences → User Interface, or
+set `$config['skin'] = 'neon-doll';` to make it everyone's. One skin holds
+both variants and follows Roundcube's own switch, the *Dark mode* / *Light
+mode* button in the menu, which follows the system until it's pressed. The
+current task, folder and message carry the fuchsia rail; unread mail is ink
+with a purple dot and read mail is muted, flagged mail is yellow and deleted
+mail is struck through, all at weight 400. The list and the message are the
+page, and an empty preview pane is graph paper, as is the login page; the
+menu, the folders and the header bars are panels. Its CSS is compiled against
+Roundcube 1.7.4's Elastic; for another version, rebuild it against that
+version's with `tools/build-roundcube.py --elastic /path/to/roundcube/skins/elastic`.
+
 Tested on GNOME 51 with GTK 4.24, libadwaita 1.10 and GTK 3.24, Chrome 154,
-Firefox 156 and VS Code 1.139.
+Firefox 156, VS Code 1.139 and Roundcube 1.7.4.
 
 ### Light and dark
 
-GTK 4, Text Editor and Firefox switch with the system style on their own.
+GTK 4, Text Editor, Firefox and Roundcube switch with the system style on
+their own.
 GTK 3 and the Shell can't: a GTK 3 theme name and a Shell user theme are each
 one choice, so there are two, `Neon-Doll-Dark` and `Neon-Doll-Light`. GTK 3
 apps that ask for a dark style get it from either. Tilix and Emacs have a
@@ -189,6 +206,11 @@ both above 4.5:1 on its panels.
   rounded cards and marks the active tab and activity-bar item with a pill
   rather than a rail; the theme colors both layouts. The chat and agent views
   keep VS Code's colors.
+- **Roundcube** keeps Elastic's layout, icons and logo. HTML mail is the
+  sender's page: it keeps its own fonts, weights and corners, and in dark
+  mode it sits on white, as in Elastic, with the light colors around its
+  links and quotes. The HTML editor's page stays white too, since it is the
+  message as it will be sent.
 
 ## Working on it
 
@@ -229,11 +251,18 @@ tools/ag-shoot.sh OUTDIR                          # screenshot ag through the al
 tools/build-windows.py [--check]                  # regenerate the Windows Terminal files from the Tilix schemes
 tools/build-vscode.py [--check] [--vsix OUT]      # regenerate the VS Code themes and icon; --vsix packs the extension
 tools/vscode-shoot.py dark|light out.png          # screenshot it in a scratch VS Code (under xvfb-run, env stripped)
+tools/build-roundcube.py [--check] [--elastic DIR] # regenerate the Roundcube skin's palette and compile its CSS against Elastic
+tools/roundcube-shoot.py OUTDIR [--scene NAME]    # screenshot it in a scratch Roundcube and IMAP server (docker), with a pretend mailbox
 tools/dist.sh [VERSION]                           # release archives into dist/
 ```
 
 `tools/term-shoot.sh`, `tools/irssi-shoot.sh` and `tools/ag-shoot.sh` need
 [shotbox](https://github.com/mishan/shotbox) on your `PATH`; the other screenshot scripts still carry their own Xvfb setup.
+
+`tools/build-roundcube.py` compiles with lessc, which it runs through `npx`,
+against Roundcube's Elastic sources, which it fetches once into
+`~/.cache/neon-doll`; without either, it leaves the committed CSS alone and
+says so. `tools/roundcube-shoot.py` needs docker and Chrome.
 
 `tools/check-tokens.py` and `tools/check-tokens3.py` compare the palette
 against the design system it came from; they need that project's
@@ -242,3 +271,8 @@ against the design system it came from; they need that project's
 ## License
 
 GPL-3.0-or-later. See [COPYING](COPYING).
+
+The Roundcube skin is the exception: its own files are GPL-3.0-or-later or
+CC BY-SA 4.0, your choice, and its compiled CSS, which contains Roundcube's
+Elastic skin (CC BY-SA 3.0), is CC BY-SA 4.0. See
+[`roundcube/neon-doll/README.md`](roundcube/neon-doll/README.md).

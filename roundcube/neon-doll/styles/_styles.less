@@ -1,0 +1,920 @@
+/**
+ * Neon Doll for Roundcube: the rules. Elastic imports this last, from
+ * lessc's include path, so it has the final word.
+ *
+ * _variables.less has already recolored Elastic; this adds the shapes, as
+ * the GTK stylesheets have them: hard corners and no shadows, a fuchsia
+ * rail on the current row, mono for the chrome and sans for what you read,
+ * weight 400 throughout, and the main button an outlined link rather than a
+ * filled pill.
+ *
+ * Everything sits under html:root. Elastic's dark rules are under
+ * html.dark-mode, the same weight, so these, coming later, win in both
+ * variants without a second copy.
+ */
+
+@import "_palette";
+
+@nd-mono: monospace, monospace;   // twice, or browsers shrink it to 13px
+@nd-sans: system-ui, sans-serif;
+@nd-cell: 24px;
+
+// An HTML message is the sender's page, not the chrome: the resets below
+// that would reach into it, unbolding its bold and squaring its buttons,
+// stop at it.
+@nd-chrome: ~":not(.message-htmlpart *)";
+
+// Elastic sets its sans through this mixin; a second definition is added to
+// every call, and comes last.
+.font-family() {
+    font-family: @nd-sans;
+}
+
+.nd-paper() {
+    background-color: var(--nd-bg);
+    background-image:
+        linear-gradient(var(--nd-grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--nd-grid) 1px, transparent 1px);
+    background-size: @nd-cell @nd-cell;
+}
+
+.nd-select-arrows(@color) {
+    @fill: escape(~"@{color}");
+    @url: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='@{fill}' viewBox='0 0 4 5'%3e%3cpath d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e");
+}
+
+// A rail: the bar that marks the current row or tab.
+.nd-rail(@side: left, @width: 2px) when (@side = left) {
+    box-shadow: inset @width 0 var(--nd-pink) !important;
+}
+.nd-rail(@side: left, @width: 2px) when (@side = top) {
+    box-shadow: inset 0 @width var(--nd-pink) !important;
+}
+
+html:root {
+
+    // === No radii, shadows or motion =====================================
+    // Set on everything; the few round things that are round on purpose, a
+    // radio, a face, a spinner, get it back below.
+
+    *@{nd-chrome}, *@{nd-chrome}::before, *@{nd-chrome}::after {
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+        transition: none !important;
+    }
+
+    input[type="radio"],
+    .custom-radio .custom-control-label::before,
+    .contactphoto, .contactphoto img, .contact-photo, .contact-photo img,
+    #contacthead .contactphoto,
+    .spinner-border, .spinner-grow {
+        border-radius: 50% !important;
+    }
+
+    & {
+        accent-color: var(--nd-pink);
+    }
+
+    body {
+        color: var(--nd-ink);
+        background-color: var(--nd-bg);
+        caret-color: var(--nd-pink);
+        scrollbar-color: var(--nd-dimmest) transparent;
+    }
+
+    ::selection {
+        background-color: var(--nd-select-pink);
+    }
+
+    :focus-visible {
+        outline: 1px solid var(--nd-pink);
+        outline-offset: -1px;
+    }
+
+    // === Type ============================================================
+    // Mono is the chrome: bars, buttons, menus, tabs, headings, the folder
+    // list and every field you type into. Sans is what you read: the
+    // message list, the message, a dialog's words.
+
+    #layout > div > .header,
+    #layout > div > .footer,
+    #layout-menu, #taskmenu,
+    #layout-sidebar .header, .folderlist, .treelist, #settings-menu,
+    .toolbar, .menu, .popover, .popover-header, .popupmenu,
+    .btn, button@{nd-chrome}, .button, input@{nd-chrome}, select@{nd-chrome},
+    textarea@{nd-chrome}, .form-control,
+    .custom-select, .input-group-text, .searchbar,
+    .nav-tabs, .tabsbar, .ui-tabs-nav, .formcontent legend, fieldset legend,
+    .ui-dialog-titlebar, .ui-dialog-buttonpane, .ui-datepicker,
+    .pagenav, .listing-info, .quota-widget, #messagestack,
+    h1@{nd-chrome}, h2@{nd-chrome}, h3@{nd-chrome}, h4@{nd-chrome},
+    h5@{nd-chrome}, h6@{nd-chrome}, .header-title, .subject-title,
+    #message-header h2.subject, .listing thead th, .propform label, .col-form-label {
+        font-family: @nd-mono;
+        font-weight: 400;
+    }
+
+    #messagelist, .messagelist, #message-header .header,
+    .ui-dialog-content p, #messagebody, .message-htmlpart {
+        font-family: @nd-sans;
+    }
+
+    // Weight 400 throughout. Unread is told apart by color and its dot,
+    // not by weight.
+    b@{nd-chrome}, strong@{nd-chrome}, th@{nd-chrome}, .header, .header-title,
+    .folderlist li.mailbox.unread > a,
+    .folderlist .unreadcount, .messagelist tr.unread td.subject span.subject,
+    .listing-info, .ui-dialog-title, legend@{nd-chrome}, label@{nd-chrome}, .skinname,
+    #layout > div > .header, #layout > div > .footer {
+        font-weight: 400 !important;
+    }
+
+    // === Page and panel ==================================================
+    // The list and the message are the page. The task menu, the folders
+    // and every column's header bar are panels with a --line edge.
+
+    #layout-menu {
+        background-color: var(--nd-panel);
+        border-right: 1px solid var(--nd-line);
+
+        .special-buttons {
+            background-color: var(--nd-panel);
+        }
+    }
+
+    #layout-sidebar, #layout-list, #layout-content {
+        border-color: var(--nd-line);
+    }
+
+    #layout-sidebar {
+        background-color: var(--nd-panel);
+    }
+
+    #layout-list, #layout-content {
+        background-color: var(--nd-bg);
+    }
+
+    #layout > div > .header,
+    #layout > div > .footer {
+        background-color: var(--nd-panel);
+        color: var(--nd-ink);
+        border-color: var(--nd-line);
+    }
+
+    // The login page is the page itself, graph paper and all.
+    body.task-login, .task-login #layout-content,
+    body.task-error, .task-error #layout-content {
+        .nd-paper();
+    }
+
+    // === Task menu =======================================================
+    // The current task is fuchsia on a rail. The rest are muted until
+    // pointed at; Compose, the one action, is purple.
+
+    #taskmenu a {
+        color: var(--nd-muted);
+        background: transparent;
+
+        // Mono runs wide: the labels under the icons come down a size to
+        // fit the column. On a phone the menu is a full-width list.
+        @media screen and (min-width: (@screen-width-xs + 1px)) {
+            span.inner {
+                font-size: .8rem;
+            }
+        }
+
+        &:hover, &:focus {
+            color: var(--nd-pink);
+            background: var(--nd-wash);
+        }
+
+        &.selected, &.selected:hover {
+            color: var(--nd-pink);
+            background: var(--nd-wash-pink);
+            .nd-rail(left, 3px);
+        }
+    }
+
+    #taskmenu .action-buttons a {
+        color: var(--nd-purple);
+
+        &:hover, &:focus {
+            color: var(--nd-pink);
+            background: var(--nd-wash);
+        }
+    }
+
+    #taskmenu a.logout,
+    #taskmenu a.logout:not(:hover) {
+        color: var(--nd-muted) !important;
+    }
+
+    #taskmenu a.logout:hover {
+        color: var(--nd-diff-del) !important;
+    }
+
+    // === Toolbars ========================================================
+
+    .menu.toolbar a,
+    #layout > div > .header a.button,
+    .header .toolbar a,
+    .menu.toolbar .dropbutton {
+        color: var(--nd-ink);
+        background: transparent;
+
+        &:not(.disabled):hover,
+        &:not(.disabled):focus {
+            color: var(--nd-pink);
+            background: var(--nd-wash);
+        }
+
+        &.disabled {
+            color: var(--nd-dimmest);
+            opacity: 1;
+        }
+
+        &.selected {
+            color: var(--nd-pink);
+            background: var(--nd-wash-pink);
+        }
+    }
+
+    .menu.toolbar .dropbutton a.dropdown:not(.disabled):hover {
+        background: var(--nd-wash-strong);
+    }
+
+    .searchbar {
+        background-color: var(--nd-bg);
+        border-color: var(--nd-line);
+
+        form:before, a, input {
+            color: var(--nd-muted);
+        }
+
+        a:hover {
+            color: var(--nd-pink);
+        }
+
+        a.selected {
+            color: var(--nd-pink);
+        }
+
+        input {
+            color: var(--nd-ink);
+        }
+    }
+
+    // === Lists ===========================================================
+
+    .listing {
+        tbody td, li, li ul {
+            border-color: var(--nd-rule);
+        }
+
+        tbody td, tbody td a, li a {
+            color: var(--nd-ink);
+        }
+
+        span.secondary {
+            color: var(--nd-muted);
+        }
+
+        li.disabled, tr.disabled td {
+            color: var(--nd-dimmest);
+        }
+
+        // The rail. A selected row carries a fuchsia bar on its left, and
+        // the keyboard's row does too.
+        li.selected > a,
+        li.selected > div > a,
+        tr.selected td {
+            color: var(--nd-ink);
+            background-color: var(--nd-wash-pink);
+        }
+
+        tbody tr.selected > td:first-child,
+        &:not(.withselection) tbody tr.selected > td.selection + td,
+        li.selected > a {
+            .nd-rail(left, 2px);
+        }
+
+        li.selected ul {
+            background-color: transparent;
+        }
+
+        li > a:not(.disabled):hover,
+        tbody tr:not(.selected):hover td {
+            background-color: var(--nd-wash);
+        }
+
+        li.droptarget > a,
+        tr.droptarget > td {
+            background-color: var(--nd-wash-pink);
+            color: var(--nd-pink);
+        }
+    }
+
+    // The folders are a sidebar: the current one takes the rail, a wider
+    // one, and fuchsia text.
+    ul.treelist li.selected > a,
+    ul.treelist li.selected > div > a,
+    #settings-menu li.selected > a,
+    .folderlist li.selected > a {
+        color: var(--nd-pink);
+        background-color: var(--nd-wash-pink);
+        .nd-rail(left, 3px);
+
+        &:before {
+            color: var(--nd-pink);
+        }
+    }
+
+    ul.treelist li div.treetoggle {
+        color: var(--nd-muted);
+    }
+
+    .folderlist li.mailbox {
+        & > a:before {
+            color: var(--nd-muted);
+        }
+
+        .unreadcount {
+            color: var(--nd-purple);
+            background: var(--nd-wash-strong);
+        }
+
+        &.recent > a {
+            color: var(--nd-ink);
+
+            .unreadcount {
+                color: var(--nd-code-string);
+                background: var(--nd-string-bg);
+            }
+        }
+    }
+
+    // Messages. Read is muted, unread is ink with a purple dot; a flagged
+    // message is yellow, the attention color, and a deleted one is struck
+    // through as well as dimmed.
+    .messagelist {
+        tr td.subject span.subject a {
+            color: var(--nd-muted);
+        }
+
+        tr.unread td.subject span.subject a,
+        tr.selected td.subject span.subject a {
+            color: var(--nd-ink);
+        }
+
+        tr td.subject span.fromto,
+        tr td.subject span.date,
+        tr td.subject span.size {
+            color: var(--nd-muted);
+        }
+
+        // Shaped like Elastic's dark rule for the same thing, to outweigh it.
+        tr:not(.flagged):not(.deleted) td.subject span.msgicon.status {
+            color: var(--nd-line);
+
+            &.unread, &.unreadchildren {
+                color: var(--nd-purple);
+            }
+
+            &.replied, &.forwarded {
+                color: var(--nd-muted);
+            }
+
+            &:hover {
+                color: var(--nd-pink);
+            }
+        }
+
+        span.attachment span,
+        span.flag span.unflagged:hover:before {
+            color: var(--nd-muted);
+        }
+
+        tr.flagged:not(.deleted) {
+            td, td.subject span.subject a, td.subject span.fromto,
+            td.subject span.date, span.flagged, span.attachment span {
+                color: var(--nd-code-string);
+            }
+        }
+
+        tr.deleted {
+            td, td.subject span.subject a, td.subject span.fromto,
+            td.subject span.date, td.subject span.msgicon.status,
+            span.attachment span {
+                color: var(--nd-dimmest);
+            }
+
+            td.subject span.subject a {
+                text-decoration: line-through;
+            }
+        }
+    }
+
+    .listing-info {
+        color: var(--nd-muted);
+    }
+
+    .pagenav, .menu.pagenav a, .menu.pagenav .pagenav-text {
+        color: var(--nd-muted);
+    }
+
+    // === Buttons =========================================================
+    // A button is a wash with a --line edge. The main action is an outlined
+    // link, purple at rest; hover and focus turn anything fuchsia.
+
+    .btn, .btn-secondary, .btn-default, .ui-button,
+    .ui-dialog .ui-dialog-buttonpane .ui-button {
+        color: var(--nd-ink);
+        background: var(--nd-wash);
+        border: 1px solid var(--nd-line);
+
+        &:not(:disabled):not(.disabled):hover,
+        &:not(:disabled):not(.disabled):focus {
+            color: var(--nd-pink);
+            background: var(--nd-wash);
+            border-color: var(--nd-pink);
+        }
+
+        &:not(:disabled):not(.disabled):active,
+        &:not(:disabled):not(.disabled).active {
+            background: var(--nd-press);
+        }
+
+        &:disabled, &.disabled {
+            color: var(--nd-dimmest);
+            background: transparent;
+            border-color: var(--nd-line);
+            opacity: 1 !important;
+        }
+    }
+
+    .btn-primary, .btn.mainaction, .mainaction, .ui-button.mainaction,
+    .ui-dialog .ui-dialog-buttonpane .ui-button.mainaction,
+    #rcmloginsubmit {
+        color: var(--nd-purple);
+        background: var(--nd-wash);
+        border: 1px solid var(--nd-tint-purple);
+
+        &:not(:disabled):not(.disabled):hover,
+        &:not(:disabled):not(.disabled):focus {
+            color: var(--nd-pink);
+            background: var(--nd-wash-pink);
+            border-color: var(--nd-pink);
+        }
+    }
+
+    .btn-danger, .btn.delete, .ui-button.delete,
+    .ui-dialog .ui-dialog-buttonpane .ui-button.delete {
+        color: var(--nd-diff-del);
+        background: var(--nd-diff-del-bg);
+        border: 1px solid var(--nd-edge-del);
+
+        &:not(:disabled):not(.disabled):hover,
+        &:not(:disabled):not(.disabled):focus {
+            color: var(--nd-diff-del);
+            background: var(--nd-diff-del-bg);
+            border-color: var(--nd-diff-del);
+        }
+    }
+
+    .btn-link {
+        color: var(--nd-purple);
+        text-decoration-color: var(--nd-ul-purple);
+
+        &:hover, &:focus-visible {
+            color: var(--nd-pink);
+            text-decoration-color: var(--nd-pink);
+        }
+    }
+
+    // === Fields ==========================================================
+    // A field is a slot: the page's color with a --line edge, fuchsia when
+    // it has the focus.
+
+    .form-control, .custom-select, select, textarea,
+    input[type="text"], input[type="password"], input[type="email"],
+    input[type="search"], input[type="number"], input[type="url"],
+    input[type="date"], input[type="time"], input[type="tel"],
+    .recipient-input, .input-group .form-control {
+        color: var(--nd-ink);
+        background-color: var(--nd-bg);
+        border-color: var(--nd-line);
+
+        &:focus, &.focus, &:focus-within {
+            color: var(--nd-ink);
+            background-color: var(--nd-bg);
+            border-color: var(--nd-pink);
+            outline: 0;
+        }
+
+        &::placeholder {
+            color: var(--nd-dimmest);
+        }
+
+        &:disabled, &[readonly] {
+            color: var(--nd-muted);
+            background-color: var(--nd-panel);
+        }
+    }
+
+    // The select's arrows are an SVG in a data: URL, which can't take a
+    // custom property, so each variant draws its own.
+    .form-control.custom-select, .custom-select {
+        background: .nd-select-arrows(@nd-light-muted)[@url] no-repeat right .75rem center / 8px 10px;
+        background-color: var(--nd-bg);
+    }
+
+    &.dark-mode .form-control.custom-select,
+    &.dark-mode .custom-select {
+        background: .nd-select-arrows(@nd-dark-muted)[@url] no-repeat right .75rem center / 8px 10px;
+        background-color: var(--nd-bg);
+    }
+
+    .form-control.is-invalid, .is-invalid .form-control {
+        border-color: var(--nd-diff-del);
+    }
+
+    .input-group-text, .input-group-prepend, .input-group-append .btn {
+        color: var(--nd-muted);
+        background-color: var(--nd-panel);
+        border-color: var(--nd-line);
+    }
+
+    .recipient-input .recipient {
+        color: var(--nd-ink);
+        background-color: var(--nd-wash-strong);
+        border: 1px solid var(--nd-line);
+
+        a.button {
+            color: var(--nd-muted);
+
+            &:hover {
+                color: var(--nd-pink);
+            }
+        }
+    }
+
+    // Checks and radios: an outline at rest, filled fuchsia when checked.
+    input[type="checkbox"].form-check-input,
+    input[type="radio"].form-check-input,
+    .custom-control-label::before {
+        background-color: transparent;
+        border: 1px solid var(--nd-muted);
+    }
+
+    input[type="checkbox"].form-check-input:hover,
+    input[type="radio"].form-check-input:hover {
+        border-color: var(--nd-pink);
+    }
+
+    input[type="checkbox"].form-check-input:checked,
+    input[type="radio"].form-check-input:checked,
+    .custom-control-input:checked ~ .custom-control-label::before {
+        background-color: var(--nd-pink);
+        border-color: var(--nd-pink);
+    }
+
+    // A switch is an outline with its state drawn in as well as colored:
+    // off, a muted knob and a square; on, a fuchsia knob and a bar.
+    .custom-switch {
+        .custom-control-label::before {
+            background-color: transparent;
+            border: 1px solid var(--nd-muted);
+            background-image:
+                linear-gradient(var(--nd-muted), var(--nd-muted)),
+                linear-gradient(var(--nd-muted), var(--nd-muted)),
+                linear-gradient(var(--nd-muted), var(--nd-muted)),
+                linear-gradient(var(--nd-muted), var(--nd-muted));
+            background-size: 6px 1px, 6px 1px, 1px 6px, 1px 6px;
+            background-position: 17px 4px, 17px 9px, 17px 4px, 22px 4px;
+            background-repeat: no-repeat;
+        }
+
+        .custom-control-label::after {
+            background-color: var(--nd-muted);
+        }
+
+        .custom-control-input:not(:disabled) ~ .custom-control-label:hover::before,
+        .custom-control-input:focus-visible ~ .custom-control-label::before {
+            border-color: var(--nd-pink);
+        }
+
+        .custom-control-input:checked ~ .custom-control-label::before {
+            background-color: transparent;
+            border-color: var(--nd-pink);
+            background-image: linear-gradient(var(--nd-pink), var(--nd-pink));
+            background-size: 2px 8px;
+            background-position: 6px center;
+        }
+
+        .custom-control-input:checked ~ .custom-control-label::after {
+            background-color: var(--nd-pink);
+        }
+
+        .custom-control-input:disabled ~ .custom-control-label::before {
+            border-color: var(--nd-line);
+            background-image: none;
+        }
+
+        .custom-control-input:disabled ~ .custom-control-label::after {
+            background-color: var(--nd-line);
+        }
+    }
+
+    .form-text, .hint, .formcontent .hint {
+        color: var(--nd-muted);
+    }
+
+    // === Tabs ============================================================
+    // The current tab is the page, with the rail across its top.
+
+    .nav-tabs, .tabsbar {
+        border-color: var(--nd-line);
+    }
+
+    .nav-tabs .nav-link, .tabsbar a, .ui-tabs-nav a {
+        color: var(--nd-muted);
+        border-color: transparent;
+        background: transparent;
+
+        &:hover {
+            color: var(--nd-pink);
+            border-color: transparent;
+        }
+
+        &.active, &.selected {
+            color: var(--nd-ink);
+            background: var(--nd-bg);
+            border-color: var(--nd-line) var(--nd-line) transparent;
+            .nd-rail(top, 2px);
+        }
+    }
+
+    // === Popovers and menus ==============================================
+
+    .popover, .popupmenu.popover, .ui-autocomplete, .ui-menu,
+    .ui-datepicker, .googie_list {
+        color: var(--nd-ink);
+        background-color: var(--nd-panel);
+        border: 1px solid var(--nd-line);
+    }
+
+    .popover .arrow::before, .popover-arrow::before {
+        border-bottom-color: var(--nd-line);
+    }
+
+    .popover .arrow::after, .popover-arrow::after {
+        border-bottom-color: var(--nd-panel);
+    }
+
+    .popover-header {
+        color: var(--nd-ink);
+        background-color: var(--nd-panel);
+        border-bottom: 1px solid var(--nd-line);
+    }
+
+    .popover .listing li,
+    .popover .menu li {
+        border-color: transparent;
+    }
+
+    .popover .listing li > a,
+    .popover .menu li > a,
+    .popupmenu .listing li > a,
+    .ui-menu .ui-menu-item-wrapper {
+        color: var(--nd-ink);
+
+        &:not(.disabled):hover,
+        &:not(.disabled):focus,
+        &.ui-state-active {
+            color: var(--nd-pink);
+            background-color: var(--nd-wash);
+            border-color: transparent;
+        }
+
+        // Roundcube marks a menu entry that can run now as .active, so
+        // .active is at rest here, not current.
+        &.disabled {
+            color: var(--nd-dimmest);
+            opacity: 1;
+        }
+
+        &.selected {
+            color: var(--nd-pink);
+        }
+    }
+
+    .popover .listing li.separator,
+    .popover .menu li.separator,
+    .popover .separator {
+        color: var(--nd-muted);
+        background-color: transparent;
+        border-top: 1px solid var(--nd-line);
+    }
+
+    // === Dialogs =========================================================
+
+    .ui-dialog {
+        color: var(--nd-ink);
+        background-color: var(--nd-bg);
+        border: 1px solid var(--nd-line);
+    }
+
+    .ui-dialog .ui-dialog-titlebar {
+        color: var(--nd-ink);
+        background-color: var(--nd-panel);
+        border-bottom: 1px solid var(--nd-line);
+
+        .ui-dialog-titlebar-close {
+            color: var(--nd-muted);
+            background: transparent;
+            border: 0;
+
+            &:hover {
+                color: var(--nd-pink);
+            }
+        }
+    }
+
+    .ui-dialog .ui-dialog-buttonpane {
+        background-color: var(--nd-panel);
+        border-top: 1px solid var(--nd-line);
+    }
+
+    .ui-widget-overlay, .popover-overlay {
+        background: var(--nd-scrim);
+        opacity: 1;
+    }
+
+    .ui-dialog-content, .ui-widget-content {
+        color: var(--nd-ink);
+        background-color: var(--nd-bg);
+    }
+
+    // === Status messages =================================================
+    // A panel with a --line edge; the state is in its icon.
+
+    #messagestack div, .ui.alert {
+        color: var(--nd-ink);
+        background-color: var(--nd-panel);
+        border: 1px solid var(--nd-line);
+        opacity: 1;
+
+        i.icon:before {
+            color: var(--nd-purple);
+        }
+    }
+
+    #messagestack .alert-success i.icon:before,
+    .ui.alert.alert-success > i.icon:before { color: var(--nd-diff-add); }
+    #messagestack .alert-warning i.icon:before,
+    .ui.alert.alert-warning > i.icon:before { color: var(--nd-code-string); }
+    #messagestack .alert-danger i.icon:before,
+    .ui.alert.alert-danger > i.icon:before { color: var(--nd-diff-del); }
+    #messagestack .loading i.icon:before { color: var(--nd-pink); }
+
+    .ui.alert.boxinformation, .ui.alert.alert-info { background-color: var(--nd-wash); }
+    .ui.alert.boxconfirmation, .ui.alert.alert-success { background-color: var(--nd-diff-add-bg); }
+    .ui.alert.boxwarning, .ui.alert.alert-warning { background-color: var(--nd-string-bg); }
+    .ui.alert.boxerror, .ui.alert.alert-danger { background-color: var(--nd-diff-del-bg); }
+
+    .ui.alert, .ui.alert i.icon:before {
+        color: var(--nd-ink);
+    }
+
+    .ui.alert a:not(.btn) {
+        color: var(--nd-purple);
+    }
+
+    // === Message view ====================================================
+
+    #message-header {
+        h2.subject, .subject {
+            color: var(--nd-ink);
+        }
+
+        .header, .header-headers, .header-links, .short-header {
+            color: var(--nd-muted);
+        }
+    }
+
+    #message-header .header-links a, .header-links a {
+        color: var(--nd-purple);
+
+        &:hover {
+            color: var(--nd-pink);
+        }
+    }
+
+    // Quotes in plain text mail: one rail in the level's color, on a
+    // faint wash.
+    div.message-part blockquote {
+        color: var(--nd-purple);
+        background-color: var(--nd-wash);
+        border-left: 2px solid var(--nd-purple) !important;
+        border-right: 0 !important;
+    }
+
+    div.message-part blockquote blockquote {
+        color: var(--nd-cyan);
+        border-left-color: var(--nd-cyan) !important;
+    }
+
+    div.message-part blockquote blockquote blockquote {
+        color: var(--nd-code-string);
+        border-left-color: var(--nd-code-string) !important;
+    }
+
+    div.message-part pre, div.message-part div.pre {
+        color: var(--nd-ink);
+    }
+
+    span.sig, div.message-part span.sig {
+        color: var(--nd-muted);
+    }
+
+    .attachmentslist, #attachment-list {
+        background-color: var(--nd-panel);
+        border: 1px solid var(--nd-line);
+
+        li a, .attachment-name {
+            color: var(--nd-ink);
+        }
+
+        .attachment-size {
+            color: var(--nd-muted);
+        }
+    }
+
+    // === The HTML editor ================================================
+    // TinyMCE's toolbar is a panel; the rules between its rows are an SVG
+    // in Elastic, redrawn here as a gradient that can take the line color.
+
+    .tox .tox-toolbar-overlord > div {
+        background: repeating-linear-gradient(transparent 0 32px, var(--nd-line) 32px 33px) var(--nd-panel);
+    }
+
+    .tox.tox-tinymce {
+        border-color: var(--nd-line);
+    }
+
+    // === Odds and ends ===================================================
+
+    .quota-widget .bar,
+    .quota-widget {
+        background-color: var(--nd-line);
+        color: var(--nd-muted);
+    }
+
+    .quota-widget .value {
+        background-color: var(--nd-pink);
+    }
+
+    .iframe-loader {
+        background-color: var(--nd-scrim);
+
+        .spinner-border {
+            color: var(--nd-pink);
+            border-color: var(--nd-pink) var(--nd-line) var(--nd-pink) var(--nd-pink);
+        }
+    }
+
+    .spinner-border {
+        color: var(--nd-pink);
+    }
+
+    // The floating compose button on phones: an outlined purple square.
+    .floating-action-buttons a.button {
+        color: var(--nd-purple);
+        background: var(--nd-panel);
+        border: 1px solid var(--nd-tint-purple);
+        opacity: 1;
+
+        &:hover {
+            color: var(--nd-pink);
+            border-color: var(--nd-pink);
+        }
+    }
+
+    .listing-hover-menu {
+        background-color: var(--nd-panel);
+        border: 1px solid var(--nd-line);
+    }
+
+    .table, table.table, .propform {
+        color: var(--nd-ink);
+
+        th, td {
+            border-color: var(--nd-line);
+        }
+    }
+
+    hr {
+        border-color: var(--nd-line);
+    }
+}

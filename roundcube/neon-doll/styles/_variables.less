@@ -1,0 +1,266 @@
+/**
+ * Neon Doll for Roundcube: Elastic's color variables, reassigned.
+ *
+ * Elastic imports "_variables" at the end of its own variables.less, as
+ * the place for a skin to change them; with this directory on lessc's
+ * include path, that is this file, so these recolor all of Elastic's own
+ * rules. Each is a custom property from _palette.less, so it follows light
+ * and dark on its own; custom-properties.js turns the darken()s and fade()s
+ * Elastic runs them through into the browser's color-mix().
+ *
+ * Roles, as everywhere in Neon Doll: fuchsia (pink) is where you are,
+ * purple is what you can touch, and the two never swap.
+ */
+
+@plugin "custom-properties";
+
+@color-main:                var(--nd-pink);
+@color-main-dark:           var(--nd-pink);
+@color-black:               var(--nd-ink);
+@color-font:                var(--nd-ink);
+@color-link:                var(--nd-purple);
+@color-link-hover:          var(--nd-pink);
+@color-border:              var(--nd-line);
+@color-error:               var(--nd-diff-del);
+@color-success:             var(--nd-diff-add);
+@color-warning:             var(--nd-code-string);
+
+@color-black-shade-text:    var(--nd-muted);
+@color-black-shade-border:  var(--nd-line);
+@color-black-shade-bg:      var(--nd-panel);
+
+// The page and its panels. The list and the message are the page; the
+// menu, the folders and every column's header bar are panels on it.
+@color-layout-border:               var(--nd-line);
+@color-layout-header:               var(--nd-ink);
+@color-layout-sidebar-background:   var(--nd-panel);
+@color-layout-list-background:      var(--nd-bg);
+@color-layout-content-background:   var(--nd-bg);
+@color-layout-header-background:    var(--nd-panel);
+@color-layout-footer-background:    var(--nd-panel);
+@color-layout-mobile-header-background: var(--nd-panel);
+@color-layout-mobile-footer-background: var(--nd-panel);
+
+// Task menu: the current task is fuchsia on a rail, the rest muted until
+// you point at them. Compose is the one action button, and it's purple.
+@color-taskmenu-background:                     var(--nd-panel);
+@color-taskmenu-button:                         var(--nd-muted);
+@color-taskmenu-button-selected:                var(--nd-pink);
+@color-taskmenu-button-action:                  var(--nd-purple);
+@color-taskmenu-button-selected-background:     var(--nd-wash-pink);
+@color-taskmenu-button-action-background:       transparent;
+@color-taskmenu-button-hover:                   var(--nd-pink);
+@color-taskmenu-button-selected-hover:          var(--nd-pink);
+@color-taskmenu-button-action-hover:            var(--nd-pink);
+@color-taskmenu-button-background-hover:        var(--nd-wash);
+@color-taskmenu-button-action-background-hover: var(--nd-wash);
+@color-taskmenu-button-logout:                  var(--nd-muted);
+@color-taskmenu-button-logout-hover:            var(--nd-diff-del);
+
+// Toolbar
+@color-toolbar-button:                  var(--nd-ink);
+@color-toolbar-button-background-hover: var(--nd-panel);
+@color-searchbar-background:            var(--nd-bg);
+
+// Menus
+@color-menu-hover:               var(--nd-pink);
+@color-menu-hover-background:    var(--nd-wash-pink);
+
+// Lists
+@color-list:                        var(--nd-ink);
+@color-list-selected:               var(--nd-ink);
+@color-list-selected-background:    var(--nd-wash-pink);
+@color-list-flagged:                var(--nd-code-string);
+@color-list-deleted:                var(--nd-dimmest);
+@color-list-secondary:              var(--nd-muted);
+@color-list-droptarget-background:  var(--nd-wash-pink);
+@color-list-focus-indicator:        var(--nd-pink);
+@color-list-border:                 var(--nd-rule);
+@color-list-badge:                  var(--nd-purple);
+@color-list-badge-background:       var(--nd-wash-strong);
+@color-list-recent:                 var(--nd-ink);
+@color-list-recent-badge:           var(--nd-code-string);
+@color-list-recent-badge-background: var(--nd-string-bg);
+@color-list-pagenav:                var(--nd-muted);
+@color-list-icon:                   var(--nd-muted);
+@color-list-unread-status:          var(--nd-purple);
+
+@color-attachmentlist-border:       var(--nd-line);
+@color-attachmentlist-background:   var(--nd-panel);
+
+@color-drag-layer:                  var(--nd-pink);
+@color-drag-layer-background:       var(--nd-panel);
+@color-drag-layer-shadow:           transparent;
+
+// Status messages: a panel, with the state in its text and icon.
+@color-message:                     var(--nd-ink);
+@color-message-border:              var(--nd-line);
+@color-message-background:          var(--nd-panel);
+@color-message-text:                var(--nd-ink);
+@color-message-link:                var(--nd-purple);
+@color-message-link-font-weight:    normal;
+@color-message-information:         var(--nd-purple);
+@color-message-success:             var(--nd-diff-add);
+@color-message-warning:             var(--nd-code-string);
+@color-message-error:               var(--nd-diff-del);
+@color-message-loading:             var(--nd-muted);
+@color-message-information-text:    var(--nd-ink);
+@color-message-success-text:        var(--nd-ink);
+@color-message-warning-text:        var(--nd-ink);
+@color-message-error-text:          var(--nd-ink);
+@color-message-loading-text:        var(--nd-ink);
+@color-message-error-box:           var(--nd-ink);
+@color-message-information-box:     var(--nd-ink);
+@color-message-success-box:         var(--nd-ink);
+@color-message-warning-box:         var(--nd-ink);
+@color-message-error-box-background:        var(--nd-diff-del-bg);
+@color-message-information-box-background:  var(--nd-wash);
+@color-message-success-box-background:      var(--nd-diff-add-bg);
+@color-message-warning-box-background:      var(--nd-string-bg);
+
+// Popovers
+@color-popover-shadow:              transparent;
+@color-popover-separator:           var(--nd-muted);
+@color-popover-separator-background: var(--nd-bg);
+@color-popover-mobile-header:               var(--nd-ink);
+@color-popover-mobile-header-background:    var(--nd-panel);
+@color-popover-mobile-dropbutton-background: var(--nd-panel);
+
+// Dialogs
+@color-dialog-overlay-background:   var(--nd-scrim);
+@color-dialog-header:               var(--nd-ink);
+@color-dialog-header-border:        var(--nd-line);
+
+@color-spinner-circle:              var(--nd-line);
+@color-spinner-item:                var(--nd-pink);
+
+// Forms: a field is a slot, the page's color with a line edge; focused,
+// the edge goes fuchsia.
+@color-input:                       var(--nd-ink);
+@color-input-border:                var(--nd-line);
+@color-input-border-focus:          var(--nd-pink);
+@color-input-border-focus-shadow:   transparent;
+@color-input-border-invalid:        var(--nd-diff-del);
+@color-input-border-invalid-shadow: transparent;
+@color-input-addon-background:      var(--nd-panel);
+@color-recipient-input-border:      var(--nd-line);
+@color-recipient-input-background:  var(--nd-wash-strong);
+@color-input-placeholder:           var(--nd-dimmest);
+
+@color-checkbox:                    var(--nd-muted);
+@color-checkbox-checked:            var(--nd-pink);
+@color-checkbox-checked-disabled:   var(--nd-dimmest);
+@color-checkbox-focus:              var(--nd-pink);
+@color-checkbox-focus-shadow:       transparent;
+
+@color-form-hint:                   var(--nd-muted);
+@color-image-upload-background:     var(--nd-panel);
+
+// Buttons are redrawn in _styles.less.
+@color-btn-secondary:               var(--nd-ink);
+@color-btn-secondary-background:    var(--nd-wash);
+@color-btn-primary:                 var(--nd-purple);
+@color-btn-primary-background:      var(--nd-wash);
+@color-btn-danger:                  var(--nd-diff-del);
+@color-btn-danger-background:       var(--nd-diff-del-bg);
+
+@color-quota-background:            var(--nd-line);
+@color-quota-text:                  var(--nd-muted);
+@color-quota-value:                 var(--nd-pink);
+@color-quota-value-warning:         var(--nd-diff-del);
+
+// Quote levels: purple, then two terminal colors, never fuchsia.
+@color-blockquote-background:       var(--nd-wash);
+@color-blockquote-0:                var(--nd-purple);
+@color-blockquote-1:                var(--nd-cyan);
+@color-blockquote-2:                var(--nd-code-string);
+@color-blockquote-0-border:         var(--nd-purple);
+@color-blockquote-1-border:         var(--nd-cyan);
+@color-blockquote-2-border:         var(--nd-code-string);
+
+@color-mail-signature:              var(--nd-muted);
+@color-mail-headers:                var(--nd-muted);
+
+@color-messagepart-border:          var(--nd-line);
+@color-messagepart-background:      var(--nd-panel);
+
+@color-spellcheck-link:             var(--nd-diff-del);
+
+@color-table-border:                var(--nd-line);
+@color-table-selected:              var(--nd-ink);
+@color-table-selected-background:   var(--nd-wash-pink);
+
+// Datepicker: today and the chosen day are both positions.
+@color-datepicker-border:               var(--nd-line);
+@color-datepicker-font:                 var(--nd-ink);
+@color-datepicker-highlight:            var(--nd-pink);
+@color-datepicker-highlight-background: var(--nd-wash-pink);
+@color-datepicker-active:               var(--nd-bg);
+@color-datepicker-active-background:    var(--nd-pink);
+
+@color-editor-disabled-mask:            var(--nd-scrim);
+
+@color-image-tools:                     var(--nd-ink);
+@color-image-tools-background:          var(--nd-osd-bg);
+@color-image-tools-hover:               var(--nd-wash-pink);
+
+@color-scrollbar-thumb:     var(--nd-dimmest);
+@color-scrollbar-track:     var(--nd-bg);
+
+
+// Dark mode. Elastic's dark rules sit under html.dark-mode and name these;
+// the custom properties already switch there, so they are the same as above.
+@color-dark-main:           var(--nd-pink);
+@color-dark-background:     var(--nd-bg);
+@color-dark-font:           var(--nd-ink);
+@color-dark-border:         var(--nd-line);
+@color-dark-hint:           var(--nd-muted);
+@color-dark-information:    var(--nd-wash);
+@color-dark-success:        var(--nd-diff-add-bg);
+@color-dark-warning:        var(--nd-string-bg);
+@color-dark-error:          var(--nd-diff-del-bg);
+
+@color-dark-list-selected:              var(--nd-ink);
+@color-dark-list-selected-background:   var(--nd-wash-pink);
+@color-dark-list-badge:                 var(--nd-purple);
+@color-dark-list-badge-background:      var(--nd-wash-strong);
+@color-dark-list-deleted:               var(--nd-dimmest);
+@color-dark-list-droptarget-background: var(--nd-wash-pink);
+@color-dark-list-border:                var(--nd-rule);
+
+@color-dark-input:                      var(--nd-ink);
+@color-dark-input-border:               var(--nd-line);
+@color-dark-input-background:           var(--nd-bg);
+@color-dark-input-focus:                var(--nd-ink);
+@color-dark-input-border-focus:         var(--nd-pink);
+@color-dark-input-background-focus:     var(--nd-bg);
+@color-dark-input-addon-background:     var(--nd-panel);
+@color-dark-input-addon-background-focus: var(--nd-panel);
+@color-dark-checkbox:                   var(--nd-muted);
+@color-dark-checkbox-checked:           var(--nd-pink);
+
+@color-dark-btn:                        var(--nd-ink);
+@color-dark-btn-primary-background:     var(--nd-wash);
+@color-dark-btn-secondary-background:   var(--nd-wash);
+@color-dark-btn-danger-background:      var(--nd-diff-del-bg);
+
+@color-dark-dialog-overlay-background:  var(--nd-scrim);
+
+@color-dark-popover-background:         var(--nd-panel);
+@color-dark-popover-border:             var(--nd-line);
+
+@color-dark-message-information:        var(--nd-panel);
+@color-dark-message-success:            var(--nd-panel);
+@color-dark-message-warning:            var(--nd-panel);
+@color-dark-message-error:              var(--nd-panel);
+@color-dark-message-loading:            var(--nd-panel);
+
+@color-dark-scrollbar-thumb:            var(--nd-dimmest);
+@color-dark-scrollbar-track:            var(--nd-bg);
+
+@color-dark-blockquote-0:               var(--nd-purple);
+@color-dark-blockquote-1:               var(--nd-cyan);
+@color-dark-blockquote-2:               var(--nd-code-string);
+@color-dark-blockquote-0-border:        var(--nd-purple);
+@color-dark-blockquote-1-border:        var(--nd-cyan);
+@color-dark-blockquote-2-border:        var(--nd-code-string);

@@ -19,6 +19,9 @@
 #                                  unsigned, for addons.mozilla.org to sign
 # neon-doll-vscode-VERSION.vsix    the VS Code themes, for the Marketplace,
 #                                  Open VSX or `code --install-extension`
+# neon-doll-roundcube-VERSION.tar.xz
+#                                  the Roundcube skin dir at the top level:
+#                                  what unpacks into Roundcube's skins/
 #
 # The GTK 4 stylesheet is kept out of the theme dirs on purpose: a gtk-4.0/
 # inside a theme dir is loaded as a complete theme by GTK 4 apps that don't
@@ -68,6 +71,13 @@ git archive --format=zip HEAD:firefox manifest.json images > "dist/neon-doll-fir
 # Windows Terminal and PowerShell, with their installer.
 git archive --format=zip --prefix="neon-doll-windows-$version/" HEAD windows COPYING \
   > "dist/neon-doll-windows-$version.zip"
+
+# Roundcube: the skin dir, with COPYING beside its README and its CC license.
+mkdir "$tmp/roundcube"
+git archive --format=tar HEAD roundcube/neon-doll | tar -x -C "$tmp/roundcube"
+cp "$tmp/COPYING" "$tmp/roundcube/roundcube/neon-doll/"
+tar -C "$tmp/roundcube/roundcube" --owner=0 --group=0 --numeric-owner --sort=name \
+  -cJf "dist/neon-doll-roundcube-$version.tar.xz" neon-doll
 
 # VS Code: a .vsix, from vsce if it's installed, else zipped by hand in the
 # same layout. Either way COPYING goes in as the license.
