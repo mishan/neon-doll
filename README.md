@@ -294,11 +294,12 @@ tools/dist.sh [VERSION]                           # release archives into dist/
 ```
 
 The screenshot scripts need [shotbox](https://github.com/mishan/shotbox) on
-your `PATH`: each program runs in a sealed session, with a scratch home and
-none of your settings, and the picture is taken once it's ready rather than
-after a guess. `tools/cosmic-shoot.sh` runs COSMIC in a Wayland shotbox
-session inside its container, from a shotbox checkout (0.3.0 or later)
-beside this one, or where `SHOTBOX_DIR` points. `tools/shoot-shell.sh` still runs its own
+your `PATH` (`pipx install --system-site-packages shotbox`): each program
+runs in a sealed session, with a scratch home and none of your settings,
+and the picture is taken once it's ready rather than after a guess.
+`tools/cosmic-shoot.sh` runs COSMIC in a Wayland shotbox session inside its
+container, which has its own shotbox, pinned; `SHOTBOX_DIR` runs a checkout
+of shotbox there instead. `tools/shoot-shell.sh` still runs its own
 headless GNOME Shell, and `tools/roundcube-shoot.py` drives a headless
 Chrome.
 
@@ -306,8 +307,8 @@ Chrome.
 against Roundcube's Elastic sources, which it fetches once into
 `~/.cache/neon-doll`; without either, it leaves the committed CSS alone and
 says so. `tools/roundcube-shoot.py` needs docker and Chrome,
-`tools/cosmic-shoot.sh` docker and shotbox, and `tools/kde-shoot.sh` docker
-alone; those two build a Fedora image with their desktop. `KDE_SHOOT_PREVIEWS=1
+and `tools/cosmic-shoot.sh` and `tools/kde-shoot.sh` docker alone; those
+two build a Fedora image with their desktop. `KDE_SHOOT_PREVIEWS=1
 tools/kde-shoot.sh` also redraws the global themes' preview images from the
 desktop shot.
 

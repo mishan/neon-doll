@@ -5,11 +5,13 @@
 #
 # COSMIC's compositor is a window of the session's sway, full screen, and
 # COSMIC runs inside it. Pictures are of sway's output, so they're taken
-# with the session's WAYLAND_DISPLAY; COSMIC's own is COSMIC_DISPLAY.
+# with the session's WAYLAND_DISPLAY; COSMIC's own is COSMIC_DISPLAY. SHOTBOX
+# is how to run shotbox: the installed one, or a checkout at /shotbox.
 set -eu
 V=$VARIANT; Name=$(echo "$V" | sed "s/./\U&/")
-sb="python3 /shotbox/bin/shotbox"
-export XDG_CURRENT_DESKTOP=COSMIC PYTHONPATH=/shotbox
+sb=${SHOTBOX:-shotbox}
+export XDG_CURRENT_DESKTOP=COSMIC
+[ -d /shotbox ] && export PYTHONPATH=/shotbox
 cfg=$HOME/.config/cosmic
 # With COSMIC_SHOOT_LOGS, the logs go straight to OUTDIR, so a run that
 # fails keeps them too; sway's log and COSMIC's config join them at the end.
@@ -88,11 +90,18 @@ echo "\"Neon Doll $Name\"" > "$t/syntax_theme_$V"
 # scheme here even when the desktop is light.
 echo "$Name" > "$t/app_theme"
 git config --global --add safe.directory "*"
-# The shell waits for its window to be tiled (up to 3s), so ls fits its
-# columns, and says it's ready once its output is out.
+# The shell waits for its window to be tiled, so ls fits its columns: for
+# its size to change (up to 3s), then to hold still for half a second (up
+# to 3s more), since tiling can resize it more than once. It says it's
+# ready once its output is out.
 cat > "$HOME/.bashrc" <<R
 s=\$(stty size); n=0
 while [ "\$(stty size)" = "\$s" ] && [ \$n -lt 30 ]; do sleep 0.1; n=\$((n + 1)); done
+s=\$(stty size); still=0; n=0
+while [ \$still -lt 5 ] && [ \$n -lt 30 ]; do
+  sleep 0.1; n=\$((n + 1)); t=\$(stty size)
+  if [ "\$t" = "\$s" ]; then still=\$((still + 1)); else s=\$t; still=0; fi
+done
 eval "\$(dircolors -b /repo/dircolors/neon-doll)"
 PS1="doll@cosmic:\w\\\$ "
 cd /repo

@@ -6,7 +6,7 @@
 #
 # Needs shotbox (https://github.com/mishan/shotbox) on PATH.
 set -eu
-command -v shotbox >/dev/null || { echo "needs shotbox on PATH" >&2; exit 1; }
+command -v shotbox >/dev/null || { echo "needs shotbox on PATH: pipx install --system-site-packages shotbox" >&2; exit 1; }
 out=$1; what=$2; variant=${3:-dark}
 here=$(cd "$(dirname "$0")" && pwd)
 root=$(dirname "$here")
