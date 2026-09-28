@@ -289,7 +289,15 @@ hand-written ones (the GTK stylesheets and the Emacs themes, between
 markers). `tools/build.sh --check` fails if anything is stale. Generated files
 are committed, so installing needs nothing but `sh`.
 
+The installers have tests, which run them against scratch home folders:
+`tests/install.sh` for `install.sh` (`SH=dash` or another shell to run it
+under that), and `tests/install.ps1` for `install.ps1`, under PowerShell 7 on
+any system or Windows PowerShell 5.1. CI runs both on Linux, macOS and
+Windows, with `tools/build.sh --check`, shellcheck and PSScriptAnalyzer.
+
 ```
+tests/install.sh                                  # test install.sh
+pwsh tests/install.ps1                            # test windows/install.ps1
 tools/build.sh [--check]                          # rebuild everything from tokens.toml
 tools/build-palettes.py [--check]                 # just the palette copies in the GTK and Emacs themes
 tools/build-gtk2.py [--check]                     # the GTK 2 part of the theme dirs
