@@ -39,7 +39,8 @@ $root = Split-Path -Parent $here
 # Your home folder; USERPROFILE on Windows, where $HOME ignores it.
 $userHome = if ($env:USERPROFILE) { $env:USERPROFILE } else { $HOME }
 $fragments = P $env:LOCALAPPDATA 'Microsoft' 'Windows Terminal' 'Fragments' 'Neon Doll'
-$profileDir = Split-Path -Parent $PROFILE
+# Empty when Windows PowerShell can't find your Documents folder.
+$profileDir = if ($PROFILE) { Split-Path -Parent $PROFILE }
 $themes = P $env:LOCALAPPDATA 'Microsoft' 'Windows' 'Themes' 'Neon Doll'
 $allParts = 'terminal', 'powershell', 'contrast', 'vscode', 'firefox', 'git', 'vim'
 
@@ -244,6 +245,10 @@ foreach ($part in $picked) {
 "@)
         }
         'powershell' {
+            if (-not $profileDir) {
+                if (-not $Remove) { Write-Warning "skipped powershell: this PowerShell doesn't know where your profile goes" }
+                break
+            }
             $ps1 = P $profileDir 'neon-doll.ps1'
             Place (P $here 'powershell' 'neon-doll.ps1') $ps1
             $hints.Add(@"

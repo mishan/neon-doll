@@ -39,7 +39,8 @@ function Skip($name, $why) { $script:skipped++; "skip  ${name}: $why" }
 function Fresh {
     $script:n++
     $script:h = P $scratch "home$($script:n)"
-    foreach ($d in 'home', 'local', 'roaming', 'pf') { New-Item -ItemType Directory -Force (P $h $d) | Out-Null }
+    # Windows PowerShell has no $PROFILE without a Documents folder.
+    foreach ($d in 'home', (P 'home' 'Documents'), 'local', 'roaming', 'pf') { New-Item -ItemType Directory -Force (P $h $d) | Out-Null }
     $env:HOME = $env:USERPROFILE = P $h 'home'
     $env:LOCALAPPDATA = P $h 'local'
     $env:APPDATA = P $h 'roaming'
