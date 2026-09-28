@@ -1,6 +1,7 @@
 #!/bin/sh
 # The COSMIC scene, in a Wayland shotbox session: tools/cosmic-shoot.sh runs
-# it in its container, with VARIANT set to dark or light.
+# it in its container, with VARIANT set to dark or light and SIZE to the
+# screen's, WxH.
 #
 # COSMIC's compositor is a window of the session's sway, full screen, and
 # COSMIC runs inside it. Pictures are of sway's output, so they're taken
@@ -10,30 +11,51 @@ V=$VARIANT; Name=$(echo "$V" | sed "s/./\U&/")
 sb="python3 /shotbox/bin/shotbox"
 export XDG_CURRENT_DESKTOP=COSMIC PYTHONPATH=/shotbox
 cfg=$HOME/.config/cosmic
-logs=$SHOTBOX_SCRATCH/logs
+# With COSMIC_SHOOT_LOGS, the logs go straight to OUTDIR, so a run that
+# fails keeps them too; sway's log and COSMIC's config join them at the end.
+if [ -n "${COSMIC_SHOOT_LOGS:-}" ]; then
+  logs=/out/logs-$V
+  rm -rf "$logs"
+  trap 'cp "$SHOTBOX_SCRATCH/sway.log" "$logs/" 2>/dev/null; cp -r "$cfg" "$logs/config" 2>/dev/null' EXIT
+else
+  logs=$SHOTBOX_SCRATCH/logs
+fi
 mkdir -p "$logs"
 
 # launch NAME COMMAND...: start it inside COSMIC, then wait for the screen
 # to change and hold still. What runs inside COSMIC isn't a window sway
 # knows about, so the change on the screen is the sign it has come up:
-# below the panel, whose clock changes by itself.
+# below the panel, whose clock changes by itself. (Not whether the program
+# is still running: cosmic-files hands itself off and exits at once.)
 launch() {
   python3 - "$logs/$1.log" "$@" <<'PY'
 import os, subprocess, sys
 import shotbox
 from shotbox import wl
+log, name, cmd = sys.argv[1], sys.argv[2], sys.argv[3:]
 s = shotbox.here()
-below_panel = (0, "", 1280, 760, 0, 40)   # as a window: id, name, w, h, x, y
+w, h = map(int, os.environ["SIZE"].split("x"))
+below_panel = (0, "", w, h - 40, 0, 40)   # wl's window tuple: id, name, w, h, x, y
 before = wl.fingerprint(s.env, below_panel)
-subprocess.Popen(sys.argv[3:], stdout=open(sys.argv[1], "ab"), stderr=subprocess.STDOUT,
+subprocess.Popen(cmd, stdout=open(log, "ab"), stderr=subprocess.STDOUT,
                  env={**os.environ, "WAYLAND_DISPLAY": os.environ["COSMIC_DISPLAY"]})
 try:
-    s.until(f"{sys.argv[2]} to show",
-            lambda: wl.fingerprint(s.env, below_panel) != before, timeout=60)
-    s.wait_stable(1, timeout=60)
+    s.until(f"{name} to show", lambda: wl.fingerprint(s.env, below_panel) != before,
+            timeout=60)
 except shotbox.SessionError as e:
     sys.exit(f"cosmic-scene: {e}")
+try:
+    s.wait_stable(1, timeout=60)
+except shotbox.SessionError as e:
+    sys.exit(f"cosmic-scene: {name} never held still: {e}")
 PY
+}
+
+# sockets: the Wayland sockets in the runtime dir, by name.
+sockets() {
+  for f in "$XDG_RUNTIME_DIR"/wayland-[0-9]*; do
+    case ${f##*/} in *.lock) ;; *) [ -e "$f" ] && echo "${f##*/}" ;; esac
+  done
 }
 
 cosmic-settings appearance import "/repo/cosmic/Neon-Doll-$Name.ron" >"$logs/import.log" 2>&1 \
@@ -50,7 +72,7 @@ case $V in
 esac
 magick -size 24x24 "xc:$page" -fill "$grid" \
   -draw "rectangle 0,0 23,0" -draw "rectangle 0,0 0,23" "$SHOTBOX_SCRATCH/tile.png"
-magick -size 1280x800 "tile:$SHOTBOX_SCRATCH/tile.png" "$HOME/paper.png"
+magick -size "$SIZE" "tile:$SHOTBOX_SCRATCH/tile.png" "$HOME/paper.png"
 mkdir -p "$cfg/com.system76.CosmicBackground/v1"
 cat > "$cfg/com.system76.CosmicBackground/v1/all" <<R
 (output: "all", source: Path("$HOME/paper.png"), filter_by_theme: false, rotation_frequency: 3600,
@@ -66,9 +88,11 @@ echo "\"Neon Doll $Name\"" > "$t/syntax_theme_$V"
 # scheme here even when the desktop is light.
 echo "$Name" > "$t/app_theme"
 git config --global --add safe.directory "*"
-# The shell says it's ready once its output is out.
+# The shell waits for its window to be tiled (up to 3s), so ls fits its
+# columns, and says it's ready once its output is out.
 cat > "$HOME/.bashrc" <<R
-sleep 2   # until the window is tiled, so ls fits its columns
+s=\$(stty size); n=0
+while [ "\$(stty size)" = "\$s" ] && [ \$n -lt 30 ]; do sleep 0.1; n=\$((n + 1)); done
 eval "\$(dircolors -b /repo/dircolors/neon-doll)"
 PS1="doll@cosmic:\w\\\$ "
 cd /repo
@@ -80,18 +104,21 @@ R
 # COSMIC's compositor, as a window of sway's (Smithay's, by its title; it
 # has no app id), made full screen; its own socket is the one that wasn't
 # there before it.
-ls "$XDG_RUNTIME_DIR" > "$SHOTBOX_SCRATCH/sockets-before"
+sockets > "$SHOTBOX_SCRATCH/sockets-before"
 cosmic-comp >"$logs/comp.log" 2>&1 &
 comp=$!
-$sb wait window Smithay --timeout 60
+$sb wait window Smithay --timeout 60 \
+  || { echo "cosmic-scene: cosmic-comp didn't come up:" >&2; tail -20 "$logs/comp.log" >&2; exit 1; }
 swaymsg -q "[pid=$comp] fullscreen enable"
-for i in $(seq 100); do
-  COSMIC_DISPLAY=$(ls "$XDG_RUNTIME_DIR" | grep -x 'wayland-[0-9]*' \
-    | grep -vxF -f "$SHOTBOX_SCRATCH/sockets-before" | head -1) || true
-  [ -n "$COSMIC_DISPLAY" ] && break
-  sleep 0.1
+$sb wait stable 0.5 --window Smithay --timeout 30
+COSMIC_DISPLAY=
+n=0
+while [ -z "$COSMIC_DISPLAY" ] && [ $n -lt 100 ]; do
+  COSMIC_DISPLAY=$(sockets | grep -vxF -f "$SHOTBOX_SCRATCH/sockets-before" | head -1) || true
+  [ -n "$COSMIC_DISPLAY" ] || sleep 0.1
+  n=$((n + 1))
 done
-[ -n "$COSMIC_DISPLAY" ] || { echo "cosmic-comp made no socket; see $logs/comp.log" >&2; exit 1; }
+[ -n "$COSMIC_DISPLAY" ] || { echo "cosmic-scene: cosmic-comp made no socket" >&2; exit 1; }
 export COSMIC_DISPLAY
 
 launch bg cosmic-bg
@@ -102,12 +129,13 @@ $sb wait ready --timeout 60
 $sb wait stable 1 --timeout 60
 $sb capture "/out/cosmic-desktop-$V.png"
 
+# Gone, not just asked to go: otherwise their windows closing could pass
+# for Settings coming up. (Zombies don't count; docker's --init reaps them.)
 pkill -x cosmic-files || true; pkill -x cosmic-term || true
+n=0
+while pgrep -r RSDT -x 'cosmic-files|cosmic-term' >/dev/null && [ $n -lt 100 ]; do
+  sleep 0.1; n=$((n + 1))
+done
 $sb wait stable 1 --timeout 60
 launch settings cosmic-settings appearance
 $sb capture "/out/cosmic-settings-$V.png"
-
-if [ -n "${COSMIC_SHOOT_LOGS:-}" ]; then
-  mkdir -p "/out/logs-$V" && cp "$logs"/*.log "$SHOTBOX_SCRATCH/sway.log" "/out/logs-$V/" \
-    && cp -r "$cfg" "/out/logs-$V/config"
-fi

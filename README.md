@@ -297,8 +297,8 @@ The screenshot scripts need [shotbox](https://github.com/mishan/shotbox) on
 your `PATH`: each program runs in a sealed session, with a scratch home and
 none of your settings, and the picture is taken once it's ready rather than
 after a guess. `tools/cosmic-shoot.sh` runs COSMIC in a Wayland shotbox
-session inside its container, from a shotbox checkout beside this one (or
-where `SHOTBOX_DIR` points). `tools/shoot-shell.sh` still runs its own
+session inside its container, from a shotbox checkout (0.3.0 or later)
+beside this one, or where `SHOTBOX_DIR` points. `tools/shoot-shell.sh` still runs its own
 headless GNOME Shell, and `tools/roundcube-shoot.py` drives a headless
 Chrome.
 
