@@ -16,33 +16,38 @@
 # OUTDIR/logs-VARIANT/, a failed run's too. A wait that gives up leaves a
 # picture of the screen as it was, OUTDIR/cosmic-failed-VARIANT.png.
 #
-# Needs docker, and shotbox 0.3.0 or later (https://github.com/mishan/shotbox),
-# for its Wayland sessions, checked out beside this repository or where
-# SHOTBOX_DIR points. Everything renders in software; no GPU.
+# Needs docker. shotbox (https://github.com/mishan/shotbox) is in the image,
+# from PyPI at the version below; SHOTBOX_DIR runs a checkout of it instead,
+# for working on shotbox. Everything renders in software; no GPU.
 set -eu
 
 out=$(realpath -m "$1"); shift
 [ $# -gt 0 ] || set -- dark light
 here=$(cd "$(dirname "$0")" && pwd)
 repo=$(dirname "$here")
-shotbox=$(realpath -m "${SHOTBOX_DIR:-$repo/../shotbox}")
 image=neon-doll-cosmic
 size=1280x800
 mkdir -p "$out"
-[ -x "$shotbox/bin/shotbox" ] || {
-  echo "$0: no shotbox at $shotbox; clone https://github.com/mishan/shotbox there, or set SHOTBOX_DIR" >&2
-  exit 2
-}
+# shotbox from PyPI, or a checkout of it where SHOTBOX_DIR points.
+if [ -n "${SHOTBOX_DIR:-}" ]; then
+  shotbox=$(realpath -m "$SHOTBOX_DIR")
+  [ -x "$shotbox/bin/shotbox" ] || { echo "$0: no shotbox at $shotbox" >&2; exit 2; }
+  mount="-v $shotbox:/shotbox:ro"; sb="python3 /shotbox/bin/shotbox"
+else
+  mount=; sb=shotbox
+fi
 
-# Python for shotbox. The packaged sway has file capabilities a container
-# refuses, and a copy doesn't, so the copy goes first on PATH.
+# shotbox at a known version: a newer one is a change to make on purpose.
+# The packaged sway has file capabilities a container refuses, and a copy
+# doesn't, so the copy goes first on PATH.
 docker build -q -t $image - >/dev/null <<EOF
 FROM ${COSMIC_IMAGE_BASE:-fedora:44}
 RUN dnf -y install --setopt=install_weak_deps=False \
       cosmic-comp cosmic-settings cosmic-term cosmic-files cosmic-panel cosmic-bg cosmic-applets \
       sway grim git ImageMagick mesa-dri-drivers dejavu-sans-fonts dejavu-sans-mono-fonts \
-      dbus-daemon procps-ng python3 \
+      dbus-daemon procps-ng python3 python3-pip \
     && dnf clean all \
+    && pip install --no-cache-dir shotbox==0.3.0 \
     && cp /usr/bin/sway /usr/local/bin/sway
 EOF
 
@@ -53,10 +58,12 @@ for variant in "$@"; do
   # --init reaps what the scene stops; --desktop: COSMIC starts its helpers
   # over D-Bus activation. It runs as root, which --desktop's bus needs
   # here, and hands what it wrote back to OUTDIR's owner on the way out.
-  docker run --rm --init -v "$repo:/repo:ro" -v "$shotbox:/shotbox:ro" -v "$out:/out" $image \
+  # shellcheck disable=SC2086 # $mount and $sb are meant to split
+  docker run --rm --init -v "$repo:/repo:ro" $mount -v "$out:/out" $image \
     sh -c 'trap "chown -R $(stat -c %u:%g /out) /out" EXIT; "$@"' sh \
-    python3 /shotbox/bin/shotbox run --wayland --desktop --screen $size \
+    $sb run --wayland --desktop --screen $size \
       --env VARIANT="$variant" --env SIZE=$size --env COSMIC_SHOOT_LOGS="${COSMIC_SHOOT_LOGS:-}" \
+      --env SHOTBOX="$sb" \
       --env SHOTBOX_FAILED="/out/${failed##*/}" \
       -- sh /repo/tools/cosmic-scene.sh || {
     echo "$0: $variant failed" >&2

@@ -10,7 +10,7 @@
 # errors print to stderr. Needs shotbox (https://github.com/mishan/shotbox)
 # on PATH.
 set -eu
-command -v shotbox >/dev/null || { echo "needs shotbox on PATH" >&2; exit 1; }
+command -v shotbox >/dev/null || { echo "needs shotbox on PATH: pipx install --system-site-packages shotbox" >&2; exit 1; }
 theme=$1 out=$2; shift 2
 here=$(cd "$(dirname "$0")" && pwd)
 repo=$(dirname "$here")
