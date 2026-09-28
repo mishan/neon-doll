@@ -130,9 +130,9 @@ firefox_profiles() {
         for (i = 1; i <= n; i++) {
           s = order[i]; path = p[s, "Path"]
           if (path == "") continue
-          dir = p[s, "IsRelative"] == "0" ? path : root "/" path
-          name = p[s, "Name"] != "" ? p[s, "Name"] : path
-          print dir "\t" name "\t" (dflt[path] || p[s, "Default"] == "1" ? 1 : 0)
+          dir = (p[s, "IsRelative"] == "0" ? path : root "/" path)
+          name = (p[s, "Name"] != "" ? p[s, "Name"] : path)
+          print dir "\t" name "\t" ((dflt[path] || p[s, "Default"] == "1") ? 1 : 0)
         }
       }' "$root/profiles.ini"
   done | while IFS= read -r line; do
@@ -265,7 +265,7 @@ text_checklist() {
   while :; do
     echo >/dev/tty
     printf '%s\n' "$items" | awk -F '|' -v notags="$notags" '
-      { printf "  %2d  [%s] ", NR, $3 == "ON" ? "x" : " " }
+      { printf "  %2d  [%s] ", NR, ($3 == "ON" ? "x" : " ") }
       notags { print $2; next }
       { printf "%-14s %s\n", $1, $2 }' >/dev/tty
     printf '\nNumbers to tick or untick, a for all, n for none, Enter to go on, q to quit: ' >/dev/tty
@@ -278,7 +278,7 @@ text_checklist() {
       items=$(printf '%s\n' "$items" | awk -F '|' -v r="$r" 'BEGIN { OFS = "|" }
         r == "a" || r == "A" { $3 = "ON" }
         r == "n" || r == "N" { $3 = "OFF" }
-        r == NR { $3 = $3 == "ON" ? "OFF" : "ON" }
+        r == NR { $3 = ($3 == "ON" ? "OFF" : "ON") }
         { print }')
     done
   done
@@ -335,7 +335,7 @@ if [ -z "$parts" ] && [ "$mode" != remove ] && [ -t 0 ] && [ -t 1 ]; then
     profiles=$(firefox_profiles)
     if [ "$(printf '%s\n' "$profiles" | grep -c .)" -gt 1 ]; then
       items=$(printf '%s\n' "$profiles" | awk -F '\t' '
-        { printf "%d|%s%s|%s\n", NR, $2, $3 == 1 ? " (default)" : "", $3 == 1 ? "ON" : "OFF" }')
+        { printf "%d|%s%s|%s\n", NR, $2, ($3 == 1 ? " (default)" : ""), ($3 == 1 ? "ON" : "OFF") }')
       if chosen=$(checklist "Firefox" "Put userChrome.css in which profiles?" "$items" notags); then
         firefox_dirs=$(printf '%s\n' "$profiles" | awk -F '\t' -v chosen=" $(printf '%s\n' "$chosen" | tr '\n' ' ')" '
           index(chosen, " " NR " ") { print $1 }')

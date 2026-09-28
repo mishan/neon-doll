@@ -20,7 +20,7 @@ $onWindows = $PSVersionTable.PSEdition -eq 'Desktop' -or $IsWindows
 $scratch = P ([IO.Path]::GetTempPath()) ("neon-doll-test-" + [guid]::NewGuid())
 New-Item -ItemType Directory $scratch | Out-Null
 $saved = @{}
-foreach ($v in 'HOME', 'USERPROFILE', 'LOCALAPPDATA', 'APPDATA', 'ProgramFiles') {
+foreach ($v in 'HOME', 'USERPROFILE', 'LOCALAPPDATA', 'APPDATA', 'ProgramFiles', 'XDG_CONFIG_HOME', 'XDG_DATA_HOME', 'XDG_CACHE_HOME') {
     $saved[$v] = [Environment]::GetEnvironmentVariable($v)
 }
 $script:pass = 0; $script:fail = 0; $script:skipped = 0
@@ -44,6 +44,10 @@ function Fresh {
     $env:LOCALAPPDATA = P $h 'local'
     $env:APPDATA = P $h 'roaming'
     $env:ProgramFiles = P $h 'pf'
+    # PowerShell on Unix finds $PROFILE through these, when they're set.
+    $env:XDG_CONFIG_HOME = P $env:HOME '.config'
+    $env:XDG_DATA_HOME = P $env:HOME '.local' 'share'
+    $env:XDG_CACHE_HOME = P $env:HOME '.cache'
     $script:out = ''
 }
 
@@ -64,10 +68,12 @@ function Pick {
     $script:st = $LASTEXITCODE
 }
 
-# Files: what's in the scratch folders, less PowerShell's own caches.
+# Files: what's in the scratch folders, less PowerShell's own caches (under
+# .cache and .local/share/powershell on Unix, Microsoft\PowerShell and
+# Microsoft\Windows\PowerShell in LOCALAPPDATA on Windows).
 function Files {
     @(Get-ChildItem -Recurse -Force -File $h | ForEach-Object { $_.FullName.Substring($h.Length) } |
-        Where-Object { $_ -notmatch '[\\/](\.cache|\.local[\\/]share[\\/]powershell)[\\/]' } | Sort-Object) -join "`n"
+        Where-Object { $_ -notmatch '[\\/](\.cache|\.local[\\/]share[\\/]powershell|Microsoft[\\/](Windows[\\/])?PowerShell)[\\/]' } | Sort-Object) -join "`n"
 }
 function Has($path) { Test-Path (P $h $path) }
 function Says($pattern) { $script:out -match $pattern }
