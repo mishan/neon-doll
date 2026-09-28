@@ -11,7 +11,7 @@ fades in. Cyberpunk, with a manicure.
 It dresses the GNOME desktop (GTK 4 / libadwaita, GTK 3, GNOME Shell and the
 mouse cursor) and the tools around it: Chrome, Firefox, Roundcube, GNOME Text Editor,
 VS Code, Tilix, Ghostty, Emacs, vim, irssi, `ls`, `git`, `ag`, man pages,
-glow and `whiptail`, plus the COSMIC desktop and its terminal, KDE Plasma and the Qt apps on it, and Windows Terminal and PowerShell for the times you're on Windows. Every part comes in dark and
+glow and `whiptail`, plus the COSMIC desktop and its terminal, KDE Plasma and the Qt apps on it, and Windows Terminal, PowerShell and a Windows contrast theme for the times you're on Windows. Every part comes in dark and
 light, except the cursor: GNOME has one cursor setting, so there is one cursor
 theme, drawn to stand out on both.
 
@@ -124,6 +124,24 @@ muted) and, on PowerShell 7.2+, `Get-ChildItem`, tables, errors and progress,
 matching the `ls` colors. `Enable-NeonDollPrompt` adds the bash prompt's
 look. The tab row's colors are a Terminal *theme*, which fragments can't carry:
 paste the entries from `windows/terminal/themes.json` into `settings.json`.
+
+**The Windows desktop** gets a *contrast theme*, the one kind of Windows theme
+that recolors everything without patching the system: dialogs, Settings,
+Explorer, the taskbar and most apps, web pages in Edge and Chrome included.
+`install.ps1` copies `neon-doll-dark.theme` and `neon-doll-light.theme` into
+your Themes folder, clearing the downloaded-file mark on the way (Windows
+won't apply a `.theme` that carries it, so opening one straight out of a
+downloaded zip does nothing). Open one (double-click, or `Start-Process` on the
+path it prints) and Windows applies it; from then on it's listed under
+*Settings → Accessibility → Contrast themes*, beside Aquatic and the rest, and
+left Alt + left Shift + Print Screen turns it on and off. To go back, set that
+list to *None*. It is flat by nature, as contrast themes are:
+page, text and panels, links and button labels purple with a 1px purple edge;
+the selection, the current menu item and the focused window fuchsia (its
+border, and in older apps its title bar); disabled text muted. Every text pair
+clears 4.5:1. It is an accessibility mode, though, and Windows treats it as
+one: transparency and the wallpaper go, and some apps switch to plainer,
+high-contrast versions of their UI.
 
 **VS Code** gets an extension with *Neon Doll Dark* and *Neon Doll Light*.
 Once it's on the Marketplace and Open VSX, it installs from the Extensions
