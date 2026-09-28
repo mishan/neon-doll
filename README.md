@@ -52,11 +52,21 @@ theme, drawn to stand out on both.
 
 ```
 git clone https://github.com/mishan/neon-doll.git && cd neon-doll
-./install.sh                  # everything
-./install.sh gtk4 shell       # or pick: gtk4 gtk3 shell cursor gtksourceview tilix emacs dircolors git man glow newt ag ghostty vim irssi cosmic kde kvantum konsole kate qtct
+./install.sh                  # asks which parts
+./install.sh all              # every part that fits this system
+./install.sh gtk4 shell       # or name them: gtk4 gtk3 shell cursor gtksourceview cosmic kde kvantum konsole kate qtct tilix ghostty vscode firefox emacs vim irssi git dircolors man glow ag newt
 ./install.sh --remove         # take it out again
 ./install.sh --desktop-grid gtk4   # graph paper over the wallpaper too (with Desktop Icons NG)
 ```
+
+Run from a terminal with no parts named, `install.sh` lists the parts that fit
+the system, ticks the ones whose apps it finds, and asks, in whiptail or
+dialog if either is there and as a numbered list if not. On macOS it offers
+only the parts that make sense there, the terminal and editor ones; the
+desktop parts are for Linux and the BSDs. If Firefox has more than one
+profile it asks which get `userChrome.css`, and if Desktop Icons NG is on it
+asks whether the graph paper goes over the wallpaper too. Without a terminal
+to ask in, it installs every part that fits.
 
 `install.sh` copies files into your home directory and changes no settings; it
 prints what to switch on afterwards. `--link` symlinks instead of copying, so
@@ -107,14 +117,17 @@ the graph paper shows in the tab strip.
 
 A theme sets colors only. For the shapes, `firefox/userChrome.css` squares the
 corners, drops the shadows, sets the chrome in mono and turns the current tab's
-outline into a rail across its top. It is optional and goes in by hand: set
+outline into a rail across its top. It is optional: the installers' `firefox` part copies it into
+the profile's `chrome/` folder (or copy it there yourself: `about:support` →
+*Profile Folder*); then set
 `toolkit.legacyUserProfileCustomizations.stylesheets` to `true` in
-`about:config`, copy the file into a `chrome/` folder inside your profile
-folder (`about:support` → *Profile Folder*) and restart Firefox.
+`about:config` and restart Firefox.
 
-**Windows Terminal and PowerShell.** From a clone on Windows, run
+**Windows Terminal and PowerShell.** From a clone or the Windows zip, run
 `.\windows\install.ps1` (`-Remove` to take it out) in the shell you want
-colored. It copies the color schemes into Windows Terminal's Fragments folder,
+colored. Like `install.sh` it asks which parts, with the ones it finds
+ticked, or takes them by name: `terminal`, `powershell` and `contrast`, and
+`vscode`, `firefox`, `git` and `vim` as on Linux, or `all`. It copies the color schemes into Windows Terminal's Fragments folder,
 where Terminal finds them on its own, and the PowerShell colors next to your
 profile, then prints the two lines to add: pick *Neon Doll Dark* or *Light* as
 the profile's color scheme, and dot-source `neon-doll.ps1` from `$PROFILE`.
@@ -145,7 +158,8 @@ high-contrast versions of their UI.
 
 **VS Code** gets an extension with *Neon Doll Dark* and *Neon Doll Light*.
 Once it's on the Marketplace and Open VSX, it installs from the Extensions
-view; until then, build it with `tools/build-vscode.py --vsix neon-doll.vsix`
+view; until then, the installers' `vscode` part copies it into the extensions
+folder of VS Code, VSCodium, Cursor or Windsurf, whichever it finds. Or build it with `tools/build-vscode.py --vsix neon-doll.vsix`
 (or take the `.vsix` from a release) and run
 `code --install-extension neon-doll.vsix`, then pick the theme with
 *Preferences: Color Theme*. The editor is the page and everything around it a
