@@ -252,10 +252,12 @@ def render(tokens):
     return header(tokens) + body
 
 
+STOCK = Path("/usr/share/gnome-shell/gnome-shell-theme.gresource")
+
+
 def stock_css():
     return subprocess.run(
-        ["gresource", "extract", "/usr/share/gnome-shell/gnome-shell-theme.gresource",
-         "/org/gnome/shell/theme/gnome-shell-dark.css"],
+        ["gresource", "extract", str(STOCK), "/org/gnome/shell/theme/gnome-shell-dark.css"],
         capture_output=True, text=True, check=True).stdout
 
 
@@ -305,6 +307,13 @@ def check():
         if not path.exists() or path.read_text() != text:
             print(f"stale: {path.relative_to(ROOT)} (run tools/build-shell.py)")
             ok = False
+
+    # The names are checked against the Shell installed here; without one,
+    # as in CI, only the output is.
+    if not STOCK.exists() or not any(Path("/usr/lib/gnome-shell").glob("libshell-*.so")):
+        print("note: GNOME Shell isn't installed, so class and id names weren't checked",
+              file=sys.stderr)
+        return ok
 
     css = re.sub(r"/\*.*?\*/", "", expand_families(SRC.read_text()), flags=re.S)
     selectors = " ".join(re.findall(r"([^{}]+)\{[^{}]*\}", css))

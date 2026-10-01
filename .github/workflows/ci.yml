@@ -1,0 +1,101 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  generated:
+    name: Generated themes are up to date
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.x"
+      - name: Install the cursor renderer
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends librsvg2-bin
+      - name: Cache Roundcube's Elastic sources
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/neon-doll
+          key: elastic-${{ hashFiles('tools/build-roundcube.py') }}
+      - name: tools/build.sh --check
+        # A builder that can't get its tools warns and skips its check, so
+        # a warning here fails the job rather than passing it unchecked.
+        run: |
+          tools/build.sh --check 2>&1 | tee build.log
+          if grep -q '^warning:' build.log; then
+            echo "::error::a builder skipped its check; see the warning above"
+            exit 1
+          fi
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: shellcheck
+        run: |
+          shellcheck -S warning install.sh tests/install.sh tools/*.sh
+          # The snippets are sourced, so they carry no shebang.
+          shellcheck -S warning -s sh ag/neon-doll.sh man/neon-doll.sh newt/neon-doll.sh
+      - name: PSScriptAnalyzer
+        shell: pwsh
+        run: |
+          Install-Module PSScriptAnalyzer -Scope CurrentUser -Force
+          # The picker writes to the console on purpose, in color.
+          $found = @('windows', 'tests') | ForEach-Object {
+            Invoke-ScriptAnalyzer -Recurse -Path $_ -Severity Error, Warning -ExcludeRule PSAvoidUsingWriteHost
+          }
+          $found | Format-Table -AutoSize RuleName, ScriptName, Line, Message | Out-String -Width 200
+          if ($found) { exit 1 }
+
+  install-unix:
+    name: Installers on ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v7
+      - name: Install whiptail and busybox
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends whiptail busybox
+      - name: install.sh under sh
+        run: tests/install.sh
+      - name: install.sh under dash, bash --posix and busybox sh
+        if: runner.os == 'Linux'
+        run: |
+          SH=dash tests/install.sh
+          SH="bash --posix" tests/install.sh
+          SH="busybox sh" tests/install.sh
+      - name: install.ps1 under PowerShell
+        shell: pwsh
+        run: ./tests/install.ps1
+
+  install-windows:
+    name: Installer on Windows
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: install.ps1 under PowerShell 7
+        shell: pwsh
+        run: ./tests/install.ps1
+      - name: install.ps1 under Windows PowerShell 5.1
+        shell: powershell
+        run: powershell -NoProfile -ExecutionPolicy Bypass -File tests\install.ps1

@@ -71,8 +71,10 @@ done
 # out: it isn't part of the add-on, and goes in by hand.
 git archive --format=zip HEAD:firefox manifest.json images > "dist/neon-doll-firefox-$version.zip"
 
-# Windows Terminal and PowerShell, with their installer.
+# Windows Terminal, PowerShell and the desktop, with their installer, and
+# the parts of the rest it can install on Windows too.
 git archive --format=zip --prefix="neon-doll-windows-$version/" HEAD windows COPYING \
+  vscode firefox/userChrome.css git vim \
   > "dist/neon-doll-windows-$version.zip"
 
 # KDE and Qt: the kde/ tree, with COPYING.
