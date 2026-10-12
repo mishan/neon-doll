@@ -8,13 +8,14 @@
    bg            #f7f4fa                    the page
    panel         #ede7f3                    anything that sits on the page
    line          #d6cce2                    panel edges
+   edge          #887f9b                    a control's edge
    ink           #1a1522                    text
    muted         #5f5670                    labels, metadata
    dimmest       #8d84a0                    disabled
    pink          #c8006a                    position: current, focused, checked
    purple        #6a3fd0                    links and the default action
    string        #8a6100                    warning
-   add           #1f7a33                    success
+   add           #1d7630                    success
    del           #c4312a                    destructive, error, recording
    wash          rgba(106, 63, 208, 0.05)   button field, hover
    wash-strong   rgba(106, 63, 208, 0.09)   icon wells
@@ -176,8 +177,9 @@ stage { color: #1a1522; }
 #panel .privacy-indicator { color: #8a6100; }
 
 /* === Buttons ==============================================================
-   A wash with a hairline edge at rest. Hover and keyboard focus are one
-   state and both go pink, as a link does on the site.
+   A wash with an --edge edge at rest. Hover and keyboard focus are one
+   state and both go pink, as a link does on the site; keyboard focus also
+   doubles the edge, as the site's focus ring does.
 
    A family name and a list of states between at-signs expands to every
    selector in the family with each state appended; the families are in
@@ -212,7 +214,7 @@ stage { color: #1a1522; }
 .word-suggestions StButton {
   color: #1a1522;
   background-color: rgba(106, 63, 208, 0.05);
-  box-shadow: inset 0 0 0 1px #d6cce2 !important;
+  box-shadow: inset 0 0 0 1px #887f9b !important;
 }
 .button:hover,
 .icon-button:hover,
@@ -296,6 +298,58 @@ stage { color: #1a1522; }
   background-color: rgba(106, 63, 208, 0.05);
   box-shadow: inset 0 0 0 1px #c8006a !important;
 }
+.button:focus,
+.icon-button:focus,
+.modal-dialog .modal-dialog-button-box .modal-dialog-button:focus,
+.notification-button:focus,
+.login-dialog-button.cancel-button:focus,
+.login-dialog-button.switch-user-button:focus,
+.login-dialog-button.a11y-button:focus,
+.login-dialog-button.login-dialog-auth-menu-button:focus,
+.login-dialog-button.login-dialog-session-list-button:focus,
+.login-dialog .login-button:focus,
+.login-dialog .web-login-prompt-button:focus,
+.unlock-dialog .button:focus,
+.unlock-dialog .icon-button:focus,
+.unlock-dialog .login-button:focus,
+.unlock-dialog .web-login-prompt-button:focus,
+.unlock-dialog .login-dialog-button.cancel-button:focus,
+.unlock-dialog .login-dialog-button.switch-user-button:focus,
+.unlock-dialog .login-dialog-button.a11y-button:focus,
+.unlock-dialog .login-dialog-button.login-dialog-auth-menu-button:focus,
+.unlock-dialog .login-dialog-button.login-dialog-session-list-button:focus,
+.parental-controls-shield .parental-controls-shield-button:focus,
+.app-folder-dialog .icon-button:focus,
+.background-app-item .icon-button:focus,
+.screenshot-ui-type-button:focus,
+.screenshot-ui-show-pointer-button:focus,
+.word-suggestions StButton:focus,
+.button:focus:hover,
+.icon-button:focus:hover,
+.modal-dialog .modal-dialog-button-box .modal-dialog-button:focus:hover,
+.notification-button:focus:hover,
+.login-dialog-button.cancel-button:focus:hover,
+.login-dialog-button.switch-user-button:focus:hover,
+.login-dialog-button.a11y-button:focus:hover,
+.login-dialog-button.login-dialog-auth-menu-button:focus:hover,
+.login-dialog-button.login-dialog-session-list-button:focus:hover,
+.login-dialog .login-button:focus:hover,
+.login-dialog .web-login-prompt-button:focus:hover,
+.unlock-dialog .button:focus:hover,
+.unlock-dialog .icon-button:focus:hover,
+.unlock-dialog .login-button:focus:hover,
+.unlock-dialog .web-login-prompt-button:focus:hover,
+.unlock-dialog .login-dialog-button.cancel-button:focus:hover,
+.unlock-dialog .login-dialog-button.switch-user-button:focus:hover,
+.unlock-dialog .login-dialog-button.a11y-button:focus:hover,
+.unlock-dialog .login-dialog-button.login-dialog-auth-menu-button:focus:hover,
+.unlock-dialog .login-dialog-button.login-dialog-session-list-button:focus:hover,
+.parental-controls-shield .parental-controls-shield-button:focus:hover,
+.app-folder-dialog .icon-button:focus:hover,
+.background-app-item .icon-button:focus:hover,
+.screenshot-ui-type-button:focus:hover,
+.screenshot-ui-show-pointer-button:focus:hover,
+.word-suggestions StButton:focus:hover { box-shadow: inset 0 0 0 2px #c8006a !important; }
 .button:active,
 .icon-button:active,
 .modal-dialog .modal-dialog-button-box .modal-dialog-button:active,
@@ -617,6 +671,12 @@ stage { color: #1a1522; }
   background-color: rgba(200, 0, 106, 0.08);
   box-shadow: inset 0 0 0 1px #c8006a !important;
 }
+.button.default:focus,
+.icon-button.default:focus,
+.modal-dialog .modal-dialog-button-box .modal-dialog-button:default:focus,
+.button.default:focus:hover,
+.icon-button.default:focus:hover,
+.modal-dialog .modal-dialog-button-box .modal-dialog-button:default:focus:hover { box-shadow: inset 0 0 0 2px #c8006a !important; }
 .button.default:active,
 .icon-button.default:active,
 .modal-dialog .modal-dialog-button-box .modal-dialog-button:default:active,
@@ -881,7 +941,7 @@ StEntry:hover, .search-entry:hover,
 .login-dialog .login-dialog-prompt-entry:hover, .unlock-dialog .login-dialog-prompt-entry:hover {
   color: #1a1522;
   background-color: #ede7f3;
-  box-shadow: inset 0 0 0 1px #d6cce2 !important;
+  box-shadow: inset 0 0 0 1px #887f9b !important;
   caret-color: #c8006a;
   selection-background-color: rgba(200, 0, 106, 0.18);
   selected-color: #1a1522;
@@ -903,7 +963,7 @@ StEntry StLabel.hint-text, .search-entry StLabel.hint-text,
 .app-folder-dialog .folder-name-container .folder-name-entry StLabel.hint-text,
 .login-dialog .login-dialog-prompt-entry StLabel.hint-text,
 .unlock-dialog .login-dialog-prompt-entry StLabel.hint-text {
-  color: #8d84a0;
+  color: #5f5670;
 }
 .search-entry .search-entry-icon { color: #5f5670; }
 StEntry StIcon.capslock-warning { warning-color: #8a6100; }
@@ -922,7 +982,7 @@ StEntry StIcon.capslock-warning { warning-color: #8a6100; }
   background-color: #ede7f3;
   background-image: url("switch-track-off.svg");
   background-repeat: no-repeat;
-  box-shadow: inset 0 0 0 1px #d6cce2 !important;
+  box-shadow: inset 0 0 0 1px #887f9b !important;
 }
 .toggle-switch .handle {
   width: 18px;

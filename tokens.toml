@@ -15,6 +15,7 @@
 bg      = "#0f0d14"
 panel   = "#16131d"
 line    = "#2a2438"
+edge    = "#6f6880"   # a control's edge, e.g. a text field: 3:1 on bg and panel
 ink     = "#ebe6f0"
 muted   = "#9c93ab"
 dimmest = "#6f6880"
@@ -64,6 +65,7 @@ wash-pink = ["pink", 0.16]
 bg      = "#f7f4fa"   # ink 16.4:1
 panel   = "#ede7f3"
 line    = "#d6cce2"
+edge    = "#887f9b"   # 3.1:1 on panel
 ink     = "#1a1522"
 muted   = "#5f5670"   # 5.7:1 on panel
 dimmest = "#8d84a0"   # inert only, never text you need
@@ -71,7 +73,7 @@ pink    = "#c8006a"   # 4.7:1 on panel
 purple  = "#6a3fd0"   # 5.4:1 on panel
 
 code-string = "#8a6100"
-diff-add    = "#1f7a33"
+diff-add    = "#1d7630"
 diff-del    = "#c4312a"
 
 [light.tints]

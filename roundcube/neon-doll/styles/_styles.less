@@ -85,6 +85,7 @@ html:root {
 
     ::selection {
         background-color: var(--nd-select-pink);
+        color: var(--nd-ink);
     }
 
     :focus-visible {
@@ -424,14 +425,14 @@ html:root {
     }
 
     // === Buttons =========================================================
-    // A button is a wash with a --line edge. The main action is an outlined
+    // A button is a wash with an --edge edge. The main action is an outlined
     // link, purple at rest; hover and focus turn anything fuchsia.
 
     .btn, .btn-secondary, .btn-default, .ui-button,
     .ui-dialog .ui-dialog-buttonpane .ui-button {
         color: var(--nd-ink);
         background: var(--nd-wash);
-        border: 1px solid var(--nd-line);
+        border: 1px solid var(--nd-edge);
 
         &:not(:disabled):not(.disabled):hover,
         &:not(:disabled):not(.disabled):focus {
@@ -493,7 +494,7 @@ html:root {
     }
 
     // === Fields ==========================================================
-    // A field is a slot: the page's color with a --line edge, fuchsia when
+    // A field is a slot: the page's color with an --edge edge, fuchsia when
     // it has the focus.
 
     .form-control, .custom-select, select, textarea,
@@ -503,7 +504,7 @@ html:root {
     .recipient-input, .input-group .form-control {
         color: var(--nd-ink);
         background-color: var(--nd-bg);
-        border-color: var(--nd-line);
+        border-color: var(--nd-edge);
 
         &:focus, &.focus, &:focus-within {
             color: var(--nd-ink);
@@ -513,7 +514,7 @@ html:root {
         }
 
         &::placeholder {
-            color: var(--nd-dimmest);
+            color: var(--nd-muted);
         }
 
         &:disabled, &[readonly] {

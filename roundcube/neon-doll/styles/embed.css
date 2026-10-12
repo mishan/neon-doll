@@ -194,15 +194,16 @@ html:not(.touch) ::-webkit-scrollbar-thumb {
   --nd-bg: #f7f4fa;
   --nd-panel: #ede7f3;
   --nd-line: #d6cce2;
+  --nd-edge: #887f9b;
   --nd-ink: #1a1522;
   --nd-muted: #5f5670;
   --nd-dimmest: #8d84a0;
   --nd-pink: #c8006a;
   --nd-purple: #6a3fd0;
   --nd-code-string: #8a6100;
-  --nd-diff-add: #1f7a33;
+  --nd-diff-add: #1d7630;
   --nd-diff-del: #c4312a;
-  --nd-cyan: #1f6e7a;
+  --nd-cyan: #1d6a76;
   --nd-blue: #3f5cd0;
   --nd-grid: rgba(106, 63, 208, 0.07);
   --nd-wash: rgba(106, 63, 208, 0.05);
@@ -214,7 +215,7 @@ html:not(.touch) ::-webkit-scrollbar-thumb {
   --nd-edge-muted: rgba(95, 86, 112, 0.4);
   --nd-wash-pink: rgba(200, 0, 106, 0.08);
   --nd-ul-pink: rgba(200, 0, 106, 0.35);
-  --nd-diff-add-bg: rgba(31, 122, 51, 0.07);
+  --nd-diff-add-bg: rgba(29, 118, 48, 0.07);
   --nd-diff-del-bg: rgba(196, 49, 42, 0.07);
   --nd-select-pink: rgba(200, 0, 106, 0.18);
   --nd-press: rgba(106, 63, 208, 0.14);
@@ -223,7 +224,7 @@ html:not(.touch) ::-webkit-scrollbar-thumb {
   --nd-edge-del: rgba(196, 49, 42, 0.4);
   --nd-string-bg: rgba(138, 97, 0, 0.1);
   --nd-change-bg: rgba(138, 97, 0, 0.07);
-  --nd-diff-add-refine: rgba(31, 122, 51, 0.2);
+  --nd-diff-add-refine: rgba(29, 118, 48, 0.2);
   --nd-diff-del-refine: rgba(196, 49, 42, 0.2);
   --nd-panel-wash: #e6dff1;
 }
@@ -232,6 +233,7 @@ html.dark-mode {
   --nd-bg: #0f0d14;
   --nd-panel: #16131d;
   --nd-line: #2a2438;
+  --nd-edge: #6f6880;
   --nd-ink: #ebe6f0;
   --nd-muted: #9c93ab;
   --nd-dimmest: #6f6880;
@@ -271,15 +273,16 @@ html.dark-mode {
     --nd-bg: #f7f4fa;
     --nd-panel: #ede7f3;
     --nd-line: #d6cce2;
+    --nd-edge: #887f9b;
     --nd-ink: #1a1522;
     --nd-muted: #5f5670;
     --nd-dimmest: #8d84a0;
     --nd-pink: #c8006a;
     --nd-purple: #6a3fd0;
     --nd-code-string: #8a6100;
-    --nd-diff-add: #1f7a33;
+    --nd-diff-add: #1d7630;
     --nd-diff-del: #c4312a;
-    --nd-cyan: #1f6e7a;
+    --nd-cyan: #1d6a76;
     --nd-blue: #3f5cd0;
     --nd-grid: rgba(106, 63, 208, 0.07);
     --nd-wash: rgba(106, 63, 208, 0.05);
@@ -291,7 +294,7 @@ html.dark-mode {
     --nd-edge-muted: rgba(95, 86, 112, 0.4);
     --nd-wash-pink: rgba(200, 0, 106, 0.08);
     --nd-ul-pink: rgba(200, 0, 106, 0.35);
-    --nd-diff-add-bg: rgba(31, 122, 51, 0.07);
+    --nd-diff-add-bg: rgba(29, 118, 48, 0.07);
     --nd-diff-del-bg: rgba(196, 49, 42, 0.07);
     --nd-select-pink: rgba(200, 0, 106, 0.18);
     --nd-press: rgba(106, 63, 208, 0.14);
@@ -300,7 +303,7 @@ html.dark-mode {
     --nd-edge-del: rgba(196, 49, 42, 0.4);
     --nd-string-bg: rgba(138, 97, 0, 0.1);
     --nd-change-bg: rgba(138, 97, 0, 0.07);
-    --nd-diff-add-refine: rgba(31, 122, 51, 0.2);
+    --nd-diff-add-refine: rgba(29, 118, 48, 0.2);
     --nd-diff-del-refine: rgba(196, 49, 42, 0.2);
     --nd-panel-wash: #e6dff1;
   }
@@ -310,15 +313,16 @@ html.dark-mode .message-htmlpart {
   --nd-bg: #f7f4fa;
   --nd-panel: #ede7f3;
   --nd-line: #d6cce2;
+  --nd-edge: #887f9b;
   --nd-ink: #1a1522;
   --nd-muted: #5f5670;
   --nd-dimmest: #8d84a0;
   --nd-pink: #c8006a;
   --nd-purple: #6a3fd0;
   --nd-code-string: #8a6100;
-  --nd-diff-add: #1f7a33;
+  --nd-diff-add: #1d7630;
   --nd-diff-del: #c4312a;
-  --nd-cyan: #1f6e7a;
+  --nd-cyan: #1d6a76;
   --nd-blue: #3f5cd0;
   --nd-grid: rgba(106, 63, 208, 0.07);
   --nd-wash: rgba(106, 63, 208, 0.05);
@@ -330,7 +334,7 @@ html.dark-mode .message-htmlpart {
   --nd-edge-muted: rgba(95, 86, 112, 0.4);
   --nd-wash-pink: rgba(200, 0, 106, 0.08);
   --nd-ul-pink: rgba(200, 0, 106, 0.35);
-  --nd-diff-add-bg: rgba(31, 122, 51, 0.07);
+  --nd-diff-add-bg: rgba(29, 118, 48, 0.07);
   --nd-diff-del-bg: rgba(196, 49, 42, 0.07);
   --nd-select-pink: rgba(200, 0, 106, 0.18);
   --nd-press: rgba(106, 63, 208, 0.14);
@@ -339,7 +343,7 @@ html.dark-mode .message-htmlpart {
   --nd-edge-del: rgba(196, 49, 42, 0.4);
   --nd-string-bg: rgba(138, 97, 0, 0.1);
   --nd-change-bg: rgba(138, 97, 0, 0.07);
-  --nd-diff-add-refine: rgba(31, 122, 51, 0.2);
+  --nd-diff-add-refine: rgba(29, 118, 48, 0.2);
   --nd-diff-del-refine: rgba(196, 49, 42, 0.2);
   --nd-panel-wash: #e6dff1;
 }

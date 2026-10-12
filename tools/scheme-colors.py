@@ -261,6 +261,23 @@ def write(path, text):
     print("wrote", path)
 
 
+# The contrast every theme is built to: 4.5:1 for text you need to read,
+# 3:1 for the edge that says where a control is. Not listed, on purpose:
+# dimmest, which is for what you can skip (line numbers among it).
+FLOORS = [(fg, bg, 4.5) for fg in ("ink", "muted", "pink", "purple", "string", "add", "del")
+          for bg in ("bg", "panel")]
+FLOORS += [("edge", "bg", 3), ("edge", "panel", 3), ("ink", "select", 4.5)]
+
+
+def below_floor():
+    for v in ("dark", "light"):
+        p = derive(v)
+        for fg, bg, floor in FLOORS:
+            r = contrast(p[fg], p[bg])
+            if r < floor:
+                yield "%s: %s on %s is %.2f:1, under %g:1" % (v, fg, bg, r, floor)
+
+
 def outputs():
     for v in ("dark", "light"):
         yield "gtksourceview/neon-doll-%s.xml" % v, gsv(v)
@@ -281,6 +298,9 @@ if __name__ == "__main__":
                     stale.append(path)
         if stale:
             sys.exit("stale: " + ", ".join(stale) + " (run tools/scheme-colors.py --write)")
+        low = list(below_floor())
+        if low:
+            sys.exit("under the contrast floor:\n  " + "\n  ".join(low))
     else:
         for n in args or ("dark", "light"):
             report(n)

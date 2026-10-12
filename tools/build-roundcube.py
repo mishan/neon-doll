@@ -46,7 +46,7 @@ ELASTIC_REPO = "https://github.com/roundcube/roundcubemail.git"
 CACHE = Path(os.environ.get("XDG_CACHE_HOME", Path.home() / ".cache")) / "neon-doll"
 LESS = "less@4.9.1"
 
-CORE = ("bg", "panel", "line", "ink", "muted", "dimmest", "pink", "purple",
+CORE = ("bg", "panel", "line", "edge", "ink", "muted", "dimmest", "pink", "purple",
         "code-string", "diff-add", "diff-del")
 # The two quote levels past purple, from the terminal colors.
 ANSI = {"cyan": "6 cyan", "blue": "4 blue"}

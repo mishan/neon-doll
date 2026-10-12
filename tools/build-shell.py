@@ -31,7 +31,7 @@ SRC = ROOT / "gnome-shell" / "gnome-shell.css.in"
 def shell_palette(variant):
     p = tokens.palette(variant)
     d = {"variant": variant}
-    d.update({k: p[k] for k in ("bg", "panel", "line", "ink", "muted", "dimmest",
+    d.update({k: p[k] for k in ("bg", "panel", "line", "edge", "ink", "muted", "dimmest",
                                 "pink", "purple", "string", "add", "del")})
     for name, token in (("wash", "wash"), ("wash_strong", "wash-strong"),
                         ("press", "press"), ("tint_purple", "tint-purple"),
@@ -195,7 +195,7 @@ def outputs():
 
 ROLES = {
     "bg": "the page", "panel": "anything that sits on the page",
-    "line": "panel edges", "ink": "text", "muted": "labels, metadata",
+    "line": "panel edges", "edge": "a control's edge", "ink": "text", "muted": "labels, metadata",
     "dimmest": "disabled", "pink": "position: current, focused, checked",
     "purple": "links and the default action", "string": "warning",
     "add": "success", "del": "destructive, error, recording",

@@ -4198,7 +4198,7 @@ html.layout-phone .formcontainer .formbuttons {
   height: 100%;
 }
 .formcontent.raweditor .CodeMirror {
-  border: 1px solid var(--nd-line);
+  border: 1px solid var(--nd-edge);
   border-radius: 0.3rem;
   height: 100%;
   color: var(--nd-ink);
@@ -4378,7 +4378,7 @@ html.layout-phone .formcontainer .formbuttons {
   overflow: hidden;
   overflow-y: auto;
   border-radius: 0.25rem;
-  border: 1px solid var(--nd-line);
+  border: 1px solid var(--nd-edge);
 }
 .multi-input > .content.focused {
   border-color: var(--nd-pink);
@@ -4396,11 +4396,11 @@ html.layout-phone .formcontainer .formbuttons {
 .multi-input .input-group-text {
   border-radius: 0;
   border: 0;
-  border-bottom: 1px solid var(--nd-line);
+  border-bottom: 1px solid var(--nd-edge);
   box-shadow: none;
 }
 .multi-input .input-group-text {
-  border-left: 1px solid var(--nd-line);
+  border-left: 1px solid var(--nd-edge);
 }
 .multi-input .input-group-append {
   margin-left: 0;
@@ -4529,7 +4529,7 @@ body > li.recipient.ui-sortable-helper {
   display: flex;
   position: relative;
   max-width: calc(50% - 3px);
-  border: 1px solid var(--nd-line);
+  border: 1px solid var(--nd-edge);
   background-color: var(--nd-wash-strong);
   border-radius: 0.25rem;
   padding: 0 0.25rem;
@@ -4616,7 +4616,7 @@ body > li.recipient.ui-sortable-helper.ui-sortable-helper {
 }
 .tagedit-list li.tagedit-listelement-old {
   max-width: 50%;
-  border: 1px solid var(--nd-line);
+  border: 1px solid var(--nd-edge);
   background-color: var(--nd-wash-strong);
   border-radius: 0.25em;
   margin-top: 4px;
@@ -4683,7 +4683,7 @@ body > li.recipient.ui-sortable-helper.ui-sortable-helper {
 .skinselection .skinthumbnail {
   width: 64px;
   height: 64px;
-  border: 1px solid var(--nd-line);
+  border: 1px solid var(--nd-edge);
   background: #fff;
   border-radius: 4px;
 }
@@ -4770,11 +4770,11 @@ body > li.recipient.ui-sortable-helper.ui-sortable-helper {
   box-shadow: 0 0 0 0.2rem transparent;
 }
 .form-control::placeholder {
-  color: var(--nd-dimmest);
+  color: var(--nd-muted);
 }
 .form-control::-ms-input-placeholder,
 .form-control::-webkit-input-placeholder {
-  color: var(--nd-dimmest);
+  color: var(--nd-muted);
 }
 .invalid-feedback {
   color: var(--nd-diff-del);
@@ -4904,7 +4904,7 @@ div.tox :not(.svg) {
 }
 div.tox.tox-tinymce {
   border-radius: 0.25rem;
-  border: 1px solid var(--nd-line);
+  border: 1px solid var(--nd-edge);
 }
 div.tox.focused {
   border-color: var(--nd-pink) !important;
@@ -5299,7 +5299,7 @@ html.layout-phone .image-selector .attachmentslist {
   top: 1px;
   right: 1px;
   border-radius: 0.25rem 0.25rem 0 0;
-  border-bottom: 1px solid var(--nd-line);
+  border-bottom: 1px solid var(--nd-edge);
   background-color: var(--nd-panel);
 }
 .html-editor .editor-toolbar .mce-i-html {
@@ -5339,7 +5339,7 @@ html.layout-phone .image-selector .attachmentslist {
 }
 .html-editor > iframe {
   border-radius: 0.3rem;
-  border: 1px solid var(--nd-line);
+  border: 1px solid var(--nd-edge);
   min-height: 30em;
 }
 /*** GoogieSpell widget ***/
@@ -5350,7 +5350,7 @@ html.layout-phone .image-selector .attachmentslist {
 .googie_edit_layer {
   font-family: monospace;
   padding: 0.5rem 0.75rem;
-  border: 1px solid var(--nd-line);
+  border: 1px solid var(--nd-edge);
   border-radius: 0.3rem;
   line-height: 1.5;
 }
@@ -6076,7 +6076,7 @@ html.dark-mode .form-control {
 }
 html.dark-mode .custom-file-label:not(.is-invalid),
 html.dark-mode .form-control:not(.is-invalid) {
-  border-color: var(--nd-line);
+  border-color: var(--nd-edge);
 }
 html.dark-mode .custom-file-label:focus,
 html.dark-mode .form-control:focus {
@@ -6114,7 +6114,7 @@ html.dark-mode select:disabled {
   opacity: 0.5;
 }
 html.dark-mode .multi-input:not(.is-invalid) > .content {
-  border-color: var(--nd-line);
+  border-color: var(--nd-edge);
 }
 html.dark-mode .multi-input:not(.is-invalid) > .content.focused {
   border-color: var(--nd-pink);
@@ -6122,7 +6122,7 @@ html.dark-mode .multi-input:not(.is-invalid) > .content.focused {
 html.dark-mode .input-group-text {
   color: var(--nd-ink);
   background-color: var(--nd-panel);
-  border-color: var(--nd-line);
+  border-color: var(--nd-edge);
 }
 html.dark-mode .input-group a:focus {
   border-color: var(--nd-pink);
@@ -6143,7 +6143,7 @@ html.dark-mode .recipient-input input {
 }
 html.dark-mode .recipient-input .recipient {
   background-color: var(--nd-panel);
-  border-color: var(--nd-line);
+  border-color: var(--nd-edge);
 }
 html.dark-mode .file-upload {
   border-color: var(--nd-line);
@@ -6170,7 +6170,7 @@ html.dark-mode .image-upload a.button {
 html.dark-mode .formcontent.raweditor .CodeMirror {
   color: var(--nd-ink);
   background-color: var(--nd-bg);
-  border-color: var(--nd-line);
+  border-color: var(--nd-edge);
 }
 html.dark-mode .formcontent.raweditor .CodeMirror-focused {
   background-color: var(--nd-bg);
@@ -6190,12 +6190,12 @@ html.dark-mode .CodeMirror-activeline-background {
   background: var(--nd-wash-pink);
 }
 html.dark-mode .skinselection .skinthumbnail {
-  border-color: var(--nd-line);
+  border-color: var(--nd-edge);
   background: transparent;
 }
 html.dark-mode .html-editor .editor-toolbar {
   background-color: var(--nd-panel);
-  border-color: var(--nd-line);
+  border-color: var(--nd-edge);
 }
 html.dark-mode .html-editor .editor-toolbar .mce-i-html {
   color: unset;
@@ -6206,14 +6206,14 @@ html.dark-mode .html-editor .editor-toolbar .mce-i-html:focus {
   border-color: transparent;
 }
 html.dark-mode .tox.tox-tinymce {
-  border-color: var(--nd-line);
+  border-color: var(--nd-edge);
 }
 html.dark-mode .tox .tox-toolbar {
   background-color: var(--nd-panel);
-  border-color: var(--nd-line);
+  border-color: var(--nd-edge);
 }
 html.dark-mode .tox .tox-toolbar-overlord > div {
-  background: url("data:image/svg+xml,%3Csvg height='33px' viewBox='0 0 40 33px' width='40' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='0' y='32px' width='100' height='1' fill='var%28--nd-line%29'/%3E%3C/svg%3E") var(--nd-panel);
+  background: url("data:image/svg+xml,%3Csvg height='33px' viewBox='0 0 40 33px' width='40' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='0' y='32px' width='100' height='1' fill='var%28--nd-edge%29'/%3E%3C/svg%3E") var(--nd-panel);
 }
 html.dark-mode .tox .tox-pop.tox-pop--top:before,
 html.dark-mode .tox .tox-pop.tox-pop--top:after {
@@ -6270,7 +6270,7 @@ html.dark-mode .tox .tox-color-input span::before {
   background-color: var(--nd-ink);
 }
 html.dark-mode .tox .tox-toolbar__group:not(:last-of-type) {
-  border-color: var(--nd-line);
+  border-color: var(--nd-edge);
 }
 html.dark-mode .tox .tox-dialog,
 html.dark-mode .tox .tox-dialog__header,
@@ -6623,15 +6623,16 @@ html.dark-mode .pgpkeyimport li.uid::before {
   --nd-bg: #f7f4fa;
   --nd-panel: #ede7f3;
   --nd-line: #d6cce2;
+  --nd-edge: #887f9b;
   --nd-ink: #1a1522;
   --nd-muted: #5f5670;
   --nd-dimmest: #8d84a0;
   --nd-pink: #c8006a;
   --nd-purple: #6a3fd0;
   --nd-code-string: #8a6100;
-  --nd-diff-add: #1f7a33;
+  --nd-diff-add: #1d7630;
   --nd-diff-del: #c4312a;
-  --nd-cyan: #1f6e7a;
+  --nd-cyan: #1d6a76;
   --nd-blue: #3f5cd0;
   --nd-grid: rgba(106, 63, 208, 0.07);
   --nd-wash: rgba(106, 63, 208, 0.05);
@@ -6643,7 +6644,7 @@ html.dark-mode .pgpkeyimport li.uid::before {
   --nd-edge-muted: rgba(95, 86, 112, 0.4);
   --nd-wash-pink: rgba(200, 0, 106, 0.08);
   --nd-ul-pink: rgba(200, 0, 106, 0.35);
-  --nd-diff-add-bg: rgba(31, 122, 51, 0.07);
+  --nd-diff-add-bg: rgba(29, 118, 48, 0.07);
   --nd-diff-del-bg: rgba(196, 49, 42, 0.07);
   --nd-select-pink: rgba(200, 0, 106, 0.18);
   --nd-press: rgba(106, 63, 208, 0.14);
@@ -6652,7 +6653,7 @@ html.dark-mode .pgpkeyimport li.uid::before {
   --nd-edge-del: rgba(196, 49, 42, 0.4);
   --nd-string-bg: rgba(138, 97, 0, 0.1);
   --nd-change-bg: rgba(138, 97, 0, 0.07);
-  --nd-diff-add-refine: rgba(31, 122, 51, 0.2);
+  --nd-diff-add-refine: rgba(29, 118, 48, 0.2);
   --nd-diff-del-refine: rgba(196, 49, 42, 0.2);
   --nd-panel-wash: #e6dff1;
 }
@@ -6661,6 +6662,7 @@ html.dark-mode {
   --nd-bg: #0f0d14;
   --nd-panel: #16131d;
   --nd-line: #2a2438;
+  --nd-edge: #6f6880;
   --nd-ink: #ebe6f0;
   --nd-muted: #9c93ab;
   --nd-dimmest: #6f6880;
@@ -6700,15 +6702,16 @@ html.dark-mode {
     --nd-bg: #f7f4fa;
     --nd-panel: #ede7f3;
     --nd-line: #d6cce2;
+    --nd-edge: #887f9b;
     --nd-ink: #1a1522;
     --nd-muted: #5f5670;
     --nd-dimmest: #8d84a0;
     --nd-pink: #c8006a;
     --nd-purple: #6a3fd0;
     --nd-code-string: #8a6100;
-    --nd-diff-add: #1f7a33;
+    --nd-diff-add: #1d7630;
     --nd-diff-del: #c4312a;
-    --nd-cyan: #1f6e7a;
+    --nd-cyan: #1d6a76;
     --nd-blue: #3f5cd0;
     --nd-grid: rgba(106, 63, 208, 0.07);
     --nd-wash: rgba(106, 63, 208, 0.05);
@@ -6720,7 +6723,7 @@ html.dark-mode {
     --nd-edge-muted: rgba(95, 86, 112, 0.4);
     --nd-wash-pink: rgba(200, 0, 106, 0.08);
     --nd-ul-pink: rgba(200, 0, 106, 0.35);
-    --nd-diff-add-bg: rgba(31, 122, 51, 0.07);
+    --nd-diff-add-bg: rgba(29, 118, 48, 0.07);
     --nd-diff-del-bg: rgba(196, 49, 42, 0.07);
     --nd-select-pink: rgba(200, 0, 106, 0.18);
     --nd-press: rgba(106, 63, 208, 0.14);
@@ -6729,7 +6732,7 @@ html.dark-mode {
     --nd-edge-del: rgba(196, 49, 42, 0.4);
     --nd-string-bg: rgba(138, 97, 0, 0.1);
     --nd-change-bg: rgba(138, 97, 0, 0.07);
-    --nd-diff-add-refine: rgba(31, 122, 51, 0.2);
+    --nd-diff-add-refine: rgba(29, 118, 48, 0.2);
     --nd-diff-del-refine: rgba(196, 49, 42, 0.2);
     --nd-panel-wash: #e6dff1;
   }
@@ -6739,15 +6742,16 @@ html.dark-mode .message-htmlpart {
   --nd-bg: #f7f4fa;
   --nd-panel: #ede7f3;
   --nd-line: #d6cce2;
+  --nd-edge: #887f9b;
   --nd-ink: #1a1522;
   --nd-muted: #5f5670;
   --nd-dimmest: #8d84a0;
   --nd-pink: #c8006a;
   --nd-purple: #6a3fd0;
   --nd-code-string: #8a6100;
-  --nd-diff-add: #1f7a33;
+  --nd-diff-add: #1d7630;
   --nd-diff-del: #c4312a;
-  --nd-cyan: #1f6e7a;
+  --nd-cyan: #1d6a76;
   --nd-blue: #3f5cd0;
   --nd-grid: rgba(106, 63, 208, 0.07);
   --nd-wash: rgba(106, 63, 208, 0.05);
@@ -6759,7 +6763,7 @@ html.dark-mode .message-htmlpart {
   --nd-edge-muted: rgba(95, 86, 112, 0.4);
   --nd-wash-pink: rgba(200, 0, 106, 0.08);
   --nd-ul-pink: rgba(200, 0, 106, 0.35);
-  --nd-diff-add-bg: rgba(31, 122, 51, 0.07);
+  --nd-diff-add-bg: rgba(29, 118, 48, 0.07);
   --nd-diff-del-bg: rgba(196, 49, 42, 0.07);
   --nd-select-pink: rgba(200, 0, 106, 0.18);
   --nd-press: rgba(106, 63, 208, 0.14);
@@ -6768,7 +6772,7 @@ html.dark-mode .message-htmlpart {
   --nd-edge-del: rgba(196, 49, 42, 0.4);
   --nd-string-bg: rgba(138, 97, 0, 0.1);
   --nd-change-bg: rgba(138, 97, 0, 0.07);
-  --nd-diff-add-refine: rgba(31, 122, 51, 0.2);
+  --nd-diff-add-refine: rgba(29, 118, 48, 0.2);
   --nd-diff-del-refine: rgba(196, 49, 42, 0.2);
   --nd-panel-wash: #e6dff1;
 }
@@ -6802,6 +6806,7 @@ html:root body {
 }
 html:root ::selection {
   background-color: var(--nd-select-pink);
+  color: var(--nd-ink);
 }
 html:root :focus-visible {
   outline: 1px solid var(--nd-pink);
@@ -7138,7 +7143,7 @@ html:root .ui-button,
 html:root .ui-dialog .ui-dialog-buttonpane .ui-button {
   color: var(--nd-ink);
   background: var(--nd-wash);
-  border: 1px solid var(--nd-line);
+  border: 1px solid var(--nd-edge);
 }
 html:root .btn:not(:disabled):not(.disabled):hover,
 html:root .btn-secondary:not(:disabled):not(.disabled):hover,
@@ -7253,7 +7258,7 @@ html:root .recipient-input,
 html:root .input-group .form-control {
   color: var(--nd-ink);
   background-color: var(--nd-bg);
-  border-color: var(--nd-line);
+  border-color: var(--nd-edge);
 }
 html:root .form-control:focus,
 html:root .custom-select:focus,
@@ -7320,7 +7325,7 @@ html:root input[type="time"]::placeholder,
 html:root input[type="tel"]::placeholder,
 html:root .recipient-input::placeholder,
 html:root .input-group .form-control::placeholder {
-  color: var(--nd-dimmest);
+  color: var(--nd-muted);
 }
 html:root .form-control:disabled,
 html:root .custom-select:disabled,

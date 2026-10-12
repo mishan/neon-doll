@@ -55,7 +55,7 @@ if &background ==# 'light'
   hi SpellCap guifg=NONE guibg=NONE ctermfg=3 ctermbg=NONE gui=undercurl cterm=underline guisp=#8a6100
   hi SpellRare guifg=NONE guibg=NONE ctermfg=5 ctermbg=NONE gui=undercurl cterm=underline guisp=#6a3fd0
   hi SpellLocal guifg=NONE guibg=NONE ctermfg=6 ctermbg=NONE gui=undercurl cterm=underline guisp=#5f5670
-  hi DiffAdd guifg=#1f7a33 guibg=#e8ebec ctermfg=2 ctermbg=NONE gui=NONE cterm=NONE
+  hi DiffAdd guifg=#1d7630 guibg=#e8ebec ctermfg=2 ctermbg=NONE gui=NONE cterm=NONE
   hi DiffDelete guifg=#c4312a guibg=#f3e6eb ctermfg=1 ctermbg=NONE gui=NONE cterm=NONE
   hi DiffChange guifg=NONE guibg=#efeae8 ctermfg=NONE ctermbg=NONE gui=NONE cterm=NONE
   hi DiffText guifg=#8a6100 guibg=#efeae8 ctermfg=3 ctermbg=NONE gui=underline cterm=underline
@@ -78,7 +78,7 @@ if &background ==# 'light'
   hi Ignore guifg=#8d84a0 guibg=NONE ctermfg=8 ctermbg=NONE gui=NONE cterm=NONE
   hi Error guifg=#c4312a guibg=#f3e6eb ctermfg=1 ctermbg=NONE gui=NONE cterm=NONE
   hi Todo guifg=#8a6100 guibg=NONE ctermfg=3 ctermbg=NONE gui=italic cterm=italic
-  hi Added guifg=#1f7a33 guibg=NONE ctermfg=2 ctermbg=NONE gui=NONE cterm=NONE
+  hi Added guifg=#1d7630 guibg=NONE ctermfg=2 ctermbg=NONE gui=NONE cterm=NONE
   hi Removed guifg=#c4312a guibg=NONE ctermfg=1 ctermbg=NONE gui=NONE cterm=NONE
   hi Changed guifg=#8a6100 guibg=NONE ctermfg=3 ctermbg=NONE gui=NONE cterm=NONE
 else
@@ -173,7 +173,7 @@ hi! link ToolbarButton TabLine
 
 " The integrated terminal, :terminal, in the Neon Doll palette.
 if &background ==# 'light'
-  let g:terminal_ansi_colors = ['#d6cce2', '#c4312a', '#1f7a33', '#8a6100', '#3f5cd0', '#6a3fd0', '#1f6e7a', '#3c3649', '#5f5670', '#802627', '#1d522c', '#5d430e', '#30408a', '#4a2e8a', '#1d4a57', '#1a1522']
+  let g:terminal_ansi_colors = ['#d6cce2', '#c4312a', '#1d7630', '#8a6100', '#3f5cd0', '#6a3fd0', '#1d6a76', '#3c3649', '#5f5670', '#802627', '#1c4f2a', '#5d430e', '#30408a', '#4a2e8a', '#1c4854', '#1a1522']
 else
   let g:terminal_ansi_colors = ['#2a2438', '#ff7b72', '#7ee787', '#e5c07b', '#8ca3ff', '#b48cff', '#7ed9e7', '#c4bcce', '#9c93ab', '#f7a6a4', '#aae7b1', '#e7cfaa', '#b2bef9', '#cab0f9', '#aadeeb', '#ebe6f0']
 endif

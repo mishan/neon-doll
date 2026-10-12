@@ -55,7 +55,7 @@ def vscode_palette(variant):
     p["del-tint"] = tokens.tint(variant, "diff-del-bg")[0]
     # Alphas. wash-pink is the editors' stronger bracket-match field.
     for name, token in (("wash", "wash"), ("wash-strong", "wash-strong"),
-                        ("press", "press"), ("edge", "edge-purple"),
+                        ("press", "press"), ("edge-purple", "edge-purple"),
                         ("select", "select-pink"), ("diff", "diff-add-bg"),
                         ("refine", "diff-add-refine")):
         p[name] = tokens.tint(variant, token)[1]
@@ -88,7 +88,8 @@ def colors(variant, p):
     wash = a(purple, p["wash"])
     wash_strong = a(purple, p["wash-strong"])
     press = a(purple, p["press"])
-    edge = a(purple, p["edge"])
+    edge = a(purple, p["edge-purple"])
+    control = p["edge"]
     select = a(pink, p["select"])
     wash_pink = a(pink, p["wash-pink"])
     hover = a(pink, p["wash-pink"] / 2)
@@ -181,7 +182,7 @@ def colors(variant, p):
         "panelSectionHeader.background": panel,
         "panelSectionHeader.foreground": muted,
         "panelSectionHeader.border": line,
-        "panelInput.border": line,
+        "panelInput.border": control,
         "outputView.background": panel,
         "outputViewStickyScroll.background": panel,
 
@@ -532,12 +533,12 @@ def colors(variant, p):
         "pickerGroup.border": line,
 
         # --- inputs, dropdowns, buttons, badges -----------------------------
-        # A text field is a slot: page-colored, line-edged; focused, the edge
-        # is focusBorder's fuchsia.
+        # A text field is a slot: page-colored, with a control's edge;
+        # focused, the edge is focusBorder's fuchsia.
         "input.background": bg,
         "input.foreground": ink,
-        "input.border": line,
-        "input.placeholderForeground": dimmest,
+        "input.border": control,
+        "input.placeholderForeground": muted,
         "inputOption.activeBackground": wash_pink,
         "inputOption.activeForeground": pink,
         "inputOption.activeBorder": pink,
@@ -553,11 +554,11 @@ def colors(variant, p):
         "inputValidation.errorBorder": dele,
         "dropdown.background": bg,
         "dropdown.foreground": ink,
-        "dropdown.border": line,
+        "dropdown.border": control,
         "dropdown.listBackground": panel,
         "checkbox.background": bg,
         "checkbox.foreground": pink,
-        "checkbox.border": line,
+        "checkbox.border": control,
         "checkbox.selectBackground": panel,
         "checkbox.selectBorder": pink,
         "radio.activeBackground": wash_pink,
@@ -565,7 +566,7 @@ def colors(variant, p):
         "radio.activeBorder": pink,
         "radio.inactiveBackground": CLEAR,
         "radio.inactiveForeground": muted,
-        "radio.inactiveBorder": line,
+        "radio.inactiveBorder": control,
         "radio.inactiveHoverBackground": hover,
         # VS Code buttons are fills. The nearest to the desktop's outlined
         # suggested action: a purple wash, purple text, a purple border.
@@ -604,13 +605,13 @@ def colors(variant, p):
         "settings.headerBorder": line,
         "settings.sashBorder": line,
         "settings.textInputBackground": bg,
-        "settings.textInputBorder": line,
+        "settings.textInputBorder": control,
         "settings.numberInputBackground": bg,
-        "settings.numberInputBorder": line,
+        "settings.numberInputBorder": control,
         "settings.dropdownBackground": bg,
-        "settings.dropdownBorder": line,
+        "settings.dropdownBorder": control,
         "settings.checkboxBackground": bg,
-        "settings.checkboxBorder": line,
+        "settings.checkboxBorder": control,
 
         # --- notifications --------------------------------------------------
         "notifications.background": panel,
@@ -762,7 +763,7 @@ def colors(variant, p):
 
         # --- the rest -------------------------------------------------------
         "editorBracketMatch.foreground": pink,
-        "editor.placeholder.foreground": dimmest,
+        "editor.placeholder.foreground": muted,
         "editor.linkedEditingBackground": wash_pink,
         "editor.hoverHighlightBackground": press,
         "editor.snippetTabstopHighlightBackground": wash_strong,
@@ -794,7 +795,7 @@ def colors(variant, p):
         "commandCenter.debuggingBackground": press,
         "sideBySideEditor.horizontalBorder": line,
         "sideBySideEditor.verticalBorder": line,
-        "button.secondaryBorder": line,
+        "button.secondaryBorder": control,
         "extensionButton.border": purple,
         "list.inactiveSelectionIconForeground": ink,
         "textPreformat.border": line,

@@ -25,6 +25,7 @@
   --bg:              #0f0d14;
   --panel:           #16131d;
   --line:            #2a2438;
+  --edge:            #6f6880;
   --ink:             #ebe6f0;
   --muted:           #9c93ab;
   --dimmest:         #6f6880;
@@ -60,13 +61,14 @@
     --bg:              #f7f4fa;
     --panel:           #ede7f3;
     --line:            #d6cce2;
+    --edge:            #887f9b;
     --ink:             #1a1522;
     --muted:           #5f5670;
     --dimmest:         #8d84a0;
     --pink:            #c8006a;
     --purple:          #6a3fd0;
     --code-string:     #8a6100;
-    --diff-add:        #1f7a33;
+    --diff-add:        #1d7630;
     --diff-del:        #c4312a;
     --grid:            rgba(106, 63, 208, 0.07);
     --wash:            rgba(106, 63, 208, 0.05);
@@ -78,7 +80,7 @@
     --edge-muted:      rgba(95, 86, 112, 0.40);
     --wash-pink:       rgba(200, 0, 106, 0.08);
     --ul-pink:         rgba(200, 0, 106, 0.35);
-    --diff-add-bg:     rgba(31, 122, 51, 0.07);
+    --diff-add-bg:     rgba(29, 118, 48, 0.07);
     --diff-del-bg:     rgba(196, 49, 42, 0.07);
     --select-pink:     rgba(200, 0, 106, 0.18);
     --press:           rgba(106, 63, 208, 0.14);
@@ -87,7 +89,7 @@
     --edge-del:        rgba(196, 49, 42, 0.40);
     --string-bg:       rgba(138, 97, 0, 0.10);
     --change-bg:       rgba(138, 97, 0, 0.07);
-    --diff-add-refine: rgba(31, 122, 51, 0.20);
+    --diff-add-refine: rgba(29, 118, 48, 0.20);
     --diff-del-refine: rgba(196, 49, 42, 0.20);
   }
 }
@@ -197,7 +199,7 @@
   @define-color destructive_bg_color #c4312a;
   @define-color destructive_fg_color #f7f4fa;
   @define-color destructive_color #c4312a;
-  @define-color success_color #1f7a33;
+  @define-color success_color #1d7630;
   @define-color warning_color #8a6100;
   @define-color error_color #c4312a;
   @define-color window_bg_color #f7f4fa;
@@ -318,7 +320,7 @@ label:disabled, button:disabled, row:disabled, entry:disabled,
 
 * { caret-color: var(--pink); -gtk-secondary-caret-color: var(--purple); }
 
-selection, selection:focus-within { background-color: var(--select-pink); }
+selection, selection:focus-within { background-color: var(--select-pink); color: var(--ink); }
 
 *:focus:focus-visible, *:focus-within:focus-visible {
   outline-color: var(--pink);
@@ -363,7 +365,7 @@ togglegroup > toggle:checked, .linked > button:checked {
 button, menubutton > button, splitbutton > button, dropdown > button {
   background-color: var(--wash);
   background-image: none;
-  box-shadow: inset 0 0 0 1px var(--line);
+  box-shadow: inset 0 0 0 1px var(--edge);
   color: var(--ink);
 }
 button.flat, headerbar button:not(.suggested-action):not(.destructive-action),
@@ -505,19 +507,19 @@ banner > revealer > widget { background-color: var(--wash-strong); color: var(--
 }
 
 /* === Fields ===============================================================
-   Inputs: a panel with a --line edge, mono, and a pink ring on
+   Inputs: a panel with an --edge edge, mono, and a pink ring on
    focus. The ring is the whole state; the edge does not also change. */
 
 entry, spinbutton, searchbar entry, dropdown > button, text.view {
   background-color: var(--panel);
-  box-shadow: inset 0 0 0 1px var(--line);
+  box-shadow: inset 0 0 0 1px var(--edge);
   color: var(--ink);
 }
 entry:focus-within, spinbutton:focus-within {
   outline: 2px solid var(--pink);
   outline-offset: -1px;
 }
-entry placeholder, text placeholder { color: var(--dimmest); }
+entry placeholder, text placeholder { color: var(--muted); }
 entry.error, entry.warning, entry.success { background-color: var(--panel); }
 entry.error { color: var(--diff-del); }
 entry.warning { color: var(--code-string); }
@@ -534,7 +536,7 @@ switch {
   padding: 3px;
   color: var(--dimmest);
   background-color: var(--panel);
-  box-shadow: inset 0 0 0 1px var(--line);
+  box-shadow: inset 0 0 0 1px var(--edge);
   /* the off mark: an 8px square with a 5px hole punched in the panel color */
   background-image:
     linear-gradient(var(--panel), var(--panel)),

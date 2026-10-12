@@ -22,7 +22,7 @@ from pathlib import Path
 import tokens
 
 ROOT = Path(__file__).resolve().parent.parent
-CORE = ("bg", "panel", "line", "ink", "muted", "dimmest", "pink", "purple",
+CORE = ("bg", "panel", "line", "edge", "ink", "muted", "dimmest", "pink", "purple",
         "code-string", "diff-add", "diff-del")
 
 # Plain GTK 4 apps (no libadwaita) and GTK 3 read these by name.

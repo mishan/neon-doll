@@ -196,6 +196,12 @@ instead.
 
 ## Terminals and the command line
 
+The terminal schemes assign black and white by role, not lightness: black
+is the page's edge color and bright white is the text color in both
+variants. In the light schemes that makes black a pale grey, so text a
+program prints in black, assuming a light page, almost vanishes; text it
+prints in white, assuming a dark one, stays readable.
+
 ### Tilix
 
 Part `tilix`, into `~/.config/tilix/schemes/`.

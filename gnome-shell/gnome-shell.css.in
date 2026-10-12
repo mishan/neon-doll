@@ -142,8 +142,9 @@ stage { color: @ink@; }
 #panel .privacy-indicator { color: @string@; }
 
 /* === Buttons ==============================================================
-   A wash with a hairline edge at rest. Hover and keyboard focus are one
-   state and both go pink, as a link does on the site.
+   A wash with an --edge edge at rest. Hover and keyboard focus are one
+   state and both go pink, as a link does on the site; keyboard focus also
+   doubles the edge, as the site's focus ring does.
 
    A family name and a list of states between at-signs expands to every
    selector in the family with each state appended; the families are in
@@ -153,13 +154,14 @@ stage { color: @ink@; }
 @button|@ {
   color: @ink@;
   background-color: @wash@;
-  box-shadow: inset 0 0 0 1px @line@ !important;
+  box-shadow: inset 0 0 0 1px @edge@ !important;
 }
 @button|:hover :focus :focus:hover@ {
   color: @pink@;
   background-color: @wash@;
   box-shadow: inset 0 0 0 1px @pink@ !important;
 }
+@button|:focus :focus:hover@ { box-shadow: inset 0 0 0 2px @pink@ !important; }
 @button|:active :active:hover :active:focus :selected :selected:hover :selected:focus@ {
   color: @pink@;
   background-color: @press@;
@@ -188,6 +190,7 @@ stage { color: @ink@; }
   background-color: @wash_pink@;
   box-shadow: inset 0 0 0 1px @pink@ !important;
 }
+@default|:focus :focus:hover@ { box-shadow: inset 0 0 0 2px @pink@ !important; }
 @default|:active :active:hover :active:focus@ {
   color: @pink@;
   background-color: @press@;
@@ -251,7 +254,7 @@ StEntry:hover, .search-entry:hover,
 .login-dialog .login-dialog-prompt-entry:hover, .unlock-dialog .login-dialog-prompt-entry:hover {
   color: @ink@;
   background-color: @panel@;
-  box-shadow: inset 0 0 0 1px @line@ !important;
+  box-shadow: inset 0 0 0 1px @edge@ !important;
   caret-color: @pink@;
   selection-background-color: @select_pink@;
   selected-color: @ink@;
@@ -273,7 +276,7 @@ StEntry StLabel.hint-text, .search-entry StLabel.hint-text,
 .app-folder-dialog .folder-name-container .folder-name-entry StLabel.hint-text,
 .login-dialog .login-dialog-prompt-entry StLabel.hint-text,
 .unlock-dialog .login-dialog-prompt-entry StLabel.hint-text {
-  color: @dimmest@;
+  color: @muted@;
 }
 .search-entry .search-entry-icon { color: @muted@; }
 StEntry StIcon.capslock-warning { warning-color: @string@; }
@@ -292,7 +295,7 @@ StEntry StIcon.capslock-warning { warning-color: @string@; }
   background-color: @panel@;
   background-image: url("switch-track-off.svg");
   background-repeat: no-repeat;
-  box-shadow: inset 0 0 0 1px @line@ !important;
+  box-shadow: inset 0 0 0 1px @edge@ !important;
 }
 .toggle-switch .handle {
   width: 18px;

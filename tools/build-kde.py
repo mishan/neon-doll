@@ -309,25 +309,25 @@ FRAMES = {
 def kvantum_svg(variant):
     p, a = colors(variant)
     pink, ink, muted, dimmest, line_ = (p[k] for k in ("pink", "ink", "muted", "dimmest", "line"))
-    bg, panel = p["bg"], p["panel"]
+    bg, panel, edge = p["bg"], p["panel"], p["edge"]
     wash, press, wash_pink = a["wash"], a["press"], a["wash-pink"]
     clear = (bg, 0)
     s = Svg()
     F = FRAMES
 
-    # Push buttons: a purple wash with a hairline edge; hover and focus turn
+    # Push buttons: a purple wash with a control's edge; hover and focus turn
     # the edge fuchsia, checked is a fuchsia wash. The default button is the
     # suggested action: its edge is purple.
-    box(s, "button", "normal", F["button"], wash, outline(1, line_))
+    box(s, "button", "normal", F["button"], wash, outline(1, edge))
     box(s, "button", "focused", F["button"], wash, outline(1, pink))
     box(s, "button", "pressed", F["button"], press, outline(1, pink))
-    box(s, "button", "toggled", F["button"], wash_pink, outline(1, line_))
+    box(s, "button", "toggled", F["button"], wash_pink, outline(1, edge))
     box(s, "button-default", None, F["button"], wash, outline(1, a["tint-purple"]))
     box(s, "button-focus", None, F["button"], None, outline(1, pink))
     s.element("button-default-indicator", 8, 8, [])
 
     # Drop-downs are fields you choose from: a panel, like a text field.
-    box(s, "combo", "normal", F["combo"], panel, outline(1, line_))
+    box(s, "combo", "normal", F["combo"], panel, outline(1, edge))
     box(s, "combo", "focused", F["combo"], panel, outline(1, pink))
     box(s, "combo", "pressed", F["combo"], panel, outline(1, pink))
     box(s, "combo", "toggled", F["combo"], panel, outline(1, pink))
@@ -338,9 +338,9 @@ def kvantum_svg(variant):
     box(s, "toolbutton", "pressed", F["toolbutton"], press)
     box(s, "toolbutton", "toggled", F["toolbutton"], wash_pink)
 
-    # Fields: a panel with a hairline; focus is a 2px fuchsia ring, and the
+    # Fields: a panel with a control's edge; focus is a 2px fuchsia ring, and the
     # ring is the whole state.
-    box(s, "lineedit", "normal", F["lineedit"], panel, outline(1, line_))
+    box(s, "lineedit", "normal", F["lineedit"], panel, outline(1, edge))
     box(s, "lineedit", "focused", F["lineedit"], panel, outline(2, pink))
 
     # Frames and cards.
@@ -1004,7 +1004,7 @@ def qtct(variant):
         "Window": p["bg"], "Shadow": p["bg"], "Highlight": p["select"],
         "HighlightedText": p["ink"], "Link": p["purple"], "LinkVisited": p["purple"],
         "AlternateBase": p["wash"], "NoRole": p["bg"], "ToolTipBase": p["panel"],
-        "ToolTipText": p["ink"], "PlaceholderText": p["dimmest"],
+        "ToolTipText": p["ink"], "PlaceholderText": p["muted"],
     }
     inactive = roles | {"Highlight": p["press"]}
     disabled = roles | {k: p["dimmest"] for k in ("WindowText", "Text", "ButtonText", "HighlightedText")}

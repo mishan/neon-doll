@@ -223,7 +223,7 @@ notebook > header.left tabs tab:not(#_), notebook > header.right tabs tab:not(#_
 }
 
 /* === Buttons ==============================================================
-   A wash with a --line edge at rest. Hover and focus are one state: a
+   A wash with an --edge edge at rest. Hover and focus are one state: a
    pointer resting on something is a position too, so it goes pink, exactly
    as a link does on the site. */
 
@@ -231,7 +231,7 @@ button:not(#_) {
   color: @ink;
   background-color: @wash;
   background-image: none;
-  border-color: @line;
+  border-color: @edge;
   outline-offset: -1px;   /* the keyboard focus ring lands on the edge */
 }
 
@@ -498,7 +498,7 @@ combobox > box > button.combo:not(#_), .linked > combobox > box > button.combo:n
   color: @ink;
   background-color: @panel;
   background-image: none;
-  border-color: @line;
+  border-color: @edge;
 }
 entry:focus:not(#_), spinbutton:focus:not(.vertical):not(#_), spinbutton.vertical entry:focus:not(#_) {
   border-color: @pink;
@@ -516,7 +516,7 @@ entry:disabled:not(#_), spinbutton:disabled:not(#_) {
   border-color: @line;
 }
 entry.flat:not(#_), spinbutton.flat:not(#_) { background-color: transparent; border-color: transparent; }
-entry placeholder:not(#_) { color: @dimmest; }
+entry placeholder:not(#_) { color: @muted; }
 entry image:not(#_) { color: @muted; }
 entry image:hover:not(#_) { color: @pink; }
 entry.error:not(#_), spinbutton.error:not(#_) { color: @diff-del; }
@@ -539,7 +539,7 @@ switch:not(#_) {
   border: none;
   color: @dimmest;
   background-color: @panel;
-  box-shadow: inset 0 0 0 1px @line;
+  box-shadow: inset 0 0 0 1px @edge;
   /* the off mark: an 8px square with a 4px hole punched in the panel color */
   background-image:
     linear-gradient(@panel, @panel),

@@ -42,7 +42,7 @@ OUT = ROOT / "firefox"
 VERSION = "0.1.0"
 ADDON_ID = "neon-doll@mishan.github.io"
 
-CORE = ("bg", "panel", "line", "ink", "muted", "dimmest", "pink", "purple")
+CORE = ("bg", "panel", "line", "edge", "ink", "muted", "dimmest", "pink", "purple")
 PALETTES = {
     v: {**{k: tokens.palette(v)[k] for k in CORE}, "grid": tokens.tint(v, "grid")}
     for v in tokens.VARIANTS
@@ -108,7 +108,7 @@ def theme(variant, p):
             "toolbar_vertical_separator": p["line"],
             "toolbar_field": p["bg"],
             "toolbar_field_text": p["ink"],
-            "toolbar_field_border": p["line"],
+            "toolbar_field_border": p["edge"],
             "toolbar_field_focus": p["bg"],
             "toolbar_field_text_focus": p["ink"],
             "toolbar_field_border_focus": p["pink"],

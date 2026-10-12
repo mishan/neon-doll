@@ -28,13 +28,13 @@ Color=211,108,104
 Color=128,38,39
 
 [Color2]
-Color=31,122,51
+Color=29,118,48
 
 [Color2Faint]
-Color=96,159,111
+Color=94,156,109
 
 [Color2Intense]
-Color=29,82,44
+Color=28,79,42
 
 [Color3]
 Color=138,97,0
@@ -64,13 +64,13 @@ Color=148,117,221
 Color=74,46,138
 
 [Color6]
-Color=31,110,122
+Color=29,106,118
 
 [Color6Faint]
-Color=96,150,160
+Color=94,147,158
 
 [Color6Intense]
-Color=29,74,87
+Color=28,72,84
 
 [Color7]
 Color=60,54,73

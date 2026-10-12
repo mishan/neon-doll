@@ -69,11 +69,12 @@ Every other app, in both variants, and the cursors are in the
 |---|---|
 | Fuchsia means position | Libadwaita's accent: selection, focus ring, caret, checked toggles, the switch, progress, the current tab, the current sidebar row, today in the calendar, the active workspace. In code: the cursor, the current line number, the matching bracket. Never decoration — even the terminal palette leaves it out. |
 | Purple is interactive at rest | Links, and the suggested action, drawn as an outline rather than a filled pill. The two colors never swap roles. |
-| Hover is a position too | Hovering turns things fuchsia, as a link does. |
+| Hover is a position too | Hovering turns things fuchsia, as a link does. Keyboard focus does the same and adds the ring. |
 | The rail | A selected row carries a fuchsia bar on its left; a sidebar row gets the rail and fuchsia text. The current tab gets it across the top. |
 | Page and panel | Windows are the page, with a 24px graph paper where the window shows through. Header bars, sidebars, cards, popovers and menus are panels with a 1px edge. That is the only box there is. |
 | Mono chrome, sans prose | Header bars, buttons, menus, tabs, headings and text fields are mono; row titles, dialog bodies and documents keep sans. Weight 400 throughout. |
 | No radii, shadows or motion | Radios and avatars stay round, since round is how a radio differs from a check. Windows get a 1px outline instead of a shadow. |
+| Contrast floors | Text you need to read clears 4.5:1 on the page and on panels; the edge of a field, button or switch clears 3:1. `tools/build.sh --check` fails on a color below either. Line numbers are the one exception. |
 | Redundant cues | A switch shows `\|` when on and `□` when off as well as its color; diff lines keep their `+`/`-` along with color and tint. |
 
 Light keeps the roles but not the values: the dark fuchsia `#ff2d95` and
