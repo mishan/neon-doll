@@ -1,6 +1,6 @@
 # Neon Doll's colors, all of them, in both variants. Every theme in this
 # repo is built from this file by tools/; change a color here, run the
-# builders (see README), and it lands everywhere.
+# builders (see CONTRIBUTING.md), and it lands everywhere.
 #
 # Names are the website design system's, so tools/check-tokens.py can
 # compare them with it. The site is dark only; light is derived: the page

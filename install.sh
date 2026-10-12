@@ -582,7 +582,7 @@ for part in $parts; do
       done <<EOF
 $dirs
 EOF
-      hint "VS Code: restart it, then Preferences: Color Theme → Neon Doll Dark (or Light). To follow the system, see the README's Light and dark."
+      hint "VS Code: restart it, then Preferences: Color Theme → Neon Doll Dark (or Light). To follow the system, see docs/install.md, Light and dark."
       ;;
     firefox)
       # Removing looks in every profile; installing in the ones picked, or
@@ -609,7 +609,7 @@ EOF
       if [ -n "$unset_in" ]; then
         hint "Firefox: set toolkit.legacyUserProfileCustomizations.stylesheets to true in about:config (profiles ${unset_in#, }), then restart Firefox"
       else
-        hint "Firefox: restart it. The color theme itself loads from about:debugging; see the README."
+        hint "Firefox: restart it. The color theme itself loads from about:debugging; see docs/install.md."
       fi
       ;;
     newt)

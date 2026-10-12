@@ -309,7 +309,7 @@ foreach ($part in $picked) {
             if ($unset) {
                 $hints.Add("  Firefox: set toolkit.legacyUserProfileCustomizations.stylesheets to true in about:config (profiles $($unset -join ', ')), then restart Firefox.")
             } else {
-                $hints.Add('  Firefox: restart it. The color theme itself loads from about:debugging; see the README.')
+                $hints.Add('  Firefox: restart it. The color theme itself loads from about:debugging; see docs/install.md.')
             }
         }
         'git' {
