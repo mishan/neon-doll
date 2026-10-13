@@ -930,7 +930,7 @@ stage { color: #ebe6f0; }
 .url-highlighter { link-color: #b48cff; }
 
 /* === Fields ===============================================================
-   A panel with a hairline edge. The pink ring is the whole focus state; the
+   A panel with an --edge edge. The pink ring is the whole focus state; the
    edge does not also change. */
 
 StEntry, .search-entry,
@@ -1110,7 +1110,7 @@ StScrollBar > .vhandle:active, StScrollBar > .hhandle:active { background-color:
 .quick-toggle, .quick-toggle-has-menu .quick-toggle-menu-button {
   color: #ebe6f0;
   background-color: rgba(180, 140, 255, 0.06);
-  box-shadow: inset 0 0 0 1px #2a2438 !important;
+  box-shadow: inset 0 0 0 1px #6f6880 !important;
 }
 .quick-toggle:hover, .quick-toggle:focus,
 .quick-toggle-has-menu .quick-toggle-menu-button:hover,
@@ -1289,7 +1289,7 @@ StScrollBar > .vhandle:active, StScrollBar > .hhandle:active { background-color:
   box-shadow: inset 0 0 0 1px #ff2d95 !important;
 }
 .calendar .calendar-day.calendar-today:insensitive { color: #6f6880 !important; background-color: transparent; }
-.calendar .calendar-week-number { color: #6f6880; background-color: transparent; }
+.calendar .calendar-week-number { color: #9c93ab; background-color: transparent; }
 
 .events-button .events-box .events-title, .world-clocks-button .world-clocks-header,
 .weather-button .weather-box .weather-header-box .weather-header {
@@ -1306,13 +1306,13 @@ StScrollBar > .vhandle:active, StScrollBar > .hhandle:active { background-color:
 }
 
 .message-list { border-color: #2a2438; }
-.message-list .message-list-placeholder { color: #6f6880; }
+.message-list .message-list-placeholder { color: #9c93ab; }
 
 .message:second-in-stack { background-color: #16131d; }
 .message:lower-in-stack { background-color: #0f0d14; }
 .message .message-header { color: #9c93ab; }
 .message .message-header .message-header-content .message-source-title { color: #ebe6f0; }
-.message .message-header .message-header-content .event-time { color: #6f6880; }
+.message .message-header .message-header-content .event-time { color: #9c93ab; }
 .message .message-box .message-content .message-title { color: #ebe6f0; }
 .message .message-box .message-content .message-body { color: #ebe6f0; }
 .message .message-box .message-icon.message-themed-icon { color: #ebe6f0; background-color: rgba(180, 140, 255, 0.10); }
@@ -1522,7 +1522,7 @@ StScrollBar > .vhandle:active, StScrollBar > .hhandle:active { background-color:
 .app-folder-dialog .page-navigation-arrow, .page-navigation-arrow {
   color: #ebe6f0;
   background-color: #16131d;
-  box-shadow: inset 0 0 0 1px #2a2438 !important;
+  box-shadow: inset 0 0 0 1px #6f6880 !important;
 }
 .page-navigation-arrow > StIcon { color: #ebe6f0; }
 .app-folder-dialog .page-navigation-arrow:hover, .page-navigation-arrow:hover,

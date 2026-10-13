@@ -930,7 +930,7 @@ stage { color: #1a1522; }
 .url-highlighter { link-color: #6a3fd0; }
 
 /* === Fields ===============================================================
-   A panel with a hairline edge. The pink ring is the whole focus state; the
+   A panel with an --edge edge. The pink ring is the whole focus state; the
    edge does not also change. */
 
 StEntry, .search-entry,
@@ -1110,7 +1110,7 @@ StScrollBar > .vhandle:active, StScrollBar > .hhandle:active { background-color:
 .quick-toggle, .quick-toggle-has-menu .quick-toggle-menu-button {
   color: #1a1522;
   background-color: rgba(106, 63, 208, 0.05);
-  box-shadow: inset 0 0 0 1px #d6cce2 !important;
+  box-shadow: inset 0 0 0 1px #887f9b !important;
 }
 .quick-toggle:hover, .quick-toggle:focus,
 .quick-toggle-has-menu .quick-toggle-menu-button:hover,
@@ -1289,7 +1289,7 @@ StScrollBar > .vhandle:active, StScrollBar > .hhandle:active { background-color:
   box-shadow: inset 0 0 0 1px #c8006a !important;
 }
 .calendar .calendar-day.calendar-today:insensitive { color: #8d84a0 !important; background-color: transparent; }
-.calendar .calendar-week-number { color: #8d84a0; background-color: transparent; }
+.calendar .calendar-week-number { color: #5f5670; background-color: transparent; }
 
 .events-button .events-box .events-title, .world-clocks-button .world-clocks-header,
 .weather-button .weather-box .weather-header-box .weather-header {
@@ -1306,13 +1306,13 @@ StScrollBar > .vhandle:active, StScrollBar > .hhandle:active { background-color:
 }
 
 .message-list { border-color: #d6cce2; }
-.message-list .message-list-placeholder { color: #8d84a0; }
+.message-list .message-list-placeholder { color: #5f5670; }
 
 .message:second-in-stack { background-color: #ede7f3; }
 .message:lower-in-stack { background-color: #f7f4fa; }
 .message .message-header { color: #5f5670; }
 .message .message-header .message-header-content .message-source-title { color: #1a1522; }
-.message .message-header .message-header-content .event-time { color: #8d84a0; }
+.message .message-header .message-header-content .event-time { color: #5f5670; }
 .message .message-box .message-content .message-title { color: #1a1522; }
 .message .message-box .message-content .message-body { color: #1a1522; }
 .message .message-box .message-icon.message-themed-icon { color: #1a1522; background-color: rgba(106, 63, 208, 0.09); }
@@ -1522,7 +1522,7 @@ StScrollBar > .vhandle:active, StScrollBar > .hhandle:active { background-color:
 .app-folder-dialog .page-navigation-arrow, .page-navigation-arrow {
   color: #1a1522;
   background-color: #ede7f3;
-  box-shadow: inset 0 0 0 1px #d6cce2 !important;
+  box-shadow: inset 0 0 0 1px #887f9b !important;
 }
 .page-navigation-arrow > StIcon { color: #1a1522; }
 .app-folder-dialog .page-navigation-arrow:hover, .page-navigation-arrow:hover,

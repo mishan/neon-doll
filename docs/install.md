@@ -163,7 +163,7 @@ Part `kvantum`, into `~/.config/Kvantum/NeonDoll/`.
 `kvantummanager --set NeonDoll`, then the widget style `kvantum-dark`, or
 `kvantum` for light: the theme is NeonDoll, and its dark variant NeonDollDark.
 The shapes for every Qt app, which Breeze and a color scheme can't change:
-square buttons and fields with a hairline edge, the rail on the selected row
+square buttons and fields with a visible edge, the rail on the selected row
 and across the current tab, graph paper in the windows, no shadows. Outside
 Plasma, set `QT_STYLE_OVERRIDE=kvantum-dark`, or pick it in qt6ct.
 
@@ -199,7 +199,7 @@ instead.
 
 The terminal schemes assign black and white by role, not lightness: black
 is the page's edge color and bright white is the text color in both
-variants. In the light schemes that makes black a pale grey, so text a
+variants. In the light schemes that makes black a pale gray, so text a
 program prints in black, assuming a light page, almost vanishes; text it
 prints in white, assuming a dark one, stays readable.
 
