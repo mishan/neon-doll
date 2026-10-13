@@ -141,7 +141,7 @@ def switch_assets(t):
                                    for x in (5, 8, 11)))
 
     return {
-        "switch-track-off.svg": ring(t["dimmest"]),
+        "switch-track-off.svg": ring(t["edge"]),
         "switch-track-on.svg": bar(t["pink"]),
         "switch-track-off-disabled.svg": ring(t["line"]),
         "switch-track-on-disabled.svg": bar(t["line"]),

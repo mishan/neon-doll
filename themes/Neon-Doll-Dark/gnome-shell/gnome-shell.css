@@ -1391,7 +1391,7 @@ StScrollBar > .vhandle:active, StScrollBar > .hhandle:active { background-color:
 .window-close {
   color: #ebe6f0;
   background-color: #16131d;
-  border: 1px solid #2a2438;
+  border: 1px solid #6f6880;
 }
 .window-close:hover { color: #ff2d95; border-color: #ff2d95; background-color: #16131d; }
 .window-close:active { color: #ff2d95; background-color: rgba(255, 45, 149, 0.08); }
@@ -1622,7 +1622,7 @@ StScrollBar > .vhandle:active, StScrollBar > .hhandle:active { background-color:
 .audio-device-selection-dialog .audio-selection-box .audio-selection-device {
   color: #ebe6f0;
   background-color: transparent;
-  box-shadow: inset 0 0 0 1px #2a2438 !important;
+  box-shadow: inset 0 0 0 1px #6f6880 !important;
 }
 .audio-device-selection-dialog .audio-selection-box .audio-selection-device:hover,
 .audio-device-selection-dialog .audio-selection-box .audio-selection-device:focus,
@@ -1755,7 +1755,7 @@ StScrollBar > .vhandle:active, StScrollBar > .hhandle:active { background-color:
   background-color: #16131d;
   border: 1px solid #2a2438;
 }
-.screenshot-ui-close-button { color: #ebe6f0; background-color: #16131d; border: 1px solid #2a2438; }
+.screenshot-ui-close-button { color: #ebe6f0; background-color: #16131d; border: 1px solid #6f6880; }
 .screenshot-ui-close-button:hover { color: #ff2d95; border-color: #ff2d95; }
 .screenshot-ui-shot-cast-container { background-color: rgba(180, 140, 255, 0.06); }
 .screenshot-ui-shot-cast-button:hover, .screenshot-ui-shot-cast-button:focus { color: #ff2d95; background-color: rgba(180, 140, 255, 0.06); }

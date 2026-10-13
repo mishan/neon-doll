@@ -30,8 +30,10 @@ mkdir -p "$out"
 tmp=$(mktemp -d /tmp/shoot-shell.XXXXXX)
 # The document portal the session starts can still hold its FUSE mount in
 # run/doc when the session ends; detach it, or rm can't take the directory.
+# Under set -e a failing command ends the trap, so each one may fail.
 trap 'kill $(cat "$tmp/sysbus.pid" 2>/dev/null) 2>/dev/null || true
-  fusermount3 -uz "$tmp/run/doc" 2>/dev/null; rm -rf "$tmp" 2>/dev/null' EXIT
+  fusermount3 -uz "$tmp/run/doc" 2>/dev/null || fusermount -uz "$tmp/run/doc" 2>/dev/null || true
+  rm -rf "$tmp" 2>/dev/null' EXIT
 
 mkdir -p "$tmp/home/.themes" "$tmp/run"
 chmod 700 "$tmp/run"

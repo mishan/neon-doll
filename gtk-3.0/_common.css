@@ -520,13 +520,15 @@ entry placeholder:not(#_) { color: @muted; }
 entry image:not(#_) { color: @muted; }
 entry image:hover:not(#_) { color: @pink; }
 /* A state doubles the edge in its color, so it reads without color too. */
-entry.error:not(#_), spinbutton.error:not(#_) { color: @diff-del; border-color: @diff-del; box-shadow: inset 0 0 0 1px @diff-del; }
-entry.warning:not(#_), spinbutton.warning:not(#_) { color: @code-string; border-color: @code-string; box-shadow: inset 0 0 0 1px @code-string; }
-entry.success:not(#_), spinbutton.success:not(#_) { color: @diff-add; border-color: @diff-add; box-shadow: inset 0 0 0 1px @diff-add; }
+entry.error:not(#_), spinbutton.error:not(#_), spinbutton.vertical.error entry:not(#_) { color: @diff-del; border-color: @diff-del; box-shadow: inset 0 0 0 1px @diff-del; }
+entry.warning:not(#_), spinbutton.warning:not(#_), spinbutton.vertical.warning entry:not(#_) { color: @code-string; border-color: @code-string; box-shadow: inset 0 0 0 1px @code-string; }
+entry.success:not(#_), spinbutton.success:not(#_), spinbutton.vertical.success entry:not(#_) { color: @diff-add; border-color: @diff-add; box-shadow: inset 0 0 0 1px @diff-add; }
 /* Focused, the outer half of the edge is the focus pink, the inner the state's. */
 entry.error:focus:not(#_), spinbutton.error:focus:not(#_),
 entry.warning:focus:not(#_), spinbutton.warning:focus:not(#_),
-entry.success:focus:not(#_), spinbutton.success:focus:not(#_) { border-color: @pink; }
+entry.success:focus:not(#_), spinbutton.success:focus:not(#_),
+spinbutton.vertical.error entry:focus:not(#_), spinbutton.vertical.warning entry:focus:not(#_),
+spinbutton.vertical.success entry:focus:not(#_) { border-color: @pink; }
 entry progress:not(#_) { border-color: @pink; background-color: transparent; }
 treeview entry:not(#_), treeview entry.flat:not(#_) { background-color: @bg; border-color: @pink; }
 .entry-tag:not(#_) { color: @ink; background-color: @wash-strong; }
@@ -541,7 +543,7 @@ treeview entry:not(#_), treeview entry.flat:not(#_) { background-color: @bg; bor
 switch:not(#_) {
   padding: 3px;
   border: none;
-  color: @dimmest;
+  color: @edge;
   background-color: @panel;
   box-shadow: inset 0 0 0 1px @edge;
   /* the off mark: an 8px square with a 4px hole punched in the panel color */
@@ -562,7 +564,7 @@ switch slider:not(#_) {
   margin: 0;
   border: none;
   color: @panel;
-  background-color: @dimmest;
+  background-color: @edge;
   /* the grip: three 1px ribs */
   background-image: linear-gradient(to right,
     currentColor 1px, transparent 1px, transparent 3px,
