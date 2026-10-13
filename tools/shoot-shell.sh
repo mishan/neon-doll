@@ -28,7 +28,10 @@ shell_name=$name
 
 mkdir -p "$out"
 tmp=$(mktemp -d /tmp/shoot-shell.XXXXXX)
-trap 'kill $(cat "$tmp/sysbus.pid" 2>/dev/null) 2>/dev/null || true; rm -rf "$tmp" 2>/dev/null' EXIT
+# The document portal the session starts can still hold its FUSE mount in
+# run/doc when the session ends; detach it, or rm can't take the directory.
+trap 'kill $(cat "$tmp/sysbus.pid" 2>/dev/null) 2>/dev/null || true
+  fusermount3 -uz "$tmp/run/doc" 2>/dev/null; rm -rf "$tmp" 2>/dev/null' EXIT
 
 mkdir -p "$tmp/home/.themes" "$tmp/run"
 chmod 700 "$tmp/run"
