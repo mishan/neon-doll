@@ -1204,6 +1204,9 @@ StScrollBar > .vhandle:active, StScrollBar > .hhandle:active { background-color:
   background-color: #ede7f3;
   border: 1px solid #d6cce2 !important;
 }
+.datemenu-today-button, .events-button, .world-clocks-button, .weather-button {
+  border-color: #887f9b !important;
+}
 .calendar:hover, .calendar:active, .calendar:active:hover,
 .calendar:focus, .calendar:focus:hover, .calendar:active:focus {
   color: #1a1522;

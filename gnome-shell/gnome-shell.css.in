@@ -517,6 +517,9 @@ StScrollBar > .vhandle:active, StScrollBar > .hhandle:active { background-color:
   background-color: @panel@;
   border: 1px solid @line@ !important;
 }
+.datemenu-today-button, .events-button, .world-clocks-button, .weather-button {
+  border-color: @edge@ !important;
+}
 .calendar:hover, .calendar:active, .calendar:active:hover,
 .calendar:focus, .calendar:focus:hover, .calendar:active:focus {
   color: @ink@;
