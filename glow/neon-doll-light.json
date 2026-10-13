@@ -109,16 +109,16 @@
         "italic": true
       },
       "comment_preproc": {
-        "color": "#c8006a"
+        "color": "#b80061"
       },
       "keyword": {
-        "color": "#c8006a"
+        "color": "#b80061"
       },
       "keyword_reserved": {
-        "color": "#c8006a"
+        "color": "#b80061"
       },
       "keyword_namespace": {
-        "color": "#c8006a"
+        "color": "#b80061"
       },
       "keyword_type": {
         "color": "#6a3fd0"
@@ -136,7 +136,7 @@
         "color": "#6a3fd0"
       },
       "name_tag": {
-        "color": "#c8006a"
+        "color": "#b80061"
       },
       "name_attribute": {
         "color": "#8a6100"
@@ -148,7 +148,7 @@
         "color": "#6a3fd0"
       },
       "name_decorator": {
-        "color": "#c8006a"
+        "color": "#b80061"
       },
       "name_exception": {
         "color": "#c4312a"

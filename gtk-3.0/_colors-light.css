@@ -11,7 +11,7 @@
 @define-color ink             #1a1522;
 @define-color muted           #5f5670;
 @define-color dimmest         #8d84a0;
-@define-color pink            #c8006a;
+@define-color pink            #b80061;
 @define-color purple          #6a3fd0;
 @define-color code-string     #8a6100;
 @define-color diff-add        #1d7630;
@@ -24,11 +24,11 @@
 @define-color ul-purple       rgba(106, 63, 208, 0.40);
 @define-color rule            rgba(95, 86, 112, 0.25);
 @define-color edge-muted      rgba(95, 86, 112, 0.40);
-@define-color wash-pink       rgba(200, 0, 106, 0.08);
-@define-color ul-pink         rgba(200, 0, 106, 0.35);
+@define-color wash-pink       rgba(184, 0, 97, 0.08);
+@define-color ul-pink         rgba(184, 0, 97, 0.35);
 @define-color diff-add-bg     rgba(29, 118, 48, 0.07);
 @define-color diff-del-bg     rgba(196, 49, 42, 0.07);
-@define-color select-pink     rgba(200, 0, 106, 0.18);
+@define-color select-pink     rgba(184, 0, 97, 0.18);
 @define-color press           rgba(106, 63, 208, 0.14);
 @define-color scrim           rgba(26, 21, 34, 0.35);
 @define-color osd-bg          rgba(237, 231, 243, 0.92);

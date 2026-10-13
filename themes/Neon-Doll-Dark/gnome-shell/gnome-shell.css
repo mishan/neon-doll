@@ -656,7 +656,7 @@ stage { color: #ebe6f0; }
 .modal-dialog .modal-dialog-button-box .modal-dialog-button:default {
   color: #b48cff;
   background-color: rgba(180, 140, 255, 0.06);
-  box-shadow: inset 0 0 0 1px rgba(180, 140, 255, 0.35) !important;
+  box-shadow: inset 0 0 0 1px #b48cff !important;
 }
 .button.default:hover,
 .icon-button.default:hover,

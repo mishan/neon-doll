@@ -39,7 +39,7 @@
   <color name="ink"          value="#1a1522"/>
   <color name="muted"        value="#5f5670"/>
   <color name="dimmest"      value="#8d84a0"/>
-  <color name="pink"         value="#c8006a"/>
+  <color name="pink"         value="#b80061"/>
   <color name="purple"       value="#6a3fd0"/>
   <color name="string"       value="#8a6100"/>
   <color name="add"          value="#1d7630"/>
@@ -48,8 +48,8 @@
   <color name="wash-strong"  value="#eae4f6"/>
   <color name="grid"         value="#ede7f7"/>
   <color name="press"        value="#e3dbf4"/>
-  <color name="select"       value="#efc8e0"/>
-  <color name="wash-pink"    value="#f3e0ee"/>
+  <color name="select"       value="#ecc8de"/>
+  <color name="wash-pink"    value="#f2e0ee"/>
   <color name="edge-purple"  value="#cdbeed"/>
   <color name="add-bg"       value="#e8ebec"/>
   <color name="del-bg"       value="#f3e6eb"/>
@@ -72,7 +72,7 @@
   <style name="bracket-mismatch"      foreground="del" background="del-bg" underline="single"/>
   <style name="search-match"          foreground="ink" background="press"/>
   <style name="snippet-focus"         background="wash-pink"/>
-  <style name="map-overlay"           background="#f2dcec"/>
+  <style name="map-overlay"           background="#f1dceb"/>
 
   <!-- Comments -->
   <style name="def:comment"              foreground="muted" italic="true"/>

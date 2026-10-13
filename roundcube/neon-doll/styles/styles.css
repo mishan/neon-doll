@@ -6627,7 +6627,7 @@ html.dark-mode .pgpkeyimport li.uid::before {
   --nd-ink: #1a1522;
   --nd-muted: #5f5670;
   --nd-dimmest: #8d84a0;
-  --nd-pink: #c8006a;
+  --nd-pink: #b80061;
   --nd-purple: #6a3fd0;
   --nd-code-string: #8a6100;
   --nd-diff-add: #1d7630;
@@ -6642,11 +6642,11 @@ html.dark-mode .pgpkeyimport li.uid::before {
   --nd-ul-purple: rgba(106, 63, 208, 0.4);
   --nd-rule: rgba(95, 86, 112, 0.25);
   --nd-edge-muted: rgba(95, 86, 112, 0.4);
-  --nd-wash-pink: rgba(200, 0, 106, 0.08);
-  --nd-ul-pink: rgba(200, 0, 106, 0.35);
+  --nd-wash-pink: rgba(184, 0, 97, 0.08);
+  --nd-ul-pink: rgba(184, 0, 97, 0.35);
   --nd-diff-add-bg: rgba(29, 118, 48, 0.07);
   --nd-diff-del-bg: rgba(196, 49, 42, 0.07);
-  --nd-select-pink: rgba(200, 0, 106, 0.18);
+  --nd-select-pink: rgba(184, 0, 97, 0.18);
   --nd-press: rgba(106, 63, 208, 0.14);
   --nd-scrim: rgba(26, 21, 34, 0.35);
   --nd-osd-bg: rgba(237, 231, 243, 0.92);
@@ -6706,7 +6706,7 @@ html.dark-mode {
     --nd-ink: #1a1522;
     --nd-muted: #5f5670;
     --nd-dimmest: #8d84a0;
-    --nd-pink: #c8006a;
+    --nd-pink: #b80061;
     --nd-purple: #6a3fd0;
     --nd-code-string: #8a6100;
     --nd-diff-add: #1d7630;
@@ -6721,11 +6721,11 @@ html.dark-mode {
     --nd-ul-purple: rgba(106, 63, 208, 0.4);
     --nd-rule: rgba(95, 86, 112, 0.25);
     --nd-edge-muted: rgba(95, 86, 112, 0.4);
-    --nd-wash-pink: rgba(200, 0, 106, 0.08);
-    --nd-ul-pink: rgba(200, 0, 106, 0.35);
+    --nd-wash-pink: rgba(184, 0, 97, 0.08);
+    --nd-ul-pink: rgba(184, 0, 97, 0.35);
     --nd-diff-add-bg: rgba(29, 118, 48, 0.07);
     --nd-diff-del-bg: rgba(196, 49, 42, 0.07);
-    --nd-select-pink: rgba(200, 0, 106, 0.18);
+    --nd-select-pink: rgba(184, 0, 97, 0.18);
     --nd-press: rgba(106, 63, 208, 0.14);
     --nd-scrim: rgba(26, 21, 34, 0.35);
     --nd-osd-bg: rgba(237, 231, 243, 0.92);
@@ -6746,7 +6746,7 @@ html.dark-mode .message-htmlpart {
   --nd-ink: #1a1522;
   --nd-muted: #5f5670;
   --nd-dimmest: #8d84a0;
-  --nd-pink: #c8006a;
+  --nd-pink: #b80061;
   --nd-purple: #6a3fd0;
   --nd-code-string: #8a6100;
   --nd-diff-add: #1d7630;
@@ -6761,11 +6761,11 @@ html.dark-mode .message-htmlpart {
   --nd-ul-purple: rgba(106, 63, 208, 0.4);
   --nd-rule: rgba(95, 86, 112, 0.25);
   --nd-edge-muted: rgba(95, 86, 112, 0.4);
-  --nd-wash-pink: rgba(200, 0, 106, 0.08);
-  --nd-ul-pink: rgba(200, 0, 106, 0.35);
+  --nd-wash-pink: rgba(184, 0, 97, 0.08);
+  --nd-ul-pink: rgba(184, 0, 97, 0.35);
   --nd-diff-add-bg: rgba(29, 118, 48, 0.07);
   --nd-diff-del-bg: rgba(196, 49, 42, 0.07);
-  --nd-select-pink: rgba(200, 0, 106, 0.18);
+  --nd-select-pink: rgba(184, 0, 97, 0.18);
   --nd-press: rgba(106, 63, 208, 0.14);
   --nd-scrim: rgba(26, 21, 34, 0.35);
   --nd-osd-bg: rgba(237, 231, 243, 0.92);
@@ -7194,7 +7194,7 @@ html:root .ui-dialog .ui-dialog-buttonpane .ui-button.mainaction,
 html:root #rcmloginsubmit {
   color: var(--nd-purple);
   background: var(--nd-wash);
-  border: 1px solid var(--nd-tint-purple);
+  border: 1px solid var(--nd-purple);
 }
 html:root .btn-primary:not(:disabled):not(.disabled):hover,
 html:root .btn.mainaction:not(:disabled):not(.disabled):hover,
@@ -7218,7 +7218,7 @@ html:root .ui-button.delete,
 html:root .ui-dialog .ui-dialog-buttonpane .ui-button.delete {
   color: var(--nd-diff-del);
   background: var(--nd-diff-del-bg);
-  border: 1px solid var(--nd-edge-del);
+  border: 1px solid var(--nd-diff-del);
 }
 html:root .btn-danger:not(:disabled):not(.disabled):hover,
 html:root .btn.delete:not(:disabled):not(.disabled):hover,
@@ -7705,7 +7705,7 @@ html:root .spinner-border {
 html:root .floating-action-buttons a.button {
   color: var(--nd-purple);
   background: var(--nd-panel);
-  border: 1px solid var(--nd-tint-purple);
+  border: 1px solid var(--nd-purple);
   opacity: 1;
 }
 html:root .floating-action-buttons a.button:hover {

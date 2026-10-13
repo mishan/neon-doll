@@ -77,7 +77,7 @@ Every other app, in both variants, and the cursors are in the
 | Redundant cues | A switch shows `\|` when on and `□` when off as well as its color; diff lines keep their `+`/`-` along with color and tint. |
 
 Light keeps the roles but not the values: the dark fuchsia `#ff2d95` and
-purple `#b48cff` are too faint on paper, so light uses `#c8006a` and `#6a3fd0`,
+purple `#b48cff` are too faint on paper, so light uses `#b80061` and `#6a3fd0`,
 both above 4.5:1 on its panels.
 
 ## Working on it

@@ -5,7 +5,7 @@
 ColorScheme=NeonDollLight
 
 [Cursor Options]
-CustomCursorColor=200,0,106
+CustomCursorColor=184,0,97
 CustomCursorTextColor=247,244,250
 UseCustomCursorColor=true
 

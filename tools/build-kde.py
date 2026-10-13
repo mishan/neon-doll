@@ -322,7 +322,7 @@ def kvantum_svg(variant):
     box(s, "button", "focused", F["button"], wash, outline(1, pink))
     box(s, "button", "pressed", F["button"], press, outline(1, pink))
     box(s, "button", "toggled", F["button"], wash_pink, outline(1, edge))
-    box(s, "button-default", None, F["button"], wash, outline(1, a["tint-purple"]))
+    box(s, "button-default", None, F["button"], wash, outline(1, p["purple"]))
     box(s, "button-focus", None, F["button"], None, outline(1, pink))
     s.element("button-default-indicator", 8, 8, [])
 

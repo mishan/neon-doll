@@ -50,7 +50,7 @@ mid.light.color=#d6cce2
 dark.color=#f7f4fa
 mid.color=#d6cce2
 shadow.color=#f7f4fa
-highlight.color=#efc8e0
+highlight.color=#ecc8de
 inactive.highlight.color=#e3dbf4
 tooltip.base.color=#ede7f3
 text.color=#1a1522
@@ -88,9 +88,9 @@ text.margin.left=8
 text.margin.right=8
 text.iconspacing=6
 text.normal.color=#1a1522
-text.focus.color=#c8006a
-text.press.color=#c8006a
-text.toggle.color=#c8006a
+text.focus.color=#b80061
+text.press.color=#b80061
+text.toggle.color=#b80061
 
 [PanelButtonTool]
 inherits=PanelButtonCommand
@@ -100,9 +100,9 @@ frame.element=toolbutton
 interior.element=toolbutton
 indicator.element=arrow
 text.normal.color=#1a1522
-text.focus.color=#c8006a
-text.press.color=#c8006a
-text.toggle.color=#c8006a
+text.focus.color=#b80061
+text.press.color=#b80061
+text.toggle.color=#b80061
 
 [ComboBox]
 inherits=PanelButtonCommand
@@ -111,7 +111,7 @@ interior.element=combo
 text.margin.left=6
 text.margin.right=6
 text.normal.color=#1a1522
-text.focus.color=#c8006a
+text.focus.color=#b80061
 text.press.color=#1a1522
 text.toggle.color=#1a1522
 
@@ -119,7 +119,7 @@ text.toggle.color=#1a1522
 frame.element=combo
 interior.element=combo
 text.normal.color=#1a1522
-text.focus.color=#c8006a
+text.focus.color=#b80061
 text.press.color=#1a1522
 text.toggle.color=#1a1522
 
@@ -244,8 +244,8 @@ text.margin.left=10
 text.margin.right=10
 focusFrame=true
 text.normal.color=#5f5670
-text.focus.color=#c8006a
-text.press.color=#c8006a
+text.focus.color=#b80061
+text.press.color=#b80061
 text.toggle.color=#1a1522
 
 [ToolboxTab]
@@ -273,8 +273,8 @@ text.margin.bottom=3
 text.margin.left=6
 text.margin.right=6
 text.normal.color=#5f5670
-text.focus.color=#c8006a
-text.press.color=#c8006a
+text.focus.color=#b80061
+text.press.color=#b80061
 text.toggle.color=#5f5670
 
 [SizeGrip]
@@ -294,18 +294,18 @@ indicator.element=toolbar
 indicator.size=8
 text.margin=0
 text.normal.color=#1a1522
-text.focus.color=#c8006a
-text.press.color=#c8006a
-text.toggle.color=#c8006a
+text.focus.color=#b80061
+text.press.color=#b80061
+text.toggle.color=#b80061
 
 [MenuBar]
 frame=false
 interior=true
 interior.element=menubar
 text.normal.color=#1a1522
-text.focus.color=#c8006a
-text.press.color=#c8006a
-text.toggle.color=#c8006a
+text.focus.color=#b80061
+text.press.color=#b80061
+text.toggle.color=#b80061
 
 [MenuBarItem]
 frame=false
@@ -316,9 +316,9 @@ text.margin.bottom=3
 text.margin.left=8
 text.margin.right=8
 text.normal.color=#1a1522
-text.focus.color=#c8006a
-text.press.color=#c8006a
-text.toggle.color=#c8006a
+text.focus.color=#b80061
+text.press.color=#b80061
+text.toggle.color=#b80061
 
 [Menu]
 frame=true
@@ -330,9 +330,9 @@ frame.right=1
 interior=true
 interior.element=menu
 text.normal.color=#1a1522
-text.focus.color=#c8006a
-text.press.color=#c8006a
-text.toggle.color=#c8006a
+text.focus.color=#b80061
+text.press.color=#b80061
+text.toggle.color=#b80061
 
 [MenuItem]
 frame=false
@@ -346,9 +346,9 @@ text.margin.left=6
 text.margin.right=6
 min_height=24
 text.normal.color=#1a1522
-text.focus.color=#c8006a
-text.press.color=#c8006a
-text.toggle.color=#c8006a
+text.focus.color=#b80061
+text.press.color=#b80061
+text.toggle.color=#b80061
 
 [ToolTip]
 frame=true
@@ -382,7 +382,7 @@ text.margin.bottom=2
 text.margin.left=4
 text.margin.right=4
 text.normal.color=#1a1522
-text.focus.color=#c8006a
+text.focus.color=#b80061
 text.press.color=#1a1522
 text.toggle.color=#1a1522
 

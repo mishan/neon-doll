@@ -69,7 +69,7 @@ edge    = "#887f9b"   # 3.1:1 on panel
 ink     = "#1a1522"
 muted   = "#5f5670"   # 5.7:1 on panel
 dimmest = "#8d84a0"   # inert only, never text you need
-pink    = "#c8006a"   # 4.7:1 on panel
+pink    = "#b80061"   # 4.7:1 on its own wash over panel
 purple  = "#6a3fd0"   # 5.4:1 on panel
 
 code-string = "#8a6100"

@@ -2,7 +2,7 @@
     name: "Neon Doll Light",
     foreground: "#1a1522",
     background: "#f7f4fa",
-    cursor: "#c8006a",
+    cursor: "#b80061",
     bright_foreground: "#1a1522",
     dim_foreground: "#5f5670",
     normal: (

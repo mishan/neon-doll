@@ -288,7 +288,7 @@ button.suggested-action:backdrop:not(#_) {
   color: @purple;
   background-color: @wash;
   background-image: none;
-  border-color: @tint-purple;
+  border-color: @purple;
 }
 button.suggested-action:hover:not(#_), button.suggested-action:focus:hover:not(#_) {
   color: @pink;
@@ -303,7 +303,7 @@ button.destructive-action:backdrop:not(#_) {
   color: @diff-del;
   background-color: @diff-del-bg;
   background-image: none;
-  border-color: @edge-del;
+  border-color: @diff-del;
 }
 button.destructive-action:hover:not(#_), button.destructive-action:active:not(#_) {
   color: @diff-del;

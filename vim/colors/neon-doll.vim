@@ -14,7 +14,7 @@ if &background ==# 'light'
   hi SpecialKey guifg=#8d84a0 guibg=NONE ctermfg=8 ctermbg=NONE gui=NONE cterm=NONE
   hi Whitespace guifg=#d6cce2 guibg=NONE ctermfg=0 ctermbg=NONE gui=NONE cterm=NONE
   hi LineNr guifg=#8d84a0 guibg=NONE ctermfg=8 ctermbg=NONE gui=NONE cterm=NONE
-  hi CursorLineNr guifg=#c8006a guibg=#f0ebf8 ctermfg=13 ctermbg=NONE gui=NONE cterm=NONE
+  hi CursorLineNr guifg=#b80061 guibg=#f0ebf8 ctermfg=13 ctermbg=NONE gui=NONE cterm=NONE
   hi CursorLine guifg=NONE guibg=#f0ebf8 ctermfg=NONE ctermbg=NONE gui=NONE cterm=NONE
   hi CursorColumn guifg=NONE guibg=#f0ebf8 ctermfg=NONE ctermbg=NONE gui=NONE cterm=NONE
   hi ColorColumn guifg=NONE guibg=#f0ebf8 ctermfg=NONE ctermbg=0 gui=NONE cterm=NONE
@@ -29,19 +29,19 @@ if &background ==# 'light'
   hi StatusLineTermNC guifg=#5f5670 guibg=#f7f4fa ctermfg=8 ctermbg=NONE gui=NONE cterm=NONE
   hi TabLine guifg=#5f5670 guibg=#ede7f3 ctermfg=8 ctermbg=0 gui=NONE cterm=NONE
   hi TabLineFill guifg=NONE guibg=#f7f4fa ctermfg=NONE ctermbg=NONE gui=NONE cterm=NONE
-  hi TabLineSel guifg=#c8006a guibg=#f7f4fa ctermfg=5 ctermbg=NONE gui=NONE cterm=NONE
+  hi TabLineSel guifg=#b80061 guibg=#f7f4fa ctermfg=5 ctermbg=NONE gui=NONE cterm=NONE
   hi Pmenu guifg=#1a1522 guibg=#ede7f3 ctermfg=NONE ctermbg=0 gui=NONE cterm=NONE
-  hi PmenuSel guifg=#c8006a guibg=#f3e0ee ctermfg=0 ctermbg=5 gui=NONE cterm=NONE
+  hi PmenuSel guifg=#b80061 guibg=#f2e0ee ctermfg=0 ctermbg=5 gui=NONE cterm=NONE
   hi PmenuSbar guifg=NONE guibg=#ede7f3 ctermfg=NONE ctermbg=0 gui=NONE cterm=NONE
   hi PmenuThumb guifg=NONE guibg=#8d84a0 ctermfg=NONE ctermbg=8 gui=NONE cterm=NONE
-  hi WildMenu guifg=#c8006a guibg=#f3e0ee ctermfg=0 ctermbg=5 gui=NONE cterm=NONE
-  hi Visual guifg=NONE guibg=#efc8e0 ctermfg=NONE ctermbg=0 gui=NONE cterm=NONE
-  hi VisualNOS guifg=NONE guibg=#efc8e0 ctermfg=NONE ctermbg=0 gui=NONE cterm=NONE
+  hi WildMenu guifg=#b80061 guibg=#f2e0ee ctermfg=0 ctermbg=5 gui=NONE cterm=NONE
+  hi Visual guifg=NONE guibg=#ecc8de ctermfg=NONE ctermbg=0 gui=NONE cterm=NONE
+  hi VisualNOS guifg=NONE guibg=#ecc8de ctermfg=NONE ctermbg=0 gui=NONE cterm=NONE
   hi Search guifg=#f7f4fa guibg=#6a3fd0 ctermfg=0 ctermbg=5 gui=NONE cterm=NONE
-  hi CurSearch guifg=#f7f4fa guibg=#c8006a ctermfg=0 ctermbg=13 gui=NONE cterm=NONE
-  hi IncSearch guifg=#f7f4fa guibg=#c8006a ctermfg=0 ctermbg=13 gui=NONE cterm=NONE
-  hi MatchParen guifg=#c8006a guibg=#f3e0ee ctermfg=5 ctermbg=NONE gui=underline cterm=underline
-  hi QuickFixLine guifg=NONE guibg=#f3e0ee ctermfg=NONE ctermbg=0 gui=NONE cterm=NONE
+  hi CurSearch guifg=#f7f4fa guibg=#b80061 ctermfg=0 ctermbg=13 gui=NONE cterm=NONE
+  hi IncSearch guifg=#f7f4fa guibg=#b80061 ctermfg=0 ctermbg=13 gui=NONE cterm=NONE
+  hi MatchParen guifg=#b80061 guibg=#f2e0ee ctermfg=5 ctermbg=NONE gui=underline cterm=underline
+  hi QuickFixLine guifg=NONE guibg=#f2e0ee ctermfg=NONE ctermbg=0 gui=NONE cterm=NONE
   hi Title guifg=#6a3fd0 guibg=NONE ctermfg=5 ctermbg=NONE gui=NONE cterm=NONE
   hi Directory guifg=#6a3fd0 guibg=NONE ctermfg=5 ctermbg=NONE gui=NONE cterm=NONE
   hi Question guifg=#6a3fd0 guibg=NONE ctermfg=5 ctermbg=NONE gui=NONE cterm=NONE
@@ -49,8 +49,8 @@ if &background ==# 'light'
   hi ModeMsg guifg=#5f5670 guibg=NONE ctermfg=8 ctermbg=NONE gui=NONE cterm=NONE
   hi ErrorMsg guifg=#c4312a guibg=NONE ctermfg=1 ctermbg=NONE gui=NONE cterm=NONE
   hi WarningMsg guifg=#8a6100 guibg=NONE ctermfg=3 ctermbg=NONE gui=NONE cterm=NONE
-  hi Cursor guifg=#f7f4fa guibg=#c8006a ctermfg=NONE ctermbg=NONE gui=NONE cterm=NONE
-  hi lCursor guifg=#f7f4fa guibg=#c8006a ctermfg=NONE ctermbg=NONE gui=NONE cterm=NONE
+  hi Cursor guifg=#f7f4fa guibg=#b80061 ctermfg=NONE ctermbg=NONE gui=NONE cterm=NONE
+  hi lCursor guifg=#f7f4fa guibg=#b80061 ctermfg=NONE ctermbg=NONE gui=NONE cterm=NONE
   hi SpellBad guifg=NONE guibg=NONE ctermfg=1 ctermbg=NONE gui=undercurl cterm=underline guisp=#c4312a
   hi SpellCap guifg=NONE guibg=NONE ctermfg=3 ctermbg=NONE gui=undercurl cterm=underline guisp=#8a6100
   hi SpellRare guifg=NONE guibg=NONE ctermfg=5 ctermbg=NONE gui=undercurl cterm=underline guisp=#6a3fd0
@@ -68,9 +68,9 @@ if &background ==# 'light'
   hi Float guifg=#6a3fd0 guibg=NONE ctermfg=5 ctermbg=NONE gui=NONE cterm=NONE
   hi Identifier guifg=#1a1522 guibg=NONE ctermfg=NONE ctermbg=NONE gui=NONE cterm=NONE
   hi Function guifg=#1a1522 guibg=NONE ctermfg=NONE ctermbg=NONE gui=NONE cterm=NONE
-  hi Statement guifg=#c8006a guibg=NONE ctermfg=13 ctermbg=NONE gui=NONE cterm=NONE
+  hi Statement guifg=#b80061 guibg=NONE ctermfg=13 ctermbg=NONE gui=NONE cterm=NONE
   hi Operator guifg=#1a1522 guibg=NONE ctermfg=NONE ctermbg=NONE gui=NONE cterm=NONE
-  hi PreProc guifg=#c8006a guibg=NONE ctermfg=13 ctermbg=NONE gui=NONE cterm=NONE
+  hi PreProc guifg=#b80061 guibg=NONE ctermfg=13 ctermbg=NONE gui=NONE cterm=NONE
   hi Type guifg=#6a3fd0 guibg=NONE ctermfg=5 ctermbg=NONE gui=NONE cterm=NONE
   hi Special guifg=#6a3fd0 guibg=NONE ctermfg=5 ctermbg=NONE gui=NONE cterm=NONE
   hi Delimiter guifg=#1a1522 guibg=NONE ctermfg=NONE ctermbg=NONE gui=NONE cterm=NONE

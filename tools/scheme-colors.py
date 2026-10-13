@@ -17,7 +17,7 @@ import json
 import os
 import sys
 
-from tokens import contrast, over
+from tokens import contrast, over, tint
 from tokens import flat as derive
 
 
@@ -266,12 +266,15 @@ def write(path, text):
 # dimmest, which is for what you can skip (line numbers among it).
 FLOORS = [(fg, bg, 4.5) for fg in ("ink", "muted", "pink", "purple", "string", "add", "del")
           for bg in ("bg", "panel")]
-FLOORS += [("edge", "bg", 3), ("edge", "panel", 3), ("ink", "select", 4.5)]
+FLOORS += [("edge", "bg", 3), ("edge", "panel", 3), ("ink", "select", 4.5),
+           ("pink", "wash-pink-panel", 4.5)]
 
 
 def below_floor():
     for v in ("dark", "light"):
         p = derive(v)
+        # A selected sidebar row: pink text on its own wash, over a panel.
+        p["wash-pink-panel"] = over(p["panel"], *tint(v, "wash-pink"))
         for fg, bg, floor in FLOORS:
             r = contrast(p[fg], p[bg])
             if r < floor:
