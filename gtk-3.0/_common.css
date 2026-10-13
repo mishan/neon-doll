@@ -520,9 +520,14 @@ entry placeholder:not(#_) { color: @muted; }
 entry image:not(#_) { color: @muted; }
 entry image:hover:not(#_) { color: @pink; }
 /* A state doubles the edge in its color, so it reads without color too. */
-entry.error:not(#_), spinbutton.error:not(#_), spinbutton.vertical.error entry:not(#_) { color: @diff-del; border-color: @diff-del; box-shadow: inset 0 0 0 1px @diff-del; }
-entry.warning:not(#_), spinbutton.warning:not(#_), spinbutton.vertical.warning entry:not(#_) { color: @code-string; border-color: @code-string; box-shadow: inset 0 0 0 1px @code-string; }
-entry.success:not(#_), spinbutton.success:not(#_), spinbutton.vertical.success entry:not(#_) { color: @diff-add; border-color: @diff-add; box-shadow: inset 0 0 0 1px @diff-add; }
+entry.error:not(#_), spinbutton.error:not(#_) { color: @diff-del; }
+entry.warning:not(#_), spinbutton.warning:not(#_) { color: @code-string; }
+entry.success:not(#_), spinbutton.success:not(#_) { color: @diff-add; }
+/* A vertical spin button draws its field on the entry inside it, but its
+   digits in the outer node's color. */
+entry.error:not(#_), spinbutton.error:not(.vertical):not(#_), spinbutton.vertical.error entry:not(#_) { border-color: @diff-del; box-shadow: inset 0 0 0 1px @diff-del; }
+entry.warning:not(#_), spinbutton.warning:not(.vertical):not(#_), spinbutton.vertical.warning entry:not(#_) { border-color: @code-string; box-shadow: inset 0 0 0 1px @code-string; }
+entry.success:not(#_), spinbutton.success:not(.vertical):not(#_), spinbutton.vertical.success entry:not(#_) { border-color: @diff-add; box-shadow: inset 0 0 0 1px @diff-add; }
 /* Focused, the outer half of the edge is the focus pink, the inner the state's. */
 entry.error:focus:not(#_), spinbutton.error:focus:not(#_),
 entry.warning:focus:not(#_), spinbutton.warning:focus:not(#_),

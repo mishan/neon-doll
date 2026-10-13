@@ -33,7 +33,7 @@ tmp=$(mktemp -d /tmp/shoot-shell.XXXXXX)
 # Under set -e a failing command ends the trap, so each one may fail.
 trap 'kill $(cat "$tmp/sysbus.pid" 2>/dev/null) 2>/dev/null || true
   fusermount3 -uz "$tmp/run/doc" 2>/dev/null || fusermount -uz "$tmp/run/doc" 2>/dev/null || true
-  rm -rf "$tmp" 2>/dev/null' EXIT
+  rm -rf "$tmp"' EXIT
 
 mkdir -p "$tmp/home/.themes" "$tmp/run"
 chmod 700 "$tmp/run"

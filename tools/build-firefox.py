@@ -16,10 +16,11 @@ toolbar is the panel on it, so the current tab, which takes the toolbar
 color, reads as the one panel lifted off the page. Its title is fuchsia, and
 so is its 1px outline (`tab_line`): it is where you are. Background tabs are
 muted. The address bar is a slot, page-colored with a control's edge;
-focused, the edge turns fuchsia, as a focus ring does. Popups and the sidebar are panels
-with a line edge; the highlighted address-bar result and the current sidebar
-row get a fuchsia wash, and the sidebar row fuchsia text. Toolbar hover is a
-fuchsia wash too, since hover is a position; pressed is one step stronger.
+focused, the edge turns fuchsia, as a focus ring does. Popups and the
+sidebar are panels with a line edge; the highlighted address-bar result and
+the current sidebar row get a fuchsia wash, and the sidebar row fuchsia
+text. Toolbar hover is a fuchsia wash too, since hover is a position;
+pressed is one step stronger.
 Loading and attention (a finished download, a starred page) are fuchsia.
 The New Tab page is the page, with panel-colored cards.
 
