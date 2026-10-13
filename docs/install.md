@@ -14,7 +14,7 @@
 
 ## The installer
 
-```
+```sh
 git clone https://github.com/mishan/neon-doll.git && cd neon-doll
 ./install.sh                  # asks which parts
 ./install.sh all              # every part that fits this system

@@ -44,6 +44,18 @@ def load_css():
         )
 
 
+def named(widget, name):
+    """Give a widget the accessible name a screen reader says, which a
+    control with no label of its own lacks; `shotbox a11y lint` checks."""
+    widget.update_property([Gtk.AccessibleProperty.LABEL], [name])
+    return widget
+
+
+# Icons beside a label say nothing the label doesn't.
+def decoration(icon):
+    return Gtk.Image(icon_name=icon, accessible_role=Gtk.AccessibleRole.PRESENTATION)
+
+
 def sidebar():
     lb = Gtk.ListBox(css_classes=["navigation-sidebar"])
     for icon, name in [
@@ -54,7 +66,7 @@ def sidebar():
         ("user-trash-symbolic", "trash"),
     ]:
         box = Gtk.Box(spacing=10, margin_start=6, margin_end=6, margin_top=6, margin_bottom=6)
-        box.append(Gtk.Image(icon_name=icon))
+        box.append(decoration(icon))
         box.append(Gtk.Label(label=name, xalign=0))
         lb.append(box)
     lb.select_row(lb.get_row_at_index(2))
@@ -86,27 +98,27 @@ def toggles():
     r2 = Gtk.CheckButton(label="other", group=r1)
     box.append(r1)
     box.append(r2)
-    box.append(Gtk.Switch(active=True, valign=Gtk.Align.CENTER))
-    box.append(Gtk.Switch(active=False, valign=Gtk.Align.CENTER))
+    box.append(named(Gtk.Switch(active=True, valign=Gtk.Align.CENTER), "on"))
+    box.append(named(Gtk.Switch(active=False, valign=Gtk.Align.CENTER), "off"))
     box.append(Gtk.CheckButton(label="disabled", sensitive=False))
     return box
 
 
 def ranges():
     box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
-    box.append(Gtk.Scale(adjustment=Gtk.Adjustment(value=40, upper=100), hexpand=True))
+    box.append(named(Gtk.Scale(adjustment=Gtk.Adjustment(value=40, upper=100), hexpand=True), "volume"))
     # A mark on one side, as Settings' balance has: Adwaita turns this
     # slider 45 degrees into a pointer.
-    balance = Gtk.Scale(adjustment=Gtk.Adjustment(value=0, lower=-1, upper=1), hexpand=True)
+    balance = named(Gtk.Scale(adjustment=Gtk.Adjustment(value=0, lower=-1, upper=1), hexpand=True), "balance")
     balance.add_mark(0, Gtk.PositionType.BOTTOM, None)
     box.append(balance)
     pb = Gtk.ProgressBar(fraction=0.62)
     box.append(pb)
     row = Gtk.Box(spacing=8)
-    row.append(Gtk.Entry(placeholder_text="grep -i", hexpand=True))
-    e = Gtk.Entry(text="focused field", hexpand=True)
+    row.append(named(Gtk.Entry(placeholder_text="grep -i", hexpand=True), "search"))
+    e = named(Gtk.Entry(text="focused field", hexpand=True), "field")
     row.append(e)
-    row.append(Gtk.SpinButton(adjustment=Gtk.Adjustment(value=24, upper=100, step_increment=1)))
+    row.append(named(Gtk.SpinButton(adjustment=Gtk.Adjustment(value=24, upper=100, step_increment=1)), "size"))
     box.append(row)
     return box, e
 
@@ -114,7 +126,7 @@ def ranges():
 def group():
     g = Adw.PreferencesGroup(title="Contact", description="How the card reaches people")
     r = Adw.ActionRow(title="Email", subtitle="doll@example.org", activatable=True)
-    r.add_suffix(Gtk.Image(icon_name="go-next-symbolic"))
+    r.add_suffix(decoration("go-next-symbolic"))
     g.add(r)
     g.add(Adw.SwitchRow(title="Show QR code", subtitle="On the contact page", active=True))
     g.add(Adw.EntryRow(title="Display name", text="Neon Doll"))
@@ -132,7 +144,7 @@ def text():
         "Mono carries the chrome; sans carries what you read.\n"
     )
     buf.select_range(buf.get_iter_at_offset(2), buf.get_iter_at_offset(22))
-    tv = Gtk.TextView(buffer=buf, top_margin=8, bottom_margin=8, left_margin=10, right_margin=10)
+    tv = named(Gtk.TextView(buffer=buf, top_margin=8, bottom_margin=8, left_margin=10, right_margin=10), "notes")
     frame = Gtk.Frame(child=tv)
     return frame, tv
 
@@ -140,7 +152,7 @@ def text():
 def content(win):
     header = Adw.HeaderBar()
     header.set_title_widget(Adw.WindowTitle(title="photos", subtitle="~/photos/2026"))
-    header.pack_start(Gtk.Button(icon_name="go-previous-symbolic"))
+    header.pack_start(named(Gtk.Button(icon_name="go-previous-symbolic"), "Back"))
     menu = Gio.Menu()
     menu.append("New window", "app.new")
     menu.append("Preferences", "app.prefs")
@@ -148,10 +160,10 @@ def content(win):
     sec.append("Keyboard shortcuts", "app.keys")
     sec.append("About", "app.about")
     menu.append_section(None, sec)
-    mb = Gtk.MenuButton(icon_name="open-menu-symbolic", menu_model=menu)
+    mb = named(Gtk.MenuButton(icon_name="open-menu-symbolic", menu_model=menu), "Main menu")
     win.menu_button = mb
     header.pack_end(mb)
-    header.pack_end(Gtk.Button(icon_name="system-search-symbolic"))
+    header.pack_end(named(Gtk.Button(icon_name="system-search-symbolic"), "Search"))
 
     tabs = Adw.TabView()
     for t in ("index.md", "log.md", "card.php"):
@@ -187,7 +199,7 @@ def on_activate(app):
     load_css()
     for name in ("new", "prefs", "keys", "about"):
         app.add_action(Gio.SimpleAction(name=name))
-    win = Adw.ApplicationWindow(application=app, default_width=1180, default_height=980)
+    win = Adw.ApplicationWindow(application=app, title="preview.py", default_width=1180, default_height=980)
     split = Adw.NavigationSplitView(sidebar=sidebar(), content=content(win), min_sidebar_width=220)
     win.set_content(split)
     win.present()

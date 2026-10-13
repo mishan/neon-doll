@@ -16,7 +16,7 @@ under that), and `tests/install.ps1` for `install.ps1`, under PowerShell 7 on
 any system or Windows PowerShell 5.1. CI runs both on Linux, macOS and
 Windows, with `tools/build.sh --check`, shellcheck and PSScriptAnalyzer.
 
-```
+```sh
 tests/install.sh                                  # test install.sh
 pwsh tests/install.ps1                            # test windows/install.ps1
 tools/build.sh [--check]                          # rebuild everything from tokens.toml

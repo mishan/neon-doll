@@ -15,20 +15,20 @@ glow and `whiptail`, plus the COSMIC desktop and its terminal, KDE Plasma and th
 light, except the cursor: GNOME has one cursor setting, so there is one cursor
 theme, drawn to stand out on both.
 
-![The overview, dark](screenshots/shell-overview-dark.png)
+![GNOME Shell overview, dark](screenshots/shell-overview-dark.png)
 
 ## Install
 
 On Linux, the BSDs or macOS:
 
-```
+```sh
 git clone https://github.com/mishan/neon-doll.git && cd neon-doll
 ./install.sh
 ```
 
 On Windows, from a clone or the Windows zip, in PowerShell:
 
-```
+```powershell
 .\windows\install.ps1
 ```
 
@@ -50,15 +50,14 @@ goes, how to turn it on, and what it can't reach.
 
 ## Screenshots
 
-| | Dark | Light |
+| App | Dark | Light |
 |---|---|---|
-| GNOME Shell overview | ![](screenshots/shell-overview-dark.png) | ![](screenshots/shell-overview-light.png) |
-| Calendar | ![](screenshots/shell-calendar-dark.png) | ![](screenshots/shell-calendar-light.png) |
-| Quick settings | ![](screenshots/shell-quick-settings-dark.png) | ![](screenshots/shell-quick-settings-light.png) |
-| GTK 4 / libadwaita | ![](screenshots/gtk4-dark.png) | ![](screenshots/gtk4-light.png) |
-| VS Code | ![](screenshots/vscode-dark.png) | ![](screenshots/vscode-light.png) |
-| COSMIC, with Files and Terminal | ![](screenshots/cosmic-desktop-dark.png) | ![](screenshots/cosmic-desktop-light.png) |
-| KDE Plasma, with Dolphin and Konsole | ![](screenshots/plasma-desktop-dark.png) | ![](screenshots/plasma-desktop-light.png) |
+| Calendar | ![GNOME Shell calendar, dark](screenshots/shell-calendar-dark.png) | ![GNOME Shell calendar, light](screenshots/shell-calendar-light.png) |
+| Quick settings | ![GNOME Shell quick settings, dark](screenshots/shell-quick-settings-dark.png) | ![GNOME Shell quick settings, light](screenshots/shell-quick-settings-light.png) |
+| GTK 4 / libadwaita | ![GTK 4 / libadwaita, dark](screenshots/gtk4-dark.png) | ![GTK 4 / libadwaita, light](screenshots/gtk4-light.png) |
+| VS Code | ![VS Code, dark](screenshots/vscode-dark.png) | ![VS Code, light](screenshots/vscode-light.png) |
+| COSMIC, with Files and Terminal | ![COSMIC, with Files and Terminal, dark](screenshots/cosmic-desktop-dark.png) | ![COSMIC, with Files and Terminal, light](screenshots/cosmic-desktop-light.png) |
+| KDE Plasma, with Dolphin and Konsole | ![KDE Plasma, with Dolphin and Konsole, dark](screenshots/plasma-desktop-dark.png) | ![KDE Plasma, with Dolphin and Konsole, light](screenshots/plasma-desktop-light.png) |
 
 Every other app, in both variants, and the cursors are in the
 [full gallery](docs/screenshots.md).

@@ -522,10 +522,13 @@ entry:focus-within, spinbutton:focus-within {
 /* A text view sits in its frame, which would clip a ring on the edge. */
 textview:focus-within { outline: 2px solid var(--pink); outline-offset: -2px; }
 entry placeholder, text placeholder { color: var(--muted); }
+/* A state doubles the edge in its color, so it reads without color too. */
 entry.error, entry.warning, entry.success { background-color: var(--panel); }
-entry.error { color: var(--diff-del); }
-entry.warning { color: var(--code-string); }
-entry.success { color: var(--diff-add); }
+entry.error { color: var(--diff-del); box-shadow: inset 0 0 0 2px var(--diff-del); }
+entry.warning { color: var(--code-string); box-shadow: inset 0 0 0 2px var(--code-string); }
+entry.success { color: var(--diff-add); box-shadow: inset 0 0 0 2px var(--diff-add); }
+/* Focused, the ring steps outside the state's edge rather than over it. */
+entry.error:focus-within, entry.warning:focus-within, entry.success:focus-within { outline-offset: 1px; }
 
 /* === Toggles ==============================================================
    The switch is a slot, like a text field, with the block cursor in it. On:
