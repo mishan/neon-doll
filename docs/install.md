@@ -10,6 +10,7 @@
 - [Windows](#windows): [Terminal and PowerShell](#windows-terminal-and-powershell), [the desktop](#the-windows-desktop)
 - [Roundcube](#roundcube)
 - [Light and dark](#light-and-dark)
+- [High contrast](#high-contrast)
 
 ## The installer
 
@@ -443,3 +444,11 @@ scheme per variant. VS Code switches when told to, in its settings:
 "workbench.preferredDarkColorTheme": "Neon Doll Dark",
 "workbench.preferredLightColorTheme": "Neon Doll Light"
 ```
+
+## High contrast
+
+GTK 4 apps follow Settings → Accessibility → High Contrast: every edge goes
+to full strength, the selection goes solid, and the graph paper goes. GTK 3
+and the Shell can't follow it, since each takes one theme name: while it's
+on, set GTK 3's theme to `HighContrast` and the Shell's user theme back to
+the default.

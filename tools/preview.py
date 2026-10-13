@@ -32,6 +32,9 @@ def load_css():
         # way the installed ~/.config/gtk-4.0/gtk.css does, so pin it.
         provider.props.prefers_color_scheme = (
             Gtk.InterfaceColorScheme.LIGHT if "--light" in sys.argv else Gtk.InterfaceColorScheme.DARK)
+        # Nor its contrast: follow the setting, as High Contrast or
+        # `shotbox --high-contrast` sets it.
+        provider.props.prefers_contrast = Gtk.Settings.get_default().props.gtk_interface_contrast
         provider.load_from_path(str(path))
         # Later files sit one step higher, so the spike wins over the theme.
         Gtk.StyleContext.add_provider_for_display(

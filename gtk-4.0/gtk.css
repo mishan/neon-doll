@@ -519,6 +519,8 @@ entry:focus-within, spinbutton:focus-within {
   outline: 2px solid var(--pink);
   outline-offset: -1px;
 }
+/* A text view sits in its frame, which would clip a ring on the edge. */
+textview:focus-within { outline: 2px solid var(--pink); outline-offset: -2px; }
 entry placeholder, text placeholder { color: var(--muted); }
 entry.error, entry.warning, entry.success { background-color: var(--panel); }
 entry.error { color: var(--diff-del); }
@@ -636,3 +638,18 @@ scrollbar.hovering > range > trough, scrollbar:not(.overlay-indicator) > range >
 
 statuspage > scrolledwindow > viewport > box > clamp > box > .icon,
 statuspage .icon { color: var(--dimmest); }
+
+/* === High contrast ========================================================
+   Settings → Accessibility → High Contrast. The look stays; every edge goes
+   from a hairline you can miss to one you can't, the selection goes solid,
+   and the graph paper goes. Last in the file, so it wins. */
+
+@media (prefers-contrast: more) {
+  :root {
+    --line:        var(--muted);
+    --edge:        var(--ink);
+    --tint-purple: var(--purple);
+    --grid:        transparent;
+  }
+  selection, selection:focus-within { background-color: var(--pink); color: var(--bg); }
+}
