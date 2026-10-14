@@ -7,7 +7,7 @@ and GTK 4 in high contrast too.
 
     tools/a11y-check.py
 
-Needs shotbox 0.4.2 or later on PATH. tools/scheme-colors.py checks the same
+Needs shotbox 0.4.3 or later on PATH. tools/scheme-colors.py checks the same
 floors on the palette; this checks them on the pixels.
 """
 
@@ -30,17 +30,14 @@ EXEMPT = {
     ("toggle button", "Main menu"): "header bar buttons are flat",
     ("toggle button", "Menu"): "header bar buttons are flat",
     ("button", "example.org"): "a link button is a link, with no edge by design",
-    ("toggle button", "off"): "GTK 3 calls a switch a toggle button, so its off "
-                              "mark, a graphic at 3.5:1, is measured as text",
-    ("toggle button", "off, hovered"): "the same switch, hovered",
     ("button", "Minimize"): "window controls are flat",
     ("button", "Maximize"): "window controls are flat",
     ("button", "Close"): "window controls are flat",
     ("button", "Dismiss"): "a toast's close button is flat",
-    ("button", "Close Tab"): "a tab's close button is flat, and drawn only on hover",
+    ("button", "Close Tab"): "a tab's close button is flat, and drawn only on hover, "
+                             "where it clears 3:1",
     ("text", "Display name"): "a row's edge is its boxed list's",
     ("combo box", "Theme"): "a row's edge is its boxed list's",
-    ("text", "notes"): "a text view's edge is its frame's, just outside it",
 }
 # libadwaita's tab bar scrolls its tabs in a scroll pane it doesn't name.
 LINT_IGNORE = "focusable scroll pane with no name"
