@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Check the GTK 4 theme as a screen reader and a low-vision reader meet it,
-on tools/preview.py in a sealed session: every control named, text and
-control edges above WCAG's floors as drawn on the screen, and the focus
-seen at every stop. Dark, light and high contrast.
+"""Check the GTK 4 and GTK 3 themes as a screen reader and a low-vision
+reader meet them, on tools/preview.py and tools/preview3.py in sealed
+sessions: every control named, text and control edges above WCAG's floors
+as drawn on the screen, and the focus seen at every stop. Dark and light,
+and GTK 4 in high contrast too.
 
     tools/a11y-check.py
 
@@ -11,6 +12,7 @@ floors on the palette; this checks them on the pixels.
 """
 
 import json
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -26,6 +28,11 @@ EXEMPT = {
     ("button", "Search"): "header bar buttons are flat",
     ("button", "Main menu"): "header bar buttons are flat",
     ("toggle button", "Main menu"): "header bar buttons are flat",
+    ("toggle button", "Menu"): "header bar buttons are flat",
+    ("button", "example.org"): "a link button is a link, with no edge by design",
+    ("toggle button", "off"): "GTK 3 calls a switch a toggle button, so its off "
+                              "mark, a graphic at 3.5:1, is measured as text",
+    ("toggle button", "off, hovered"): "the same switch, hovered",
     ("button", "Minimize"): "window controls are flat",
     ("button", "Maximize"): "window controls are flat",
     ("button", "Close"): "window controls are flat",
@@ -33,30 +40,33 @@ EXEMPT = {
     ("button", "Close Tab"): "a tab's close button is flat, and drawn only on hover",
     ("text", "Display name"): "a row's edge is its boxed list's",
     ("combo box", "Theme"): "a row's edge is its boxed list's",
-    ("text", "notes"): "a text view's edge is its frame's",
+    ("text", "notes"): "a text view's edge is its frame's, just outside it",
 }
 # libadwaita's tab bar scrolls its tabs in a scroll pane it doesn't name.
 LINT_IGNORE = "focusable scroll pane with no name"
 
 INSIDE = """
 "$PREVIEW" $PREVIEW_ARGS >/dev/null 2>&1 &
-shotbox wait window preview.py >/dev/null && shotbox wait stable >/dev/null
-shotbox a11y lint --window preview.py --ignore "$LINT_IGNORE" > "$OUT/lint.txt"
+shotbox wait window "$WINDOW" >/dev/null && shotbox wait stable >/dev/null
+shotbox a11y lint --window "$WINDOW" --ignore "$LINT_IGNORE" > "$OUT/lint.txt"
 echo $? > "$OUT/lint.status"
-shotbox a11y contrast --edges 3 --window preview.py --json > "$OUT/contrast.json"
-shotbox a11y tabwalk --visible --key ctrl+Tab --window preview.py --json > "$OUT/walk.json"
+shotbox a11y contrast --edges 3 --window "$WINDOW" --json > "$OUT/contrast.json"
+shotbox a11y tabwalk --visible --key ctrl+Tab --window "$WINDOW" --json > "$OUT/walk.json"
 true
 """
 
 
-def check(label, preview_args, session_args):
+def check(label, program, window, preview_args, session_args):
     with tempfile.TemporaryDirectory() as out:
-        subprocess.run(
+        run = subprocess.run(
             ["shotbox", "run", "--a11y", "--screen", "1240x1040", *session_args,
-             "--env", f"PREVIEW={HERE / 'preview.py'}", "--env", f"PREVIEW_ARGS={preview_args}",
+             "--env", f"PREVIEW={HERE / program}", "--env", f"PREVIEW_ARGS={preview_args}",
+             "--env", f"WINDOW={window}",
              "--env", f"OUT={out}", "--env", f"LINT_IGNORE={LINT_IGNORE}",
              "--", "sh", "-c", INSIDE],
-            check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            capture_output=True, text=True)
+        if run.returncode:
+            sys.exit(f"{label}: the session failed\n{run.stdout}{run.stderr}")
         out = Path(out)
         problems = []
         if (out / "lint.status").read_text().strip() != "0":
@@ -79,7 +89,14 @@ def check(label, preview_args, session_args):
 
 
 if __name__ == "__main__":
-    runs = [("dark", "", []), ("light", "--light", []),
-            ("high contrast", "", ["--high-contrast"])]
-    results = [check(*run) for run in runs]
+    with tempfile.TemporaryDirectory() as home:
+        # GTK 3 reads a theme by name, from a home it looks in.
+        shutil.copytree(HERE.parent / "themes", Path(home) / ".local/share/themes")
+        gtk3 = ["--seed", home, "--env", "GTK_THEME=Neon-Doll-{}"]
+        runs = [("GTK 4, dark", "preview.py", "preview.py", "", []),
+                ("GTK 4, light", "preview.py", "preview.py", "--light", []),
+                ("GTK 4, high contrast", "preview.py", "preview.py", "", ["--high-contrast"]),
+                ("GTK 3, dark", "preview3.py", "photos", "", [a.format("Dark") for a in gtk3]),
+                ("GTK 3, light", "preview3.py", "photos", "", [a.format("Light") for a in gtk3])]
+        results = [check(*run) for run in runs]
     sys.exit(0 if all(results) else 1)

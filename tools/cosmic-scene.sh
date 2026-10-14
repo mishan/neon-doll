@@ -67,6 +67,12 @@ cosmic-settings appearance import "/repo/cosmic/Neon-Doll-$Name.ron" >"$logs/imp
 mkdir -p "$cfg/com.system76.CosmicComp/v1"
 echo true > "$cfg/com.system76.CosmicComp/v1/autotile"
 
+# The dock: the two apps the shot shows. Its default list pins apps this
+# image doesn't have, which it draws as blank gears.
+mkdir -p "$cfg/com.system76.CosmicAppList/v1"
+echo '["com.system76.CosmicFiles", "com.system76.CosmicTerm"]' \
+  > "$cfg/com.system76.CosmicAppList/v1/favorites"
+
 # The wallpaper: graph paper, the page and its 24px grid.
 case $V in
   dark)  page="#0f0d14"; grid="rgba(180,140,255,0.09)" ;;

@@ -18,7 +18,11 @@ from email.utils import format_datetime
 from datetime import datetime, timedelta, timezone
 
 ME = "Doll <doll@neon.test>"
-NOW = datetime(2026, 9, 26, 18, 40, tzinfo=timezone.utc)
+# Yesterday evening: Roundcube dates mail by how long ago it was, so the list
+# reads the same whenever it's drawn, a weekday for the last week and a full
+# date past it.
+NOW = (datetime.now(timezone.utc) - timedelta(days=1)).replace(
+    hour=18, minute=40, second=0, microsecond=0)
 
 FOLDERS = ["Drafts", "Sent", "Junk", "Trash", "Archive", "Archive.2025",
            "Lists", "Lists.gnome-shell", "Lists.gtk"]

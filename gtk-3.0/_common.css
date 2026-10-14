@@ -372,7 +372,8 @@ paned > separator:not(#_) { background-color: transparent; background-image: ima
 paned > separator.wide:not(#_) { background-color: @panel; background-image: image(@line), image(@line); }
 paned > separator:selected:not(#_) { background-image: image(@pink); }
 
-frame > border:not(#_), .frame:not(#_), calendar:not(#_) { border-color: @line; }
+/* A frame holds controls, a text view or a list, so it has a control's edge. */
+frame > border:not(#_), .frame:not(#_), calendar:not(#_) { border-color: @edge; }
 list.frame:not(#_), frame > list:not(#_), .frame > list:not(#_) { background-color: @panel; }
 list.frame > row:not(:last-child):not(#_) { border-bottom: 1px solid @line; }
 

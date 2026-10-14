@@ -444,8 +444,8 @@ link:focus:focus-visible {
 button.link, button.link:hover { background-color: transparent; box-shadow: none; }
 
 /* === Surfaces =============================================================
-   A panel on the page, with a --line edge; a card or boxed list, which holds
-   controls, has an --edge one. That is the only box there is. */
+   A panel on the page, with a --line edge; a card, boxed list or frame, which
+   holds controls, has an --edge one. That is the only box there is. */
 
 /* Adwaita lets the page run up under a flat header bar. Here the bar is a
    panel and always is, whether or not anything has scrolled beneath it. */
@@ -469,6 +469,7 @@ button.card, .boxed-list {
   box-shadow: 0 0 0 1px var(--edge);
 }
 list.boxed-list > row, list.content > row { border-bottom-color: var(--line); }
+frame, .frame { border-color: var(--edge); }
 
 popover > contents {
   padding: 6px;

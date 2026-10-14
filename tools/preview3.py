@@ -21,6 +21,13 @@ gi.require_version("Gdk", "3.0")
 from gi.repository import Gdk, Gio, GLib, Gtk  # noqa: E402
 
 
+def named(widget, name):
+    """Give a widget the accessible name a screen reader says, which a
+    control with no label of its own lacks; `shotbox a11y lint` checks."""
+    widget.get_accessible().set_name(name)
+    return widget
+
+
 def sidebar():
     lb = Gtk.ListBox()
     for icon, name in [
@@ -81,7 +88,9 @@ def toggles():
     for active, hovered, sensitive in [(False, False, True), (True, False, True),
                                        (False, True, True), (True, True, True),
                                        (False, False, False), (True, False, False)]:
-        sw = Gtk.Switch(active=active, sensitive=sensitive, valign=Gtk.Align.CENTER)
+        sw = named(Gtk.Switch(active=active, sensitive=sensitive, valign=Gtk.Align.CENTER),
+                   ("on" if active else "off") + (", hovered" if hovered else "")
+                   + ("" if sensitive else ", disabled"))
         box.pack_start(hover(sw) if hovered else sw, False, False, 0)
     box.pack_start(Gtk.CheckButton(label="disabled", sensitive=False), False, False, 0)
     return box
@@ -89,13 +98,15 @@ def toggles():
 
 def ranges():
     box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
-    box.pack_start(Gtk.Scale(adjustment=Gtk.Adjustment(value=40, upper=100), draw_value=False), False, False, 0)
+    box.pack_start(named(Gtk.Scale(adjustment=Gtk.Adjustment(value=40, upper=100), draw_value=False),
+                         "volume"), False, False, 0)
     box.pack_start(Gtk.ProgressBar(fraction=0.62), False, False, 0)
     row = Gtk.Box(spacing=8)
-    row.pack_start(Gtk.Entry(placeholder_text="grep -i"), True, True, 0)
-    e = Gtk.Entry(text="focused field")
+    row.pack_start(named(Gtk.Entry(placeholder_text="grep -i"), "search"), True, True, 0)
+    e = named(Gtk.Entry(text="focused field"), "field")
     row.pack_start(e, True, True, 0)
-    row.pack_start(Gtk.SpinButton(adjustment=Gtk.Adjustment(value=24, upper=100, step_increment=1)), False, False, 0)
+    row.pack_start(named(Gtk.SpinButton(adjustment=Gtk.Adjustment(value=24, upper=100, step_increment=1)),
+                         "size"), False, False, 0)
     combo = Gtk.ComboBoxText()
     for t in ("Neon Doll", "Adwaita"):
         combo.append_text(t)
@@ -114,7 +125,8 @@ def group():
     lb.get_style_context().add_class("frame")
     for title, sub, widget in [
         ("Email", "doll@example.org", Gtk.Image(icon_name="go-next-symbolic")),
-        ("Show QR code", "On the contact page", Gtk.Switch(active=True, valign=Gtk.Align.CENTER)),
+        ("Show QR code", "On the contact page",
+         named(Gtk.Switch(active=True, valign=Gtk.Align.CENTER), "Show QR code")),
         ("Level", "levelbar", Gtk.LevelBar(value=0.7, width_request=160, valign=Gtk.Align.CENTER)),
     ]:
         row = Gtk.Box(spacing=12, margin=10)
@@ -160,7 +172,8 @@ def text():
         "Mono carries the chrome; sans carries what you read.\n"
     )
     buf.select_range(buf.get_iter_at_offset(2), buf.get_iter_at_offset(22))
-    tv = Gtk.TextView(buffer=buf, top_margin=8, bottom_margin=8, left_margin=10, right_margin=10)
+    tv = named(Gtk.TextView(buffer=buf, top_margin=8, bottom_margin=8, left_margin=10, right_margin=10),
+               "notes")
     frame = Gtk.Frame()
     frame.add(tv)
     return frame
@@ -179,7 +192,8 @@ def header(win):
     mb = Gtk.MenuButton(menu_model=menu, image=Gtk.Image(icon_name="open-menu-symbolic"))
     win.menu_button = mb
     hb.pack_end(mb)
-    hb.pack_end(Gtk.Button.new_from_icon_name("system-search-symbolic", Gtk.IconSize.BUTTON))
+    hb.pack_end(named(Gtk.Button.new_from_icon_name("system-search-symbolic", Gtk.IconSize.BUTTON),
+                      "Search"))
     return hb
 
 
@@ -236,6 +250,13 @@ def content(win):
     ib = Gtk.InfoBar(message_type=Gtk.MessageType.WARNING, show_close_button=True)
     ib.get_content_area().add(Gtk.Label(label="The draft has not been saved."))
     ib.add_button("Save", 1)
+    # The close button is the info bar's own, and GTK 3 leaves it unnamed.
+    def name_close(w):
+        if isinstance(w, Gtk.Button) and not w.get_label():
+            named(w, "Close")
+        elif isinstance(w, Gtk.Container):
+            w.forall(name_close)
+    ib.forall(name_close)
 
     scroller = Gtk.ScrolledWindow(vexpand=True)
     scroller.add(col)

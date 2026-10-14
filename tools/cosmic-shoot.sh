@@ -47,7 +47,7 @@ RUN dnf -y install --setopt=install_weak_deps=False \
       sway grim git ImageMagick mesa-dri-drivers dejavu-sans-fonts dejavu-sans-mono-fonts \
       dbus-daemon procps-ng python3 python3-pip \
     && dnf clean all \
-    && pip install --no-cache-dir shotbox==0.3.0 \
+    && pip install --no-cache-dir shotbox==0.4.2 \
     && cp /usr/bin/sway /usr/local/bin/sway
 EOF
 

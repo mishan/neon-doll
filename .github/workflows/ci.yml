@@ -43,6 +43,26 @@ jobs:
             exit 1
           fi
 
+  a11y:
+    name: Accessibility, on the screen
+    runs-on: ubuntu-latest
+    # Debian testing: GTK 4.20 or later, which prefers-contrast needs and
+    # Ubuntu's runners lack. Glyphs measured on the screen depend on the
+    # fonts and GTK drawing them, so these match what the screenshots use.
+    container: debian:testing
+    steps:
+      - uses: actions/checkout@v7
+      - name: Install GTK, libadwaita, AT-SPI and shotbox
+        run: |
+          apt-get update
+          apt-get install -y --no-install-recommends \
+            gir1.2-gtk-3.0 gir1.2-gtk-4.0 gir1.2-adw-1 gir1.2-atspi-2.0 python3-gi \
+            at-spi2-core adwaita-icon-theme xvfb xauth x11-utils dbus-daemon \
+            imagemagick libglib2.0-bin fonts-dejavu-core fonts-noto-core python3-pip
+          pip install --break-system-packages shotbox==0.4.2
+      - name: tools/a11y-check.py
+        run: tools/a11y-check.py
+
   lint:
     name: Lint
     runs-on: ubuntu-latest

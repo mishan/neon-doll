@@ -12,9 +12,10 @@ falls under the contrast floors in the README's rules. Generated files are
 committed, so installing needs nothing but `sh`.
 
 `tools/a11y-check.py` checks the same floors on the screen: it runs the GTK 4
-sampler in dark, light and high contrast, and fails for a control with no
-name, text or a control's edge under its floor as drawn, or a Tab stop whose
-focus doesn't show. What it reports that isn't a problem is listed in the
+sampler in dark, light and high contrast and the GTK 3 one in dark and light,
+and fails for a control with no name, text or a control's edge under its
+floor as drawn, or a Tab stop whose focus doesn't show. CI runs it on Debian
+testing, since glyphs measured on the screen depend on the fonts and GTK. What it reports that isn't a problem is listed in the
 script, each with its reason. It needs shotbox 0.4.2 or later.
 
 The installers have tests, which run them against scratch home folders:
@@ -30,7 +31,7 @@ tools/build.sh [--check]                          # rebuild everything from toke
 tools/build-palettes.py [--check]                 # just the palette copies in the GTK and Emacs themes
 tools/build-gtk2.py [--check]                     # the GTK 2 part of the theme dirs
 tools/preview.py [--light] [--menu] [--dialog]    # GTK 4 widget sampler
-tools/a11y-check.py                               # the sampler's names, contrast and focus, on the screen
+tools/a11y-check.py                               # the samplers' names, contrast and focus, on the screen
 tools/shoot.sh out.png [flags]                    # the same, screenshotted in a sealed session
 tools/preview3.py / tools/shoot3.sh               # GTK 3
 tools/build-shell.py [--check|--coverage]         # regenerate the Shell theme
