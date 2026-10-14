@@ -15,7 +15,7 @@ committed, so installing needs nothing but `sh`.
 sampler in dark, light and high contrast, and fails for a control with no
 name, text or a control's edge under its floor as drawn, or a Tab stop whose
 focus doesn't show. What it reports that isn't a problem is listed in the
-script, each with its reason. It needs shotbox 0.4 or later.
+script, each with its reason. It needs shotbox 0.4.2 or later.
 
 The installers have tests, which run them against scratch home folders:
 `tests/install.sh` for `install.sh` (`SH=dash` or another shell to run it

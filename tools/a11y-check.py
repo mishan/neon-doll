@@ -6,7 +6,7 @@ seen at every stop. Dark, light and high contrast.
 
     tools/a11y-check.py
 
-Needs shotbox 0.4 or later on PATH. tools/scheme-colors.py checks the same
+Needs shotbox 0.4.2 or later on PATH. tools/scheme-colors.py checks the same
 floors on the palette; this checks them on the pixels.
 """
 
@@ -34,8 +34,6 @@ EXEMPT = {
     ("text", "Display name"): "a row's edge is its boxed list's",
     ("combo box", "Theme"): "a row's edge is its boxed list's",
     ("text", "notes"): "a text view's edge is its frame's",
-    # The ring is drawn; shotbox 0.4.1 counts too little of it on a tab.
-    ("page tab", "log.md"): "focus ring drawn, under-counted by tabwalk --visible",
 }
 # libadwaita's tab bar scrolls its tabs in a scroll pane it doesn't name.
 LINT_IGNORE = "focusable scroll pane with no name"
