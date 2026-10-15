@@ -83,7 +83,7 @@ if ($PSVersionTable.PSVersion -ge [version]'7.2') {
 # paper.
 function Enable-NeonDollPrompt {
     param([ValidateSet('Dark', 'Light')][string]$Variant = 'Dark')
-    $script:NeonDollPink = if ($Variant -eq 'Light') { "$e[38;2;200;0;106m" } else { "$e[38;2;255;45;149m" }
+    $script:NeonDollPink = if ($Variant -eq 'Light') { "$e[38;2;184;0;97m" } else { "$e[38;2;255;45;149m" }
     function global:prompt {
         $esc = [char]27
         $user = [Environment]::UserName

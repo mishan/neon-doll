@@ -521,8 +521,13 @@ entry:focus-within, spinbutton:focus-within {
   outline: 2px solid var(--pink);
   outline-offset: -1px;
 }
-/* A text view sits in its frame, which would clip a ring on the edge. */
-textview:focus-within { outline: 2px solid var(--pink); outline-offset: -2px; }
+/* A text view in a frame is a field, and takes the ring inside the frame,
+   which would clip it on the edge. One filling a window is a document,
+   which shows where it is by its caret alone. */
+frame > textview:focus-within, scrolledwindow.frame > textview:focus-within {
+  outline: 2px solid var(--pink);
+  outline-offset: -2px;
+}
 entry placeholder, text placeholder { color: var(--muted); }
 /* A state doubles the edge in its color, so it reads without color too. */
 entry.error, entry.warning, entry.success { background-color: var(--panel); }

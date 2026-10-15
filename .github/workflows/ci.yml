@@ -42,6 +42,8 @@ jobs:
             echo "::error::a builder skipped its check; see the warning above"
             exit 1
           fi
+      - name: tools/screenshots.py --check
+        run: tools/screenshots.py --check
 
   a11y:
     name: Accessibility, on the screen
