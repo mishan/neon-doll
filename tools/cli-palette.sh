@@ -12,7 +12,7 @@ names="black red green yellow blue magenta cyan white"
 i=0
 for n in $names; do
   printf ' %s%d %-8s%s   %s[4%dm  %s[0m  %s[3%dmnormal text%s[0m    %2d bright   %s[10%dm  %s[0m\n' \
-    "$e[3${i}m" $i "$n" "$e[0m" "$e" $i "$e" "$e" $i "$e" $((i + 8)) "$e" $i "$e"
+    "${e}[3${i}m" $i "$n" "${e}[0m" "$e" $i "$e" "$e" $i "$e" $((i + 8)) "$e" $i "$e"
   i=$((i + 1))
 done
 printf '\n%s[35mdoll@neon%s[0m:%s[34m~/w/neon-doll%s[0m$ git status -s\n' "$e" "$e" "$e" "$e"
