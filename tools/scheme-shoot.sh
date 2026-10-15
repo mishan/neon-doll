@@ -18,11 +18,12 @@ case $what in
     size=1000x720 ;;
   emacs)
     # Emacs maps its frame before it paints it, so a still screen isn't
-    # enough: it says it's ready once it has redrawn.
+    # enough: it says it's ready once it has redrawn, from an idle timer, so
+    # after show-paren's has drawn the matching paren and the cursor.
     window=".* - GNU Emacs at .*"
     set -- emacs -Q --no-site-file -geometry 110x46+0+0 -l "$here/scheme-emacs-sample.el" \
       --eval "(neon-doll-sample '$variant \"$root\")" \
-      --eval '(progn (redisplay t) (write-region "" nil (expand-file-name "ready" (getenv "SHOTBOX_SCRATCH")) nil (quote silent)))'
+      --eval '(run-with-idle-timer 0.5 nil (lambda () (redisplay t) (write-region "" nil (expand-file-name "ready" (getenv "SHOTBOX_SCRATCH")) nil (quote silent))))'
     wait=ready
     size=1006x856 ;;
   *) echo "usage: $0 out.png gsv|emacs [dark|light]" >&2; exit 2 ;;
