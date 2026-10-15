@@ -432,8 +432,10 @@ env -i PATH=/usr/bin:/bin LANG=C.UTF-8 \
     gnome-shell --headless --virtual-monitor 1280x800 --wayland --no-x11 --wayland-display=shoot-0 &
     shell=\$!
     sleep 3
-    WAYLAND_DISPLAY=shoot-0 gnome-calculator >/dev/null 2>&1 &
+    # One at a time, so Calculator, and its focused entry, is always in front.
     WAYLAND_DISPLAY=shoot-0 gnome-text-editor --standalone '$tmp/home/check-tokens.py' >/dev/null 2>&1 &
+    sleep 2
+    WAYLAND_DISPLAY=shoot-0 gnome-calculator >/dev/null 2>&1 &
     for i in \$(seq 90); do [ -e '$out/.done' ] && break; sleep 1; done
     kill \$shell
   " > "$out/shell.log" 2>&1 || true

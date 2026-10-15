@@ -524,7 +524,8 @@ entry:focus-within, spinbutton:focus-within {
 /* A text view in a frame is a field, and takes the ring inside the frame,
    which would clip it on the edge. One filling a window is a document,
    which shows where it is by its caret alone. */
-frame > textview:focus-within, scrolledwindow.frame > textview:focus-within {
+frame > textview:focus-within, scrolledwindow.frame > textview:focus-within,
+frame > scrolledwindow > textview:focus-within {
   outline: 2px solid var(--pink);
   outline-offset: -2px;
 }

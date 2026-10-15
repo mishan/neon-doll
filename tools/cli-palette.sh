@@ -1,7 +1,7 @@
 #!/bin/sh
 # The terminal palette, as tools/cli-shoot.sh shows it: each of the 16
 # colors as text and as a swatch, then the colors in use: a prompt, git
-# status, ls and a comment. VARIANT names the scheme it's shown in.
+# status, ls and a comment.
 #
 #   tools/cli-palette.sh dark|light
 set -eu
@@ -11,8 +11,10 @@ printf '%s    fg on bg\n\n' "$title"
 names="black red green yellow blue magenta cyan white"
 i=0
 for n in $names; do
+  # Black's label in black would vanish into the background.
+  label="${e}[3${i}m"; [ $i -gt 0 ] || label="${e}[39m"
   printf ' %s%d %-8s%s   %s[4%dm  %s[0m  %s[3%dmnormal text%s[0m    %2d bright   %s[10%dm  %s[0m\n' \
-    "${e}[3${i}m" $i "$n" "${e}[0m" "$e" $i "$e" "$e" $i "$e" $((i + 8)) "$e" $i "$e"
+    "$label" $i "$n" "${e}[0m" "$e" $i "$e" "$e" $i "$e" $((i + 8)) "$e" $i "$e"
   i=$((i + 1))
 done
 printf '\n%s[35mdoll@neon%s[0m:%s[34m~/w/neon-doll%s[0m$ git status -s\n' "$e" "$e" "$e" "$e"

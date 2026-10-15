@@ -70,7 +70,8 @@ tools/dist.sh [VERSION]                           # release archives into dist/
 Every picture in `screenshots/` is made by `tools/screenshots.py NAME...`
 (`--list` names them, `--all` makes them all): it runs the shot's tool,
 crops the pictures to their size and records a hash of what the shot shows,
-its theme files and its tools, in `screenshots/sources.json`.
+its theme files and its tools, and of how it's taken, in
+`screenshots/sources.json`.
 `tools/screenshots.py --check`, in CI, fails when a shot's inputs have
 changed since it was made, so a change to the theme brings its screenshots
 with it; and when a picture is made by no shot. The tools below are what it
@@ -91,7 +92,8 @@ against Roundcube's Elastic sources, which it fetches once into
 `~/.cache/neon-doll`; without either, it leaves the committed CSS alone and
 says so. `tools/roundcube-shoot.py` needs docker and Chrome,
 and `tools/cosmic-shoot.sh` and `tools/kde-shoot.sh` docker alone; those
-two build a Fedora image with their desktop. `KDE_SHOOT_PREVIEWS=1
+two build a Fedora image with their desktop, and show a copy of the repo
+with a fixed history (`tools/scene-repo.sh`), not your checkout. `KDE_SHOOT_PREVIEWS=1
 tools/kde-shoot.sh` also redraws the global themes' preview images from the
 desktop shot.
 

@@ -25,7 +25,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -45,7 +45,6 @@ class Shot:
     per_variant: bool = False
     # Cropped from the top left to WxH.
     crop: tuple = None
-    extra: dict = field(default_factory=dict)
 
 
 def both(pattern):
@@ -67,7 +66,8 @@ SHOTS = {
                   {f"shell-{scene}-{{v}}.png": f"{n}.png"
                    for scene, n in (("overview", "08-overview"), ("calendar", "03-calendar"),
                                     ("quick-settings", "04-quick-settings"))},
-                  ["gnome-shell/**", "themes/**", "gtk-4.0/gtk.css", "gtksourceview/*.xml",
+                  ["gnome-shell/**", "themes/Neon-Doll-Dark/gnome-shell/**",
+                   "themes/Neon-Doll-Light/gnome-shell/**", "gtk-4.0/gtk.css", "gtksourceview/*.xml",
                    "tools/check-tokens.py", "tools/shoot-shell.sh"],
                   per_variant=True),
     "text-editor": Shot(["tools/text-editor-shoot.sh", "{out}"], both("text-editor-{v}.png"),
@@ -77,7 +77,7 @@ SHOTS = {
                   ["emacs/*.el", "tools/scheme-shoot.sh", "tools/scheme-emacs-sample.el"],
                   per_variant=True),
     "vscode": Shot(["tools/vscode-shoot.py", "{v}", "{out}/vscode-{v}.png"], both("vscode-{v}.png"),
-                   ["vscode/**", "tools/build-vscode.py", "tools/vscode-shoot.py"], per_variant=True),
+                   ["vscode/package.json", "vscode/themes/*", "tools/build-vscode.py", "tools/vscode-shoot.py"], per_variant=True),
     "chrome": Shot(["tools/chrome-shoot.py", "{v}", "{out}/chrome-{v}.png"], both("chrome-{v}.png"),
                    ["chrome/**", "tools/chrome-shoot.py"], per_variant=True),
     "firefox": Shot(["tools/firefox-shoot.py", "{v}", "{out}/firefox-{v}.png"], both("firefox-{v}.png"),
@@ -93,12 +93,13 @@ SHOTS = {
                     ["ghostty/themes/*", "dircolors/*", "tools/ghostty-shoot.sh"]),
     "cosmic": Shot(["tools/cosmic-shoot.sh", "{out}", "dark", "light"],
                    {**both("cosmic-desktop-{v}.png"), **both("cosmic-settings-{v}.png")},
-                   ["cosmic/**", "tilix/*.json", "dircolors/*", "tools/cosmic-shoot.sh",
-                    "tools/cosmic-scene.sh"]),
+                   ["cosmic/**", "dircolors/*", "git/*", "tools/cosmic-shoot.sh",
+                    "tools/cosmic-scene.sh", "tools/scene-repo.sh"]),
     "plasma": Shot(["tools/kde-shoot.sh", "{out}", "dark", "light"],
                    {**both("plasma-desktop-{v}.png"), **both("plasma-kate-{v}.png"),
                     **both("plasma-widgets-{v}.png"), **both("plasma-settings-{v}.png")},
-                   ["kde/**", "tools/kde-shoot.sh"]),
+                   ["kde/**", "dircolors/*", "git/*", "install.sh", "tools/kde-shoot.sh",
+                    "tools/scene-repo.sh"]),
     "cursors": Shot(["tools/build-cursor.py", "--sheet", "{out}/cursors.png"], {"cursors.png": "cursors.png"},
                     ["cursor/src/*.svg", "tools/build-cursor.py"]),
 }
@@ -125,6 +126,8 @@ def inputs(shot):
 
 def digest(shot):
     h = hashlib.sha256()
+    # How it's taken counts too: a new crop or argument changes the picture.
+    h.update(repr((shot.command, shot.files, shot.per_variant, shot.crop)).encode() + b"\0")
     for path in inputs(shot):
         h.update(str(path.relative_to(ROOT)).encode() + b"\0")
         h.update(path.read_bytes() + b"\0")
@@ -163,6 +166,8 @@ def check():
 def make(name):
     from PIL import Image
     shot = SHOTS[name]
+    # Before the shot: an edit made while it runs isn't in the picture.
+    made = digest(shot)
     with tempfile.TemporaryDirectory() as tmp:
         # A shot run once per variant gets a directory per variant, since
         # some write the same names for each.
@@ -183,7 +188,7 @@ def make(name):
                     picture = picture.crop((0, 0, *shot.crop))
                 picture.save(SHOTS_DIR / dest.format(v=v), optimize=True)
     sources = recorded()
-    sources[name] = digest(shot)
+    sources[name] = made
     SOURCES.write_text(json.dumps(dict(sorted(sources.items())), indent=2) + "\n")
     print(f"made {name}: {', '.join(names(shot))}")
 

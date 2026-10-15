@@ -96,6 +96,7 @@ echo "\"Neon Doll $Name\"" > "$t/syntax_theme_$V"
 # scheme here even when the desktop is light.
 echo "$Name" > "$t/app_theme"
 git config --global --add safe.directory "*"
+sh /repo/tools/scene-repo.sh "$HOME/neon-doll"
 # The shell waits for its window to be tiled, so ls fits its columns: for
 # its size to change (up to 3s), then to hold still for half a second (up
 # to 3s more), since tiling can resize it more than once. It says it's
@@ -110,7 +111,7 @@ while [ \$still -lt 5 ] && [ \$n -lt 30 ]; do
 done
 eval "\$(dircolors -b /repo/dircolors/neon-doll)"
 PS1="doll@cosmic:\w\\\$ "
-cd /repo
+cd ~/neon-doll
 git -c include.path=/repo/git/neon-doll.gitconfig --no-pager log --oneline --graph --decorate --color -6
 ls --color=auto
 touch "$SHOTBOX_SCRATCH/ready"
@@ -138,7 +139,7 @@ export COSMIC_DISPLAY
 
 launch bg cosmic-bg
 launch panel cosmic-panel
-launch files cosmic-files /repo
+launch files cosmic-files "$HOME/neon-doll"
 WAYLAND_DISPLAY=$COSMIC_DISPLAY cosmic-term >"$logs/term.log" 2>&1 &
 $sb wait ready --timeout 60
 $sb wait stable 1 --timeout 60
