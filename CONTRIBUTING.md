@@ -55,6 +55,10 @@ tools/kde-shoot.sh OUTDIR [dark|light ...]        # screenshot them in a nested 
 tools/build-irssi.py [--check]                    # regenerate the irssi themes from the editor schemes
 tools/irssi-shoot.sh OUTDIR                       # screenshot them, against a pretend IRC server on localhost
 tools/ag-shoot.sh OUTDIR                          # screenshot ag through the alias
+tools/cli-shoot.sh OUTDIR [NAME...]               # git, man, glow, whiptail, vim, PowerShell (needs pwsh) and the palettes
+tools/ghostty-shoot.sh OUTDIR                     # screenshot Ghostty
+tools/text-editor-shoot.sh OUTDIR                 # screenshot GNOME Text Editor
+tools/screenshots.py NAME...|--all|--check|--list # every screenshot: make them, or check they're up to date
 tools/build-windows.py [--check]                  # regenerate the Windows Terminal files from the Tilix schemes
 tools/build-vscode.py [--check] [--vsix OUT]      # regenerate the VS Code themes and icon; --vsix packs the extension
 tools/vscode-shoot.py dark|light out.png          # screenshot it in a scratch VS Code
@@ -62,6 +66,16 @@ tools/build-roundcube.py [--check] [--elastic DIR] # regenerate the Roundcube sk
 tools/roundcube-shoot.py OUTDIR [--scene NAME]    # screenshot it in a scratch Roundcube and IMAP server (docker), with a pretend mailbox
 tools/dist.sh [VERSION]                           # release archives into dist/
 ```
+
+Every picture in `screenshots/` is made by `tools/screenshots.py NAME...`
+(`--list` names them, `--all` makes them all): it runs the shot's tool,
+crops the pictures to their size and records a hash of what the shot shows,
+its theme files and its tools, and of how it's taken, in
+`screenshots/sources.json`.
+`tools/screenshots.py --check`, in CI, fails when a shot's inputs have
+changed since it was made, so a change to the theme brings its screenshots
+with it; and when a picture is made by no shot. The tools below are what it
+runs, and each still runs on its own.
 
 The screenshot scripts need [shotbox](https://github.com/mishan/shotbox) on
 your `PATH` (`pipx install --system-site-packages shotbox`): each program
@@ -78,7 +92,8 @@ against Roundcube's Elastic sources, which it fetches once into
 `~/.cache/neon-doll`; without either, it leaves the committed CSS alone and
 says so. `tools/roundcube-shoot.py` needs docker and Chrome,
 and `tools/cosmic-shoot.sh` and `tools/kde-shoot.sh` docker alone; those
-two build a Fedora image with their desktop. `KDE_SHOOT_PREVIEWS=1
+two build a Fedora image with their desktop, and show a copy of the repo
+with a fixed history (`tools/scene-repo.sh`), not your checkout. `KDE_SHOOT_PREVIEWS=1
 tools/kde-shoot.sh` also redraws the global themes' preview images from the
 desktop shot.
 

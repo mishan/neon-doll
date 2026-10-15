@@ -82,10 +82,11 @@ mkdir -p $HOME/.local/share/dolphin/view_properties/global
 printf "[Dolphin]\nViewMode=1\nVersion=4\n" > $HOME/.local/share/dolphin/view_properties/global/.directory
 kwriteconfig6 --file katerc --group "KTextEditor Renderer" --key "Color Theme" "Neon Doll $Name"
 git config --global --add safe.directory "*"
+sh /repo/tools/scene-repo.sh $HOME/neon-doll
 cat > $HOME/.bashrc <<R
 eval "\$(dircolors -b /repo/dircolors/neon-doll)"
 PS1="doll@plasma:\w\\\$ "
-cd /repo
+cd ~/neon-doll
 git -c include.path=/repo/git/neon-doll.gitconfig --no-pager log --oneline --graph --decorate --color -6
 ls --color=auto
 R
@@ -134,7 +135,7 @@ J
   sleep 2
 }
 
-dolphin --select /repo/kde >/tmp/dolphin.log 2>&1 &
+dolphin --select $HOME/neon-doll/kde >/tmp/dolphin.log 2>&1 &
 sleep 4
 konsole >/tmp/konsole.log 2>&1 &
 sleep 5
