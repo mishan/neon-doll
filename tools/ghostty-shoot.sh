@@ -36,5 +36,6 @@ for v in dark light; do
   shotbox shoot "$dir/ghostty-$v.png" --window '.*' --wait stable -- \
     ghostty --config-default-files=false --theme="$root/ghostty/themes/$name" \
       --window-width=82 --window-height=22 --window-decoration=false --gtk-titlebar=false \
+      --cursor-style-blink=false \
       -e sh "$tmp/scene.sh" >/dev/null
 done
