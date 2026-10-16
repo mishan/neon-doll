@@ -1,0 +1,31 @@
+#!/bin/sh
+# Keep GTK 3 and the GNOME Shell on Neon Doll Light or Dark as Settings →
+# Appearance switches between them; GTK 4 follows by itself. Each takes one
+# theme name, so this swaps the name. Only a name that's already Neon Doll's
+# is touched, and only when it's wrong, since the Shell reloads its whole
+# stylesheet on every change. Run by neon-doll-follow.service.
+set -eu
+iface=org.gnome.desktop.interface
+shell=org.gnome.shell.extensions.user-theme
+
+apply() {
+  case $(gsettings get $iface color-scheme) in
+    "'prefer-dark'") v=Dark ;;
+    *) v=Light ;;
+  esac
+  case $(gsettings get $iface gtk-theme) in
+    "'Neon-Doll-Dark'"|"'Neon-Doll-Light'")
+      [ "$(gsettings get $iface gtk-theme)" = "'Neon-Doll-$v'" ] ||
+        gsettings set $iface gtk-theme "Neon-Doll-$v" ;;
+  esac
+  # The User Themes extension's schema, when it's installed system-wide.
+  name=$(gsettings get $shell name 2>/dev/null | tr -d "'") || return 0
+  case $name in
+    Neon-Doll-Dark*|Neon-Doll-Light*)
+      rest=${name#Neon-Doll-}; rest=${rest#Dark}; rest=${rest#Light}
+      [ "$name" = "Neon-Doll-$v$rest" ] || gsettings set $shell name "Neon-Doll-$v$rest" ;;
+  esac
+}
+
+apply
+gsettings monitor $iface color-scheme | while read -r _; do apply; done

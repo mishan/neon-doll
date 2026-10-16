@@ -7,8 +7,8 @@
 # With no PART and a terminal to ask in, it lists the parts that fit this
 # system, the ones whose apps it finds already ticked, and asks. Without a
 # terminal, or with `all`, it installs every part that fits. PART is any of:
-#   gtk4 gtk3 shell cursor gtksourceview cosmic kde kvantum konsole kate qtct
-#   tilix newt  (Linux and BSD)
+#   gtk4 gtk3 shell follow cursor gtksourceview cosmic kde kvantum konsole kate
+#   qtct tilix newt  (Linux and BSD)
 #   ghostty vscode firefox emacs vim irssi git dircolors man glow ag
 # Files are copied; --link symlinks them into this checkout instead, so edits
 # here show up on the next app launch. --remove takes out only what install
@@ -28,7 +28,7 @@ config=${XDG_CONFIG_HOME:-$HOME/.config}
 data=${XDG_DATA_HOME:-$HOME/.local/share}
 emacs_dir=${EMACS_THEMES_DIR:-$HOME/.emacs.d/themes}
 
-all_parts="gtk4 gtk3 shell cursor gtksourceview cosmic kde kvantum konsole kate qtct tilix ghostty vscode firefox emacs vim irssi git dircolors man glow ag newt"
+all_parts="gtk4 gtk3 shell follow cursor gtksourceview cosmic kde kvantum konsole kate qtct tilix ghostty vscode firefox emacs vim irssi git dircolors man glow ag newt"
 
 case $(uname -s) in
   Darwin) os=macos ;;
@@ -51,7 +51,7 @@ for arg in "$@"; do
     --desktop-grid) desktop_grid=1 ;;
     -h|--help) usage; exit 0 ;;
     all) parts="$parts $all_parts" every=1 ;;
-    gtk4|gtk3|shell|cursor|gtksourceview|tilix|emacs|dircolors|git|man|glow|newt|ag|ghostty|vim|irssi|cosmic|kde|kvantum|konsole|kate|qtct|vscode|firefox)
+    gtk4|gtk3|shell|follow|cursor|gtksourceview|tilix|emacs|dircolors|git|man|glow|newt|ag|ghostty|vim|irssi|cosmic|kde|kvantum|konsole|kate|qtct|vscode|firefox)
       parts="$parts $arg" ;;
     *) echo "unknown argument: $arg" >&2; exit 2 ;;
   esac
@@ -90,7 +90,7 @@ have_ding() {
 # fits PART: whether PART means anything on this OS at all.
 fits() {
   case $1 in
-    gtk4|gtk3|shell|cursor|gtksourceview|cosmic|kde|kvantum|konsole|kate|qtct|tilix|newt) [ "$os" = linux ] ;;
+    gtk4|gtk3|shell|follow|cursor|gtksourceview|cosmic|kde|kvantum|konsole|kate|qtct|tilix|newt) [ "$os" = linux ] ;;
     *) true ;;
   esac
 }
@@ -154,7 +154,7 @@ found() {
   case $1 in
     gtk4) have_lib 'libgtk-4.so*' ;;
     gtk3) have_lib 'libgtk-3.so*' ;;
-    shell) have gnome-shell ;;
+    shell|follow) have gnome-shell ;;
     cursor) [ -n "${XDG_CURRENT_DESKTOP:-}${WAYLAND_DISPLAY:-}${DISPLAY:-}" ] || have gsettings ;;
     gtksourceview) have_lib 'libgtksourceview-[45].so*' || have gnome-text-editor || have gedit ;;
     cosmic)
@@ -186,6 +186,7 @@ label() {
     gtk4) echo "GTK 4 / libadwaita apps" ;;
     gtk3) echo "GTK 3 and GTK 2 apps" ;;
     shell) echo "GNOME Shell" ;;
+    follow) echo "GTK 3 and the Shell switch with Light and Dark (a user service)" ;;
     cursor) echo "Mouse cursor" ;;
     gtksourceview) echo "Text Editor and GtkSourceView apps" ;;
     cosmic) echo "COSMIC desktop and COSMIC Terminal" ;;
@@ -464,6 +465,11 @@ for part in $parts; do
       else
         hint "Shell: gsettings set org.gnome.shell.extensions.user-theme name Neon-Doll-Dark   # or Neon-Doll-Light; add -Hearts for a heart-shaped Locate Pointer; needs the User Themes extension"
       fi
+      ;;
+    follow)
+      place "$here/follow/neon-doll-follow" "$HOME/.local/bin/neon-doll-follow"
+      place "$here/follow/neon-doll-follow.service" "$config/systemd/user/neon-doll-follow.service"
+      hint "Light and Dark: systemctl --user enable --now neon-doll-follow   # disable it before --remove"
       ;;
     cursor)
       # A cursor theme is an icon theme, not a GTK one: it goes under icons/.

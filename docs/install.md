@@ -18,7 +18,7 @@
 git clone https://github.com/mishan/neon-doll.git && cd neon-doll
 ./install.sh                  # asks which parts
 ./install.sh all              # every part that fits this system
-./install.sh gtk4 shell       # or name them: gtk4 gtk3 shell cursor gtksourceview cosmic kde kvantum konsole kate qtct tilix ghostty vscode firefox emacs vim irssi git dircolors man glow ag newt
+./install.sh gtk4 shell       # or name them: gtk4 gtk3 shell follow cursor gtksourceview cosmic kde kvantum konsole kate qtct tilix ghostty vscode firefox emacs vim irssi git dircolors man glow ag newt
 ./install.sh --remove         # take it out again
 ./install.sh --desktop-grid gtk4   # graph paper over the wallpaper too (with Desktop Icons NG)
 ```
@@ -434,9 +434,15 @@ sent.
 
 GTK 4, Text Editor, Firefox, Roundcube and COSMIC switch with the system style on
 their own, and Plasma does once it has the two global themes as its pair.
-GTK 3 and the Shell can't: a GTK 3 theme name and a Shell user theme are each
-one choice, so there are two, `Neon-Doll-Dark` and `Neon-Doll-Light`. GTK 3
-apps that ask for a dark style get it from either. Tilix and Emacs have a
+GTK 3 and the Shell can't on their own: a GTK 3 theme name and a Shell user
+theme are each one choice, so there are two, `Neon-Doll-Dark` and
+`Neon-Doll-Light`. Part `follow` switches them for you: a small user service
+that, whenever Settings → Appearance changes, sets each one that's already
+Neon Doll's to the matching variant, keeping `-Hearts`. It goes into
+`~/.local/bin/neon-doll-follow` and `~/.config/systemd/user/`; turn it on
+with `systemctl --user enable --now neon-doll-follow`, and off with
+`disable --now` before removing it. GTK 3 apps that ask for a dark style
+get it from either. Tilix and Emacs have a
 scheme per variant. VS Code switches when told to, in its settings:
 
 ```json
