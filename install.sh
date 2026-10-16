@@ -369,7 +369,8 @@ done
 
 # --- Installing ------------------------------------------------------------
 
-same() { diff -rq "$1" "$2" >/dev/null 2>&1; }
+# The extension's compiled schema is made where it lands, so it's no difference.
+same() { diff -rq -x gschemas.compiled "$1" "$2" >/dev/null 2>&1; }
 
 # place SRC DEST: copy, link or remove one file or directory.
 place() {
@@ -439,6 +440,9 @@ for part in $parts; do
       # GTK 3 and the Shell share the two theme dirs; install them once.
       if [ -z "$themes_done" ]; then
         themes_done=1
+        if [ "$mode" != remove ] && [ -d "$data/themes/Neon-Doll-Dark" ]; then
+          hint "Upgrading: Neon-Doll-Dark and -Light are now Neon-Doll-dark and Neon-Doll. Point gtk-theme (and User Themes, or use the extension) at the new names, then delete the old Neon-Doll-Dark*, Neon-Doll-Light* folders in $data/themes and ~/.themes"
+        fi
         for t in "$here"/themes/*/; do
           t=${t%/}
           place "$t" "$data/themes/$(basename "$t")"
@@ -463,9 +467,6 @@ for part in $parts; do
         hint "GTK 3: gsettings set org.gnome.desktop.interface gtk-theme Neon-Doll-dark   # or Neon-Doll; theme switchers pair the two"
       else
         ext=$data/gnome-shell/extensions/neon-doll@mishan.github.io
-        # Its schema is compiled where it lands; without that, the copy
-        # matches this checkout again, for place to replace or remove.
-        [ -L "$ext" ] || rm -f "$ext/schemas/gschemas.compiled"
         place "$here/gnome-shell/neon-doll@mishan.github.io" "$ext"
         if [ "$mode" != remove ]; then
           if have glib-compile-schemas; then

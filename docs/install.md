@@ -64,12 +64,14 @@ well.
 Part `gtk3`, into `~/.local/share/themes/Neon-Doll{,-dark}/`.
 
 `gsettings set org.gnome.desktop.interface gtk-theme Neon-Doll-dark`, or
-`Neon-Doll` for light. The names pair the way theme switchers expect (as
-`Adwaita` and `Adwaita-dark` do), so an extension like [Legacy (GTK3) Theme
-Scheme Auto Switcher](https://extensions.gnome.org/extension/4998/) can follow
-Settings → Appearance; GTK 3 itself can't. The same
-setting reaches GTK 2 apps like HexChat: they get Adwaita's GTK 2 widgets in
-Neon Doll's colors, so they need Adwaita's GTK 2 theme (`gnome-themes-extra`).
+`Neon-Doll` for light. (Before, they were `Neon-Doll-Dark` and
+`Neon-Doll-Light`: switch to the new names, then delete the old folders.) The
+names pair the way theme switchers expect (as `Adwaita` and `Adwaita-dark`
+do), so an extension like [Legacy (GTK3) Theme Scheme Auto
+Switcher](https://extensions.gnome.org/extension/4998/) can follow Settings →
+Appearance; GTK 3 itself can't. The same setting reaches GTK 2 apps like
+HexChat: they get Adwaita's GTK 2 widgets in Neon Doll's colors, so they need
+Adwaita's GTK 2 theme (`gnome-themes-extra`).
 
 GTK 3 has no `:focus-visible`, so its focus ring appears only once the
 keyboard is in use. Message-dialog headings stay bold.
