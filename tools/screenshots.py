@@ -37,7 +37,7 @@ VARIANTS = ("dark", "light")
 @dataclass
 class Shot:
     # The command, run from the repo root; {out} is a scratch directory,
-    # {v} a variant when it runs once per variant.
+    # {v} a variant when it runs once per variant, {dark} "-dark" for dark.
     command: list
     # Each file it writes in {out}, by the name it has in screenshots/.
     files: dict
@@ -58,16 +58,16 @@ SHOTS = {
     "gtk4": Shot(["tools/shoot.sh", "{out}/gtk4-{v}.png", "{light}"], both("gtk4-{v}.png"),
                  ["gtk-4.0/gtk.css", "tools/preview.py", "tools/shoot.sh"],
                  per_variant=True, crop=(1180, 980)),
-    "gtk3": Shot(["tools/shoot3.sh", "Neon-Doll-{V}", "{out}/gtk3-{v}.png"], both("gtk3-{v}.png"),
-                 ["gtk-3.0/*.css", "themes/Neon-Doll-Dark/gtk-3.0/**", "themes/Neon-Doll-Light/gtk-3.0/**",
+    "gtk3": Shot(["tools/shoot3.sh", "Neon-Doll{dark}", "{out}/gtk3-{v}.png"], both("gtk3-{v}.png"),
+                 ["gtk-3.0/*.css", "themes/Neon-Doll-dark/gtk-3.0/**", "themes/Neon-Doll/gtk-3.0/**",
                   "tools/preview3.py", "tools/shoot3.sh"],
                  per_variant=True, crop=(1190, 1040)),
     "shell": Shot(["tools/shoot-shell.sh", "{out}", "{v}"],
                   {f"shell-{scene}-{{v}}.png": f"{n}.png"
                    for scene, n in (("overview", "08-overview"), ("calendar", "03-calendar"),
                                     ("quick-settings", "04-quick-settings"))},
-                  ["gnome-shell/**", "themes/Neon-Doll-Dark/gnome-shell/**",
-                   "themes/Neon-Doll-Light/gnome-shell/**", "gtk-4.0/gtk.css", "gtksourceview/*.xml",
+                  ["gnome-shell/**", "themes/Neon-Doll-dark/gnome-shell/**",
+                   "themes/Neon-Doll/gnome-shell/**", "gtk-4.0/gtk.css", "gtksourceview/*.xml",
                    "tools/check-tokens.py", "tools/shoot-shell.sh"],
                   per_variant=True),
     "text-editor": Shot(["tools/text-editor-shoot.sh", "{out}"], both("text-editor-{v}.png"),
@@ -178,7 +178,8 @@ def make(name):
         for v in VARIANTS if shot.per_variant else [None]:
             words = {"out": str(out(v))}
             if v:
-                words |= {"v": v, "V": v.capitalize(), "light": "--light" if v == "light" else ""}
+                words |= {"v": v, "V": v.capitalize(), "light": "--light" if v == "light" else "",
+                          "dark": "-dark" if v == "dark" else ""}
             command = [w.format(**words) for w in shot.command]
             subprocess.run([w for w in command if w], cwd=ROOT, check=True)
         for dest, src in shot.files.items():

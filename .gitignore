@@ -2,3 +2,4 @@ __pycache__/
 *.bak.*
 dist/
 Cached Theme.pak
+gnome-shell/neon-doll@mishan.github.io/schemas/gschemas.compiled

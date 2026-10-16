@@ -61,9 +61,13 @@ well.
 
 ### GTK 3 and 2
 
-Part `gtk3`, into `~/.local/share/themes/Neon-Doll-{Dark,Light}/`.
+Part `gtk3`, into `~/.local/share/themes/Neon-Doll{,-dark}/`.
 
-`gsettings set org.gnome.desktop.interface gtk-theme Neon-Doll-Dark`. The same
+`gsettings set org.gnome.desktop.interface gtk-theme Neon-Doll-dark`, or
+`Neon-Doll` for light. The names pair the way theme switchers expect (as
+`Adwaita` and `Adwaita-dark` do), so an extension like [Legacy (GTK3) Theme
+Scheme Auto Switcher](https://extensions.gnome.org/extension/4998/) can follow
+Settings → Appearance; GTK 3 itself can't. The same
 setting reaches GTK 2 apps like HexChat: they get Adwaita's GTK 2 widgets in
 Neon Doll's colors, so they need Adwaita's GTK 2 theme (`gnome-themes-extra`).
 
@@ -72,12 +76,20 @@ keyboard is in use. Message-dialog headings stay bold.
 
 ### GNOME Shell
 
-Part `shell`, into the same two theme dirs, plus `Neon-Doll-{Dark,Light}-Hearts`.
+Part `shell`, into the same two theme dirs, plus `Neon-Doll{,-dark}-Hearts`,
+and the Neon Doll extension.
 
-`gsettings set org.gnome.shell.extensions.user-theme name Neon-Doll-Dark`
-(needs the [User Themes](https://extensions.gnome.org/extension/19/user-themes/)
-extension). The `-Hearts` themes are the same, except that Locate Pointer
-(press Ctrl) ripples out as a heart instead of a ring.
+The extension puts the theme on, and switches it the way the Shell switches
+its own: light or dark with Settings → Appearance, and the Shell's
+high-contrast theme while High Contrast is on. Log out and in once, so the
+Shell sees it, turn User Themes off if it's on, then
+`gnome-extensions enable neon-doll@mishan.github.io`. Its one setting,
+`gnome-extensions prefs neon-doll@mishan.github.io`, makes Locate Pointer
+(press Ctrl) ripple out as a heart instead of a ring.
+
+Without the extension, [User Themes](https://extensions.gnome.org/extension/19/user-themes/)
+takes one of the four by name and keeps it:
+`gsettings set org.gnome.shell.extensions.user-theme name Neon-Doll-dark`.
 
 The Shell draws a few things in code, out of a theme's reach: the overview's
 rounded workspace corners, the round slider knob, and the handle's slide. The
@@ -436,9 +448,10 @@ sent.
 
 GTK 4, Text Editor, Firefox, Roundcube and COSMIC switch with the system style on
 their own, and Plasma does once it has the two global themes as its pair.
-GTK 3 and the Shell can't: a GTK 3 theme name and a Shell user theme are each
-one choice, so there are two, `Neon-Doll-Dark` and `Neon-Doll-Light`. GTK 3
-apps that ask for a dark style get it from either. Tilix and Emacs have a
+So does the Shell, with the Neon Doll extension. GTK 3 can't: a GTK 3 theme
+is one name, so there are two, `Neon-Doll` and `Neon-Doll-dark`, named the
+way theme switcher extensions pair them (see [GTK 3 and 2](#gtk-3-and-2)).
+GTK 3 apps that ask for a dark style get it from either. Tilix and Emacs have a
 scheme per variant. VS Code switches when told to, in its settings:
 
 ```json
@@ -450,7 +463,7 @@ scheme per variant. VS Code switches when told to, in its settings:
 ## High contrast
 
 GTK 4 apps follow Settings → Accessibility → High Contrast: every edge goes
-to full strength, the selection goes solid, and the graph paper goes. GTK 3
-and the Shell can't follow it, since each takes one theme name: while it's
-on, set GTK 3's theme to `HighContrast` and the Shell's user theme back to
-the default.
+to full strength, the selection goes solid, and the graph paper goes. With the
+Neon Doll extension the Shell switches to its own high-contrast theme. GTK 3
+can't follow it, since it takes one theme name: while it's on, set GTK 3's
+theme to `HighContrast`.

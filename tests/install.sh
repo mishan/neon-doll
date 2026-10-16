@@ -124,7 +124,7 @@ if [ "$os" = Darwin ]; then
     eval '[ "$st1" -eq 0 ] && has .vim/colors/neon-doll.vim && ! has .config/gtk-4.0/gtk.css && says "To turn it on"'
 else
   check "with no terminal, it installs every part" \
-    eval '[ "$st1" -eq 0 ] && has .config/gtk-4.0/gtk.css && has .local/share/themes/Neon-Doll-Dark &&
+    eval '[ "$st1" -eq 0 ] && has .config/gtk-4.0/gtk.css && has .local/share/themes/Neon-Doll-dark && has .local/share/gnome-shell/extensions/neon-doll@mishan.github.io/schemas/gschemas.compiled &&
           has .local/share/icons/Neon-Doll-Cursors && has .vim/colors/neon-doll.vim && says "To turn it on"'
 fi
 run --remove

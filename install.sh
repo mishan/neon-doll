@@ -460,9 +460,21 @@ for part in $parts; do
         done
       fi
       if [ "$part" = gtk3 ]; then
-        hint "GTK 3: gsettings set org.gnome.desktop.interface gtk-theme Neon-Doll-Dark   # or Neon-Doll-Light"
+        hint "GTK 3: gsettings set org.gnome.desktop.interface gtk-theme Neon-Doll-dark   # or Neon-Doll; theme switchers pair the two"
       else
-        hint "Shell: gsettings set org.gnome.shell.extensions.user-theme name Neon-Doll-Dark   # or Neon-Doll-Light; add -Hearts for a heart-shaped Locate Pointer; needs the User Themes extension"
+        ext=$data/gnome-shell/extensions/neon-doll@mishan.github.io
+        # Its schema is compiled where it lands; without that, the copy
+        # matches this checkout again, for place to replace or remove.
+        [ -L "$ext" ] || rm -f "$ext/schemas/gschemas.compiled"
+        place "$here/gnome-shell/neon-doll@mishan.github.io" "$ext"
+        if [ "$mode" != remove ]; then
+          if have glib-compile-schemas; then
+            glib-compile-schemas "$ext/schemas"
+          else
+            echo "no glib-compile-schemas: the Neon Doll extension won't load until its schema is compiled" >&2
+          fi
+        fi
+        hint "Shell: gnome-extensions enable neon-doll@mishan.github.io   # after logging out and in; it follows light, dark and High Contrast. Turn User Themes off. For a heart-shaped Locate Pointer: gnome-extensions prefs neon-doll@mishan.github.io"
       fi
       ;;
     cursor)

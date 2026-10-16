@@ -5,7 +5,7 @@ St has no custom properties, so the palette is substituted here instead:
 @name@ becomes the token's value. Both variants come from one template, so
 they can't drift. The output is committed, so installing needs no Python.
 
-    tools/build-shell.py            write themes/Neon-Doll-{Dark,Light}/gnome-shell/
+    tools/build-shell.py            write themes/Neon-Doll{,-dark}/gnome-shell/
     tools/build-shell.py --check    fail if the output is stale, or if a class
                                     or id in the template isn't one the shell uses
     tools/build-shell.py --coverage list stock selectors that paint with the
@@ -91,8 +91,8 @@ FAMILIES = {
 }
 
 OUTPUTS = {
-    "Neon-Doll-Dark": DARK,
-    "Neon-Doll-Light": LIGHT,
+    "Neon-Doll-dark": DARK,
+    "Neon-Doll": LIGHT,
 }
 
 
@@ -152,8 +152,8 @@ def switch_assets(t):
 
 def hearts(theme, t):
     """A -Hearts theme: the regular one, with Locate Pointer's ring swapped for
-    a heart. User Themes takes a theme name and nothing else, so an option has
-    to be a theme of its own; this one imports its sibling rather than copying
+    a heart. A Shell theme is a name and nothing else, so an option has to be
+    a theme of its own; this one imports its sibling rather than copying
     it, and holds only the difference. It has no gtk-3.0/, so it's offered for
     the Shell and nowhere else."""
     heart = (f'<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">'

@@ -89,11 +89,11 @@ if __name__ == "__main__":
     with tempfile.TemporaryDirectory() as home:
         # GTK 3 reads a theme by name, from a home it looks in.
         shutil.copytree(HERE.parent / "themes", Path(home) / ".local/share/themes")
-        gtk3 = ["--seed", home, "--env", "GTK_THEME=Neon-Doll-{}"]
+        gtk3 = ["--seed", home, "--env", "GTK_THEME=Neon-Doll{}"]
         runs = [("GTK 4, dark", "preview.py", "preview.py", "", []),
                 ("GTK 4, light", "preview.py", "preview.py", "--light", []),
                 ("GTK 4, high contrast", "preview.py", "preview.py", "", ["--high-contrast"]),
-                ("GTK 3, dark", "preview3.py", "photos", "", [a.format("Dark") for a in gtk3]),
-                ("GTK 3, light", "preview3.py", "photos", "", [a.format("Light") for a in gtk3])]
+                ("GTK 3, dark", "preview3.py", "photos", "", [a.format("-dark") for a in gtk3]),
+                ("GTK 3, light", "preview3.py", "photos", "", [a.format("") for a in gtk3])]
         results = [check(*run) for run in runs]
     sys.exit(0 if all(results) else 1)

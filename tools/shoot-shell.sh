@@ -4,8 +4,8 @@
 #
 #   tools/shoot-shell.sh OUTDIR [dark|light] [hearts]
 #
-# "hearts" runs the Shell on the -Hearts theme (Locate Pointer as a heart);
-# the apps keep the regular one.
+# The Shell's theme is put on by the Neon Doll extension, as a user's is;
+# "hearts" turns on its heart for Locate Pointer.
 #
 # Everything runs under a scratch HOME, a private session bus and a stand-in
 # system bus, so nothing reaches the real dconf, GDM or logind. A small
@@ -19,12 +19,12 @@ here=$(cd "$(dirname "$0")" && pwd)
 repo=$(dirname "$here")
 
 case $variant in
-  dark)  scheme=prefer-dark;  name=Neon-Doll-Dark ;;
-  light) scheme=prefer-light; name=Neon-Doll-Light ;;
+  dark)  scheme=prefer-dark;  name=Neon-Doll-dark ;;
+  light) scheme=prefer-light; name=Neon-Doll ;;
   *) echo "variant must be dark or light" >&2; exit 2 ;;
 esac
-shell_name=$name
-[ "${3:-}" = hearts ] && shell_name=$name-Hearts
+hearts=false
+[ "${3:-}" = hearts ] && hearts=true
 
 mkdir -p "$out"
 tmp=$(mktemp -d /tmp/shoot-shell.XXXXXX)
@@ -59,6 +59,12 @@ convert -size 1280x800 "tile:$tmp/tile.png" "$tmp/home/paper.png"
 
 # Something to read in Text Editor: a short file from this repo.
 cp "$here/check-tokens.py" "$tmp/home/check-tokens.py"
+
+# A copy, so its schema compiles there and not in the checkout.
+nd="$tmp/home/.local/share/gnome-shell/extensions/neon-doll@mishan.github.io"
+mkdir -p "$(dirname "$nd")"
+cp -r "$repo/gnome-shell/neon-doll@mishan.github.io" "$nd"
+glib-compile-schemas "$nd/schemas"
 
 ext="$tmp/home/.local/share/gnome-shell/extensions/shoot@neon-doll"
 mkdir -p "$ext"
@@ -419,9 +425,9 @@ env -i PATH=/usr/bin:/bin LANG=C.UTF-8 \
   XDG_RUNTIME_DIR="$tmp/run" SHOOT_OUT="$out" \
   DBUS_SYSTEM_BUS_ADDRESS="unix:path=$tmp/run/system_bus_socket" \
   dbus-run-session -- sh -c "
-    gsettings set org.gnome.shell enabled-extensions \"['user-theme@gnome-shell-extensions.gcampax.github.com', 'shoot@neon-doll']\"
+    gsettings set org.gnome.shell enabled-extensions \"['neon-doll@mishan.github.io', 'shoot@neon-doll']\"
     gsettings set org.gnome.shell welcome-dialog-last-shown-version '999'
-    gsettings set org.gnome.shell.extensions.user-theme name '$shell_name'
+    gsettings --schemadir '$nd/schemas' set org.gnome.shell.extensions.neon-doll hearts $hearts
     gsettings set org.gnome.desktop.interface color-scheme '$scheme'
     gsettings set org.gnome.desktop.interface gtk-theme '$name'
     gsettings set org.gnome.desktop.background picture-uri 'file://$tmp/home/paper.png'
