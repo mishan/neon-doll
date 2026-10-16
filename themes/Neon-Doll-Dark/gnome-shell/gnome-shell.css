@@ -1158,6 +1158,13 @@ StScrollBar > .vhandle:active, StScrollBar > .hhandle:active { background-color:
   background-color: rgba(255, 45, 149, 0.08);
   box-shadow: none !important;
 }
+/* Focus swaps the rail for the ring, since St draws one box-shadow; the
+   wash still says checked. */
+.quick-toggle:focus:checked, .quick-toggle:focus:hover:checked,
+.quick-toggle-has-menu .quick-toggle-menu-button:checked:focus,
+.quick-toggle-has-menu .quick-toggle-menu-button:checked:focus:hover {
+  box-shadow: inset 0 0 0 2px #ff2d95 !important;
+}
 .quick-toggle:insensitive:checked, .quick-toggle:insensitive {
   color: #6f6880;
   background-color: transparent;

@@ -367,7 +367,11 @@ toggle-group > toggle:checked, .linked > button:checked {
 toggle-group > toggle { font-family: var(--monospace-font-family); font-weight: 400; }
 
 notebook > header > tabs > tab { color: var(--muted); }
-notebook > header > tabs > tab:checked { color: var(--ink); box-shadow: inset 0 2px var(--pink); }
+notebook > header > tabs > tab:checked { color: var(--ink); }
+notebook > header.top > tabs > tab:checked { box-shadow: inset 0 2px var(--pink); }
+notebook > header.bottom > tabs > tab:checked { box-shadow: inset 0 -2px var(--pink); }
+notebook > header.left > tabs > tab:checked { box-shadow: inset 2px 0 var(--pink); }
+notebook > header.right > tabs > tab:checked { box-shadow: inset -2px 0 var(--pink); }
 
 /* === Hover and focus are one state ========================================
    A pointer resting on something is a position too, so hover goes pink,
@@ -623,7 +627,13 @@ switch:disabled {
   background-color: transparent;
   box-shadow: inset 0 0 0 1px var(--line);
 }
-switch:disabled > slider { color: var(--bg); background-color: var(--dimmest); }
+/* A hollow slider: --dimmest is the enabled edge's color, so a filled one
+   would look the same as an enabled switch. */
+switch:disabled > slider {
+  color: var(--dimmest);
+  background-color: transparent;
+  box-shadow: inset 0 0 0 1px var(--dimmest);
+}
 
 check, radio {
   background-color: transparent;
@@ -638,6 +648,11 @@ check:checked, check:indeterminate, radio:checked, radio:indeterminate {
 
 scale > trough, progressbar > trough, levelbar > trough > block.empty {
   background-color: var(--line);
+}
+/* GTK's own theme, for apps without libadwaita, fills these in blue. */
+scale > trough > highlight, progressbar > trough > progress {
+  background-color: var(--accent-bg-color);
+  border-color: var(--accent-bg-color);
 }
 scale > trough > slider {
   background-color: var(--ink);
