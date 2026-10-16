@@ -370,7 +370,7 @@ done
 # --- Installing ------------------------------------------------------------
 
 # The extension's compiled schema is made where it lands, so it's no difference.
-same() { ! diff -rq "$1" "$2" 2>&1 | grep -v -e ': gschemas.compiled$' -e '/gschemas.compiled differ$' | grep -q .; }
+same() { ! diff -rq "$1" "$2" 2>&1 | grep -v 'gschemas\.compiled' | grep -q .; }
 
 # place SRC DEST: copy, link or remove one file or directory.
 place() {
