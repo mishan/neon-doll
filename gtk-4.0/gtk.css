@@ -649,11 +649,13 @@ check:checked, check:indeterminate, radio:checked, radio:indeterminate {
 scale > trough, progressbar > trough, levelbar > trough > block.empty {
   background-color: var(--line);
 }
-/* GTK's own theme, for apps without libadwaita, fills these in blue. */
-scale > trough > highlight, progressbar > trough > progress {
+/* GTK's own theme, for apps without libadwaita, fills these in blue, edges
+   level bars and switches in blue and grey, and dims them when disabled. */
+scale > trough > highlight:not(:disabled), progressbar > trough > progress:not(:disabled) {
   background-color: var(--accent-bg-color);
   border-color: var(--accent-bg-color);
 }
+levelbar > trough > block, switch, switch > slider { border-color: transparent; }
 scale > trough > slider {
   background-color: var(--ink);
   box-shadow: none;
