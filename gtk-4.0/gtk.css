@@ -447,13 +447,13 @@ button.link, button.link:hover { background-color: transparent; box-shadow: none
    color, which the rules above would paint over. Picking one changes
    nothing here: Neon Doll keeps its fuchsia. */
 button.accent-button:not(.flat), button.accent-button:hover:not(.flat),
-button.accent-button:active:not(.flat), button.accent-button:checked:not(.flat),
 button.accent-button:focus:focus-visible:not(.flat) {
   background-color: var(--accent-bg-color);
   border-radius: 9999px;
   box-shadow: none;
 }
-button.accent-button:checked:not(.flat) { box-shadow: 0 0 0 3px var(--accent-bg-color); }
+button.accent-button:checked:not(.flat),
+button.accent-button:checked:focus:focus-visible:not(.flat) { box-shadow: 0 0 0 3px var(--accent-bg-color); }
 button.accent-button:focus:focus-visible:not(.flat) { outline: 2px solid var(--pink); outline-offset: 4px; }
 
 /* === Surfaces =============================================================
