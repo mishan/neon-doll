@@ -650,7 +650,9 @@ scale > trough, progressbar > trough, levelbar > trough > block.empty {
   background-color: var(--line);
 }
 /* GTK's own theme, for apps without libadwaita, fills these in blue, edges
-   level bars and switches in blue and grey, and dims them when disabled. */
+   level bars and switches in blue and grey, and dims them when disabled.
+   A level bar's fill is left to the app, which colors it by level, so in an
+   app without libadwaita a level between GTK's offsets stays blue. */
 scale > trough > highlight:not(:disabled), progressbar > trough > progress:not(:disabled) {
   background-color: var(--accent-bg-color);
   border-color: var(--accent-bg-color);
