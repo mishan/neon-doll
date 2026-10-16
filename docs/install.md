@@ -52,10 +52,12 @@ ones below — pick up little or nothing.
 
 Part `gtk4`, into `~/.config/gtk-4.0/gtk.css`.
 
-Restart apps. Light or dark follows Settings → Appearance. Window backgrounds
-are graph paper, but not the desktop: Desktop Icons NG draws its icons in a
-transparent GTK 4 window over the wallpaper, so the paper would land on the
-wallpaper too. Install with `--desktop-grid` to have it there as well.
+Restart apps. Light or dark follows Settings → Appearance; its accent color
+doesn't, as fuchsia is Neon Doll's own accent (the Shell keeps it too). Window
+backgrounds are graph paper, but not the desktop: Desktop Icons NG draws its
+icons in a transparent GTK 4 window over the wallpaper, so the paper would
+land on the wallpaper too. Install with `--desktop-grid` to have it there as
+well.
 
 ### GTK 3 and 2
 
