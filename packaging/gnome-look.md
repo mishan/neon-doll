@@ -16,8 +16,8 @@ marks everything you can touch; the rest stays in the dark. Terminal type on
 the chrome, soft sans for the words. Hard corners, no drop shadows, nothing
 fades in. Cyberpunk, with a manicure. Dark and light.
 
-Two themes: Neon-Doll-Dark and Neon-Doll-Light. Each covers GTK 3 and GNOME
-Shell.
+Two themes: Neon-Doll (light) and Neon-Doll-dark. Each covers GTK 3 and GNOME
+Shell, and theme switchers pair them as they do Adwaita and Adwaita-dark.
 
 GTK 4 / libadwaita apps don't read GTK themes, so their part is a separate
 stylesheet, ~/.config/gtk-4.0/gtk.css, which follows the system's light or
@@ -43,14 +43,18 @@ are, violet for what you can touch, terminal type, hard corners, no shadows.
 Dark and light.
 
 Needs the User Themes extension. Unpack into ~/.themes or
-~/.local/share/themes, then pick Neon-Doll-Dark or Neon-Doll-Light in User
+~/.local/share/themes, then pick Neon-Doll-dark or Neon-Doll in User
 Themes, or:
 
-    gsettings set org.gnome.shell.extensions.user-theme name Neon-Doll-Dark
+    gsettings set org.gnome.shell.extensions.user-theme name Neon-Doll-dark
+
+To have the Shell switch between them with the system style, as its own theme
+does, install from the repository instead: its Neon Doll extension takes the
+place of User Themes.
 
 Pair it with the GTK theme of the same name for a matching desktop.
 
-Also included: Neon-Doll-Dark-Hearts and Neon-Doll-Light-Hearts, the same
+Also included: Neon-Doll-dark-Hearts and Neon-Doll-Hearts, the same
 themes with one difference: Locate Pointer (press Ctrl) ripples out from the
 pointer as a heart instead of a ring.
 

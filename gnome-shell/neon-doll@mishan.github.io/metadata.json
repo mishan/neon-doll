@@ -1,0 +1,8 @@
+{
+  "uuid": "neon-doll@mishan.github.io",
+  "name": "Neon Doll",
+  "description": "Neon Doll's Shell theme, light or dark with the system style as the Shell's own theme is, and the Shell's high-contrast theme under High Contrast. Use it instead of User Themes.",
+  "shell-version": ["51"],
+  "settings-schema": "org.gnome.shell.extensions.neon-doll",
+  "url": "https://github.com/mishan/neon-doll"
+}

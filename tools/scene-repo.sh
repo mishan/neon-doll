@@ -1,8 +1,8 @@
 #!/bin/sh
 # A copy of this repo for a desktop shot's terminal and file manager to show:
-# its committed files, under a short history of its own with fixed dates, so
-# the shot shows neither the checkout's branches and untracked files nor how
-# long ago they changed.
+# its committed files, with fixed dates, and a short history of its own in
+# place of the checkout's branches. The commits are empty, so their hashes
+# don't change with the files.
 #
 #   tools/scene-repo.sh DIR
 set -eu
@@ -18,7 +18,7 @@ commit() {
   shift; git commit -q --allow-empty -m "$*"
 }
 git init -q -b main
-git add -A && commit 20 "Neon Doll: the tokens, GTK and the Shell"
+commit 20 "Neon Doll: the tokens, GTK and the Shell"
 commit 21 "Add the terminal schemes"
 git tag v1.0
 commit 22 "Add KDE: Plasma, Kvantum, Konsole and Kate"

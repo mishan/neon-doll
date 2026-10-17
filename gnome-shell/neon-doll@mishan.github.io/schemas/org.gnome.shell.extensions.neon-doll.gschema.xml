@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.gnome.shell.extensions.neon-doll" path="/org/gnome/shell/extensions/neon-doll/">
+    <key name="hearts" type="b">
+      <default>false</default>
+      <summary>A heart for Locate Pointer</summary>
+      <description>Locate Pointer draws a heart instead of a ring.</description>
+    </key>
+  </schema>
+</schemalist>

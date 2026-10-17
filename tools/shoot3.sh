@@ -6,7 +6,7 @@
 #
 #   tools/shoot3.sh THEME out.png [--menu] [--context] [--dialog] [--states]
 #
-# THEME is Neon-Doll-Light, Neon-Doll-Light:dark or Neon-Doll-Dark. CSS
+# THEME is Neon-Doll, Neon-Doll:dark or Neon-Doll-dark. CSS
 # errors print to stderr. Needs shotbox (https://github.com/mishan/shotbox)
 # on PATH.
 set -eu
