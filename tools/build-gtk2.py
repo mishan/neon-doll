@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Build the GTK 2 part of the theme dirs from tokens.toml.
 
-    tools/build-gtk2.py            write themes/Neon-Doll-{Dark,Light}/gtk-2.0/gtkrc
+    tools/build-gtk2.py            write themes/Neon-Doll{,-dark}/gtk-2.0/gtkrc
     tools/build-gtk2.py --check    fail if either is stale
 
 A few apps are still GTK 2 (HexChat, GIMP 2, older tools), and GNOME's theme
@@ -61,7 +61,7 @@ def gtkrc(variant):
 
 def outputs():
     for v in tokens.VARIANTS:
-        yield ROOT / "themes" / f"Neon-Doll-{v.title()}" / "gtk-2.0" / "gtkrc", gtkrc(v)
+        yield ROOT / "themes" / ("Neon-Doll" if v == "light" else "Neon-Doll-dark") / "gtk-2.0" / "gtkrc", gtkrc(v)
 
 
 def main():

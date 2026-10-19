@@ -2,8 +2,8 @@
 """A widget sampler for the GTK 3 theme in gtk-3.0/.
 
 Unlike tools/preview.py it loads nothing itself: GTK 3 reads a theme by
-name, so run it with GTK_THEME=Neon-Doll-Light (or Neon-Doll-Light:dark,
-or Neon-Doll-Dark) and the theme somewhere GTK looks for one. tools/shoot3.sh
+name, so run it with GTK_THEME=Neon-Doll (or Neon-Doll:dark,
+or Neon-Doll-dark) and the theme somewhere GTK looks for one. tools/shoot3.sh
 does that on a throwaway X server.
 
     tools/preview3.py [--menu] [--context] [--dialog] [--states]

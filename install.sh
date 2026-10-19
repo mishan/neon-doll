@@ -369,7 +369,8 @@ done
 
 # --- Installing ------------------------------------------------------------
 
-same() { diff -rq "$1" "$2" >/dev/null 2>&1; }
+# The extension's compiled schema is made where it lands, so it's no difference.
+same() { ! diff -rq "$1" "$2" 2>&1 | grep -v 'gschemas\.compiled' | grep -q .; }
 
 # place SRC DEST: copy, link or remove one file or directory.
 place() {
@@ -439,6 +440,10 @@ for part in $parts; do
       # GTK 3 and the Shell share the two theme dirs; install them once.
       if [ -z "$themes_done" ]; then
         themes_done=1
+        old=$data/themes/Neon-Doll-Dark
+        if [ "$mode" != remove ] && { [ -e "$old" ] || [ -L "$old" ]; }; then
+          hint "Upgrading: Neon-Doll-Dark and -Light are now Neon-Doll-dark and Neon-Doll. Point gtk-theme (and User Themes, or use the extension) at the new names, then delete the old Neon-Doll-Dark*, Neon-Doll-Light* folders in $data/themes and ~/.themes"
+        fi
         for t in "$here"/themes/*/; do
           t=${t%/}
           place "$t" "$data/themes/$(basename "$t")"
@@ -460,9 +465,18 @@ for part in $parts; do
         done
       fi
       if [ "$part" = gtk3 ]; then
-        hint "GTK 3: gsettings set org.gnome.desktop.interface gtk-theme Neon-Doll-Dark   # or Neon-Doll-Light"
+        hint "GTK 3: gsettings set org.gnome.desktop.interface gtk-theme Neon-Doll-dark   # or Neon-Doll; theme switchers pair the two"
       else
-        hint "Shell: gsettings set org.gnome.shell.extensions.user-theme name Neon-Doll-Dark   # or Neon-Doll-Light; add -Hearts for a heart-shaped Locate Pointer; needs the User Themes extension"
+        ext=$data/gnome-shell/extensions/neon-doll@mishan.github.io
+        place "$here/gnome-shell/neon-doll@mishan.github.io" "$ext"
+        if [ "$mode" != remove ]; then
+          if have glib-compile-schemas; then
+            glib-compile-schemas "$ext/schemas"
+          else
+            echo "no glib-compile-schemas: the Neon Doll extension won't load until its schema is compiled" >&2
+          fi
+        fi
+        hint "Shell: gnome-extensions enable neon-doll@mishan.github.io   # after logging out and in; it follows light, dark and High Contrast. Turn User Themes off. For a heart-shaped Locate Pointer: gnome-extensions prefs neon-doll@mishan.github.io"
       fi
       ;;
     cursor)
