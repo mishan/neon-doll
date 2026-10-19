@@ -47,7 +47,7 @@ INSIDE = """
 shotbox wait window "$WINDOW" >/dev/null && shotbox wait stable >/dev/null
 shotbox a11y lint --window "$WINDOW" --ignore "$LINT_IGNORE" > "$OUT/lint.txt"
 echo $? > "$OUT/lint.status"
-shotbox a11y contrast --edges 3 --window "$WINDOW" --json > "$OUT/contrast.json"
+shotbox a11y contrast --edges 3 --passes --window "$WINDOW" --json > "$OUT/contrast.json"
 shotbox a11y tabwalk --visible --key ctrl+Tab --window "$WINDOW" --json > "$OUT/walk.json"
 true
 """
@@ -69,6 +69,10 @@ def check(label, program, window, preview_args, session_args):
         if (out / "lint.status").read_text().strip() != "0":
             problems += [f"lint: {line}" for line in (out / "lint.txt").read_text().splitlines()]
         contrast = json.loads((out / "contrast.json").read_text())
+        # Nothing measured at all is shotbox missing something (pycairo, say),
+        # not a theme that passes.
+        if not contrast["problems"] and not contrast["passes"]:
+            problems.append(f"contrast: nothing measured\n{run.stderr}")
         for n in contrast["problems"]:
             if (n["role"], n["name"]) not in EXEMPT:
                 problems.append(f'{n["role"]} "{n["name"]}": {n["problem"]}')
