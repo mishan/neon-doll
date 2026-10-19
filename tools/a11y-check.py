@@ -7,7 +7,7 @@ and GTK 4 in high contrast too.
 
     tools/a11y-check.py
 
-Needs shotbox 0.4.3 or later on PATH. tools/scheme-colors.py checks the same
+Needs shotbox 0.9.0 or later on PATH. tools/scheme-colors.py checks the same
 floors on the palette; this checks them on the pixels.
 """
 
@@ -47,7 +47,7 @@ INSIDE = """
 shotbox wait window "$WINDOW" >/dev/null && shotbox wait stable >/dev/null
 shotbox a11y lint --window "$WINDOW" --ignore "$LINT_IGNORE" > "$OUT/lint.txt"
 echo $? > "$OUT/lint.status"
-shotbox a11y contrast --edges 3 --window "$WINDOW" --json > "$OUT/contrast.json"
+shotbox a11y contrast --edges 3 --passes --window "$WINDOW" --json > "$OUT/contrast.json"
 shotbox a11y tabwalk --visible --key ctrl+Tab --window "$WINDOW" --json > "$OUT/walk.json"
 true
 """
@@ -68,7 +68,12 @@ def check(label, program, window, preview_args, session_args):
         problems = []
         if (out / "lint.status").read_text().strip() != "0":
             problems += [f"lint: {line}" for line in (out / "lint.txt").read_text().splitlines()]
-        for n in json.loads((out / "contrast.json").read_text()):
+        contrast = json.loads((out / "contrast.json").read_text())
+        # Nothing measured at all is shotbox missing something (pycairo, say),
+        # not a theme that passes.
+        if not contrast["problems"] and not contrast["passes"]:
+            problems.append(f"contrast: nothing measured\n{run.stderr}")
+        for n in contrast["problems"]:
             if (n["role"], n["name"]) not in EXEMPT:
                 problems.append(f'{n["role"]} "{n["name"]}": {n["problem"]}')
         walk = json.loads((out / "walk.json").read_text())
@@ -79,7 +84,10 @@ def check(label, program, window, preview_args, session_args):
                     and (n["role"], n["name"]) not in EXEMPT:
                 problems.append(f'{n["role"]} "{n["name"]}": focus not shown, '
                                 f'{n["changed"]} pixels changed, {n["needed"]} needed')
-    print(f"{label}: " + ("ok" if not problems else f"{len(problems)} problems"))
+    # What shotbox couldn't measure (GTK 4's edges, and text it can't find
+    # where GTK says it is) passes by default, so say how much there was.
+    unmeasured = f", {len(contrast['notes'])} not measured" if contrast["notes"] else ""
+    print(f"{label}: " + ("ok" if not problems else f"{len(problems)} problems") + unmeasured)
     for p in problems:
         print(f"  {p}")
     return not problems
