@@ -61,7 +61,7 @@ jobs:
             gir1.2-gtk-3.0 gir1.2-gtk-4.0 gir1.2-adw-1 gir1.2-atspi-2.0 python3-gi \
             at-spi2-core adwaita-icon-theme xvfb xauth x11-utils dbus-daemon \
             imagemagick libglib2.0-bin fonts-dejavu-core fonts-noto-core python3-pip
-          pip install --break-system-packages shotbox==0.4.3
+          pip install --break-system-packages shotbox==0.9.0
       - name: tools/a11y-check.py
         run: tools/a11y-check.py
 

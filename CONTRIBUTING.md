@@ -16,7 +16,7 @@ sampler in dark, light and high contrast and the GTK 3 one in dark and light,
 and fails for a control with no name, text or a control's edge under its
 floor as drawn, or a Tab stop whose focus doesn't show. CI runs it on Debian
 testing, since glyphs measured on the screen depend on the fonts and GTK. What it reports that isn't a problem is listed in the
-script, each with its reason. It needs shotbox 0.4.3 or later.
+script, each with its reason. It needs shotbox 0.9.0 or later.
 
 The installers have tests, which run them against scratch home folders:
 `tests/install.sh` for `install.sh` (`SH=dash` or another shell to run it
