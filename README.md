@@ -26,11 +26,18 @@ git clone https://github.com/mishan/neon-doll.git && cd neon-doll
 ./install.sh
 ```
 
-On Windows, from a clone or the Windows zip, in PowerShell:
+On Windows, unzip the Windows zip (or clone), right-click the `neon-doll`
+folder and pick *Open in Terminal*, then in that PowerShell window:
 
 ```powershell
+Set-ExecutionPolicy Bypass -Scope Process -Force
 .\windows\install.ps1
 ```
+
+Windows won't run a downloaded script on its own; the first line lets this
+window run it, and lapses when the window closes. See the
+[install guide](docs/install.md#windows-terminal-and-powershell) for running
+it from elsewhere.
 
 Each installer asks which parts to install, with the ones whose apps it finds
 ticked. It copies files into your home directory and changes no settings; it

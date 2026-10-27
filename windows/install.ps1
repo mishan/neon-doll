@@ -231,18 +231,31 @@ if ($Parts) {
     }
 }
 
-# Installing.
-$hints = [Collections.Generic.List[string]]::new()
+# Whether PowerShell will skip your profile: Windows PowerShell's default,
+# Restricted, runs no scripts, and AllSigned runs no unsigned ones. This
+# window's own policy, the Process scope, is left out.
+function ScriptsOff {
+    if (-not ($PSVersionTable.PSEdition -eq 'Desktop' -or $IsWindows)) { return $false }
+    $set = Get-ExecutionPolicy -List | Where-Object { $_.Scope -ne 'Process' -and "$($_.ExecutionPolicy)" -ne 'Undefined' } |
+        Select-Object -First 1
+    $policy = if ($set) { "$($set.ExecutionPolicy)" } else { 'Restricted' }
+    $policy -eq 'Restricted' -or $policy -eq 'AllSigned'
+}
+
+# Installing. Each part leaves a hint: its name, then lines, where one
+# starting "> " is something to copy (a command, a path).
+$hints = [Collections.Generic.List[object]]::new()
+function Hint($name) { $hints.Add([pscustomobject]@{ Name = $name; Lines = $args }) }
 foreach ($part in $picked) {
     switch ($part) {
         'terminal' {
             Place (P $here 'terminal' 'neon-doll.json') (P $fragments 'neon-doll.json')
             if ($Remove -and (Test-Path $fragments) -and -not (Get-ChildItem $fragments)) { Remove-Item $fragments }
-            $hints.Add(@"
-  Windows Terminal: Settings -> your profile -> Appearance -> Color scheme -> Neon Doll Dark (or Light).
-    For the tab row too, paste the two entries from $(P $here 'terminal' 'themes.json') into the
-    "themes" list of settings.json, then Settings -> Appearance -> Theme -> Neon Doll Dark.
-"@)
+            Hint 'Windows Terminal' 'Close every Terminal window, so it reads the new schemes when it starts again. Then' `
+                'Settings -> your profile -> Appearance -> Color scheme -> Neon Doll Dark (or Light).' `
+                'For the tab row too, paste the two entries in this file into the "themes" list of settings.json:' `
+                "> $(P $here 'terminal' 'themes.json')" `
+                'then Settings -> Appearance -> Theme -> Neon Doll Dark.'
         }
         'powershell' {
             if (-not $profileDir) {
@@ -251,22 +264,24 @@ foreach ($part in $picked) {
             }
             $ps1 = P $profileDir 'neon-doll.ps1'
             Place (P $here 'powershell' 'neon-doll.ps1') $ps1
-            $hints.Add(@"
-  PowerShell: add to $PROFILE
-    . "$ps1"
-    Enable-NeonDollPrompt        # optional; -Variant Light for the light scheme
-"@)
+            $line = ". `"$ps1`"" -replace "'", "''"
+            $lines = @('Add it to your profile:', "> Add-Content `$PROFILE '$line'",
+                       "For the bash prompt's look too (-Variant Light for the light scheme):",
+                       "> Add-Content `$PROFILE 'Enable-NeonDollPrompt'")
+            if (ScriptsOff) {
+                $lines += 'Windows runs no scripts for you yet, so PowerShell skips your profile. To let it:',
+                          '> Set-ExecutionPolicy -Scope CurrentUser RemoteSigned'
+            }
+            Hint "PowerShell $($PSVersionTable.PSVersion.Major)" @lines
         }
         'contrast' {
             foreach ($v in 'dark', 'light') {
                 Place (P $here 'contrast' "neon-doll-$v.theme") (P $themes "neon-doll-$v.theme")
             }
             if ($Remove -and (Test-Path $themes) -and -not (Get-ChildItem $themes)) { Remove-Item $themes }
-            $hints.Add(@"
-  The whole desktop, as a contrast theme: open it, and Windows applies it
-    Start-Process "$(P $themes 'neon-doll-dark.theme')"
-    To go back: Settings -> Accessibility -> Contrast themes -> None.
-"@)
+            Hint 'The whole desktop' 'Open the contrast theme, and Windows applies it:' `
+                "> Start-Process `"$(P $themes 'neon-doll-dark.theme')`"" `
+                'To go back: Settings -> Accessibility -> Contrast themes -> None.'
         }
         'vscode' {
             # The extension folder as it is: VS Code picks up an unpacked
@@ -286,7 +301,7 @@ foreach ($part in $picked) {
                     if ($cli) { & $cli --extensions-dir $d --uninstall-extension mishan.neon-doll *> $null }
                 }
             }
-            $hints.Add('  VS Code: restart it, then Preferences: Color Theme -> Neon Doll Dark (or Light).')
+            Hint 'VS Code' 'Restart it, then Preferences: Color Theme -> Neon Doll Dark (or Light).'
         }
         'firefox' {
             $profiles = @(FirefoxProfiles)
@@ -307,25 +322,35 @@ foreach ($part in $picked) {
                 }
             }
             if ($unset) {
-                $hints.Add("  Firefox: set toolkit.legacyUserProfileCustomizations.stylesheets to true in about:config (profiles $($unset -join ', ')), then restart Firefox.")
+                Hint 'Firefox' "In about:config, set this to true (profiles $($unset -join ', ')), then restart Firefox:" `
+                    '> toolkit.legacyUserProfileCustomizations.stylesheets'
             } else {
-                $hints.Add('  Firefox: restart it. The color theme itself loads from about:debugging; see docs/install.md.')
+                Hint 'Firefox' 'Restart it. The color theme itself loads from about:debugging; see docs/install.md.'
             }
         }
         'git' {
             $gitconfig = P $userHome '.config' 'neon-doll' 'gitconfig'
             Place (P $root 'git' 'neon-doll.gitconfig') $gitconfig
-            $hints.Add("  git: git config --global include.path `"$($gitconfig -replace '\\', '/')`"   # after any [color] sections of your own")
+            Hint 'git' 'Run this; it goes after any [color] settings of your own, so its colors win:' `
+                "> git config --global include.path `"$($gitconfig -replace '\\', '/')`""
         }
         'vim' {
             Place (P $root 'vim' 'colors' 'neon-doll.vim') (P $userHome 'vimfiles' 'colors' 'neon-doll.vim')
-            $hints.Add('  vim: add to ~\_vimrc:  colorscheme neon-doll   (set background=light for the light variant; set termguicolors for exact colors)')
+            Hint 'vim' 'Add to ~\_vimrc (with set background=light for the light variant, set termguicolors for exact colors):' `
+                '> colorscheme neon-doll'
         }
     }
 }
 
 if (-not $Remove -and $hints.Count) {
-    ''
-    'To turn it on:'
-    $hints
+    Write-Host ''
+    Write-Host 'To turn it on:' -ForegroundColor Magenta
+    foreach ($h in $hints) {
+        Write-Host ''
+        Write-Host "  $($h.Name)" -ForegroundColor Magenta
+        foreach ($l in $h.Lines) {
+            if ($l.StartsWith('> ')) { Write-Host "      $($l.Substring(2))" -ForegroundColor Cyan }
+            else { Write-Host "    $l" }
+        }
+    }
 }
