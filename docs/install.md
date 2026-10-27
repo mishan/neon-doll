@@ -7,7 +7,7 @@
 - [Terminals and the command line](#terminals-and-the-command-line): [Tilix](#tilix), [Ghostty](#ghostty), [`ls`](#ls-colors), [`git`](#git-colors), [`ag`](#ag), [man pages](#man-pages), [glow](#glow), [`whiptail`](#whiptail), [irssi](#irssi)
 - [Editors](#editors): [VS Code](#vs-code), [vim](#vim), [Emacs](#emacs-29)
 - [Browsers](#browsers): [Chrome](#chrome), [Firefox](#firefox)
-- [Windows](#windows): [Terminal and PowerShell](#windows-terminal-and-powershell)
+- [Windows](#windows): [Terminal and PowerShell](#windows-terminal-and-powershell), [the desktop](#the-windows-desktop)
 - [Roundcube](#roundcube)
 - [Light and dark](#light-and-dark)
 - [High contrast](#high-contrast)
@@ -408,8 +408,8 @@ its own is only a string, which PowerShell prints back without running
 anything.
 
 `-Remove` takes it out again. Like `install.sh` it asks which
-parts, with the ones it finds ticked, or takes them by name: `terminal`
-and `powershell`, and `vscode`, `firefox`, `git` and `vim` as on
+parts, with the ones it finds ticked, or takes them by name: `terminal`,
+`powershell`, `accent` and `cursors` (below), and `vscode`, `firefox`, `git` and `vim` as on
 Linux, or `all`. It copies the color schemes into Windows Terminal's Fragments
 folder, where Terminal finds them on its own, and the PowerShell colors next to
 your profile, then prints the two lines to add: pick *Neon Doll Dark* or
@@ -426,6 +426,33 @@ errors and progress, matching the `ls` colors. `Enable-NeonDollPrompt` adds
 the bash prompt's look. The tab row's colors are a Terminal *theme*, which
 fragments can't carry: paste the entries from `windows/terminal/themes.json`
 into `settings.json`.
+
+### The Windows desktop
+
+Windows gets dark mode and the fuchsia accent, which go on Start, the taskbar,
+title bars and window borders, and in toggles and selections inside apps. On
+the taskbar and Start, Windows deepens it to a darker magenta.
+They're Windows' own settings, so nothing is installed for them: part
+`accent` prints the steps, which are, in *Settings → Personalization →
+Colors*:
+
+- *Choose your mode*: **Dark**
+- *Accent color*: **Manual**, then *Custom colors → View colors → More*, and
+  type in `FF2D95`
+- *Show accent color on Start and taskbar*: **On**
+- *Show accent color on title bars and window borders*: **On**
+
+A Windows `.theme` file could set these with a double-click, but it resets
+whatever it doesn't name, the pointers and sounds included, so there isn't
+one.
+
+Part `cursors`, offered but not ticked, adds the Neon Doll pointers to
+Windows' list of pointer schemes, without switching to them: pick *Neon Doll*
+under *Settings → Bluetooth & devices → Mouse → Additional mouse settings →
+Pointers → Scheme*. They're the Linux cursors (black, the everyday ones edged
+in fuchsia), at 32 to 96 px; the roles there's no Neon Doll cursor for
+(handwriting, alternate select, location and person) keep Windows' own.
+`-Remove` leaves them while they're in use.
 
 ## Roundcube
 

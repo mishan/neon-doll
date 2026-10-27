@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Build the Neon Doll cursor theme into icons/Neon-Doll-Cursors/.
+"""Build the Neon Doll cursor theme into icons/Neon-Doll-Cursors/, and the
+same cursors for Windows into windows/cursors/.
 
 The sources are the SVGs in cursor/src/, drawn on a 24-unit grid. Each is
 rendered at 24, 32, 48, 64 and 96 px and packed into an Xcursor file, and the
@@ -87,6 +88,7 @@ from xml.etree import ElementTree
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "cursor" / "src"
 OUT = ROOT / "icons" / "Neon-Doll-Cursors"
+WINDOWS_OUT = ROOT / "windows" / "cursors"
 SIZES = (24, 32, 48, 64, 96)
 GRID = 24
 ND = "{https://github.com/mishan/neon-doll}"
@@ -264,6 +266,65 @@ def read_xcursor(data):
     return out
 
 
+# --- Windows -----------------------------------------------------------------
+
+# Windows' pointer roles, each to the cursor drawn for it. The roles it has no
+# cursor here for (NWPen, UpArrow, Person, Pin) keep Windows' own.
+WINDOWS = {
+    "Arrow": "default",
+    "Help": "help",
+    "AppStarting": "progress",
+    "Wait": "wait",
+    "Crosshair": "crosshair",
+    "IBeam": "text",
+    "No": "not-allowed",
+    "SizeNS": "ns-resize",
+    "SizeWE": "ew-resize",
+    "SizeNWSE": "nwse-resize",
+    "SizeNESW": "nesw-resize",
+    "SizeAll": "all-resize",
+    "Hand": "pointer",
+}
+# Windows draws pointers at 32 px at 100% scaling and up from there; it never
+# asks for 24.
+WINDOWS_SIZES = (32, 48, 64, 96)
+
+
+def cur(images):
+    """A .cur file from read_xcursor's images: per size, a 32-bit DIB with
+    its hotspot, rows bottom to top, straight (not premultiplied) BGRA, and
+    an AND mask set where it's clear."""
+    head = struct.pack("<HHH", 0, 2, len(images))
+    entries, body = b"", b""
+    offset = len(head) + 16 * len(images)
+    for _, w, h, xhot, yhot, _, argb in images:
+        pixels, mask = bytearray(), bytearray()
+        stride = (w + 31) // 32 * 4
+        for y in reversed(range(h)):
+            bits = bytearray(stride)
+            for x in range(w):
+                p = argb[y * w + x]
+                a = p >> 24
+                un = lambda c: min(255, (c * 255 + a // 2) // a) if a else 0  # noqa: E731
+                pixels += bytes((un(p & 255), un(p >> 8 & 255), un(p >> 16 & 255), a))
+                if not a:
+                    bits[x // 8] |= 0x80 >> (x % 8)
+            mask += bits
+        image = struct.pack("<IiiHHIIiiII", 40, w, 2 * h, 1, 32, 0,
+                            len(pixels) + len(mask), 0, 0, 0, 0) + pixels + mask
+        entries += struct.pack("<BBBBHHII", w % 256, h % 256, 0, 0, xhot, yhot,
+                               len(image), offset + len(body))
+        body += image
+    return head + entries + body
+
+
+def windows_cursors(theme):
+    """Role.cur -> its bytes, from a built theme's Xcursor files."""
+    for role, name in WINDOWS.items():
+        images = read_xcursor((theme / "cursors" / name).read_bytes())
+        yield f"{role}.cur", cur([i for i in images if i[0] in WINDOWS_SIZES])
+
+
 # --- build -------------------------------------------------------------------
 
 def hotspot(svg):
@@ -340,6 +401,16 @@ def check():
         if kw != kh or (vw != vh and not (kw == "file" and rel.startswith("cursors/")
                                           and same_cursor(vw, vh))):
             stale.append(rel)
+    # The Windows files come from the committed Xcursor ones, so they match
+    # them exactly.
+    if OUT.exists():
+        for name, data in windows_cursors(OUT):
+            path = WINDOWS_OUT / name
+            if not path.exists() or path.read_bytes() != data:
+                stale.append(str(path.relative_to(ROOT)))
+        if WINDOWS_OUT.exists():
+            stale += [str(p.relative_to(ROOT)) for p in WINDOWS_OUT.iterdir()
+                      if p.name not in {f"{r}.cur" for r in WINDOWS}]
     if stale:
         print(f"{OUT.relative_to(ROOT)} is stale; run tools/build-cursor.py:",
               *stale, sep="\n  ", file=sys.stderr)
@@ -437,6 +508,11 @@ def main():
         print(__doc__.split("\n\n")[1], file=sys.stderr)
         return 2
     names = build(OUT)
+    if WINDOWS_OUT.exists():
+        shutil.rmtree(WINDOWS_OUT)
+    WINDOWS_OUT.mkdir(parents=True)
+    for name, data in windows_cursors(OUT):
+        (WINDOWS_OUT / name).write_bytes(data)
     print(f"{OUT.relative_to(ROOT)}: {len(names)} cursors, {len(ALIASES)} links, "
           f"sizes {', '.join(map(str, SIZES))}")
     return 0
