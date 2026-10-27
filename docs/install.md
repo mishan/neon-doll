@@ -7,7 +7,7 @@
 - [Terminals and the command line](#terminals-and-the-command-line): [Tilix](#tilix), [Ghostty](#ghostty), [`ls`](#ls-colors), [`git`](#git-colors), [`ag`](#ag), [man pages](#man-pages), [glow](#glow), [`whiptail`](#whiptail), [irssi](#irssi)
 - [Editors](#editors): [VS Code](#vs-code), [vim](#vim), [Emacs](#emacs-29)
 - [Browsers](#browsers): [Chrome](#chrome), [Firefox](#firefox)
-- [Windows](#windows): [Terminal and PowerShell](#windows-terminal-and-powershell), [the desktop](#the-windows-desktop)
+- [Windows](#windows): [Terminal and PowerShell](#windows-terminal-and-powershell)
 - [Roundcube](#roundcube)
 - [Light and dark](#light-and-dark)
 - [High contrast](#high-contrast)
@@ -408,8 +408,8 @@ its own is only a string, which PowerShell prints back without running
 anything.
 
 `-Remove` takes it out again. Like `install.sh` it asks which
-parts, with the ones it finds ticked, or takes them by name: `terminal`,
-`powershell` and `contrast`, and `vscode`, `firefox`, `git` and `vim` as on
+parts, with the ones it finds ticked, or takes them by name: `terminal`
+and `powershell`, and `vscode`, `firefox`, `git` and `vim` as on
 Linux, or `all`. It copies the color schemes into Windows Terminal's Fragments
 folder, where Terminal finds them on its own, and the PowerShell colors next to
 your profile, then prints the two lines to add: pick *Neon Doll Dark* or
@@ -426,26 +426,6 @@ errors and progress, matching the `ls` colors. `Enable-NeonDollPrompt` adds
 the bash prompt's look. The tab row's colors are a Terminal *theme*, which
 fragments can't carry: paste the entries from `windows/terminal/themes.json`
 into `settings.json`.
-
-### The Windows desktop
-
-The Windows desktop gets a *contrast theme*, the one kind of Windows theme
-that recolors everything without patching the system: dialogs, Settings,
-Explorer, the taskbar and most apps, web pages in Edge and Chrome included.
-`install.ps1` copies `neon-doll-dark.theme` and `neon-doll-light.theme` into
-your Themes folder, clearing the downloaded-file mark on the way (Windows
-won't apply a `.theme` that carries it, so opening one straight out of a
-downloaded zip does nothing). Open one (double-click, or `Start-Process` on the
-path it prints) and Windows applies it; from then on it's listed under
-*Settings → Accessibility → Contrast themes*, beside Aquatic and the rest, and
-left Alt + left Shift + Print Screen turns it on and off. To go back, set that
-list to *None*. It is flat by nature, as contrast themes are:
-page, text and panels, links and button labels purple with a 1px purple edge;
-the selection, the current menu item and the focused window fuchsia (its
-border, and in older apps its title bar); disabled text muted. Every text pair
-clears 4.5:1. It is an accessibility mode, though, and Windows treats it as
-one: transparency and the wallpaper go, and some apps switch to plainer,
-high-contrast versions of their UI.
 
 ## Roundcube
 

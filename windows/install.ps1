@@ -11,7 +11,6 @@
 #   terminal    Windows Terminal's color schemes, into its Fragments folder,
 #               where it picks them up without settings.json being touched
 #   powershell  the PowerShell colors, next to your profile
-#   contrast    the desktop's contrast themes, into your Themes folder
 #   vscode      the VS Code extension, into VS Code's extensions folder
 #   firefox     userChrome.css, into Firefox profiles
 #   git         the git colors
@@ -41,8 +40,7 @@ $userHome = if ($env:USERPROFILE) { $env:USERPROFILE } else { $HOME }
 $fragments = P $env:LOCALAPPDATA 'Microsoft' 'Windows Terminal' 'Fragments' 'Neon Doll'
 # Empty when Windows PowerShell can't find your Documents folder.
 $profileDir = if ($PROFILE) { Split-Path -Parent $PROFILE }
-$themes = P $env:LOCALAPPDATA 'Microsoft' 'Windows' 'Themes' 'Neon Doll'
-$allParts = 'terminal', 'powershell', 'contrast', 'vscode', 'firefox', 'git', 'vim'
+$allParts = 'terminal', 'powershell', 'vscode', 'firefox', 'git', 'vim'
 
 function Have($name) { [bool](Get-Command $name -ErrorAction SilentlyContinue) }
 
@@ -102,7 +100,6 @@ function Found($part) {
             (Test-Path (P $env:LOCALAPPDATA 'Microsoft' 'Windows Terminal'))
         }
         'powershell' { $true }
-        'contrast'   { $true }
         'vscode'     { [bool](VSCodeDirs) }
         'firefox'    { [bool](FirefoxProfiles) }
         'git'        { Have 'git' }
@@ -114,7 +111,6 @@ function Label($part) {
     switch ($part) {
         'terminal'   { 'Windows Terminal color schemes' }
         'powershell' { "PowerShell $($PSVersionTable.PSVersion.Major) colors (this shell)" }
-        'contrast'   { 'Windows desktop, as a contrast theme' }
         'vscode'     { 'VS Code, VSCodium, Cursor' }
         'firefox'    { "Firefox's userChrome.css (shapes)" }
         'git'        { 'git colors' }
@@ -184,8 +180,8 @@ function Place($from, $to) {
     }
     if (Test-Path $to) { Remove-Item -Recurse -Force $to }
     Copy-Item -Recurse -Force $from $to
-    # A clone from a downloaded zip carries the web mark, and Windows
-    # refuses to apply a .theme file that has it.
+    # A clone from a downloaded zip carries the web mark, and PowerShell
+    # under RemoteSigned won't load neon-doll.ps1 from your profile with it.
     if ($PSVersionTable.PSEdition -eq 'Desktop' -or $IsWindows) { Get-ChildItem -Recurse -File $to | Unblock-File }
     $to
 }
@@ -273,15 +269,6 @@ foreach ($part in $picked) {
                           '> Set-ExecutionPolicy -Scope CurrentUser RemoteSigned'
             }
             Hint "PowerShell $($PSVersionTable.PSVersion.Major)" @lines
-        }
-        'contrast' {
-            foreach ($v in 'dark', 'light') {
-                Place (P $here 'contrast' "neon-doll-$v.theme") (P $themes "neon-doll-$v.theme")
-            }
-            if ($Remove -and (Test-Path $themes) -and -not (Get-ChildItem $themes)) { Remove-Item $themes }
-            Hint 'The whole desktop' 'Open the contrast theme, and Windows applies it:' `
-                "> Start-Process `"$(P $themes 'neon-doll-dark.theme')`"" `
-                'To go back: Settings -> Accessibility -> Contrast themes -> None.'
         }
         'vscode' {
             # The extension folder as it is: VS Code picks up an unpacked
