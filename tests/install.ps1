@@ -91,7 +91,7 @@ function FirefoxFixture {
     Set-Content (P $ff 'Profiles' 'b.spare' 'prefs.js') 'user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);'
 }
 
-$parts = 'terminal', 'powershell', 'vscode', 'firefox', 'git', 'vim'
+$parts = 'terminal', 'powershell', 'cursors', 'vscode', 'firefox', 'git', 'vim'
 $profileSafe = -not $onWindows -or $env:CI
 $vimFile = P 'home' 'vimfiles' 'colors' 'neon-doll.vim'
 
@@ -105,6 +105,9 @@ try {
     Check 'parts can be comma-separated' { $st -eq 0 -and (Has 'local/Microsoft/Windows Terminal/Fragments/Neon Doll/neon-doll.json') -and (Has $vimFile) }
 
     # --- Every part ----------------------------------------------------------
+
+    Fresh; Run -Arguments 'accent'
+    Check 'accent copies nothing and says the color' { $st -eq 0 -and -not (Files) -and (Says 'FF2D95') }
 
     foreach ($part in $parts) {
         if ($part -eq 'powershell' -and -not $profileSafe) { Skip "${part}: installs, then removes cleanly" 'it would write to your real profile folder'; continue }

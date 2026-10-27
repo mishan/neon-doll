@@ -11,6 +11,8 @@
 #   terminal    Windows Terminal's color schemes, into its Fragments folder,
 #               where it picks them up without settings.json being touched
 #   powershell  the PowerShell colors, next to your profile
+#   accent      no files: the Settings steps to dark mode and the fuchsia accent
+#   cursors     the mouse pointers, as a pointer scheme to pick (not ticked)
 #   vscode      the VS Code extension, into VS Code's extensions folder
 #   firefox     userChrome.css, into Firefox profiles
 #   git         the git colors
@@ -40,7 +42,11 @@ $userHome = if ($env:USERPROFILE) { $env:USERPROFILE } else { $HOME }
 $fragments = P $env:LOCALAPPDATA 'Microsoft' 'Windows Terminal' 'Fragments' 'Neon Doll'
 # Empty when Windows PowerShell can't find your Documents folder.
 $profileDir = if ($PROFILE) { Split-Path -Parent $PROFILE }
-$allParts = 'terminal', 'powershell', 'vscode', 'firefox', 'git', 'vim'
+$pointers = P $env:LOCALAPPDATA 'Neon Doll' 'Cursors'
+$allParts = 'terminal', 'powershell', 'accent', 'cursors', 'vscode', 'firefox', 'git', 'vim'
+# Offered but not ticked: wanted by fewer people than the rest.
+$optIn = 'cursors'
+$onWindows = $PSVersionTable.PSEdition -eq 'Desktop' -or $IsWindows
 
 function Have($name) { [bool](Get-Command $name -ErrorAction SilentlyContinue) }
 
@@ -100,6 +106,8 @@ function Found($part) {
             (Test-Path (P $env:LOCALAPPDATA 'Microsoft' 'Windows Terminal'))
         }
         'powershell' { $true }
+        'accent'     { $true }
+        'cursors'    { $true }
         'vscode'     { [bool](VSCodeDirs) }
         'firefox'    { [bool](FirefoxProfiles) }
         'git'        { Have 'git' }
@@ -111,6 +119,8 @@ function Label($part) {
     switch ($part) {
         'terminal'   { 'Windows Terminal color schemes' }
         'powershell' { "PowerShell $($PSVersionTable.PSVersion.Major) colors (this shell)" }
+        'accent'     { 'Windows dark mode and fuchsia accent (shows the steps)' }
+        'cursors'    { 'Mouse pointers' }
         'vscode'     { 'VS Code, VSCodium, Cursor' }
         'firefox'    { "Firefox's userChrome.css (shapes)" }
         'git'        { 'git colors' }
@@ -182,7 +192,7 @@ function Place($from, $to) {
     Copy-Item -Recurse -Force $from $to
     # A clone from a downloaded zip carries the web mark, and PowerShell
     # under RemoteSigned won't load neon-doll.ps1 from your profile with it.
-    if ($PSVersionTable.PSEdition -eq 'Desktop' -or $IsWindows) { Get-ChildItem -Recurse -File $to | Unblock-File }
+    if ($onWindows) { Get-ChildItem -Recurse -File $to | Unblock-File }
     $to
 }
 
@@ -208,8 +218,8 @@ if ($Parts) {
 } else {
     $items = @(foreach ($p in $allParts) {
         if (-not (Fits $p)) { continue }
-        $on = [bool](Found $p)
-        [pscustomobject]@{ Tag = $p; Label = (Label $p) + $(if ($on) { '' } else { ' (not found)' }); On = $on }
+        $found = [bool](Found $p)
+        [pscustomobject]@{ Tag = $p; Label = (Label $p) + $(if ($found) { '' } else { ' (not found)' }); On = $found -and $optIn -notcontains $p }
     })
     $picked = Checklist 'Neon Doll' 'Install which parts? The apps found on this system are ticked.' $items
     if ($null -eq $picked -or $picked.Count -eq 0) { 'Nothing installed.'; return }
@@ -231,7 +241,7 @@ if ($Parts) {
 # Restricted, runs no scripts, and AllSigned runs no unsigned ones. This
 # window's own policy, the Process scope, is left out.
 function ScriptsOff {
-    if (-not ($PSVersionTable.PSEdition -eq 'Desktop' -or $IsWindows)) { return $false }
+    if (-not $onWindows) { return $false }
     $set = Get-ExecutionPolicy -List | Where-Object { $_.Scope -ne 'Process' -and "$($_.ExecutionPolicy)" -ne 'Undefined' } |
         Select-Object -First 1
     $policy = if ($set) { "$($set.ExecutionPolicy)" } else { 'Restricted' }
@@ -269,6 +279,37 @@ foreach ($part in $picked) {
                           '> Set-ExecutionPolicy -Scope CurrentUser RemoteSigned'
             }
             Hint "PowerShell $($PSVersionTable.PSVersion.Major)" @lines
+        }
+        'accent' {
+            Hint 'Dark mode and the fuchsia accent' 'Settings -> Personalization -> Colors:' `
+                'Choose your mode -> Dark' `
+                'Accent color -> Manual, then Custom colors -> View colors -> More, and type in' `
+                '> FF2D95' `
+                'Show accent color on Start and taskbar -> On' `
+                'Show accent color on title bars and window borders -> On'
+        }
+        'cursors' {
+            # Added to Windows' list of pointer schemes, for you to pick.
+            $cursorsKey = 'HKCU:\Control Panel\Cursors'
+            $inUse = $onWindows -and (Get-ItemProperty $cursorsKey).'(default)' -eq 'Neon Doll'
+            if ($Remove -and $inUse) {
+                Write-Warning "left the pointers alone: they're in use; pick another pointer scheme first"
+                break
+            }
+            Place (P $here 'cursors') $pointers
+            if ($Remove -and (Test-Path (Split-Path $pointers)) -and -not (Get-ChildItem (Split-Path $pointers))) { Remove-Item (Split-Path $pointers) }
+            if ($onWindows -and $Remove) { Remove-ItemProperty "$cursorsKey\Schemes" 'Neon Doll' -ErrorAction SilentlyContinue }
+            elseif ($onWindows) {
+                # Windows' pointer roles, in the order a scheme lists them; a
+                # role with no file here keeps Windows' own.
+                $roles = 'Arrow', 'Help', 'AppStarting', 'Wait', 'Crosshair', 'IBeam', 'NWPen', 'No', 'SizeNS',
+                         'SizeWE', 'SizeNWSE', 'SizeNESW', 'SizeAll', 'UpArrow', 'Hand', 'Pin', 'Person'
+                $files = foreach ($r in $roles) { $f = P $pointers "$r.cur"; if (Test-Path $f) { $f } else { '' } }
+                if (-not (Test-Path "$cursorsKey\Schemes")) { New-Item "$cursorsKey\Schemes" | Out-Null }
+                New-ItemProperty "$cursorsKey\Schemes" 'Neon Doll' -Value ($files -join ',') -PropertyType ExpandString -Force | Out-Null
+            }
+            Hint 'Mouse pointers' 'Settings -> Bluetooth & devices -> Mouse -> Additional mouse settings -> Pointers:' `
+                'Scheme -> Neon Doll, then OK.'
         }
         'vscode' {
             # The extension folder as it is: VS Code picks up an unpacked
