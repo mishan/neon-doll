@@ -91,7 +91,7 @@ function FirefoxFixture {
     Set-Content (P $ff 'Profiles' 'b.spare' 'prefs.js') 'user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);'
 }
 
-$parts = 'terminal', 'powershell', 'contrast', 'vscode', 'firefox', 'git', 'vim'
+$parts = 'terminal', 'powershell', 'vscode', 'firefox', 'git', 'vim'
 $profileSafe = -not $onWindows -or $env:CI
 $vimFile = P 'home' 'vimfiles' 'colors' 'neon-doll.vim'
 
@@ -122,7 +122,7 @@ try {
         $before = Files
         Run
         Check 'with no console, it installs every part' {
-            $st -eq 0 -and (Has $vimFile) -and (Has 'local/Microsoft/Windows/Themes/Neon Doll/neon-doll-dark.theme') -and (Says 'To turn it on')
+            $st -eq 0 -and (Has $vimFile) -and (Has 'local/Microsoft/Windows Terminal/Fragments/Neon Doll/neon-doll.json') -and (Says 'To turn it on')
         }
         Run -Arguments '-Remove'
         Check '-Remove with no parts takes all of it out' { $st -eq 0 -and (Files) -eq $before }
@@ -178,8 +178,8 @@ try {
     $zipInstaller = P $zip 'windows' 'install.ps1'
     Run -Script $zipInstaller -Arguments 'vim'
     Check "a part whose files aren't there is skipped" { $st -eq 0 -and (Says 'skipped vim') -and -not (Has $vimFile) }
-    Run -Script $zipInstaller -Arguments 'terminal', 'contrast'
-    Check 'the zip installs its own parts' { $st -eq 0 -and (Has 'local/Microsoft/Windows/Themes/Neon Doll/neon-doll-light.theme') }
+    Run -Script $zipInstaller -Arguments 'terminal'
+    Check 'the zip installs its own parts' { $st -eq 0 -and (Has 'local/Microsoft/Windows Terminal/Fragments/Neon Doll/neon-doll.json') }
 
     # --- The picker ----------------------------------------------------------------
 
