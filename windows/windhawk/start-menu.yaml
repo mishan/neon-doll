@@ -1,0 +1,109 @@
+themeResourceVariables:
+  - NdBg@Dark=#0f0d14
+  - NdBg@Light=#f7f4fa
+  - NdPanel@Dark=#16131d
+  - NdPanel@Light=#ede7f3
+  - NdLine@Dark=#2a2438
+  - NdLine@Light=#d6cce2
+  - NdEdge@Dark=#6f6880
+  - NdEdge@Light=#887f9b
+  - NdInk@Dark=#ebe6f0
+  - NdInk@Light=#1a1522
+  - NdMuted@Dark=#9c93ab
+  - NdMuted@Light=#5f5670
+  - NdPink@Dark=#ff2d95
+  - NdPink@Light=#b80061
+  - NdPurple@Dark=#b48cff
+  - NdPurple@Light=#6a3fd0
+  - NdWash@Dark=#1AB48CFF
+  - NdWash@Light=#176A3FD0
+  - NdPress@Dark=#29B48CFF
+  - NdPress@Light=#246A3FD0
+  - NdWashPink@Dark=#14FF2D95
+  - NdWashPink@Light=#14B80061
+  - NdEdgePurple@Dark=#4CB48CFF
+  - NdEdgePurple@Light=#4C6A3FD0
+styleConstants:
+  - mono=Cascadia Mono
+  - bg=<SolidColorBrush Color="{ThemeResource NdBg}"/>
+  - panel=<SolidColorBrush Color="{ThemeResource NdPanel}"/>
+  - line=<SolidColorBrush Color="{ThemeResource NdLine}"/>
+  - edge=<SolidColorBrush Color="{ThemeResource NdEdge}"/>
+  - ink=<SolidColorBrush Color="{ThemeResource NdInk}"/>
+  - muted=<SolidColorBrush Color="{ThemeResource NdMuted}"/>
+  - pink=<SolidColorBrush Color="{ThemeResource NdPink}"/>
+  - purple=<SolidColorBrush Color="{ThemeResource NdPurple}"/>
+  - wash=<SolidColorBrush Color="{ThemeResource NdWash}"/>
+  - press=<SolidColorBrush Color="{ThemeResource NdPress}"/>
+  - washPink=<SolidColorBrush Color="{ThemeResource NdWashPink}"/>
+  - edgePurple=<SolidColorBrush Color="{ThemeResource NdEdgePurple}"/>
+  - none=<SolidColorBrush Color="Transparent"/>
+controlStyles:
+  - target: Border#AcrylicBorder
+    styles:
+      - Background:=$bg
+      - BorderBrush:=$line
+      - BorderThickness=1
+      - CornerRadius=0
+  - target: Border#AcrylicOverlay
+    styles:
+      - Opacity=0
+  - target: StartMenu.StartBlendedFlexFrame, Grid#OuterBorderGrid
+    styles:
+      - CornerRadius=0
+  - target: Border#StartDropShadow, Border#RightCompanionDropShadow
+    styles:
+      - Visibility=Collapsed
+  - target: Border#TaskbarSearchBackground
+    styles:
+      - CornerRadius=0
+      - Background:=$panel
+      - BorderBrush:=$edge
+      - BorderThickness=1
+  - target: TextBlock#PlaceholderText
+    styles:
+      - FontFamily=$mono
+      - Foreground:=$muted
+  - target: TextBlock#PinnedListHeaderText, TextBlock#TopLevelSuggestionsListHeaderText, TextBlock#MoreSuggestionsListHeaderText, TextBlock#AllAppsHeading
+    styles:
+      - FontFamily=$mono
+  - target: Border#BackgroundBorder
+    styles:
+      - CornerRadius=0
+  - target: StartMenu.SearchBoxToggleButton#SearchBoxToggleButton
+    styles:
+      - CornerRadius=0
+  - target: StartMenu.SearchBoxToggleButton#SearchBoxToggleButton > Grid > Border#BorderElement
+    styles:
+      - CornerRadius=0
+      - Background:=$panel
+      - BorderBrush:=$edge
+      - BorderThickness=1
+  - target: Button#ShowAllAppsButton, Button#CloseAllAppsButton, Button#ShowMorePinnedButton, Microsoft.UI.Xaml.Controls.DropDownButton
+    styles:
+      - CornerRadius=0
+  - target: StartDocked.NavigationPaneButton#UserTileButton > Grid@CommonStates > Border, StartDocked.NavigationPaneButton#PowerButton > Grid@CommonStates > Border
+    styles:
+      - CornerRadius=0
+  - target: StartDocked.SearchBoxToggleButton > Grid > Border
+    styles:
+      - CornerRadius=0
+      - Background:=$panel
+      - BorderBrush:=$edge
+      - BorderThickness=1
+  - target: Button#ShowAllAppsButton > ContentPresenter@CommonStates, Button#CloseAllAppsButton > ContentPresenter@CommonStates
+    styles:
+      - CornerRadius=0
+      - BorderThickness=1
+      - Background:=$none
+      - BorderBrush:=$edgePurple
+      - Foreground:=$purple
+      - Background@PointerOver:=$wash
+      - Foreground@PointerOver:=$purple
+      - BorderBrush@PointerOver:=$purple
+      - Background@Pressed:=$press
+      - Foreground@Pressed:=$purple
+  - target: Border#ContentBorder@CommonStates > Grid#DroppedFlickerWorkaroundWrapper > Border#BackgroundBorder
+    styles:
+      - Background@PointerOver:=$wash
+      - Background@Pressed:=$press
