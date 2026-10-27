@@ -11,7 +11,7 @@ fades in. Cyberpunk, with a manicure.
 It dresses the GNOME desktop (GTK 4 / libadwaita, GTK 3, GNOME Shell and the
 mouse cursor) and the tools around it: Chrome, Firefox, Roundcube, GNOME Text Editor,
 VS Code, Tilix, Ghostty, Emacs, vim, irssi, `ls`, `git`, `ag`, man pages,
-glow and `whiptail`, plus the COSMIC desktop and its terminal, KDE Plasma and the Qt apps on it, and Windows Terminal, PowerShell, a fuchsia accent and the pointers for the times you're on Windows. Every part comes in dark and
+glow and `whiptail`, plus the COSMIC desktop and its terminal, KDE Plasma and the Qt apps on it, and Windows Terminal, PowerShell, a fuchsia accent, the pointers and, through Windhawk, the taskbar and Start for the times you're on Windows. Every part comes in dark and
 light, except the cursor: GNOME has one cursor setting, so there is one cursor
 theme, drawn to stand out on both.
 

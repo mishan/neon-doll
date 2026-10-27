@@ -7,7 +7,7 @@
 - [Terminals and the command line](#terminals-and-the-command-line): [Tilix](#tilix), [Ghostty](#ghostty), [`ls`](#ls-colors), [`git`](#git-colors), [`ag`](#ag), [man pages](#man-pages), [glow](#glow), [`whiptail`](#whiptail), [irssi](#irssi)
 - [Editors](#editors): [VS Code](#vs-code), [vim](#vim), [Emacs](#emacs-29)
 - [Browsers](#browsers): [Chrome](#chrome), [Firefox](#firefox)
-- [Windows](#windows): [Terminal and PowerShell](#windows-terminal-and-powershell), [the desktop](#the-windows-desktop)
+- [Windows](#windows): [Terminal and PowerShell](#windows-terminal-and-powershell), [the desktop](#the-windows-desktop), [the taskbar and Start](#the-taskbar-and-start-windhawk)
 - [Roundcube](#roundcube)
 - [Light and dark](#light-and-dark)
 - [High contrast](#high-contrast)
@@ -453,6 +453,33 @@ Pointers → Scheme*. They're the Linux cursors (black, the everyday ones edged
 in fuchsia), at 32 to 96 px; the roles there's no Neon Doll cursor for
 (handwriting, alternate select, location and person) keep Windows' own.
 `-Remove` leaves them while they're in use.
+
+### The taskbar and Start (Windhawk)
+
+[Windhawk](https://windhawk.net) restyles the parts of Windows 11's shell
+that no Windows theme reaches, through mods. Neon Doll has a theme for two of
+them: `windows/windhawk/taskbar.yaml` for *Windows 11 Taskbar Styler* and
+`windows/windhawk/start-menu.yaml` for *Windows 11 Start Menu Styler*. Both
+follow Windows' light or dark mode on their own: plum or paper, square
+corners and 1px edges, no drop shadow. The window you're in gets the fuchsia
+rail and tint on its taskbar button, the others a purple rail; hover is the
+purple wash; the clock, the search boxes and Start's headings are in Cascadia
+Mono, which Windows 11 ships.
+
+Windhawk works by loading itself into almost every program, so some antivirus
+tools flag it and some games' anti-cheat won't start alongside it (Windhawk
+skips the games it knows). `install.ps1` leaves it alone. To use it:
+
+1. Install Windhawk from [windhawk.net](https://windhawk.net).
+2. In Windhawk, *Explore → Windows 11 Taskbar Styler → Install*.
+3. On the mod's *Settings* tab, pick *Textual mode*, replace the text with
+   the contents of `windows/windhawk/taskbar.yaml`, and *Save settings*.
+4. The same for *Windows 11 Start Menu Styler*, with `start-menu.yaml`.
+
+Tested on Windows 11 25H2, with the Start menu's pinned-and-recommended
+layout. Switching between light and dark while signed in can leave the
+taskbar's search box in Windows' own shape until Explorer restarts (sign out
+and back in).
 
 ## Roundcube
 

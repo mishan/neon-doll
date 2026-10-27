@@ -1,0 +1,133 @@
+themeResourceVariables:
+  - NdBg@Dark=#0f0d14
+  - NdBg@Light=#f7f4fa
+  - NdPanel@Dark=#16131d
+  - NdPanel@Light=#ede7f3
+  - NdLine@Dark=#2a2438
+  - NdLine@Light=#d6cce2
+  - NdEdge@Dark=#6f6880
+  - NdEdge@Light=#887f9b
+  - NdInk@Dark=#ebe6f0
+  - NdInk@Light=#1a1522
+  - NdMuted@Dark=#9c93ab
+  - NdMuted@Light=#5f5670
+  - NdPink@Dark=#ff2d95
+  - NdPink@Light=#b80061
+  - NdPurple@Dark=#b48cff
+  - NdPurple@Light=#6a3fd0
+  - NdWash@Dark=#1AB48CFF
+  - NdWash@Light=#176A3FD0
+  - NdPress@Dark=#29B48CFF
+  - NdPress@Light=#246A3FD0
+  - NdWashPink@Dark=#14FF2D95
+  - NdWashPink@Light=#14B80061
+  - NdEdgePurple@Dark=#4CB48CFF
+  - NdEdgePurple@Light=#4C6A3FD0
+styleConstants:
+  - mono=Cascadia Mono
+  - bg=<SolidColorBrush Color="{ThemeResource NdBg}"/>
+  - panel=<SolidColorBrush Color="{ThemeResource NdPanel}"/>
+  - line=<SolidColorBrush Color="{ThemeResource NdLine}"/>
+  - edge=<SolidColorBrush Color="{ThemeResource NdEdge}"/>
+  - ink=<SolidColorBrush Color="{ThemeResource NdInk}"/>
+  - muted=<SolidColorBrush Color="{ThemeResource NdMuted}"/>
+  - pink=<SolidColorBrush Color="{ThemeResource NdPink}"/>
+  - purple=<SolidColorBrush Color="{ThemeResource NdPurple}"/>
+  - wash=<SolidColorBrush Color="{ThemeResource NdWash}"/>
+  - press=<SolidColorBrush Color="{ThemeResource NdPress}"/>
+  - washPink=<SolidColorBrush Color="{ThemeResource NdWashPink}"/>
+  - edgePurple=<SolidColorBrush Color="{ThemeResource NdEdgePurple}"/>
+  - none=<SolidColorBrush Color="Transparent"/>
+controlStyles:
+  - target: Taskbar.TaskbarFrame > Grid#RootGrid > Taskbar.TaskbarBackground > Grid > Rectangle#BackgroundFill
+    styles:
+      - Fill:=$bg
+  - target: Rectangle#BackgroundStroke
+    styles:
+      - Fill:=$line
+  - target: Taskbar.TaskbarBackground#HoverFlyoutBackgroundControl > Grid > Rectangle#BackgroundFill
+    styles:
+      - Fill:=$bg
+      - RadiusX=0
+      - RadiusY=0
+  - target: Taskbar.TaskbarBackground#HoverFlyoutBackgroundControl > Grid > Rectangle#BackgroundStroke
+    styles:
+      - Fill:=$none
+      - Stroke:=$line
+      - StrokeThickness=1
+      - RadiusX=0
+      - RadiusY=0
+  - target: Taskbar.ExperienceToggleButton
+    styles:
+      - CornerRadius=0
+  - target: Taskbar.SearchBoxButton
+    styles:
+      - CornerRadius=0
+  - target: Taskbar.TaskListButton
+    styles:
+      - CornerRadius=0
+  - target: Taskbar.TaskListButton > Grid#IconPanel@CommonStates > Border#BackgroundElement, Taskbar.TaskListButton > Taskbar.TaskListLabeledButtonPanel@CommonStates > Border#BackgroundElement
+    styles:
+      - CornerRadius=0
+      - BorderThickness=0
+      - Background:=$none
+      - Background@ActiveNormal:=$washPink
+      - Background@MultiWindowActive:=$washPink
+      - Background@InactivePointerOver:=$wash
+      - Background@ActivePointerOver:=$wash
+      - Background@MultiWindowPointerOver:=$wash
+      - Background@InactivePressed:=$press
+      - Background@ActivePressed:=$press
+      - Background@MultiWindowPressed:=$press
+  - target: Taskbar.TaskListButtonPanel@CommonStates > Grid > Border#BackgroundElement, Taskbar.TaskListButtonPanel@CommonStates > Border#BackgroundElement
+    styles:
+      - CornerRadius=0
+      - BorderThickness=0
+      - Background:=$none
+      - Background@InactivePointerOver:=$wash
+      - Background@ActivePointerOver:=$wash
+      - Background@InactivePressed:=$press
+      - Background@ActivePressed:=$press
+  - target: Grid#IconPanel@RunningIndicatorStates > Rectangle#RunningIndicator, Taskbar.TaskListLabeledButtonPanel@RunningIndicatorStates > Rectangle#RunningIndicator
+    styles:
+      - RadiusX=0
+      - RadiusY=0
+      - Height=2
+      - Fill:=$purple
+      - Fill@ActiveRunningIndicator:=$pink
+      - Width@ActiveRunningIndicator=24
+  - target: Border#SearchPillBackgroundElement
+    styles:
+      - CornerRadius=0
+      - Background:=$panel
+      - BorderBrush:=$edge
+      - BorderThickness=1
+  - target: TextBlock#SearchBoxTextBlock
+    styles:
+      - FontFamily=$mono
+      - Foreground:=$muted
+  - target: TextBlock#TimeInnerTextBlock, TextBlock#DateInnerTextBlock
+    styles:
+      - FontFamily=$mono
+      - Foreground:=$ink
+  - target: Border#OverflowFlyoutBackgroundBorder
+    styles:
+      - CornerRadius=0
+      - Background:=$bg
+      - BorderBrush:=$line
+      - BorderThickness=1
+  - target: SearchUx.SearchUI.SearchButtonRootGrid@CommonStates > Grid > Border#BackgroundElement, SearchUx.SearchUI.SearchButtonRootGrid@CommonStates > Border#BackgroundElement
+    styles:
+      - CornerRadius=0
+      - BorderThickness=1
+      - Background:=$panel
+      - BorderBrush:=$edge
+      - Background@InactivePointerOver:=$wash
+      - Background@ActivePointerOver:=$wash
+      - Background@InactivePressed:=$press
+      - Background@ActivePressed:=$press
+  - target: SystemTray.OmniButton > Grid@CommonStates > Border#BackgroundBorder, SystemTray.IconView > Grid#ContainerGrid@ > Border#BackgroundBorder
+    styles:
+      - CornerRadius=0
+      - Background@PointerOver:=$wash
+      - Background@Pressed:=$press
