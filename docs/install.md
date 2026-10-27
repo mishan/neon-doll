@@ -388,15 +388,38 @@ internal design tokens, which can change in any release.
 
 ### Windows Terminal and PowerShell
 
-From a clone or the Windows zip, run `.\windows\install.ps1` (`-Remove` to
-take it out) in the shell you want colored. Like `install.sh` it asks which
+Unzip the Windows zip (or clone the repo), and open PowerShell in the
+`neon-doll` folder: right-click it in Explorer and pick *Open in Terminal*. Use
+the PowerShell you want colored, since Windows PowerShell 5.1 and PowerShell 7
+keep separate profiles; Command Prompt can't run the installer. Then:
+
+```powershell
+Set-ExecutionPolicy Bypass -Scope Process -Force
+.\windows\install.ps1
+```
+
+Windows runs no scripts by default, and none from a downloaded zip that aren't
+signed, so without the first line PowerShell says running scripts is disabled
+or that the script isn't digitally signed. `-Scope Process` lets just this
+window run them, and lapses when it closes; nothing is changed for good. From
+another folder, give the full path, with `&` in front when it's in quotes:
+`& "C:\Users\you\Downloads\neon-doll\windows\install.ps1"`. A quoted path on
+its own is only a string, which PowerShell prints back without running
+anything.
+
+`-Remove` takes it out again. Like `install.sh` it asks which
 parts, with the ones it finds ticked, or takes them by name: `terminal`,
 `powershell` and `contrast`, and `vscode`, `firefox`, `git` and `vim` as on
 Linux, or `all`. It copies the color schemes into Windows Terminal's Fragments
 folder, where Terminal finds them on its own, and the PowerShell colors next to
 your profile, then prints the two lines to add: pick *Neon Doll Dark* or
 *Light* as the profile's color scheme, and dot-source `neon-doll.ps1` from
-`$PROFILE`. The schemes are the Tilix ones entry for entry. The PowerShell
+`$PROFILE`. Terminal reads the schemes when it starts, so close every
+Terminal window first. PowerShell loads no profile while scripts are off for
+you, which is Windows PowerShell's default; the installer says when they are,
+and `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` turns them on for
+your own scripts and the ones it unblocked.
+The schemes are the Tilix ones entry for entry. The PowerShell
 colors cover typing (commands and parameters purple, values cyan, strings
 yellow, comments muted) and, on PowerShell 7.2+, `Get-ChildItem`, tables,
 errors and progress, matching the `ls` colors. `Enable-NeonDollPrompt` adds
