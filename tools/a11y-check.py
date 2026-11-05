@@ -7,7 +7,7 @@ and GTK 4 in high contrast too.
 
     tools/a11y-check.py
 
-Needs shotbox 0.9.0 or later on PATH. tools/scheme-colors.py checks the same
+Needs shotbox 0.11.0 or later on PATH. tools/scheme-colors.py checks the same
 floors on the palette; this checks them on the pixels.
 """
 
