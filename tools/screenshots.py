@@ -89,6 +89,8 @@ SHOTS = {
                   [*TERM, "irssi/*", "tools/irssi-shoot.sh", "tools/irssi-server.py"]),
     "ag": Shot(["tools/ag-shoot.sh", "{out}"], both("ag-{v}.png"),
                [*TERM, "ag/*", "tools/ag-shoot.sh"]),
+    "claude-code": Shot(["tools/claude-code-shoot.sh", "{out}"], both("claude-code-{v}.png"),
+                        [*TERM, "claude-code/*", "tools/claude-code-shoot.sh"]),
     "ghostty": Shot(["tools/ghostty-shoot.sh", "{out}"], both("ghostty-{v}.png"),
                     ["ghostty/themes/*", "dircolors/*", "tools/ghostty-shoot.sh"]),
     "cosmic": Shot(["tools/cosmic-shoot.sh", "{out}", "dark", "light"],

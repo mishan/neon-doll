@@ -20,7 +20,7 @@ $onWindows = $PSVersionTable.PSEdition -eq 'Desktop' -or $IsWindows
 $scratch = P ([IO.Path]::GetTempPath()) ("neon-doll-test-" + [guid]::NewGuid())
 New-Item -ItemType Directory $scratch | Out-Null
 $saved = @{}
-foreach ($v in 'HOME', 'USERPROFILE', 'LOCALAPPDATA', 'APPDATA', 'ProgramFiles', 'XDG_CONFIG_HOME', 'XDG_DATA_HOME', 'XDG_CACHE_HOME') {
+foreach ($v in 'HOME', 'USERPROFILE', 'LOCALAPPDATA', 'APPDATA', 'ProgramFiles', 'XDG_CONFIG_HOME', 'XDG_DATA_HOME', 'XDG_CACHE_HOME', 'CLAUDE_CONFIG_DIR') {
     $saved[$v] = [Environment]::GetEnvironmentVariable($v)
 }
 $script:pass = 0; $script:fail = 0; $script:skipped = 0
@@ -49,6 +49,7 @@ function Fresh {
     $env:XDG_CONFIG_HOME = P $env:HOME '.config'
     $env:XDG_DATA_HOME = P $env:HOME '.local' 'share'
     $env:XDG_CACHE_HOME = P $env:HOME '.cache'
+    $env:CLAUDE_CONFIG_DIR = $null
     $script:out = ''
 }
 
@@ -91,7 +92,7 @@ function FirefoxFixture {
     Set-Content (P $ff 'Profiles' 'b.spare' 'prefs.js') 'user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);'
 }
 
-$parts = 'terminal', 'powershell', 'cursors', 'vscode', 'firefox', 'git', 'vim'
+$parts = 'terminal', 'powershell', 'cursors', 'vscode', 'firefox', 'git', 'vim', 'claude-code'
 $profileSafe = -not $onWindows -or $env:CI
 $vimFile = P 'home' 'vimfiles' 'colors' 'neon-doll.vim'
 

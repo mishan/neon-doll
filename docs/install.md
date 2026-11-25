@@ -4,7 +4,7 @@
 - [GNOME](#gnome): [GTK 4](#gtk-4--libadwaita), [GTK 3 and 2](#gtk-3-and-2), [Shell](#gnome-shell), [cursor](#cursor), [Text Editor](#text-editor)
 - [COSMIC](#cosmic): [desktop](#cosmic-desktop), [Terminal](#cosmic-terminal)
 - [KDE Plasma and Qt](#kde-plasma-and-qt): [Plasma](#kde-plasma), [Kvantum](#kvantum), [Konsole](#konsole), [Kate](#kate), [qt5ct and qt6ct](#qt5ct-qt6ct)
-- [Terminals and the command line](#terminals-and-the-command-line): [Tilix](#tilix), [Ghostty](#ghostty), [`ls`](#ls-colors), [`git`](#git-colors), [`ag`](#ag), [man pages](#man-pages), [glow](#glow), [`whiptail`](#whiptail), [irssi](#irssi)
+- [Terminals and the command line](#terminals-and-the-command-line): [Tilix](#tilix), [Ghostty](#ghostty), [`ls`](#ls-colors), [`git`](#git-colors), [`ag`](#ag), [man pages](#man-pages), [glow](#glow), [Claude Code](#claude-code), [`whiptail`](#whiptail), [irssi](#irssi)
 - [Editors](#editors): [VS Code](#vs-code), [vim](#vim), [Emacs](#emacs-29)
 - [Browsers](#browsers): [Chrome](#chrome), [Firefox](#firefox)
 - [Windows](#windows): [Terminal and PowerShell](#windows-terminal-and-powershell), [the desktop](#the-windows-desktop), [the taskbar and Start](#the-taskbar-and-start-windhawk)
@@ -18,7 +18,7 @@
 git clone https://github.com/mishan/neon-doll.git && cd neon-doll
 ./install.sh                  # asks which parts
 ./install.sh all              # every part that fits this system
-./install.sh gtk4 shell       # or name them: gtk4 gtk3 shell cursor gtksourceview cosmic kde kvantum konsole kate qtct tilix ghostty vscode firefox emacs vim irssi git dircolors man glow ag newt
+./install.sh gtk4 shell       # or name them: gtk4 gtk3 shell cursor gtksourceview cosmic kde kvantum konsole kate qtct tilix ghostty vscode firefox emacs vim irssi git dircolors man glow ag claude-code newt
 ./install.sh --remove         # take it out again
 ./install.sh --desktop-grid gtk4   # graph paper over the wallpaper too (with Desktop Icons NG)
 ```
@@ -278,6 +278,21 @@ Part `glow`, into `~/.config/neon-doll/glow/`.
 `~/.config/glow/glow.yml`; glow doesn't expand `~` there. Markdown as a man
 page: capitalized purple section headings, code in the editor schemes' colors.
 
+### Claude Code
+
+Part `claude-code`, into `~/.claude/themes/` (`%USERPROFILE%\.claude\themes\`
+on Windows, through `windows\install.ps1`, or `$CLAUDE_CONFIG_DIR/themes/`
+if that's set).
+
+`/theme` in Claude Code, then *Neon Doll Dark* or *Neon Doll Light*; Claude
+Code has no custom theme that follows the terminal's light or dark. Claude's
+label, the spinner and the highlighted row in a picker are fuchsia, dialogs
+and plan mode purple, diffs in the editor schemes' tints, your messages on
+the panel color, and the mascot fuchsia. Code in a diff keeps Claude Code's
+own syntax colors, Monokai Extended in dark and GitHub in light, which no
+theme can change; Ctrl+T turns them off. In the Desktop app's Code tab,
+these files do nothing.
+
 ### `whiptail`
 
 Part `newt`, into `~/.config/neon-doll/newt.sh`.
@@ -409,7 +424,7 @@ anything.
 
 `-Remove` takes it out again. Like `install.sh` it asks which
 parts, with the ones it finds ticked, or takes them by name: `terminal`,
-`powershell`, `accent` and `cursors` (below), and `vscode`, `firefox`, `git` and `vim` as on
+`powershell`, `accent` and `cursors` (below), and `vscode`, `firefox`, `git`, `vim` and `claude-code` as on
 Linux, or `all`. It copies the color schemes into Windows Terminal's Fragments
 folder, where Terminal finds them on its own, and the PowerShell colors next to
 your profile, then prints the two lines to add: pick *Neon Doll Dark* or

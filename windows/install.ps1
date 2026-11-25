@@ -17,6 +17,7 @@
 #   firefox     userChrome.css, into Firefox profiles
 #   git         the git colors
 #   vim         the vim color scheme, into vimfiles
+#   claude-code the Claude Code themes, into ~\.claude\themes
 #
 # Parts whose files aren't in this copy aren't offered. Files of your own in
 # the way are moved aside, and -Remove takes out only copies that still
@@ -43,7 +44,7 @@ $fragments = P $env:LOCALAPPDATA 'Microsoft' 'Windows Terminal' 'Fragments' 'Neo
 # Empty when Windows PowerShell can't find your Documents folder.
 $profileDir = if ($PROFILE) { Split-Path -Parent $PROFILE }
 $pointers = P $env:LOCALAPPDATA 'Neon Doll' 'Cursors'
-$allParts = 'terminal', 'powershell', 'accent', 'cursors', 'vscode', 'firefox', 'git', 'vim'
+$allParts = 'terminal', 'powershell', 'accent', 'cursors', 'vscode', 'firefox', 'git', 'vim', 'claude-code'
 # Offered but not ticked: wanted by fewer people than the rest.
 $optIn = 'cursors'
 $onWindows = $PSVersionTable.PSEdition -eq 'Desktop' -or $IsWindows
@@ -93,6 +94,7 @@ function Fits($part) {
         'firefox' { Test-Path (P $root 'firefox' 'userChrome.css') }
         'git'     { Test-Path (P $root 'git' 'neon-doll.gitconfig') }
         'vim'     { Test-Path (P $root 'vim' 'colors' 'neon-doll.vim') }
+        'claude-code' { Test-Path (P $root 'claude-code' 'neon-doll-dark.json') }
         default   { $true }
     }
 }
@@ -112,6 +114,7 @@ function Found($part) {
         'firefox'    { [bool](FirefoxProfiles) }
         'git'        { Have 'git' }
         'vim'        { (Have 'vim') -or (Have 'gvim') -or (Test-Path (P $env:ProgramFiles 'Vim')) }
+        'claude-code' { Have 'claude' }
     }
 }
 
@@ -125,6 +128,7 @@ function Label($part) {
         'firefox'    { "Firefox's userChrome.css (shapes)" }
         'git'        { 'git colors' }
         'vim'        { 'vim' }
+        'claude-code' { 'Claude Code' }
     }
 }
 
@@ -366,6 +370,13 @@ foreach ($part in $picked) {
             Place (P $root 'vim' 'colors' 'neon-doll.vim') (P $userHome 'vimfiles' 'colors' 'neon-doll.vim')
             Hint 'vim' 'Add to ~\_vimrc (with set background=light for the light variant, set termguicolors for exact colors):' `
                 '> colorscheme neon-doll'
+        }
+        'claude-code' {
+            $themes = P $(if ($env:CLAUDE_CONFIG_DIR) { $env:CLAUDE_CONFIG_DIR } else { P $userHome '.claude' }) 'themes'
+            foreach ($v in 'dark', 'light') {
+                Place (P $root 'claude-code' "neon-doll-$v.json") (P $themes "neon-doll-$v.json")
+            }
+            Hint 'Claude Code' 'In Claude Code, run /theme and pick Neon Doll Dark (or Light).'
         }
     }
 }

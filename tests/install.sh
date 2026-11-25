@@ -42,7 +42,7 @@ bin='' login=/bin/bash
 
 # run ARG...: install.sh with no terminal. Its status is in $st.
 run() {
-  env HOME="$h" XDG_CONFIG_HOME= XDG_DATA_HOME= EMACS_THEMES_DIR= NEWT_COLORS= \
+  env HOME="$h" XDG_CONFIG_HOME= XDG_DATA_HOME= EMACS_THEMES_DIR= NEWT_COLORS= CLAUDE_CONFIG_DIR= \
     SHELL="$login" PATH="${bin:+$bin:}$PATH" \
     $SH "$root/install.sh" "$@" </dev/null >"$out" 2>&1
   st=$?
@@ -52,7 +52,7 @@ run() {
 # whiptail) and answered by STEPs; see tests/pty_run.py.
 pick() {
   ui=$1; shift
-  env HOME="$h" XDG_CONFIG_HOME= XDG_DATA_HOME= EMACS_THEMES_DIR= NEWT_COLORS= \
+  env HOME="$h" XDG_CONFIG_HOME= XDG_DATA_HOME= EMACS_THEMES_DIR= NEWT_COLORS= CLAUDE_CONFIG_DIR= \
     SHELL="$login" PATH="${bin:+$bin:}$PATH" NEON_DOLL_UI="$ui" \
     python3 "$root/tests/pty_run.py" "$@" -- $SH "$root/install.sh" >"$out" 2>&1
   st=$?
