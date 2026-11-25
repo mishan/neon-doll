@@ -26,6 +26,7 @@
 | ag | ![ag, dark](../screenshots/ag-dark.png) | ![ag, light](../screenshots/ag-light.png) |
 | man pages | ![man pages, dark](../screenshots/man-dark.png) | ![man pages, light](../screenshots/man-light.png) |
 | glow | ![glow, dark](../screenshots/glow-dark.png) | ![glow, light](../screenshots/glow-light.png) |
+| Claude Code | ![Claude Code, dark](../screenshots/claude-code-dark.png) | ![Claude Code, light](../screenshots/claude-code-light.png) |
 | PowerShell | ![PowerShell, dark](../screenshots/powershell-dark.png) | ![PowerShell, light](../screenshots/powershell-light.png) |
 | whiptail | ![whiptail, dark](../screenshots/whiptail-dark.png) | ![whiptail, light](../screenshots/whiptail-light.png) |
 

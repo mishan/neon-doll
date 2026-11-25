@@ -9,7 +9,7 @@
 # terminal, or with `all`, it installs every part that fits. PART is any of:
 #   gtk4 gtk3 shell cursor gtksourceview cosmic kde kvantum konsole kate qtct
 #   tilix newt  (Linux and BSD)
-#   ghostty vscode firefox emacs vim irssi git dircolors man glow ag
+#   ghostty vscode firefox emacs vim irssi git dircolors man glow ag claude-code
 # Files are copied; --link symlinks them into this checkout instead, so edits
 # here show up on the next app launch. --remove takes out only what install
 # put in: links, and copies that still match this checkout. --desktop-grid
@@ -28,7 +28,7 @@ config=${XDG_CONFIG_HOME:-$HOME/.config}
 data=${XDG_DATA_HOME:-$HOME/.local/share}
 emacs_dir=${EMACS_THEMES_DIR:-$HOME/.emacs.d/themes}
 
-all_parts="gtk4 gtk3 shell cursor gtksourceview cosmic kde kvantum konsole kate qtct tilix ghostty vscode firefox emacs vim irssi git dircolors man glow ag newt"
+all_parts="gtk4 gtk3 shell cursor gtksourceview cosmic kde kvantum konsole kate qtct tilix ghostty vscode firefox emacs vim irssi git dircolors man glow ag claude-code newt"
 
 case $(uname -s) in
   Darwin) os=macos ;;
@@ -51,7 +51,7 @@ for arg in "$@"; do
     --desktop-grid) desktop_grid=1 ;;
     -h|--help) usage; exit 0 ;;
     all) parts="$parts $all_parts" every=1 ;;
-    gtk4|gtk3|shell|cursor|gtksourceview|tilix|emacs|dircolors|git|man|glow|newt|ag|ghostty|vim|irssi|cosmic|kde|kvantum|konsole|kate|qtct|vscode|firefox)
+    gtk4|gtk3|shell|cursor|gtksourceview|tilix|emacs|dircolors|git|man|glow|newt|ag|ghostty|vim|irssi|cosmic|kde|kvantum|konsole|kate|qtct|vscode|firefox|claude-code)
       parts="$parts $arg" ;;
     *) echo "unknown argument: $arg" >&2; exit 2 ;;
   esac
@@ -176,6 +176,7 @@ found() {
     dircolors) have dircolors || have gdircolors ;;
     man) have man && have less ;;
     glow) have glow ;;
+    claude-code) have claude ;;
     ag) have ag ;;
     newt) have whiptail ;;
   esac
@@ -205,6 +206,7 @@ label() {
     dircolors) echo "ls colors" ;;
     man) echo "man pages" ;;
     glow) echo "glow" ;;
+    claude-code) echo "Claude Code" ;;
     ag) echo "ag" ;;
     newt) echo "whiptail and debconf" ;;
   esac
@@ -516,6 +518,12 @@ for part in $parts; do
       glow_yml=$config/glow/glow.yml
       [ "$os" = macos ] && glow_yml=$HOME/Library/Preferences/glow/glow.yml
       hint "glow: set  style: \"$config/neon-doll/glow/neon-doll-dark.json\"  in $glow_yml (or -light); the full path, since glow doesn't expand ~"
+      ;;
+    claude-code)
+      for f in "$here"/claude-code/neon-doll-*.json; do
+        place "$f" "${CLAUDE_CONFIG_DIR:-$HOME/.claude}/themes/$(basename "$f")"
+      done
+      hint "Claude Code: /theme, then Neon Doll Dark (or Light)"
       ;;
     vim)
       place "$here/vim/colors/neon-doll.vim" "$HOME/.vim/colors/neon-doll.vim"

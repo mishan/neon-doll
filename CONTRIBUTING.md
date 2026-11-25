@@ -45,6 +45,7 @@ tools/build-firefox.py [--check]                  # regenerate the Firefox theme
 tools/firefox-shoot.py dark|light out.png [--menu] [--userchrome]
                                                   # screenshot it in a scratch Firefox profile
 tools/build-glow.py [--check]                     # regenerate the glow styles
+tools/build-claude-code.py [--check]              # regenerate the Claude Code themes
 tools/build-cursor.py [--check|--sheet out.png]   # regenerate the cursor theme from cursor/src/*.svg
 tools/build-vim.py [--check]                      # regenerate the vim colorscheme from the editor schemes
 tools/build-ghostty.py [--check]                  # regenerate the Ghostty themes from the Tilix schemes
@@ -55,6 +56,7 @@ tools/kde-shoot.sh OUTDIR [dark|light ...]        # screenshot them in a nested 
 tools/build-irssi.py [--check]                    # regenerate the irssi themes from the editor schemes
 tools/irssi-shoot.sh OUTDIR                       # screenshot them, against a pretend IRC server on localhost
 tools/ag-shoot.sh OUTDIR                          # screenshot ag through the alias
+tools/claude-code-shoot.sh OUTDIR                 # screenshot Claude Code's theme picker (needs claude)
 tools/cli-shoot.sh OUTDIR [NAME...]               # git, man, glow, whiptail, vim, PowerShell (needs pwsh) and the palettes
 tools/ghostty-shoot.sh OUTDIR                     # screenshot Ghostty
 tools/text-editor-shoot.sh OUTDIR                 # screenshot GNOME Text Editor
